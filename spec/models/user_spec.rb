@@ -6,10 +6,11 @@ RSpec.describe User, type: :model do
 
   subject { darcy }
 
-  it { should respond_to(:name) } 
-  it { should respond_to(:email) } 
-
-  it { is_expected.to be_valid }
+  context "when input is correct" do
+    it { is_expected.to respond_to(:name) } 
+    it { is_expected.to respond_to(:email) } 
+    it { is_expected.to be_valid }
+  end
 
   describe "when name is not present" do
     before { darcy.name = " " }
