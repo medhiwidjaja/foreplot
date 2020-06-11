@@ -1,0 +1,33 @@
+Desight Project
+
+Setup project:
+  Gems: 
+    - testing: rspec-rails, database-cleaner, factory_bot_rails
+    - views: bootstrap, jquery
+    - database: pg
+    - bcrypt
+    - development: slim-rails
+
+  Initializer:
+    - customize_errors
+  
+  Database:
+    - create role
+    - settings
+
+User:
+  - sign up
+  - show
+  - edit profile
+
+Testing User:
+  - features
+  - models
+  - requests
+
+Session:
+  - login
+  - logout
+  - login using Google OAuth
+
+Devise:
