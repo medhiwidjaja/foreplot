@@ -12,8 +12,8 @@ class UsersController < ApplicationController
   def show
   end
 
-  # GET /users/new
-  def new
+  # GET /signup
+  def signup
     @user = User.new
   end
 
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
+        format.html { render :signup, alert: @user.errors }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -69,6 +69,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name,, :encrypted_password,, :email,, :bio,, :account,, :role)
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, :bio, :account, :role)
     end
 end

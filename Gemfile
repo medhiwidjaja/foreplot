@@ -27,6 +27,14 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# User slim for views
+gem 'slim-rails'
+
+# Use Bootstrap for CSS framework
+gem 'bootstrap', '~> 4.5.0'
+
+gem 'jquery-rails'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -52,12 +60,15 @@ group :development do
 end
 
 group :test do
+  # Factory
   gem "factory_bot_rails"
-
+  # Controller testing, such as 'assigns'
+  gem 'rails-controller-testing'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'database_cleaner-active_record'
 end
 

@@ -1,33 +1,45 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  session: 
+    welcome_back: "Welcome back"
+    please_log_in: "Please log in."
+    invalid_email_password_combination: "We weren't able to find a user with the specified email and password combination"
+  contract:
+    my_contracts: 'My contracts'
+    new_contract: 'New contract'
+    edit_contract: 'Edit contract'
+    no_contract_yet: 'No contracts yet. Click on the "Add Contract" button to create your first contract'
+    add_contract: "Add contract"
+    added: 'Your contract was added'
+    updated: 'Your contract was updated'
+  activerecord:
+    attributes:
+      user:
+        name: "Name"
+        email: "E-mail address"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: "Name can't be blank"
+            email:
+              blank: "Email can't be blank"
+              taken: "This email is already taken"
+              invalid: "Email is invalid"
+            password: 
+              blank: "Password can't be blank"
+              too_short: "The password is too short"
+            password_confirmation:
+              confirmation: "The password confirmation doesn't match"
+        contract:
+          attributes:
+            ends_on:
+              in_the_past: "Ends On can't be in the past"
+              blank: "Ends On is invalid"
+            costs:
+              greater_than: "The cost value is invalid"
+              not_a_number: "The cost value is invalid"
+
+

@@ -1,0 +1,25 @@
+.container
+  .row.justify-content-md-center
+    .col-lg-4
+      = form_for @user, url: {action: 'signup'}, class: 'form-row' do |f|
+        .form-group.col-md-12
+          = f.label :name
+          = f.text_field :name, class: 'form-control'
+        
+        .form-group.col-md-12
+          = f.label :email
+          = f.text_field :email, class: 'form-control'
+        
+        .form-group.col-md-12
+          = f.label :password
+          = f.password_field :password, class: 'form-control'
+        
+        .form-group.col-md-12
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, class: 'form-control'
+        
+        .form-group.actions.text-center
+          = f.submit "Sign Up", class: 'btn btn-primary'
+        
+
+  

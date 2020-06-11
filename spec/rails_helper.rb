@@ -62,4 +62,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include FactoryBot::Syntax::Methods
+
+  # Configuration for using helpers in rspec/support/*/*
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |file| require file }
 end
