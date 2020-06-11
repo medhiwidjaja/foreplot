@@ -31,3 +31,8 @@ Session:
   - login using Google OAuth
 
 Devise:
+  - Add Devise Gem
+  - Setup devise
+  - Remove old stuff
+  - Add tests
+  - Create sign up codes
