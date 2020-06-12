@@ -31,9 +31,17 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'slim-rails'
 
 # Use Bootstrap for CSS framework
-gem 'bootstrap', '~> 4.5.0'
+gem 'twitter-bootstrap-rails', '~> 2.2.8'
+#gem 'bootstrap', '~> 4.5.0'
+
+# Required by less
+gem 'therubyracer'
+gem 'less-rails'
 
 gem 'jquery-rails'
+
+# Use fontawesome
+gem 'font_awesome5_rails'
 
 # Authentication
 gem "devise", "4.7.1"

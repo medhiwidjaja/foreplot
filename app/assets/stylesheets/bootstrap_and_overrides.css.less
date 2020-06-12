@@ -1,0 +1,255 @@
+@import "twitter/bootstrap/bootstrap";
+
+body { padding-top: 70px; }
+
+// @import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings");
+@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+// Note: If you use asset_path() here, your compiled boostrap_and_overrides.css will not
+//       have the proper paths. So for now we use the absolute path.
+@fontAwesomeEotPath: asset-path("fontawesome-webfont.eot");
+@fontAwesomeWoffPath: asset-path("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-path("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-path("fontawesome-webfont.svg");
+@fontAwesomeEotPath_iefix: asset-path("fontawesome-webfont.eot#iefix");
+
+// Font Awesome
+//@import "fontawesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+// Theme: Airfield (based on photographs on Behance by the same name)
+// Version: 1.0.1
+// -----------------------------------------------------
+
+// GLOBAL VALUES
+// --------------------------------------------------
+
+
+// Grays
+// -------------------------
+@black:                 #06101D;
+@grayDarker:            #171F2D;
+@grayDark:              #242C41;
+@gray:                  #474F64;
+@grayLight:             #757E88;
+@grayLighter:           #CED2CB;
+@white:                 #FAFAFA;
+
+
+// Accent colors
+// -------------------------
+@blue:                  #006A9A;
+@blueDark:              #003B65;
+@green:                 #698733;
+@red:                   #A12416;
+@yellow:                #FFAE00;
+@orange:                #E5521D;
+@pink:                  #FFAAA1;
+@purple:                #624583;
+
+// Grays
+// -------------------------
+// @black:                 #000;
+// @grayDarker:            #222;
+// @grayDark:              #333;
+// @gray:                  #555;
+// @grayLight:             #999;
+// @grayLighter:           #F5F5F5;
+// @white:                 #fff;
+
+
+// Accent colors
+// -------------------------
+// @blue:                  #3E78B3;
+// @blueDark:              #033C73;
+// @green:                 #73A839;
+// @red:                   #C71C22;
+// @yellow:                #F7B42C;
+// @orange:                #DD5600;
+// @pink:                  #F49AC1;
+// @purple:                #9760B3;
+
+// Scaffolding
+// -------------------------
+@bodyBackground:        @white;
+@textColor:             @gray;
+
+
+// Links
+// -------------------------
+// @linkColor:             #369BD7;
+@linkColor:             #3392B5;
+@linkColorHover:        darken(@linkColor, 15%);
+
+
+// Typography
+// -------------------------
+@sansFontFamily:        "Open Sans", Asap, "Helvetica Neue", Arial, sans-serif;
+@serifFontFamily:       Georgia, "Times New Roman", Times, serif;
+@monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@baseFontSize:          13px;
+@baseFontFamily:        @sansFontFamily;
+@baseLineHeight:        18px;
+@altFontFamily:         @monoFontFamily;
+
+@headingsFontFamily:    @sansFontFamily, sans-serif; // empty to use BS default, @baseFontFamily
+@headingsFontWeight:    bold;    // instead of browser default, bold
+@headingsColor:         @grayLight; //#317EAC; // empty to use BS default, @textColor
+
+
+// Tables
+// -------------------------
+@tableBackground:                   transparent; // overall background-color
+@tableBackgroundAccent:             #f9f9f9; // for striping
+@tableBackgroundHover:              #f5f5f5; // for hover
+@tableBorder:                       #ddd; // table and cell border
+
+
+// Buttons
+// -------------------------
+@btnBackground:                     @white;
+@btnBackgroundHighlight:            darken(@white, 10%);
+@btnBorder:                         darken(@white, 20%);
+
+@btnPrimaryBackground:              @blue;
+@btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 15%);
+
+@btnInfoBackground:                 @linkColor;
+@btnInfoBackgroundHighlight:        spin(@btnInfoBackground, 15%);
+
+@btnSuccessBackground:              @green;
+@btnSuccessBackgroundHighlight:     #51a351;
+
+@btnWarningBackground:              @orange;
+@btnWarningBackgroundHighlight:     @orange;
+
+@btnDangerBackground:               @red;
+@btnDangerBackgroundHighlight:      #bd362f;
+
+@btnInverseBackground:              @yellow;
+@btnInverseBackgroundHighlight:     @grayDarker;
+
+
+// Forms
+// -------------------------
+@inputBackground:               @white;
+@inputBorder:                   #ccc;
+@inputBorderRadius:             3px;
+@inputDisabledBackground:       @grayLighter;
+@formActionsBackground:         #f5f5f5;
+
+// Dropdowns
+// -------------------------
+@dropdownBackground:            @grayDark;
+@dropdownBorder:                rgba(0,0,0,.2);
+@dropdownLinkColor:             @grayLighter;
+@dropdownLinkColorHover:        @white;
+@dropdownLinkBackgroundHover:   @linkColor;
+
+
+
+
+// COMPONENT VARIABLES
+// --------------------------------------------------
+
+// Z-index master list
+// -------------------------
+// Used for a bird's eye view of components dependent on the z-axis
+// Try to avoid customizing these :)
+@zindexDropdown:          1000;
+@zindexPopover:           1010;
+@zindexTooltip:           1020;
+@zindexFixedNavbar:       1030;
+@zindexModalBackdrop:     1040;
+@zindexModal:             1050;
+
+
+
+// Input placeholder text color
+// -------------------------
+@placeholderText:         @grayLight;
+
+
+// Hr border color
+// -------------------------
+@hrBorder:                @grayLighter;
+
+
+// Navbar
+// -------------------------
+@navbarHeight:                    53px;
+@navbarBackground:                @grayDarker;
+@navbarBackgroundHighlight:       lighten(@grayDarker, 10%);
+
+@navbarText:                      @grayLighter;
+@navbarLinkColor:                 @grayLighter;
+@navbarLinkColorHover:            @white;
+@navbarLinkColorActive:           @navbarLinkColorHover;
+@navbarLinkBackgroundHover:       transparent;
+@navbarLinkBackgroundActive:      rgba(0,0,0,.2);
+
+@navbarSearchBackground:          lighten(@navbarBackground, 25%);
+@navbarSearchBackgroundFocus:     @white;
+@navbarSearchBorder:              darken(@navbarSearchBackground, 30%);
+@navbarSearchPlaceholderColor:    @white;
+@navbarBrandColor:                @navbarLinkColor;
+
+
+// Hero unit
+// -------------------------
+@heroUnitBackground:              @grayLighter;
+@heroUnitHeadingColor:            inherit;
+@heroUnitLeadColor:               inherit;
+
+
+// Form states and alerts
+// -------------------------
+@warningText:             darken(@linkColor, 20%);
+@warningBackground:       lighten(@linkColor, 20%);
+@warningBorder:           darken(spin(@warningBackground, -10), 3%);
+
+@errorText:               darken(#C45559, 5%);
+@errorBackground:         #EDDBE3;
+@errorBorder:             darken(spin(@errorBackground, -10), 3%);
+
+@successText:             darken(@green, 5%);
+@successBackground:       #CDB;
+@successBorder:           darken(spin(@successBackground, -10), 5%);
+
+@infoText:                darken(#908A62, 5%);
+@infoBackground:          #EDEBE1;
+@infoBorder:              darken(spin(@infoBackground, -10), 7%);
+
+
+
+// GRID
+// --------------------------------------------------
+
+// Default 940px grid
+// -------------------------
+@gridColumns:             12;
+@gridColumnWidth:         60px;
+@gridGutterWidth:         20px;
+@gridRowWidth:            (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
+
+// Fluid grid
+// -------------------------
+@fluidGridColumnWidth:    6.382978723%;
+@fluidGridGutterWidth:    2.127659574%;

@@ -1,30 +1,32 @@
-.container
-  .row.justify-content-md-center
-    h2 Sign up
-  .row.justify-content-md-center
-    .col-lg-4
-      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-        .form-group.col-md-12
-          = f.label :name
-          = f.text_field :name, autofocus: true, class: 'form-control'
+.login-container
+  .widget
+    .widget-header
+      i.icon-user
+      h3 Sign up
+    .well.well-widget-content
+      br
+      = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+        /= render 'shared/error_messages', object: f.object
 
-        .form-group.col-md-12
-          = f.label :email
-          = f.email_field :email, autocomplete: "new-email", class: 'form-control'
+        .form-group
+          = f.label :email, class: "control-label"
+          .controls
+            = f.email_field :email, placeholder:'Email'
 
-        .form-group.col-md-12
-          = f.label :password
-          -if @minimum_password_length
-            em = "(#{@minimum_password_length} characters minimum)"
-          = f.password_field :password, autocomplete: "new-password", class: 'form-control'
+        .form-group
+          = f.label :name, class: "control-label"
+          .controls
+            = f.text_field :name, placeholder:'Name'
         
-        .form-group.col-md-12
-          = f.label :password_confirmation
-          = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+        .form-group
+          = f.label :password, class: "control-label"
+          .controls
+            = f.password_field :password, placeholder:'Password'
 
-        .form-group.actions.text-center
-          = f.submit "Sign up", class: "btn btn-primary"
+        .form-group
+          = f.label :password_confirmation, class: "control-label"
+          .controls
+            = f.password_field :password_confirmation, placeholder:'Password confirmation'
 
-      = render "devise/shared/links"
-
-
+        #toolbar.button-toolbar 
+          = f.submit "Sign up", class:"btn btn-primary"
