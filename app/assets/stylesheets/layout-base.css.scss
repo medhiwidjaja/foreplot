@@ -2041,6 +2041,16 @@ td.new-row {
     margin: 0px 10px
 }
 
+.control-group {
+    .is-invalid {
+        border-color: #bd4247;
+    }
+    .invalid-feedback {
+        color: #bd4247;
+        font-size: 0.9em;
+    }
+}
+
 /*--- jQuery UI autocomplete ----------*/
 
 .ui-autocomplete-loading { 
