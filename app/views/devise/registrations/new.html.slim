@@ -1,0 +1,30 @@
+.container
+  .row.justify-content-md-center
+    h2 Sign up
+  .row.justify-content-md-center
+    .col-lg-4
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .form-group.col-md-12
+          = f.label :name
+          = f.text_field :name, autofocus: true, class: 'form-control'
+
+        .form-group.col-md-12
+          = f.label :email
+          = f.email_field :email, autocomplete: "new-email", class: 'form-control'
+
+        .form-group.col-md-12
+          = f.label :password
+          -if @minimum_password_length
+            em = "(#{@minimum_password_length} characters minimum)"
+          = f.password_field :password, autocomplete: "new-password", class: 'form-control'
+        
+        .form-group.col-md-12
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+
+        .form-group.actions.text-center
+          = f.submit "Sign up", class: "btn btn-primary"
+
+      = render "devise/shared/links"
+
+
