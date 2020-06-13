@@ -1,27 +1,19 @@
-= form_for @article do |f|
-  - if @article.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@article.errors.count, "error")} prohibited this article from being saved:"
-      ul
-        - @article.errors.full_messages.each do |message|
-          li = message
-
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_field :description
-  .field
-    = f.label :likes
-    = f.number_field :likes
-  .field
-    = f.label :slug
-    = f.text_field :slug
-  .field
-    = f.label :private
+- if @article.errors.any?
+  #error_explanation
+    h2 = "#{pluralize(@article.errors.count, "error")} prohibited this article from being saved:"
+    ul
+      - @article.errors.full_messages.each do |message|
+        li = message
+.control-group
+  = f.label :title, class: "control-label"
+  .controls
+    = f.text_field :title, class: 'input-xxlarge'
+.control-group
+  = f.label :description, class: "control-label"
+  .controls
+    = f.text_area :description, class: 'input-xxlarge wysihtml5', rows:10
+.control-group
+  = f.label :private, class: "control-label"
+  .controls
     = f.check_box :private
-  .field
-    = f.label :active
-    = f.check_box :active
-  .actions = f.submit
+

@@ -12,13 +12,14 @@ html
 
   body
     = render 'layouts/header'
-    = yield :article_menu
 
-    .container-fluid style="margin-top:32px" data-page-container=true
+    .container-fluid style="margin-top:0px" data-page-container=true
       .row-fluid
-        .span12
+        .span9
           div data-pjax-container=true
             = render 'shared/flash_messages'          
             = yield :layout
+        .span3
+          = render 'shared/sidebar'
 
   = render 'layouts/footer'

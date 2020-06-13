@@ -46,6 +46,9 @@ gem 'font_awesome5_rails'
 # Authentication
 gem "devise", "4.7.1"
 
+# Pagination
+gem 'will_paginate'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
