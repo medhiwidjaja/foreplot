@@ -1,5 +1,4 @@
-$(document).on("ready pjax:success", function() {
-	$(".wysihtml5").each(function(i, elem) {
-		$(elem).wysihtml5();
-  });
+$(document).on("ready turbolinks:load", function() {
+	$(".wysihtml5").wysihtml5();
+	console.log("Page Loaded, installing wysihtml5")
 });
