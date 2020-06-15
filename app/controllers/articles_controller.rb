@@ -1,11 +1,15 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:featured]
   
   # GET /articles
   # GET /articles.json
   def index
     @articles = Article.all
+  end
+
+  def my
+    @articles = current_user.articles.paginate(page: params[:page])
   end
 
   # GET /articles/1
@@ -62,6 +66,9 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def featured
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
@@ -70,6 +77,6 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :description, :likes, :slug, :private, :active)
+      params.require(:article).permit(:title, :description, :likes, :slug, :private, :active, :user_id)
     end
 end

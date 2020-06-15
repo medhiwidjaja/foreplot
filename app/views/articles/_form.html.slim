@@ -1,9 +1,8 @@
 - if @article.errors.any?
-  #error_explanation
-    h2 = "#{pluralize(@article.errors.count, "error")} prohibited this article from being saved:"
-    ul
-      - @article.errors.full_messages.each do |message|
-        li = message
+  .alert.alert-error
+    a.close data-dismiss="alert" ×
+    | Please check the errors below
+
 .control-group
   = f.label :title, class: "control-label"
   .controls

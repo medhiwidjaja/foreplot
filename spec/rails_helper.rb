@@ -65,4 +65,6 @@ RSpec.configure do |config|
 
   # Configuration for using helpers in rspec/support/*/*
   Dir[Rails.root.join("spec/support/**/*.rb")].each { |file| require file }
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end

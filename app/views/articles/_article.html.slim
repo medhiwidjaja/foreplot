@@ -1,0 +1,31 @@
+tr.article
+  td.article
+    .title
+      = link_to article.title.truncate(50), article
+      /-if can? :edit, article
+      -if article.user == current_user 
+        span.tool
+          = link_to edit_article_path(article)
+            i.icon-edit
+            |  Edit
+      .timestamp
+        i.icon-time
+        = "#{time_ago_in_words(article.updated_at)} ago"	
+    / .picture
+    / 	- url = pic_snippet(article.description)
+    / 	= image_tag url, size:'65x65' unless url.nil?
+    .description.formatted-output
+      = raw truncate_html(description_snippet(article.description),500)
+    .info
+      span.author
+        i.icon-user
+        | &nbsp;Author:
+        = link_to article.user.name, user_path(article.user.id)
+        | &nbsp;
+      span.star
+        / FIXME: This is just a stub.
+        i.icon-star
+        i.icon-star
+        i.icon-star
+        i.icon-star-empty
+        i.icon-star-empty
