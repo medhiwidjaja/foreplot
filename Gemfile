@@ -32,7 +32,9 @@ gem 'slim-rails'
 
 # Use Bootstrap for CSS framework
 gem 'twitter-bootstrap-rails', '~> 2.2.8'
-#gem 'bootstrap', '~> 4.5.0'
+
+# Wysiwig editor
+gem 'bootstrap-wysihtml5-rails', '0.3.1.24'
 
 # Required by less
 gem 'therubyracer'

@@ -16,5 +16,7 @@
 //= require activestorage
 //= require font_awesome5
 //= require turbolinks
-//= require_tree .
+//= require bootstrap-wysihtml5
+//= require ./form
+
 
