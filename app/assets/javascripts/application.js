@@ -15,6 +15,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require font_awesome5
+//= require turbolinks
 //= require bootstrap-wysihtml5
 //= require form
 
