@@ -42,9 +42,6 @@ gem 'less-rails', '~> 3.0.0'
 
 gem 'jquery-rails'
 
-# Use fontawesome
-gem 'font_awesome5_rails'
-
 # Authentication
 gem "devise", "4.7.1"
 
