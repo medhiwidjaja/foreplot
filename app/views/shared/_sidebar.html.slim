@@ -1,0 +1,27 @@
+#sidebar
+  .well.side-widget
+    .side-widget-header
+    .side-widget-title Follow
+    .side-widget-content
+      ul.social-icons
+        li
+          img src='/assets/social_icons/facebook.png' rel="tooltip" data-original-title="Facebook"
+        li
+          img src='/assets/social_icons/twitter.png' rel="tooltip" data-original-title="Twitter"
+        li
+          img src='/assets/social_icons/googleplus.png' rel="tooltip" data-original-title="Google+"
+
+    .side-widget-divider
+    .side-widget-content
+      div style="margin:19px 0 10px 0; text-align:center"
+        = link_to "Sign up, free", new_user_registration_path, class: "btn btn-primary btn-large"
+
+div 
+  .well.side-widget
+    .side-widget-header
+    .side-widget-title Sponsored
+    .side-widget-content
+      .thumbnails
+        .thumbnail
+          h5 Advertise here!
+

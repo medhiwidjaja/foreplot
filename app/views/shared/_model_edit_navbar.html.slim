@@ -1,0 +1,46 @@
+.subnav.subnav-fixed
+	ul.nav.nav-pills
+		li.divider-left
+		-if user_signed_in?
+			li.dropdown
+				a.dropdown-toggle href="/" data-toggle="dropdown" style="padding:10px 2px"
+					i.icon-file
+					b.caret
+				ul.dropdown-menu.my-articles
+					li
+						= link_to new_article_path, remote: true do
+							i.icon-edit
+							|  Create new article
+					li.divider
+					li 
+						a href=my_articles_path
+							strong My articles:
+					li 
+						#my-articles-list-menu
+
+		li class=link_status('articles')
+			a href=article_path(article)
+				i.icon-file
+				span  Article
+
+		li class=link_status('alternatives', disabled:false)
+			a href=article_path(article)
+				i.icon-move
+				span  Alternatives
+		li class=link_status('criteria', disabled:false)
+			a href=article_path(article)
+				i.icon-th-list
+				span  Criteria
+		li class=link_status('rate', disabled:false)
+			a href=article_path(article)
+				i.icon-random
+				span  Rate
+
+		li class=link_status('results')
+			a href=article_path(article)
+				i.icon-bar-chart
+				span  Results
+		li.divider-right
+		li.article-box
+			span.article-label Article:
+			span.title = link_to article.title, article

@@ -1,0 +1,8 @@
+- page_title "Article"
+= article_menu @article
+
+- content_for :left_frame do
+ 	= render partial: 'sidepanel'
+
+#content-box
+	= render 'article_content'

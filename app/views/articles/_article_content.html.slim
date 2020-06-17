@@ -1,0 +1,64 @@
+.widget
+	.widget-header
+		.ellipsis
+			h3
+				i.icon-file style="margin:0px"
+				' 
+				= @article.title
+	.well.well-widget-content
+		.widget-content-title 
+			= "#{@article.visibility} article"
+		h2 = @article.title
+		/ -unless @article.category.nil?
+		/ 	.article-attr 
+		/ 		.t-label in
+		/ 		= link_to @article.category.title, @category
+		.article-attr 
+			.t-label By:
+			= link_to @article.user.name, @article.user
+		/ -unless @article.tag_list.blank?
+		/ 	.article-attr 
+		/ 		.t-label Tags:
+		/ 		= @article.tag_list
+		-unless @article.description.blank?
+			.clearfix
+			br
+			.formatted-output
+				= raw(@article.description)
+		.clearfix
+		br
+		#toolbar.button-toolbar
+			a.btn href=edit_article_path(@article)
+				i.icon-edit
+				|  Edit
+			/ -if can? :update, @article
+			/ 	a.btn href=edit_article_path(@article)
+			/ 		i.icon-edit
+			/ 		|  Edit
+			/ -else
+			/ 	a.btn disabled=true
+			/ 		i.icon-edit
+			/ 		|  Edit
+			/ -if signed_in?
+				/ .btn-group.pull-right style="margin:0px 5px"
+				/ 	a.btn.btn-warning href="#"
+				/ 		i.icon-share
+				/ 		|  Copy
+				/ .btn-group.pull-right style="margin:0px 5px"
+				/ 	-if current_user.watches?(@article)
+				/ 		= link_to article_watch_lists_path(@article.slug), remote: true, method: :post, class: 'btn', id:'watch-btn', disabled: true do
+				/ 			i.icon-bookmark
+				/ 			|  Bookmarked
+				/ 	-else
+				/ 		= link_to article_watch_lists_path(@article.slug), remote: true, method: :post, class: 'btn', id:'watch-btn' do
+				/ 			i.icon-bookmark
+				/ 			|  Bookmark
+				/ 	-if signed_in? and current_user.likes? @article
+				/ 		= link_to article_like_path(@article.slug), remote: true, method: :post, class: 'btn', id:'like-btn', disabled: true do
+				/ 			i.icon-thumbs-up
+				/ 			|  Appreciated
+				/ 	-else
+				/ 		-unless current_user == @article.user
+				/ 			= link_to article_like_path(@article.slug), remote: true, method: :post, class: 'btn', id:'like-btn' do
+				/ 				i.icon-thumbs-up
+				/ 				|  Appreciate

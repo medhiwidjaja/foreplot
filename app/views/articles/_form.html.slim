@@ -1,0 +1,18 @@
+- if @article.errors.any?
+  .alert.alert-error
+    a.close data-dismiss="alert" ×
+    | Please check the errors below
+
+.control-group
+  = f.label :title, class: "control-label"
+  .controls
+    = f.text_field :title, class: 'input-xxlarge'
+.control-group
+  = f.label :description, class: "control-label"
+  .controls
+    = f.text_area :description, class: 'input-xxlarge wysihtml5', data: {setup: "no"}, rows:10
+.control-group
+  = f.label :private, class: "control-label"
+  .controls
+    = f.check_box :private
+

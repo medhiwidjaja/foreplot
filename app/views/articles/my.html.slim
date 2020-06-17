@@ -1,0 +1,15 @@
+- page_title "My Articles"
+#content-box
+  .widget
+    .widget-header
+      i.icon-file
+      h3 My articles
+      = link_to 'Create new article', new_article_path, remote: true, class:'btn btn-mini btn-warning'
+    .well.well-widget-content
+      - if current_user.articles.any?
+        table.table.table-bordered.articles
+          = render @articles
+        = page_navigation_links @articles
+      - else 
+        div 
+          h4 You don't have any article.

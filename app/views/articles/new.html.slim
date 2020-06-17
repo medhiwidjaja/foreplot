@@ -1,0 +1,17 @@
+- page_title "New article"
+
+#content-box
+	.widget
+		.widget-header
+			i.icon-file
+			h3 New article
+		.well.well-widget-content
+			.widget-content-title Create new article
+
+			= form_for @article, url: articles_path, method: :post do |form|
+				== render partial: 'form', locals: {f: form}
+				#toolbar.button-toolbar
+					= form.submit 'Save', class:'btn btn-primary'
+					= link_to articles_path, class:'btn' do
+						i.icon-remove
+						|  Cancel

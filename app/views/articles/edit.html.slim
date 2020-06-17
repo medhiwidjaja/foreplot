@@ -1,0 +1,32 @@
+- page_title "Edit article"
+
+= article_menu @article
+
+- content_for :left_frame do
+ 	= render partial: 'sidepanel'
+
+#content-box
+	.widget
+		.widget-header
+			i.icon-edit
+			h3 Edit Article
+		.well.well-widget-content
+			.widget-content-title
+				| Editing article
+			= form_for @article do |form|
+				== render partial: 'form', locals: {f: form}
+
+				#toolbar.button-toolbar
+				  = form.submit 'Save', class:'btn btn-primary', disable_with: 'Please wait...'
+				  = link_to @article, class:'btn' do
+				    i.icon-remove
+				    |  Cancel
+
+				  -if request[:action] == 'edit'
+				    = link_to @article, 
+				        method: :delete,
+				        class: "btn btn-danger pull-right", 
+				        confirm: "  This will delete the article and\nall related criteria and alternatives.\n\nAre you sure?", 
+				        title: @article.title do
+				      i.icon-trash
+				      |  Delete

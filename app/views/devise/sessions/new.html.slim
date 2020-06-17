@@ -1,0 +1,33 @@
+- page_title "Login"
+
+.login-container
+  .widget
+    .widget-header
+      i.icon-user
+      h3 Sign in to Foreplot
+    .well.well-widget-content
+      br
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .control-group
+          label.control-label Email
+          .controls
+            = f.email_field :email, placeholder:'Email'
+        .control-group
+          label.control-label Password
+          .controls
+            = f.password_field :password, placeholder:'Password'
+
+        - if devise_mapping.rememberable?
+          label.checkbox 
+            = f.check_box :remember_me
+            | Stay connected
+        .button-toolbar 
+          = f.submit "Log in", class: 'btn btn-primary'
+          .pull-right
+            - if devise_mapping.recoverable? && controller_name != 'passwords'
+              div
+                = link_to "Forgot your password?", new_password_path(resource_name), class:'pjax'
+              br
+
+  div
+    = render 'devise/shared/links'

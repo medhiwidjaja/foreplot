@@ -1,0 +1,65 @@
+.navbar.navbar-fixed-top
+	.navbar-inner
+		.container-fluid 
+			header
+				a.btn.btn-navbar data-toggle="collapse" data-target=".nav-collapse"
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				= link_to logo, root_path, class: "brand"
+
+				nav.nav-collapse
+					ul.nav.pull-right
+						li
+							.search-form
+								= form_tag articles_path, method: :get, class:"form-horizontal" do |form|
+									= text_field_tag :q, "", class:"input-medium span3", placeholder:"Search articles..."
+
+						li.divider-vertical
+						li rel="tooltip" data-original-title="Home"
+							= link_to :root do
+								i.icon-home
+	
+						li.divider-vertical
+						li.dropdown rel="tooltip" data-original-title="Articles"
+							a.dropdown-toggle href="/" data-toggle="dropdown"
+								/i.icon-file
+								| Articles
+								b.caret
+							ul.dropdown-menu
+								li
+									a href="/"
+										i.icon-star-empty
+										|  Featured
+								-if signed_in?
+									li.divider
+									li 
+										= link_to my_articles_path do
+											i.icon-file
+											|  My articles
+									li.divider
+									li
+										= link_to new_article_path do
+											i.icon-plus
+											|  Create new article
+
+						- if signed_in?
+							li.dropdown
+								a.dropdown-toggle.user-name.user-avatar href="/" data-toggle="dropdown"
+									i.icon-user
+									/= gravatar_for current_user, size: 20
+									strong
+										= current_user.name
+									b.caret
+								ul.dropdown-menu
+									li = link_to "User Profile", current_user
+									li = link_to "Manage Account", edit_user_path(current_user)+"?fn=a1"
+									li.divider
+									li = link_to "Logout", destroy_user_session_path, method: :delete
+						- else
+							li
+								= link_to "Login", new_user_session_path, 'data-skip' => true
+							li
+								= link_to "Sign up", new_user_registration_path
+										
+

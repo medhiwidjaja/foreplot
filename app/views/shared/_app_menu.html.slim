@@ -1,0 +1,4 @@
+-content_for :article_menu do
+  -unless article.nil? || !article.persisted?
+    = render partial: 'shared/model_edit_navbar', 
+              locals: { article: article }

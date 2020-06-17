@@ -1,5 +1,9 @@
 class User < ApplicationRecord
-  has_secure_password
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
@@ -7,5 +11,7 @@ class User < ApplicationRecord
   validates_length_of :password, minimum: 8, on: :create
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i } 
+
+  has_many :articles
 
 end
