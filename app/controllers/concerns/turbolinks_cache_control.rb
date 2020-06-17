@@ -1,3 +1,5 @@
+# See https://github.com/turbolinks/turbolinks/issues/87
+# Use no-cache instead of no-preview
 module TurbolinksCacheControl
   extend ActiveSupport::Concern
 

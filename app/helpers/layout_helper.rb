@@ -11,6 +11,7 @@ module LayoutHelper
     content_for(:head) { '<meta name="turbolinks-cache-control" content="no-cache">' }
   end
 
+  # for use with TurbolinksCacheControl concern
   def turbolinks_cache_control_meta_tag
     tag :meta, name: 'turbolinks-cache-control', content: @turbolinks_cache_control || 'cache'
   end
