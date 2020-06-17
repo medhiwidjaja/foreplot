@@ -10,7 +10,7 @@
 .control-group
   = f.label :description, class: "control-label"
   .controls
-    = f.text_area :description, class: 'input-xxlarge wysihtml5', rows:10
+    = f.text_area :description, class: 'input-xxlarge wysihtml5', data: {setup: "no"}, rows:10
 .control-group
   = f.label :private, class: "control-label"
   .controls
