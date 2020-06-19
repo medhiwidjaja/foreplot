@@ -15,7 +15,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require bootstrap-wysihtml5
+//= require froala_editor.min
 //= require form
 
 

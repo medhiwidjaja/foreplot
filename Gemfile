@@ -34,7 +34,8 @@ gem 'slim-rails'
 gem 'twitter-bootstrap-rails', '~> 2.2.8'
 
 # Wysiwig editor
-gem 'bootstrap-wysihtml5-rails', '0.3.1.24'
+gem "wysiwyg-rails"
+# gem 'bootstrap-wysihtml5-rails', '0.3.1.24'
 
 # Required by less
 gem 'therubyracer'

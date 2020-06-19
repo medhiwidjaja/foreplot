@@ -11,10 +11,10 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_self
- *= require bootstrap-wysihtml5
  *= require bootstrap_and_overrides
  *= require font-awesome
  *= require layout-base
  */
-
+ @import "froala_editor.min";
+ @import "froala_style.min";
 
