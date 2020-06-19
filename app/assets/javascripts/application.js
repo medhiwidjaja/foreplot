@@ -16,6 +16,6 @@
 //= require activestorage
 //= require turbolinks
 //= require tinymce
-//= require form
+
 
 
