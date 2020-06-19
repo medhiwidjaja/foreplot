@@ -1,0 +1,17 @@
+default:
+  menubar: false
+  statusbar: false
+  toolbar: 
+    - bold italic underline forecolor backcolor | formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | undo redo 
+
+extended:
+  menubar: false
+  statusbar: false
+  plugins: 
+    - advlist autolink lists link image charmap print preview anchor textcolor searchreplace visualblocks fullscreen 
+    - insertdatetime media table contextmenu paste code wordcount
+    - autoresize
+  toolbar: 
+    - insert | undo redo |  formatselect | bold italic underline forecolor backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | removeformat
+  insert_toolbar: quickimage quicktable
+  content_css: '/assets/tinymce.css'

@@ -14,7 +14,7 @@
 .control-group
 	= form.label :description, class: "control-label"
 	.controls
-		= form.text_area :description, class: 'input-xxlarge wysihtml5', rows: 10
+		= form.text_area :description, class: 'input-xxlarge tinymce', rows: 10
 
 / .widget-divider
 / .section style="padding-top:0px; border-top:none"
@@ -32,3 +32,5 @@
 / 	= add_child_link "Add new property", :properties, class:'btn btn-primary'
 
 / = new_child_fields_template form, :properties
+
+= tinymce
