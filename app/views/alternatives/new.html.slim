@@ -16,5 +16,5 @@
 			#toolbar.button-toolbar
 				= f.submit 'Save', class:"btn btn-primary"
 				= link_to '<i class="icon-remove"></i> Cancel'.html_safe,
-					"#{article_alternatives_path}", 
+					article_alternatives_path(@article), 
 					class:"btn"

@@ -1,15 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "articles/new", type: :view do
+
+  let(:article) { FactoryBot.build :article }
   before(:each) do
-    assign(:article, Article.new(
-      :title => "MyString",
-      :description => "MyString",
-      :likes => 1,
-      :slug => "MyString",
-      :private => false,
-      :active => false
-    ))
+    allow(view).to receive(:user_signed_in?) { true } 
+    allow(view).to receive(:current_user) { FactoryBot.build(:user) }
+    @article = article
   end
 
   it "renders new article form" do
@@ -18,15 +15,8 @@ RSpec.describe "articles/new", type: :view do
     assert_select "form[action=?][method=?]", articles_path, "post" do
 
       assert_select "input[name=?]", "article[title]"
-
-      assert_select "input[name=?]", "article[description]"
-
-      assert_select "input[name=?]", "article[likes]"
-
-      assert_select "input[name=?]", "article[slug]"
-
+      assert_select "textarea[name=?]", "article[description]"
       assert_select "input[name=?]", "article[private]"
-
       assert_select "input[name=?]", "article[active]"
     end
   end

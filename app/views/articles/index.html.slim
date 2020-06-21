@@ -5,10 +5,7 @@ table
     tr
       th Title
       th Description
-      th Likes
-      th Slug
-      th Private
-      th Active
+
       th
       th
       th
@@ -18,10 +15,7 @@ table
       tr
         td = article.title
         td = article.description
-        td = article.likes
-        td = article.slug
-        td = article.private
-        td = article.active
+
         td = link_to 'Show', article
         td = link_to 'Edit', edit_article_path(article)
         td = link_to 'Destroy', article, data: { confirm: 'Are you sure?' }, method: :delete

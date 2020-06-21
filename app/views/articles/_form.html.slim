@@ -3,17 +3,42 @@
     a.close data-dismiss="alert" ×
     | Please check the errors below
 
-.control-group
-  = f.label :title, class: "control-label"
-  .controls
-    = f.text_field :title, class: 'input-xxlarge'
-.control-group
-  = f.label :description, class: "control-label"
-  .controls
-    = f.text_area :description, class: 'input-xxlarge tinymce', data: {setup: "no"}, rows:10
-.control-group
-  = f.label :private, class: "control-label"
-  .controls
-    = f.check_box :private
+= form_with model: @article, local: true do |f|
+  = f.hidden_field :user_id, value: current_user.id
+  .control-group
+    = f.label :title, class: "control-label"
+    .controls
+      = f.text_field :title, class: 'input-xxlarge'
+  .control-group
+    = f.label :description, class: "control-label"
+    .controls
+      = f.text_area :description, class: 'input-xxlarge tinymce', data: {setup: "no"}, rows:10
+  .row
+    .span1 
+    .span3
+      .control-group 
+        .controls 
+          = f.check_box :private
+          = f.label :private, class: "checkbox"
+    .span3
+      .control-group
+        .controls 
+          = f.check_box :active
+          = f.label :active, class: "checkbox"
+
+  #toolbar.button-toolbar
+    = f.submit 'Save', class:'btn btn-primary', disable_with: 'Please wait...'
+    = link_to @article, class:'btn' do
+      i.icon-remove
+      |  Cancel
+
+    -if request[:action] == 'edit'
+      = link_to @article, 
+          method: :delete,
+          class: "btn btn-danger pull-right", 
+          confirm: "  This will delete the article and\nall related criteria and alternatives.\n\nAre you sure?", 
+          title: @article.title do
+        i.icon-trash
+        |  Delete
 
 = tinymce

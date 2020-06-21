@@ -11,7 +11,7 @@
 	.well.well-widget-content
 		.widget-content-title Alternative
 		
-		= form_for @alternative, url: { action: 'update' } do |alt_form|
+		= form_with model: @alternative, local: true do |alt_form|
 			== render partial: 'fields', locals: { form: alt_form }
 			
 			#toolbar.button-toolbar
