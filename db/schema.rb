@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_110305) do
+ActiveRecord::Schema.define(version: 2020_06_18_044911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alternatives", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "abbrev"
+    t.integer "position"
+    t.bigint "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_alternatives_on_article_id"
+  end
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -26,6 +37,21 @@ ActiveRecord::Schema.define(version: 2020_06_14_110305) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.bigint "article_id"
+    t.bigint "alternative_id"
+    t.string "name"
+    t.decimal "value"
+    t.string "unit"
+    t.boolean "is_cost"
+    t.boolean "is_common"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternative_id"], name: "index_properties_on_alternative_id"
+    t.index ["article_id"], name: "index_properties_on_article_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,5 +70,8 @@ ActiveRecord::Schema.define(version: 2020_06_14_110305) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "alternatives", "articles"
   add_foreign_key "articles", "users"
+  add_foreign_key "properties", "alternatives"
+  add_foreign_key "properties", "articles"
 end

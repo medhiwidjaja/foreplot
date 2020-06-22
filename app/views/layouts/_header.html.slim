@@ -22,7 +22,7 @@
 	
 						li.divider-vertical
 						li.dropdown rel="tooltip" data-original-title="Articles"
-							a.dropdown-toggle href="/" data-toggle="dropdown"
+							a.dropdown-toggle href="/articles" data-toggle="dropdown"
 								/i.icon-file
 								| Articles
 								b.caret
@@ -45,7 +45,7 @@
 
 						- if signed_in?
 							li.dropdown
-								a.dropdown-toggle.user-name.user-avatar href="/" data-toggle="dropdown"
+								a.dropdown-toggle.user-name.user-avatar href="/users" data-toggle="dropdown"
 									i.icon-user
 									/= gravatar_for current_user, size: 20
 									strong

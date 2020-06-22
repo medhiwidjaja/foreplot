@@ -34,13 +34,15 @@ gem 'slim-rails'
 gem 'twitter-bootstrap-rails', '~> 2.2.8'
 
 # Wysiwig editor
-gem 'bootstrap-wysihtml5-rails', '0.3.1.24'
+gem 'tinymce-rails'
 
 # Required by less
 gem 'therubyracer'
 gem 'less-rails', '~> 3.0.0'
 
+# JQuery and JQuery UI
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Authentication
 gem "devise", "4.7.1"

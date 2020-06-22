@@ -1,0 +1,30 @@
+- page_title "Edit Alternative"
+
+= article_menu @article
+- content_for :left_frame do
+	= render 'sidepanel'
+
+.widget
+	.widget-header
+		i.icon-list-ul
+		h3 Editing alternative
+	.well.well-widget-content
+		.widget-content-title Alternative
+		
+		= form_with model: @alternative, local: true do |alt_form|
+			== render partial: 'fields', locals: { form: alt_form }
+			
+			#toolbar.button-toolbar
+				= alt_form.submit 'Save', class:"btn btn-primary"
+
+				= link_to '<i class="icon-remove"></i> Cancel'.html_safe,
+				    alternative_path(@alternative),
+				    class: "btn always"
+				= link_to '<i class="icon-trash"></i> Delete'.html_safe,
+						alternative_path(@alternative), 
+						method: :delete,
+						class: "btn btn-danger pull-right always", 
+						confirm: "Deleting alternatives will also delete all related scores and evaluations. You and other participants (if any) will have to redo all ratings previously done.\n\nAre you sure to proceed?", 
+						title: @alternative.title	
+
+

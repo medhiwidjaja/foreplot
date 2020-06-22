@@ -1,5 +1,4 @@
-#flashes
-	- flash.each do |type, message|
-		div class="#{flash_class(type)}"
-			a.close data-dismiss="alert" ×
-			= message
+- flash.each do |type, message|
+	div class="#{flash_class(type)}"
+		a.close data-dismiss="alert" ×
+		= message

@@ -1,0 +1,5 @@
+tr.property-row
+	td = f.text_field :name
+	td = f.text_field :value, class: 'input-small'
+	td = f.text_field :unit, class: 'input-small'
+	td = remove_child_link "Delete row", f, class:'btn btn-small btn-warning'

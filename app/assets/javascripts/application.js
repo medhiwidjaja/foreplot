@@ -15,7 +15,10 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require bootstrap-wysihtml5
-//= require form
+//= require tinymce
+//= require jquery-ui
+//= require alternative
+//= require jquery.simulate.drag-sortable
+
 
 
