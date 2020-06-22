@@ -11,10 +11,14 @@ Rails.application.routes.draw do
     member do
       patch :update_alternatives
     end
+
     resources :alternatives, shallow: true
+
     collection do 
       get :my
     end
+
+    resources :criteria, shallow: true
   end
 
 end

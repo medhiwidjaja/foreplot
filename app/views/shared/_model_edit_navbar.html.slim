@@ -13,22 +13,22 @@
 							|  Create new article
 					li.divider
 					li 
-						a href=my_articles_path
+						= link_to my_articles_path
 							strong My articles:
 					li 
 						#my-articles-list-menu
 
 		li class=link_status('articles')
-			a href=article_path(article)
+			= link_to article_path(article)
 				i.icon-file
 				span  Article
 
 		li class=link_status('alternatives', disabled:false)
-			a href=article_alternatives_path(article)
+			= link_to article_alternatives_path(article)
 				i.icon-move
 				span  Alternatives
 		li class=link_status('criteria', disabled:false)
-			a href=article_path(article)
+			= link_to article_criteria_path(article)
 				i.icon-th-list
 				span  Criteria
 		li class=link_status('rate', disabled:false)
