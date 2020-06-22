@@ -4,32 +4,34 @@
       i.icon-minus
   .side-widget-title Alternative List
   #widget1.collapse.in
-    /= form_for @article, url: article_update_alternatives_order_path, remote:true, method:'post' do |form|
-    .side-widget-content
-      .alt-list-header
-        = link_to 'All Alternatives', article_alternatives_path(@article)
-      #sort-section
-        ul.nav.nav-list.alt-list#sortable
-          - if @article.alternatives.present?
-            - @article.alternatives.each.with_index(1) do |alternative, i|
-              /= form.fields_for :alternatives, alternative do |f|
-              -if alternative.persisted?
-                li.ui-state-default.alternative id="#{alternative.id}"
-                  = link_to alternative_path(alternative)
-                    span.badge
-                      = i
-                    ' &nbsp;
-                    = truncate(alternative.title, length: 22)
-                    i.icon-reorder.pull-right.handle
-    .side-widget-toolbar
-      / -if @alternatives.present?
-      /   a.btn.btn-mini.edit-button href="#"
-      /     i.icon-reorder
-      /   = form.submit "Done", class: "btn btn-mini btn-primary done-button", style: "display: none"
-      / '
-      a.btn.btn-mini.btn-primary href="#{new_article_alternative_path(@article)}" 
-        ' Add new 
-        i.icon-chevron-right   
+    = form_with model: @article, url: update_alternatives_article_path(@article) do |form|
+      .side-widget-content
+        .alt-list-header
+          = link_to 'All Alternatives', article_alternatives_path(@article)
+        #sort-section
+          ul.nav.nav-list.alt-list#sortable
+            - if @alternatives.present?
+              - @alternatives.each.with_index(1) do |alternative, i|
+                = form.fields_for :alternatives, alternative do |f|
+                  -if alternative.persisted?
+                    li.ui-state-default.alternative id="#{alternative.id}"
+                      = f.hidden_field :id
+                      = f.hidden_field :position, class:'position'
+                      = link_to alternative_path(alternative)
+                        span.badge
+                          = i
+                        ' &nbsp;
+                        = truncate(alternative.title, length: 22)
+                        i.icon-align-justify.pull-right.handle
+      .side-widget-toolbar
+        -if @alternatives.present?
+          = link_to url_for(only_path: false), class:"btn btn-mini edit-button"
+            i.icon-align-justify
+          = form.submit "Done", class: "btn btn-mini btn-primary done-button", style: "display: none"
+        '
+        a.btn.btn-mini.btn-primary href="#{new_article_alternative_path(@article)}" 
+          ' Add new 
+          i.icon-chevron-right   
 
 / .well.side-widget
 /   .side-widget-header

@@ -21,7 +21,8 @@ html
           = yield :left_frame
         .span9
           div data-pjax-container=true
-            = render 'shared/flash_messages'          
+            #flashes
+              = render 'shared/flash_messages'          
             = yield :layout
 
   = render 'layouts/footer'

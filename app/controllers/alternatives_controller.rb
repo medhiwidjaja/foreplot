@@ -7,24 +7,27 @@ class AlternativesController < ApplicationController
   # GET /article/1/alternatives.json
   def index
     @article = Article.find params[:article_id]
-    @alternatives = @article.alternatives.all
+    @alternatives = @article.alternatives.all.order(:position)
   end
 
   # GET /alternatives/1
   # GET /alternatives/1.json
   def show
     @article = @alternative.article
+    @alternatives = @article.alternatives.all.order(:position)
   end
 
   # GET /articles/1/alternatives/new
   def new
     @article = Article.find(params[:article_id])
     @alternative = @article.alternatives.new
+    @alternatives = @article.alternatives.all.order(:position)
   end
 
   # GET /alternatives/1/edit
   def edit
     @article = @alternative.article
+    @alternatives = @article.alternatives.all.order(:position)
   end
 
   # POST /article/1/alternatives

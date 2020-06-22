@@ -16,6 +16,8 @@
 //= require activestorage
 //= require turbolinks
 //= require tinymce
+//= require jquery-ui
+//= require alternative
 
 
 

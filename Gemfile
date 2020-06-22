@@ -40,7 +40,9 @@ gem 'tinymce-rails'
 gem 'therubyracer'
 gem 'less-rails', '~> 3.0.0'
 
+# JQuery and JQuery UI
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Authentication
 gem "devise", "4.7.1"

@@ -71,6 +71,14 @@ class ArticlesController < ApplicationController
   def featured
   end
 
+  def update_alternatives
+    article = Article.find(params[:id])
+    article.update(article_params)
+    respond_to do |format|
+      format.js { flash.now[:notice] = "Updated succesfully." }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
@@ -79,6 +87,7 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :description, :likes, :slug, :private, :active, :user_id)
+      params.require(:article).permit(:title, :description, :likes, :slug, :private, :active, :user_id,
+                                     {alternatives_attributes: [:id, :title, :abbrev, :description, :position]} )
     end
 end

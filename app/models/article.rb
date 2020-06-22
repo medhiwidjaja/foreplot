@@ -6,6 +6,8 @@ class Article < ApplicationRecord
   
   scope :owned_by, -> (user) { where user: user }
 
+  accepts_nested_attributes_for :alternatives
+  
   def visibility
     private ? 'Private' : 'Public'
   end
