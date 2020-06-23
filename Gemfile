@@ -50,6 +50,9 @@ gem "devise", "4.7.1"
 # Pagination
 gem 'will_paginate'
 
+# Tree Data structure
+gem 'rubytree'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
