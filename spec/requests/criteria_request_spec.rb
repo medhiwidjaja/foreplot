@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Criterion", type: :request do
   let (:bingley) { create :bingley, :with_articles }
-  let! (:bingleys_article) { bingley.articles.first }
-
+  let (:bingleys_article) { bingley.articles.first }
+  let (:root) { create(:criterion, article_id: bingleys_article.id) }
   let(:valid_attributes) {
     { title: 'Criterion 1', article_id: bingleys_article.id, abbrev: 'C#1' }
   }
@@ -15,6 +15,8 @@ RSpec.describe "Criterion", type: :request do
     before(:each) {
       sign_in bingley
       @article = bingleys_article
+      @root = root
+      3.times { create(:criterion, parent_id: @root.id) }
     }
 
     describe "GET #index" do

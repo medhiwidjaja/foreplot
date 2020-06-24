@@ -1,0 +1,97 @@
+.widget
+	.widget-header
+		i.icon-sitemap
+		h3 
+			= criterion.root? ? 'Goal:' : 'Criterion:'
+			= criterion.title
+	.well.well-widget-content
+		.section
+			.widget-content-title 
+				= criterion.root? ? 'Goal' : 'Criterion'
+			h3 
+				= criterion.title
+			-unless criterion.description.blank?
+				blockquote.formatted-output
+					= raw(criterion.description)
+		
+
+		/-if can? :modify, @article
+		.section style="padding-top:0px; padding-bottom:0px"
+			.btn-toolbar.button-toolbar.mid-section
+				.btn-group
+					= link_to '<i class="icon-edit"></i> Edit'.html_safe,
+							edit_criterion_path(criterion.id), 
+							class:"btn btn-primary" 
+				.btn-group
+					button.btn.btn-small.btn-inverse.disabled Add criterion:
+					= link_to "Under this node", new_article_criterion_path(@article, pid:criterion.id), class:"btn"
+					-unless criterion.root?
+						= link_to "At same level", new_article_criterion_path(@article, pid:criterion.parent_id, r:criterion.id.to_s), class:"btn"
+					-else
+						= link_to "At same level", "#", class:"btn disabled"
+
+		-if (@evaluation.nil?)
+			.section
+				.alert.alert-info
+				 | The user has not made any evaluation for this criterion
+		-elsif !criterion.children.empty?
+			.section
+				.section-title 
+					= (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
+				-unless @evaluation.valid
+					.alert.alert-error
+						a.close data-dismiss="alert" ×
+						| One or more criterions have been deleted. You may want to reevaluate all rankings.
+				-unless @table.nil?
+					/ -unless @evaluation.eval_method.nil?
+					/ 	-if @criterion.has_incomplete_scores_by? @participation_id
+					/ 		.alert.alert-error
+					/ 			a.close data-dismiss="alert" ×
+					/ 			| Comparison is incomplete
+					/ 	.btn-toolbar style="margin: 0"
+					/ 		div.pull-right
+					/ 			h5 = "Comparison done using #{@comparison_method} method"
+					/ 			-if @evaluation.method_is_pairwise? and !@evaluation.c_r.nil?
+					/ 				h5 
+					/ 					'  Consistency:
+					/ 					-if @evaluation.cr > 0.15 
+					/ 						span.label.label-important Poor
+					/ 					-elsif @evaluation.cr >= 0.10
+					/ 						span.label.label-warning Good
+					/ 					-else 
+					/ 						span.label.label-success Excellent
+
+					table.table.table-condensed.table-bordered.objectives-table
+						/ -unless @participation.user.can?(:compare, @article) 
+						/ 	caption This user is not allowed to change criteria weights
+						thead
+							tr
+								th No.
+								th Title
+								/ -if @evaluation.method_is_magiq?
+								/ 	th.number Rank
+								th.number Weight
+								th.number Normalized Weight
+								th Ratio
+						tbody
+							- @table.each do |row|
+								tr
+									td = row[:no]
+									td = link_to row[:title], criterion_path(row[:id]), class:'pjax'
+									/ -if @evaluation.method_is_magiq?
+									/ 	td.number = row[:order]
+									td.number 
+										div = number_with_precision(row[:weight], precision: 2)
+									td.number 
+											div = "#{row[:weight_n].nil? ? '-' : number_to_percentage(row[:weight_n]*100, precision: 0)}"
+									td
+										.progress
+											.bar style="width: #{row[:ratio]}%"
+
+			= render partial: 'toolbar', locals: { read_only: false }
+
+
+
+
+
+

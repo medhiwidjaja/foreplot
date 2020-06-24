@@ -2,32 +2,32 @@ class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
   before_action :set_criterion, only: [:show, :edit, :update, :destroy]
+  before_action :set_tree, only: [:show, :index, :edit, :new]
 
   # GET /article/1/criteria
   # GET /article/1/criteria.json
   def index
-    @article = Article.find params[:article_id]
-    @criteria = @article.criteria.all.order(:position)
+    @criteria = @article.criteria.all
   end
 
   # GET /criteria/1
   # GET /criteria/1.json
   def show
-    @article = @criterion.article
-    @criteria = @article.criteria.all.order(:position)
+    @criteria = @article.criteria.all
+    @evaluation = nil
+    @table = nil
   end
 
   # GET /articles/1/criteria/new
   def new
-    @article = Article.find(params[:article_id])
+    @parent = Criterion.find(params[:id])
     @criterion = @article.criteria.new
-    @criteria = @article.criteria.all.order(:position)
+    @criteria = @article.criteria.all
   end
 
   # GET /criteria/1/edit
   def edit
-    @article = @criterion.article
-    @criteria = @article.criteria.all.order(:position)
+    @criteria = @article.criteria.all
   end
 
   # POST /article/1/criteria
@@ -77,6 +77,15 @@ class CriteriaController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_criterion
       @criterion = Criterion.find(params[:id])
+    end
+
+    def set_tree
+      if params[:article_id]
+        @article = Article.find params[:article_id]
+      else 
+        @article = @criterion.article
+      end
+      @tree = @article.criteria.first.to_tree
     end
 
     # Only allow a list of trusted parameters through.

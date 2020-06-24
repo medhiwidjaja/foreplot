@@ -16,5 +16,12 @@ class Criteria::Tree < Tree::TreeNode
     end 
   end
 
+  def method_missing(method, *args, &block)
+    if content.keys.include? method.to_s
+      content[method.to_s]
+    else
+      raise NoMethodError
+    end
+  end
 
 end

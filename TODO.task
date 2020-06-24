@@ -2,37 +2,54 @@ Desight Project
 
 Setup project:
   Gems: 
-    - testing: rspec-rails, database-cleaner, factory_bot_rails
-    - views: bootstrap, jquery
-    - database: pg
-    - bcrypt
-    - development: slim-rails
+    ✔ testing: rspec-rails, database-cleaner, factory_bot_rails @done(20-06-24 12:04)
+    ✔ views: bootstrap, jquery @done(20-06-24 12:04)
+    ✔ database: pg @done(20-06-24 12:04)
+    ✔ bcrypt @done(20-06-24 12:04)
+    ✔ development: slim-rails @done(20-06-24 12:04)
+    ✔ rubytree @done(20-06-24 12:04)
 
   Initializer:
-    - customize_errors
+    ✔ customize_errors @done(20-06-24 12:04)
   
   Database:
-    - create role
-    - settings
+    ✔ create role @done(20-06-24 12:04)
+    ✔ settings @done(20-06-24 12:04)
 
 User:
-  - sign up
+  ✔ sign up @done(20-06-24 12:05)
   - show
   - edit profile
 
 Testing User:
-  - features
-  - models
-  - requests
+  ✔ features @done(20-06-24 12:05)
+  ✔ models @done(20-06-24 12:05)
+  ✔ requests @done(20-06-24 12:05)
 
 Session:
-  - login
+  ✔ login @done(20-06-24 12:05)
   - logout
   - login using Google OAuth
 
 Devise:
-  - Add Devise Gem
-  - Setup devise
-  - Remove old stuff
+  ✔ Add Devise Gem @done(20-06-24 12:05)
+  ✔ Setup devise @done(20-06-24 12:05)
+  ✔ Remove old stuff @done(20-06-24 12:05)
   - Add tests
   - Create sign up codes
+
+Article:
+  ✔ CRUD @done(20-06-24 12:07)
+  - test
+  - create default criteria root
+
+Alternative:
+  ✔ CRUD @done(20-06-24 12:07)
+  - test
+
+Criteria:
+  - CRUD
+  
+Criteria::Tree:
+  ✔ build @done(20-06-24 12:07)
+  - utils

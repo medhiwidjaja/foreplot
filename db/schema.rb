@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_22_102405) do
+ActiveRecord::Schema.define(version: 2020_06_23_032907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,9 @@ ActiveRecord::Schema.define(version: 2020_06_22_102405) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "article_id"
+    t.integer "parent_id"
+    t.index ["article_id"], name: "index_criteria_on_article_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -86,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_06_22_102405) do
 
   add_foreign_key "alternatives", "articles"
   add_foreign_key "articles", "users"
+  add_foreign_key "criteria", "articles"
   add_foreign_key "properties", "alternatives"
   add_foreign_key "properties", "articles"
 end

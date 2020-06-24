@@ -18,6 +18,7 @@
 //= require tinymce
 //= require jquery-ui
 //= require alternative
+//= require criterion
 //= require jquery.simulate.drag-sortable
 
 
