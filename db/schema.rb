@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_032907) do
+ActiveRecord::Schema.define(version: 2020_06_25_120417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,15 +45,26 @@ ActiveRecord::Schema.define(version: 2020_06_23_032907) do
     t.string "description"
     t.boolean "cost"
     t.boolean "active"
-    t.integer "comparison_type"
-    t.integer "eval_method"
     t.string "property_name"
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "article_id"
     t.integer "parent_id"
+    t.string "comparison_type"
+    t.string "eval_method"
     t.index ["article_id"], name: "index_criteria_on_article_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.bigint "article_id"
+    t.bigint "user_id"
+    t.string "role"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_members_on_article_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -69,6 +80,23 @@ ActiveRecord::Schema.define(version: 2020_06_23_032907) do
     t.datetime "updated_at", null: false
     t.index ["alternative_id"], name: "index_properties_on_alternative_id"
     t.index ["article_id"], name: "index_properties_on_article_id"
+  end
+
+  create_table "rankings", force: :cascade do |t|
+    t.bigint "article_id"
+    t.bigint "user_id"
+    t.bigint "vote_id"
+    t.string "type"
+    t.bigint "alternative_id"
+    t.decimal "score"
+    t.integer "rank_no"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternative_id"], name: "index_rankings_on_alternative_id"
+    t.index ["article_id"], name: "index_rankings_on_article_id"
+    t.index ["user_id"], name: "index_rankings_on_user_id"
+    t.index ["vote_id"], name: "index_rankings_on_vote_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -87,9 +115,31 @@ ActiveRecord::Schema.define(version: 2020_06_23_032907) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "article_id"
+    t.bigint "user_id"
+    t.bigint "member_id"
+    t.decimal "weight"
+    t.decimal "weight_n"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_votes_on_article_id"
+    t.index ["member_id"], name: "index_votes_on_member_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "alternatives", "articles"
   add_foreign_key "articles", "users"
   add_foreign_key "criteria", "articles"
+  add_foreign_key "members", "articles"
+  add_foreign_key "members", "users"
   add_foreign_key "properties", "alternatives"
   add_foreign_key "properties", "articles"
+  add_foreign_key "rankings", "alternatives"
+  add_foreign_key "rankings", "articles"
+  add_foreign_key "rankings", "users"
+  add_foreign_key "rankings", "votes"
+  add_foreign_key "votes", "articles"
+  add_foreign_key "votes", "members"
+  add_foreign_key "votes", "users"
 end
