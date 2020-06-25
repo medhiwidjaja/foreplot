@@ -20,6 +20,7 @@
 //= require alternative
 //= require criterion
 //= require jquery.simulate.drag-sortable
+//= require tree.jquery
 
 
 

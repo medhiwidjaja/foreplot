@@ -1,35 +1,35 @@
 -if @tree.blank?
-	.well.side-widget
-		.side-widget-header
-		.side-widget-title Criteria Tree
-		.side-widget-content
-			.alert.alert-error
-				p You have not created any criterion.
+  .well.side-widget
+    .side-widget-header
+    .side-widget-title Criteria Tree
+    .side-widget-content
+      .alert.alert-error
+        p You have not created any criterion.
 -else
-	.well.side-widget
-		.side-widget-header
-			a.resize-button data-toggle="collapse" data-target="#widget1" href="#" 
-				i.icon-minus
-		.side-widget-title Criteria Tree
-		#widget1.collapse.in
-			.side-widget-content
-				/TODO: Vote ID
-				= content_tag "div", id: "criteria-tree", data: {node: @tree.id, allow_click:true, vid:'VOTE_ID' } do
-					div style="width:90%;"
-						= image_tag "ajax-loader.gif"
-			/-if can? :modify, @article
-			.side-widget-toolbar
-				-if @article.criteria.empty?
-					a.btn.btn-mini href="#{new_article_criterion_path(@article)}" data-remote=true
-						| Add new 
-						i.icon-chevron-right
-				-else
-					= link_to url_for(only_path: false), class:"btn btn-mini edit-button"
+  .well.side-widget
+    .side-widget-header
+      a.resize-button data-toggle="collapse" data-target="#widget1" href="#" 
+        i.icon-minus
+    .side-widget-title Criteria Tree
+    #widget1.collapse.in
+      .side-widget-content
+        /TODO: Vote ID
+        = content_tag "div", id: "criteria-tree", data: {node: @tree.id, allow_click:true, vid:'VOTE_ID' } do
+          div style="width:90%;"
+            = image_tag "ajax-loader.gif"
+      /-if can? :modify, @article
+      .side-widget-toolbar
+        -if @article.criteria.empty?
+          a.btn.btn-mini href="#{new_article_criterion_path(@article)}" data-remote=true
+            | Add new 
+            i.icon-chevron-right
+        -else
+          = link_to url_for(only_path: false), class:"btn btn-mini edit-button"
             i.icon-align-justify
-					= link_to "Done", "#", class: "btn btn-mini btn-primary done-button", style: "display: none"
-					span#add-criterion style="display: none; padding: 5px 0 0 10px"
-						a.btn.btn-mini#add-sub href="#" data-remote=true
-							' Add sub-criterion
-							i.icon-chevron-right
+          = link_to "Done", "#", class: "btn btn-mini btn-primary done-button", style: "display: none"
+          span#add-criterion style="display: none; padding: 5px 0 0 10px"
+            a.btn.btn-mini#add-sub href="#" data-remote=true
+              ' Add sub-criterion
+              i.icon-chevron-right
 
 /= render 'criteria/participants'

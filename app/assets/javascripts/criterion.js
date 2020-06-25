@@ -6,21 +6,21 @@ function build_tree(root_id) {
         autoOpen: true,
         dragAndDrop: true,
         selectable: true,
-        onCreateLi: function(node, $li) {
+        onCreateLi: function(node, $li, is_selected) {
           if (node.children.length == 0) {
-            $li.find('.title').before('<i class="icon-leaf"></i> ');
+            $li.find('.jqtree-title').before('<i class="icon-leaf"></i> ');
           } else {
             if (node.parent.parent)
-              $li.find('.title').before('<i class="icon-th-list"></i> ');
+              $li.find('.jqtree-title').before('<i class="icon-th-list"></i> ');
             else
-              $li.find('.title').before('<i class="icon-screenshot"></i> ');
+              $li.find('.jqtree-title').before('<i class="icon-screenshot"></i> ');
           };
           if (node.weights_incomplete) {
             $li.attr('data-incomplete', true)
-            $li.find('.title').addClass('incomplete');
+            $li.find('.jqtree-title').addClass('incomplete');
           };
           if (node.parent.parent) {
-            $li.find('.title').after('<i class="icon-reorder pull-right handle"></i>');
+            $li.find('.jqtree-title').after('<i class="icon-reorder pull-right handle"></i>');
           };
           $li.attr("id", node.id);
           $li.attr("data-id", node.id);
@@ -51,7 +51,7 @@ function build_tree(root_id) {
       $('.handle').hide();
     });	
   if($('#criteria-tree').data('allowClick')) {
-    $('#criteria-tree').bind(
+    $('#criteria-tree').on(
     'tree.click',
     function(event) {
       var node = event.node;
@@ -68,14 +68,11 @@ function build_tree(root_id) {
         url = "/criteria/"+node.id+"/aggregate_detail";
       } 
       else {
-        url = "/criteria/"+node.id+"?p="+part;
+        url = "/criteria/"+node.id+"?format=js";
       };
-      $.pjax({
-        url: url,
-        container: "[data-pjax-container]"
-      });
+      $.get(url);
     });
-    $('#criteria-tree').bind(
+    $('#criteria-tree').on(
     'tree.move',
     function(event) {
       var moved_node = event.move_info.moved_node,
@@ -87,14 +84,14 @@ function build_tree(root_id) {
       );
     });
   };
-  $(".edit-button").bind("click", function() {
+  $(".edit-button").on("click", function() {
     if (confirm('Moving a criterion to a different branch will erase any existing comparisons related to the originating and the target branch. \n\nProceed?')) {
       $(this).hide();
       $('.handle').show();
       $('.done-button').show();
     };
   });
-  $(".done-button").bind("click", function() {
+  $(".done-button").on("click", function() {
     $(this).hide();
     $(".edit-button").show();
     $(".handle").hide();
@@ -104,7 +101,9 @@ function build_tree(root_id) {
 
 $(function() {
   // Tree
-  if ($('#criteria-tree').length > 0) $('#criteria-tree').live(build_tree($('#criteria-tree').data('node')));
+  if ($('#criteria-tree').length > 0) { 
+    build_tree($('#criteria-tree').data('node'));
+  };
 
   // Participant
   $("li.participant").bind("click", function(){
@@ -118,9 +117,8 @@ $(function() {
       criterionId = $("#criteria-tree").attr("data-node");
     else
       criterionId = $("ul.tree").find(".selected").attr("id");
-    $.pjax({
-      url: "/criteria/"+criterionId+"?p="+$(this).parent("li").attr('id'),
-      container: "[data-pjax-container]"
+    $.ajax({
+      url: "/criteria/"+criterionId+"?p="+$(this).parent("li").attr('id')
     });
     event.preventDefault();
   })

@@ -8,7 +8,7 @@ class Criterion < ApplicationRecord
   scope :root, -> { where parent:nil }
 
   def to_tree
-    Criteria::Tree.build_tree(self) {|c| c.attributes.slice("id","title") }
+    Criteria::Tree.build_tree(Criterion.includes(children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
   end
 
   def root?

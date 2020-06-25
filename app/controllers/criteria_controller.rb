@@ -2,7 +2,7 @@ class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
   before_action :set_criterion, only: [:show, :edit, :update, :destroy]
-  before_action :set_tree, only: [:show, :index, :edit, :new]
+  before_action :set_tree, only: [:index, :edit, :new]
 
   # GET /article/1/criteria
   # GET /article/1/criteria.json
@@ -13,9 +13,14 @@ class CriteriaController < ApplicationController
   # GET /criteria/1
   # GET /criteria/1.json
   def show
+    @article = @criterion.article
     @criteria = @article.criteria.all
     @evaluation = nil
     @table = nil
+    respond_to do |format|
+      format.html { @tree = @article.criteria.first.to_tree }
+      format.js 
+    end
   end
 
   # GET /articles/1/criteria/new
@@ -23,6 +28,14 @@ class CriteriaController < ApplicationController
     @parent = Criterion.find(params[:id])
     @criterion = @article.criteria.new
     @criteria = @article.criteria.all
+  end
+
+  def tree
+    @root = Criterion.find(params[:id]).to_tree
+
+    respond_to do |format|
+      format.json { render 'tree', locals: {node: @root}}
+    end
   end
 
   # GET /criteria/1/edit

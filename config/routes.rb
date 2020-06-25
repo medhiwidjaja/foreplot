@@ -21,4 +21,10 @@ Rails.application.routes.draw do
     resources :criteria, shallow: true
   end
 
+  resources :criteria, only: [:show, :edit, :create, :destroy] do
+    member do
+      get :tree
+    end
+  end
+
 end
