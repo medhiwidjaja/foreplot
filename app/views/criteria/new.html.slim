@@ -1,30 +1,31 @@
-- page_title "Criterion: #{@criterion.title}"
+- page_title "New Criterion"
 
 - content_for :left_frame do
-	= render partial: 'sidepanel', locals: { root_id: @tree.root.id }
+	= render partial: 'sidepanel'
 
-.widget
-	.widget-header
-		i.icon-sitemap
-		h3 Create new criterion
-	.well.well-widget-content
-		.section
-			.widget-content-title Parent node
-			h3 = @parent.title
-		.section
-			.section-title Criterion
-			
-			- if @criterion.errors.any?
-			  .alert.alert-error
-			    a.close data-dismiss="alert" ×
-			    | Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
+#container-box
+	.widget
+		.widget-header
+			i.icon-sitemap
+			h3 Create new criterion
+		.well.well-widget-content
+			.section
+				.widget-content-title Parent node
+				h3 = @parent.title
+			.section
+				.section-title Criterion
+				
+				- if @criterion.errors.any?
+					.alert.alert-error
+						a.close data-dismiss="alert" ×
+						| Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
-			= form_for @criterion, url: create_sub_criterion_path(@criterion.id) do |f|
-				== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
-				br
-				#toolbar.button-toolbar
-					= f.submit 'Save', class:"btn btn-primary"
-					' &nbsp;
-					= link_to criterion_path(@return_id), class:'btn' do
-						i.icon-remove
-						|  Cancel
+				= form_for @criterion, url: create_sub_criterion_path(@parent.id) do |f|
+					== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
+					br
+					#toolbar.button-toolbar
+						= f.submit 'Save', class:"btn btn-primary"
+						' &nbsp;
+						= link_to criterion_path(@return_id), class:'btn' do
+							i.icon-remove
+							|  Cancel

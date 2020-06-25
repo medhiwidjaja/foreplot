@@ -9,11 +9,6 @@ function build_tree(root_id) {
         onCreateLi: function(node, $li, is_selected) {
           if (node.children.length == 0) {
             $li.find('.jqtree-title').before('<i class="icon-leaf"></i> ');
-          } else {
-            if (node.parent.parent)
-              $li.find('.jqtree-title').before('<i class="icon-th-list"></i> ');
-            else
-              $li.find('.jqtree-title').before('<i class="icon-screenshot"></i> ');
           };
           if (node.weights_incomplete) {
             $li.attr('data-incomplete', true)
@@ -56,7 +51,7 @@ function build_tree(root_id) {
     function(event) {
       var node = event.node;
       $("#add-criterion").slideDown();
-      $("a#add-sub").attr("href", "/criteria/"+node.id+"/new_sub");
+      $("a#add-sub").attr("href", "/criteria/"+node.id+"/new");
       $("a#summary").attr("href", "/criteria/"+node.id+"/aggregate_summary");
       $("a#detail").attr("href", "/criteria/"+node.id+"/aggregate_detail");
       var part = $("li.participant.active").attr("id");

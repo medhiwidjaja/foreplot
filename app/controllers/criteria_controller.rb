@@ -1,7 +1,7 @@
 class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
-  before_action :set_criterion, only: [:show, :edit, :update, :destroy]
+  before_action :set_criterion, only: [:show, :new, :edit, :update, :destroy]
   before_action :set_tree, only: [:index, :edit, :new]
 
   # GET /article/1/criteria
@@ -23,7 +23,7 @@ class CriteriaController < ApplicationController
     end
   end
 
-  # GET /articles/1/criteria/new
+  # GET /criteria/1/new
   def new
     @parent = Criterion.find(params[:id])
     @criterion = @article.criteria.new
@@ -98,7 +98,7 @@ class CriteriaController < ApplicationController
       else 
         @article = @criterion.article
       end
-      @tree = @article.criteria.first.to_tree
+      @tree = @article.criteria.root.to_tree
     end
 
     # Only allow a list of trusted parameters through.
