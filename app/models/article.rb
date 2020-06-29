@@ -2,8 +2,8 @@ class Article < ApplicationRecord
   validates :title, presence: true 
 
   belongs_to :user
-  has_many :alternatives
-  has_many :criteria
+  has_many :alternatives, dependent: :destroy
+  has_many :criteria, dependent: :destroy
   
   scope :owned_by, -> (user) { where user: user }
 
