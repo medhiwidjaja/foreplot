@@ -15,6 +15,7 @@
 			.controls
 				= form.text_field :abbrev
 
+= form.hidden_field :parent_id, value: params[:id]
 .control-group
 	= form.label :description, class: 'control-label'
 	= form.text_area :description, class: 'input-xxlarge wysihtml5', rows: 10

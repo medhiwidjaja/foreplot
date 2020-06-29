@@ -43,10 +43,11 @@ class CriteriaController < ApplicationController
     @criteria = @article.criteria.all
   end
 
-  # POST /article/1/criteria
-  # POST /article/1/criteria.json
+  # POST /criteria/1
+  # POST /criteria/1.json
   def create
-    @article = Article.find params[:article_id]
+    @parent = Criterion.find(params[:id])
+    @article = @parent.article
     @criterion = @article.criteria.new(criterion_params)
 
     respond_to do |format|
@@ -103,6 +104,6 @@ class CriteriaController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def criterion_params
-      params.require(:criterion).permit(:title, :description, :abbrev, :position, :article_id)
+      params.require(:criterion).permit(:title, :description, :abbrev, :position, :eval_method, :comparison_type, :parent_id, :article_id)
     end
 end

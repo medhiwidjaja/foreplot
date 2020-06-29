@@ -32,21 +32,13 @@ RSpec.describe "Criterion", type: :request do
         criterion = @article.criteria.create! valid_attributes
         get criterion_path(criterion)
         expect(response).to be_successful
+        assert_select("h3", text: 'Criterion 1')
       end
     end
 
     describe "GET #new" do
       it "returns a success response" do
-        parent = @article.criteria.create! valid_attributes
-        get new_criterion_path(parent)
-        expect(response).to be_successful
-      end
-    end
-
-    describe "GET #edit" do
-      it "returns a success response" do
-        criterion = @article.criteria.create! valid_attributes
-        get edit_criterion_path(criterion)
+        get new_criterion_path(root)
         expect(response).to be_successful
       end
     end
@@ -55,22 +47,30 @@ RSpec.describe "Criterion", type: :request do
       context "with valid params" do
         it "creates a new criterion" do
           expect {
-            post article_criteria_path(@article), params: {criterion: valid_attributes}
+            post criterion_path(root), params: {criterion: valid_attributes}
           }.to change(Criterion, :count).by(1)
         end
 
         it "redirects to the created criterion" do
-          post article_criteria_path(@article), params: {criterion: valid_attributes}
+          post criterion_path(root), params: {criterion: valid_attributes}
           expect(response).to redirect_to(@article.criteria.last)
         end
       end
 
       context "with invalid params" do
         it "returns a success response (i.e. to display the 'new' template)" do
-          post article_criteria_path(@article), params: {criterion: invalid_attributes}
+          post criterion_path(root), params: {criterion: invalid_attributes}
           expect(response).to be_successful
           expect(response).to render_template(:new)
         end
+      end
+    end
+
+    describe "GET #edit" do
+      it "returns a success response" do
+        criterion = @article.criteria.create! valid_attributes
+        get edit_criterion_path(criterion)
+        expect(response).to be_successful
       end
     end
 

@@ -20,7 +20,7 @@
 						a.close data-dismiss="alert" ×
 						| Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
-				= form_for @criterion, url: create_sub_criterion_path(@parent) do |f|
+				= form_with model: @criterion, url: create_sub_criterion_path(@parent) do |f|
 					== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
 					br
 					#toolbar.button-toolbar
