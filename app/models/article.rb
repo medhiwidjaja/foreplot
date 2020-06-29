@@ -10,6 +10,7 @@ class Article < ApplicationRecord
   accepts_nested_attributes_for :alternatives
   
   after_create :create_goal
+  before_save :check_goal
 
   def visibility
     private ? 'Private' : 'Public'
@@ -18,6 +19,10 @@ class Article < ApplicationRecord
   private
   def create_goal
     criteria.create title: title
+  end
+
+  def check_goal
+    create_goal if criteria.blank?
   end
 
 end
