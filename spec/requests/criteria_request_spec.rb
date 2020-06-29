@@ -37,7 +37,8 @@ RSpec.describe "Criterion", type: :request do
 
     describe "GET #new" do
       it "returns a success response" do
-        get new_article_criterion_path(@article)
+        parent = @article.criteria.create! valid_attributes
+        get new_criterion_path(parent)
         expect(response).to be_successful
       end
     end
