@@ -17,6 +17,18 @@ RSpec.describe Article, type: :model do
     it { is_expected.not_to be_valid }
   end
 
+  describe "creation of article goal" do
+    it "creates goal when created for the first time" do
+      expect { article.save }.to change { article.criteria.count }.by(1)
+    end
+
+    it "checks for article goal everytime it's saved" do
+      article.save
+      article.criteria.destroy_all
+      expect { article.save }.to change { article.criteria.count }.by(1)
+    end
+  end
+
   context "when the owner is changed" do
     before { article.user = darcy }
     it "belongs to the new owner" do
