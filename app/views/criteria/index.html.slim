@@ -7,13 +7,6 @@ title Criteria
 
 #container-box
 	-unless @root.nil?
-		-if !@root.persisted?
-			- @criterion.title = @article.title
-			= render partial: 'new_form', locals: { article: @article, 
-																	criterion: @criterion, 
-																	root: @root, 
-																	article_id: @article_id }	
-		-else
-			= render partial: 'table', locals: { criterion: @root, table: @table }
+		= render partial: 'table', locals: { criterion: @root, table: @table }
 
 

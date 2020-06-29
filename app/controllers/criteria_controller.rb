@@ -8,6 +8,9 @@ class CriteriaController < ApplicationController
   # GET /article/1/criteria.json
   def index
     @criteria = @article.criteria.all
+    @root = @criteria.root
+    # Stub this for now
+    @table = @criteria.map {|c| {no: 1, title: c.title, weight: 0.2 }}
   end
 
   # GET /criteria/1
@@ -18,7 +21,7 @@ class CriteriaController < ApplicationController
     @evaluation = nil
     @table = nil
     respond_to do |format|
-      format.html { @tree = @article.criteria.first.to_tree }
+      format.html { @tree = @article.criteria.root.to_tree }
       format.js 
     end
   end
@@ -41,12 +44,14 @@ class CriteriaController < ApplicationController
   # GET /criteria/1/edit
   def edit
     @criteria = @article.criteria.all
+    @parent_id = @criterion.parent_id
   end
 
   # POST /criteria/1
   # POST /criteria/1.json
   def create
-    @parent = Criterion.find(params[:id])
+    @parent_id = params[:id]
+    @parent = Criterion.find @parent_id
     @article = @parent.article
     @criterion = @article.criteria.new(criterion_params)
 

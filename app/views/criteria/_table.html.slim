@@ -26,11 +26,12 @@
             i.icon-plus
             | New subcriterion
 
-    -if (@evaluation.nil?)
-      .section
-        .alert.alert-info
-         | The user has not made any evaluation for this criterion
-    -elsif !criterion.children.empty?
+    / -if (@evaluation.nil?)
+    /   .section
+    /     .alert.alert-info
+    /      | The user has not made any evaluation for this criterion
+    / -elsif !criterion.children.empty?
+    - unless criterion.children.empty?
       .section
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
