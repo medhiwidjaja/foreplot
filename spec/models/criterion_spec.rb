@@ -29,6 +29,12 @@ RSpec.describe Criterion, type: :model do
     it "has 3 children" do
       expect(@tree.children.count).to eq(3)
     end
-    
   end 
+
+  describe "associations" do
+    it { expect(described_class.reflect_on_association(:children).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:parent).macro).to eq(:belongs_to) }
+    it { expect(described_class.reflect_on_association(:article).macro).to eq(:belongs_to) }
+  end
+
 end

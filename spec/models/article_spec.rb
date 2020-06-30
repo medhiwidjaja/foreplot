@@ -12,6 +12,11 @@ RSpec.describe Article, type: :model do
     it { is_expected.to be_valid }
   end
 
+  context "when input is incorrect" do
+    before { article.title = nil }
+    it { is_expected.not_to be_valid }
+  end
+
   describe "when user is not present" do
     before { article.user = nil }
     it { is_expected.not_to be_valid }
@@ -34,6 +39,14 @@ RSpec.describe Article, type: :model do
     it "belongs to the new owner" do
       expect(article.user_id).to be(darcy.id)
     end
+  end
+
+  describe "associations" do
+    it { expect(described_class.reflect_on_association(:alternatives).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:criteria).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:votes).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:members).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to) }
   end
 
 end

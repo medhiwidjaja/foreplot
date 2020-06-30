@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :member do
-    article { nil }
-    user { nil }
-    role { "MyString" }
-    active { false }
+    article factory: :article 
+    user    factory: :user 
+    role    { "Editor" }
+    active  { true }
   end
 end

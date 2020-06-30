@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :vote do
-    article { nil }
-    user { nil }
-    member { nil }
-    weight { "9.99" }
-    weight_n { "9.99" }
+    article   factory: :article 
+    user      factory: :user
+    member    factory: :member
+    weight    { "9.9" }
+    weight_n  { "0.2" }
   end
 end
