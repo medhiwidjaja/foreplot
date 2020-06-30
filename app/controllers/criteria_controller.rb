@@ -10,7 +10,7 @@ class CriteriaController < ApplicationController
     @criteria = @article.criteria.all
     @root = @criteria.root
     # Stub this for now
-    @table = @criteria.map {|c| {no: 1, title: c.title, weight: 0.2 }}
+    @table = @root.children.map {|c| {no: 1, title: c.title, weight: 0.2 }}
   end
 
   # GET /criteria/1
@@ -19,7 +19,7 @@ class CriteriaController < ApplicationController
     @article = @criterion.article
     @criteria = @article.criteria.all
     @evaluation = nil
-    @table = nil
+    @table = @criterion.children.map {|c| {no: 1, title: c.title, weight: 0.2 }}
     respond_to do |format|
       format.html { @tree = @article.criteria.root.to_tree }
       format.js 
@@ -29,6 +29,7 @@ class CriteriaController < ApplicationController
   # GET /criteria/1/new
   def new
     @parent = Criterion.find(params[:id])
+    @parent_id = @parent.id
     @criterion = @article.criteria.new
     @criteria = @article.criteria.all
   end

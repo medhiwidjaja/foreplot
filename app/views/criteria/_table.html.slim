@@ -35,10 +35,10 @@
       .section
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
-        -unless @evaluation.valid
-          .alert.alert-error
-            a.close data-dismiss="alert" ×
-            | One or more criterions have been deleted. You may want to reevaluate all rankings.
+        / -unless @evaluation.valid
+        /   .alert.alert-error
+        /     a.close data-dismiss="alert" ×
+        /     | One or more criterions have been deleted. You may want to reevaluate all rankings.
         -unless @table.nil?
           / -unless @evaluation.eval_method.nil?
           / 	-if @criterion.has_incomplete_scores_by? @participation_id
@@ -74,7 +74,7 @@
               - @table.each do |row|
                 tr
                   td = row[:no]
-                  td = link_to row[:title], criterion_path(row[:id]), class:'pjax'
+                  td = row[:title]
                   / -if @evaluation.method_is_magiq?
                   / 	td.number = row[:order]
                   td.number 
@@ -85,7 +85,7 @@
                     .progress
                       .bar style="width: #{row[:ratio]}%"
 
-      = render partial: 'toolbar', locals: { read_only: false }
+      /= render partial: 'toolbar', locals: { read_only: false }
 
 
 
