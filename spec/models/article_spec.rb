@@ -44,7 +44,6 @@ RSpec.describe Article, type: :model do
   describe "associations" do
     it { expect(described_class.reflect_on_association(:alternatives).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:criteria).macro).to eq(:has_many) }
-    it { expect(described_class.reflect_on_association(:votes).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:members).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to) }
   end
