@@ -5,7 +5,7 @@ module Foreplot
     # Input: choices in an array of hash of (id, value)
     # e.g.: [{id:1, value:1.0},{id:2, value:2.0},{id:3, value:4.0}]
     # Output: results array
-    # [{:id=>1, :value=>1.0, :score=>0.14285714285714285}, {:id=>2, :value=>2.0, :score=>0.2857142857142857}, {:id=>3, :value=>4.0, :score=>0.5714285714285714}]
+    # [{:id=>3, :value=>4.0, :score=>0.5714285714285714, :score_n=>0.5714285714285714, :rank=>1}, {:id=>2, :value=>2.0, :score=>0.2857142857142857, :score_n=>0.2857142857142857, :rank=>2}, {:id=>1, :value=>1.0, :score=>0.14285714285714285, :score_n=>0.14285714285714285, :rank=>3}]
     
     class DirectRanking
       attr_reader :results, :total
