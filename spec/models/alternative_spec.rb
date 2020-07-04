@@ -24,5 +24,6 @@ RSpec.describe Alternative, type: :model do
     it { expect(described_class.reflect_on_association(:properties).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:rankings).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:article).macro).to eq(:belongs_to) }
+    it { expect(described_class.reflect_on_association(:comparisons).macro).to eq(:has_many) }
   end
 end

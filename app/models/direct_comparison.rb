@@ -1,0 +1,2 @@
+class DirectComparison < Comparison
+end

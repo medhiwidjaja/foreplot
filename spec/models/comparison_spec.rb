@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Comparison, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe DirectComparison, type: :model do
+  describe "association with owner model" do
+    it { expect(described_class.reflect_on_association(:comparable).macro).to eq(:belongs_to) }
+  end
 end

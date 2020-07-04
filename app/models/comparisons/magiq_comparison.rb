@@ -1,0 +1,2 @@
+class MagiqComparison < Comparison
+end
