@@ -13,6 +13,7 @@ class CreateComparisons < ActiveRecord::Migration[5.2]
       t.integer :rank_no
       t.string :rank_method
       t.decimal :consistency
+      t.string :type
 
       t.timestamps
     end

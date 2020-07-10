@@ -1,2 +1,0 @@
-class AhpComparison < Comparison
-end

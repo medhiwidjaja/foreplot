@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_125304) do
+ActiveRecord::Schema.define(version: 2020_07_08_115547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_07_01_125304) do
     t.integer "rank_no"
     t.string "rank_method"
     t.decimal "consistency"
+    t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comparable_type", "comparable_id"], name: "index_comparisons_on_comparable_type_and_comparable_id"
@@ -85,6 +86,18 @@ ActiveRecord::Schema.define(version: 2020_07_01_125304) do
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_members_on_article_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "pairwise_comparisons", force: :cascade do |t|
+    t.integer "comparable1_id"
+    t.string "comparable1_type"
+    t.integer "comparable2_id"
+    t.string "comparable2_type"
+    t.bigint "ahp_comparison_id"
+    t.decimal "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ahp_comparison_id"], name: "index_pairwise_comparisons_on_ahp_comparison_id"
   end
 
   create_table "properties", force: :cascade do |t|
