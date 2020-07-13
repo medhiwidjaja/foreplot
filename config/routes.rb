@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # Users
   resources :users
   get  '/signup' => 'users#signup'
-  post '/signup' => 'users#create'
+  post 'signup' => 'users#create'
 
   # Articles
   resources :articles do
@@ -23,14 +23,26 @@ Rails.application.routes.draw do
   end
   
   # Criteria
-  get '/articles/:article_id/criteria' => 'criteria#index', as: :article_criteria
-  get '/criteria/:id/tree'  => 'criteria#tree', as: :criteria_tree
-  get '/criteria/:id'       => 'criteria#show', as: :criterion
-  get '/criteria/:id/new'   => 'criteria#new',  as: :new_criterion
-  get '/criteria/:id/edit'  => 'criteria#edit', as: :edit_criterion
-  post '/criteria/:id'      => 'criteria#create', as: :create_sub_criterion
-  patch '/criteria/:id'     => 'criteria#update'
-  put '/criteria/:id'       => 'criteria#update'
-  delete '/criteria/:id'    => 'criteria#destroy'
+  controller :criteria do
+    get 'articles/:article_id/criteria' => :index, as: :criteria_article
+    get 'criteria/:id/tree'  => :tree,   as: :criteria_tree
+    get 'criteria/:id'       => :show,   as: :criterion
+    get 'criteria/:id/new'   => :new,    as: :new_criterion
+    get 'criteria/:id/edit'  => :edit,   as: :edit_criterion
+    post 'criteria/:id'      => :create, as: :create_sub_criterion
+    patch 'criteria/:id'     => :update
+    put 'criteria/:id'       => :update
+    delete 'criteria/:id'    => :destroy
+  end
+
+  # Assay
+  controller :assay do
+    get 'criteria/:criterion_id/assays/direct'   => :direct,   as: :criterion_assay_direct
+    get 'criteria/:criterion_id/assays/rank'     => :rank,     as: :criterion_assay_rank
+    get 'criteria/:criterion_id/assays/pairwise' => :pairwise, as: :criterion_assay_pairwise
+    post 'criteria/:criterion_id/assays'         => :create,   as: :create_criterion_assay
+    patch 'assays/:id'                           => :update,   as: :update_assay
+    delete 'assays/:id'                          => :update,   as: :destroy_assay
+  end
 
 end

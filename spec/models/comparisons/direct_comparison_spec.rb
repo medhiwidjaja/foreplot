@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe DirectComparison, type: :model do
   
-  let (:criterion) { create :criterion, :with_3_children }
-  let (:comparables ) { criterion.children }
+  let (:root) { create :criterion, :with_assay, :with_3_children }
+  let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2 }
+    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, assay: root.assay }
   }
   before {
-    comparables.each { |c| c.direct_comparisons << DirectComparison.create(valid_attributes) }
+    comparables.each { |c| 
+      c.direct_comparisons << DirectComparison.create(valid_attributes) 
+    }
     @comparison = comparables.first.direct_comparisons.first
   }
 
@@ -16,7 +18,7 @@ RSpec.describe DirectComparison, type: :model do
 
   describe "with valid data" do
     it "is valid" do
-      expect(@comparison.valid?).to eq(true)
+      expect(@comparison).to be_valid
     end
 
     it "holds reference to the criterion" do

@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe MagiqComparison, type: :model do
   
-  let (:criterion) { create :criterion, :with_3_children }
-  let (:comparables ) { criterion.children }
+  let (:root) { create :criterion, :with_assay, :with_3_children }
+  let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', rank_no: 1.0, rank_method: 'rank_order_centroid', score: 0.2, score_n: 0.2 }
+    { title: 'Title', rank_no: 1.0, rank_method: 'rank_order_centroid', score: 0.2, score_n: 0.2, assay: root.assay }
   }
   before {
     comparables.each { |c| c.magiq_comparisons << MagiqComparison.create(valid_attributes) }
@@ -16,7 +16,7 @@ RSpec.describe MagiqComparison, type: :model do
 
   describe "with valid data" do
     it "is valid" do
-      expect(@comparison.valid?).to eq(true)
+      expect(@comparison).to be_valid
     end
 
     it "holds reference to the criterion" do

@@ -18,5 +18,11 @@ FactoryBot.define do
         end
       end
     end 
+
+    trait :with_assay do
+      after :create do |criterion|
+        create :assay, criterion: criterion
+      end
+    end
   end
 end

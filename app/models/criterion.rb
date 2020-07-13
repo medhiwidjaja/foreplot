@@ -6,6 +6,7 @@ class Criterion < ApplicationRecord
   has_many :direct_comparisons, as: :comparable, dependent: :destroy
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
+  has_one  :assay
 
   validates :title, presence: true
 
