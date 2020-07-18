@@ -7,7 +7,7 @@
 	= render partial: 'criteria/sidepanel'
 
 #container-box
-	- unless @assay.valid?
+	- unless @appraisal.valid?
 		.alert.alert-error
 			a.close data-dismiss="alert" ×
 			| One or more criterions have been deleted. You may want to reevaluate all weightings.

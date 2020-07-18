@@ -36,7 +36,7 @@ RSpec.describe Criterion, type: :model do
     it { expect(described_class.reflect_on_association(:parent).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:article).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:comparisons).macro).to eq(:has_many) }
-    it { expect(described_class.reflect_on_association(:assay).macro).to eq(:has_one) }
+    it { expect(described_class.reflect_on_association(:appraisal).macro).to eq(:has_one) }
   end
 
 end

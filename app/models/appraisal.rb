@@ -1,4 +1,4 @@
-class Assay < ApplicationRecord
+class Appraisal < ApplicationRecord
   belongs_to :criterion
   belongs_to :member
 

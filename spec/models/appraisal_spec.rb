@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe Assay, type: :model do
+RSpec.describe Appraisal, type: :model do
   let(:criterion) { create :criterion }
   let(:member)    { create :member }
-  let(:assay) { create :assay, criterion: criterion, member: member }
+  let(:appraisal) { create :appraisal, criterion: criterion, member: member }
 
-  subject { assay }
+  subject { appraisal }
 
   context "when input is correct" do
-    it { is_expected.to respond_to(:assay_method) } 
+    it { is_expected.to respond_to(:appraisal_method) } 
     it { is_expected.to respond_to(:is_valid) } 
     it { is_expected.to be_valid }
   end

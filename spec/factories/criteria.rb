@@ -19,9 +19,9 @@ FactoryBot.define do
       end
     end 
 
-    trait :with_assay do
+    trait :with_appraisal do
       after :create do |criterion|
-        create :assay, criterion: criterion
+        create :appraisal, criterion: criterion
       end
     end
   end

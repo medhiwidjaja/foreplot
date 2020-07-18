@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe AssayController, type: :controller do
+RSpec.describe AppraisalController, type: :controller do
 
 end

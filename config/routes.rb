@@ -35,14 +35,14 @@ Rails.application.routes.draw do
     delete 'criteria/:id'    => :destroy
   end
 
-  # Assay
-  controller :assays do
-    get 'criteria/:criterion_id/assays/direct'   => :direct,   as: :criterion_assay_direct
-    get 'criteria/:criterion_id/assays/rank'     => :rank,     as: :criterion_assay_rank
-    get 'criteria/:criterion_id/assays/pairwise' => :pairwise, as: :criterion_assay_pairwise
-    post 'criteria/:criterion_id/assays'         => :create,   as: :create_criterion_assay
-    patch 'assays/:id'                           => :update,   as: :update_assay
-    delete 'assays/:id'                          => :update,   as: :destroy_assay
+  # Appraisal
+  controller :appraisals do
+    get 'criteria/:criterion_id/appraisals/direct'   => :direct,   as: :criterion_appraisal_direct
+    get 'criteria/:criterion_id/appraisals/rank'     => :rank,     as: :criterion_appraisal_rank
+    get 'criteria/:criterion_id/appraisals/pairwise' => :pairwise, as: :criterion_appraisal_pairwise
+    post 'criteria/:criterion_id/appraisals'         => :create,   as: :create_criterion_appraisal
+    patch 'appraisals/:id'                           => :update,   as: :update_appraisal
+    delete 'appraisals/:id'                          => :update,   as: :destroy_appraisal
   end
 
 end

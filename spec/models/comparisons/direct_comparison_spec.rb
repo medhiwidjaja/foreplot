@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe DirectComparison, type: :model do
   
-  let (:root) { create :criterion, :with_assay, :with_3_children }
+  let (:root) { create :criterion, :with_appraisal, :with_3_children }
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, assay: root.assay }
+    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: root.appraisal }
   }
   before {
     comparables.each { |c| 

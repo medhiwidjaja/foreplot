@@ -7,7 +7,7 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with url: create_criterion_assay_path, class: 'form-inline' do |form|
+    = form_with url: create_criterion_appraisal_path, class: 'form-inline' do |form|
       .section
         .section-title 
           = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
@@ -53,7 +53,7 @@
                   
                   / TODO: update the normalized weight using JavaScript
                   td.number 
-                    /- score = @assay.score_for_item(item)
+                    /- score = @appraisal.score_for_item(item)
                     /- weight_n = score.nil? ? nil : score.weight_n
                     | 0.0%
                     /input(class='input-small uneditable_input' type='text' value="#{weight_n.nil? ? '-' : number_to_percentage(weight_n*100, precision: 1)}" disabled)

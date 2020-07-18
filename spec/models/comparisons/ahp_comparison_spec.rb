@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe AhpComparison, type: :model do
   
-  let (:root) { create :criterion, :with_assay, :with_3_children }
+  let (:root) { create :criterion, :with_appraisal, :with_3_children }
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', score: 0.2, score_n: 0.2, assay: root.assay }
+    { title: 'Title', score: 0.2, score_n: 0.2, appraisal: root.appraisal }
   }
   before {
     comparables.each { |c| c.ahp_comparisons << AhpComparison.create(valid_attributes) }
