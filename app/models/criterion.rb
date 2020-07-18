@@ -6,7 +6,7 @@ class Criterion < ApplicationRecord
   has_many :direct_comparisons, as: :comparable, dependent: :destroy
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
-  has_one  :assay
+  has_one  :appraisal
 
   validates :title, presence: true
 
@@ -26,5 +26,11 @@ class Criterion < ApplicationRecord
     children.empty?
   end
 
-
+  def evaluatees
+    if leaf?
+      article.alternatives
+    else
+      children
+    end
+  end
 end
