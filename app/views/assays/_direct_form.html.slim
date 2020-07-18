@@ -1,0 +1,131 @@
+.widget
+  .widget-header
+    i.icon-file
+    h3 Assign weights using SMART method
+  .well.well-widget-content
+    .section style="padding-bottom: 10px"
+      .widget-content-title With respect to:
+      h3 = @criterion.title
+
+    = form_with url: create_criterion_assay_path, class: 'form-inline' do |form|
+      .section
+        .section-title 
+          = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+        a.info-button data-toggle="collapse" data-target="#help-info" href="#" 
+          i.icon-question-sign
+
+        #help-info.collapse
+          .alert.alert-info
+            -if @criterion.leaf?
+              | Input the rating of each alternative with respect to the above criterion.
+                
+            -else
+              | Input the weight of each criterion with respect to the above 
+                objective criterion in the form below. 
+                The weight will be normalized so that the total is equal to 100%.
+
+        table.table.table-condensed.table-bordered.objectives-table
+          thead
+            tr
+              th No.
+              th Title
+              th.number = @criterion.leaf? ? 'Rating' : 'Weight' 
+              th.number = @criterion.leaf? ? 'Score' : 'Normalized weight'
+          tbody#table-body
+            -@direct_comparisons.each do |comparison|
+              tr
+                = form.fields_for :direct_comparisons, comparison do |f|
+                  = f.hidden_field :comparable_id
+                  - item = comparison.comparable
+                  td.narrow = "#{item.position + 1}"
+                  td.wide = item.title
+                  td.number 
+                    = f.text_field :value, class:'input-small weight'
+                    / -unless @criterion.property_link.blank?
+                    /   -property_value = item.properties.where(k:@criterion.property_link).first.v
+                    /   = text_field_tag :value, property_value, class:'input-small uneditable_input', disabled:true
+                    /   = f.hidden_field :value, value:property_value
+                    / -else
+                    /   -if can? :update, @evaluation
+                    /     = f.text_field :value, class:'input-small weight'
+                    /   -else
+                    /     input(class='input-small uneditable_input' type='text' value="#{comparison.value}" disabled)
+                  
+                  / TODO: update the normalized weight using JavaScript
+                  td.number 
+                    /- score = @assay.score_for_item(item)
+                    /- weight_n = score.nil? ? nil : score.weight_n
+                    | 0.0%
+                    /input(class='input-small uneditable_input' type='text' value="#{weight_n.nil? ? '-' : number_to_percentage(weight_n*100, precision: 1)}" disabled)
+
+        br
+      #notes-section.collapse
+        .section style="margin-top:0px"
+          .section-title Notes
+          = form.text_area :notes, class: 'input-xxlarge wysihtml5', rows: 10
+
+      / -if @criterion.leaf?
+      /   #option-section.collapse
+      /     .section style="margin-top:0px"
+      /       .section-title Option Settings
+          
+      /       a.info-button data-toggle="collapse" data-target="#range-help-info" href="#" 
+      /         i.icon-question-sign
+      /       #range-help-info.collapse
+      /         .alert.alert-info
+      /           | Specify whether to maximize or minimize the rating score. Range values (minimum and maximum acceptable values) will be used to interpolate the rating values to get the score values. 
+      /       /div
+      /       .form-horizontal
+      /         .control-group
+      /           = form.label 'Rating numbers', class: 'control-label'
+      /           .controls
+      /             label.radio
+      /               = radio_button "evaluation", "minimize", false
+      /               | Maximize -- Bigger number is preferable
+
+      /             label.radio
+      /               = radio_button "evaluation", "minimize", true 
+      /               | Minimize -- Smaller number is preferable
+      /         .control-group
+      /           = form.label 'Rating range', class: 'control-label'
+      /           .controls
+      /             .input-prepend
+      /               span.add-on.narrow Min
+      /               = form.text_field :range_min, class:"number input-small"
+      /             .input-prepend
+      /               span.add-on.narrow Max
+      /               = form.text_field :range_max, class:"number input-small"
+
+      /         .control-group
+      /           = form.label 'Normalize', class: 'control-label'
+      /           .controls
+      /             label.checkbox
+      /               = check_box "evaluation", "normalize"
+      /               | Convert scores so they add up to 1. 
+      /               br
+      /               | (Necessary if used in combination with other methods such as Rank or Pairwise comparisons)
+
+      #toolbar.button-toolbar
+        / -back_url = (@criterion.leaf? ? criterion_ratings_path(@criterion) : criterion_path(@criterion))+"?p=#{@participation_id}"
+        / -if can? :update, @evaluation
+        /   = submit_tag "Save", class: 'btn btn-primary', disabled:true, disable_with: 'Please wait...'
+        /   | &nbsp;
+        /   = link_to back_url, class: 'btn' do
+        /     i.icon-remove
+        /     |  Cancel
+        /   .pull-right
+        /     = link_to "#", data: {toggle:"collapse", target:"#notes-section"}, class: 'btn' do
+        /       i.icon-edit
+        /       '
+        /       | Add notes
+        /     -if @criterion.leaf?
+        /       = link_to "#", data: {toggle:"collapse", target:"#option-section"}, class: 'btn' do
+        /         i.icon-wrench
+        /         '
+        /         | Option Settings
+        / -else
+        button.btn disabled=true Save
+        ' 
+        = link_to :back, class: 'btn' do
+          i.icon-remove
+          |  Close

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_11_102516) do
+ActiveRecord::Schema.define(version: 2020_07_08_115547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,18 +39,6 @@ ActiveRecord::Schema.define(version: 2020_07_11_102516) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "assays", force: :cascade do |t|
-    t.bigint "criterion_id"
-    t.bigint "member_id"
-    t.boolean "is_valid"
-    t.string "assay_method"
-    t.boolean "is_complete"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["criterion_id"], name: "index_assays_on_criterion_id"
-    t.index ["member_id"], name: "index_assays_on_member_id"
-  end
-
   create_table "comparisons", force: :cascade do |t|
     t.integer "comparable_id"
     t.string "comparable_type"
@@ -67,8 +55,6 @@ ActiveRecord::Schema.define(version: 2020_07_11_102516) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "assay_id"
-    t.index ["assay_id"], name: "index_comparisons_on_assay_id"
     t.index ["comparable_type", "comparable_id"], name: "index_comparisons_on_comparable_type_and_comparable_id"
   end
 
@@ -164,9 +150,6 @@ ActiveRecord::Schema.define(version: 2020_07_11_102516) do
 
   add_foreign_key "alternatives", "articles"
   add_foreign_key "articles", "users"
-  add_foreign_key "assays", "criteria"
-  add_foreign_key "assays", "members"
-  add_foreign_key "comparisons", "assays"
   add_foreign_key "criteria", "articles"
   add_foreign_key "members", "articles"
   add_foreign_key "members", "users"

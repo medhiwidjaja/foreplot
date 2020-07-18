@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   end
 
   # Assay
-  controller :assay do
+  controller :assays do
     get 'criteria/:criterion_id/assays/direct'   => :direct,   as: :criterion_assay_direct
     get 'criteria/:criterion_id/assays/rank'     => :rank,     as: :criterion_assay_rank
     get 'criteria/:criterion_id/assays/pairwise' => :pairwise, as: :criterion_assay_pairwise
