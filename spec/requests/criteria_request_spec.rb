@@ -22,7 +22,7 @@ RSpec.describe "Criterion", type: :request do
     describe "GET #index" do
       it "returns a success response" do
         @article.criteria.create! valid_attributes
-        get article_criteria_path(@article)
+        get criteria_article_path(@article)
         expect(response).to be_successful
       end
     end
@@ -114,14 +114,14 @@ RSpec.describe "Criterion", type: :request do
       it "redirects to the criteria list" do
         criterion = @article.criteria.create! valid_attributes
         delete criterion_path(criterion)
-        expect(response).to redirect_to(article_criteria_url(@article))
+        expect(response).to redirect_to(criteria_article_url(@article))
       end
     end
 
     describe "showing a criterion" do
       it "shows the left menu panel and model edit menu" do
         criterion = @article.criteria.create! valid_attributes
-        get article_criteria_path(@article)
+        get criteria_article_path(@article)
         expect(response).to render_template("criteria/_sidepanel")
         expect(response).to render_template("shared/_model_edit_navbar")
       end

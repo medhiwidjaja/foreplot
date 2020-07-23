@@ -88,7 +88,7 @@ class CriteriaController < ApplicationController
     @article = @criterion.article
     @criterion.destroy
     respond_to do |format|
-      format.html { redirect_to article_criteria_url(@article), notice: 'Criterion was successfully destroyed.' }
+      format.html { redirect_to criteria_article_url(@article), notice: 'Criterion was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
