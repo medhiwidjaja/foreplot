@@ -13,6 +13,13 @@ RSpec.describe Appraisal, type: :model do
     it { is_expected.to be_valid }
   end
 
+  context "invalid data" do
+    describe "when member is missing" do
+      before { appraisal.member = nil }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:comparisons).macro).to eq(:has_many) }
