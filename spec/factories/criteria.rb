@@ -6,7 +6,7 @@ FactoryBot.define do
     cost                   { false }
     active                 { true }
     comparison_type        { 1 }
-    eval_method            { 1 }
+    appraisal_method       { 'direct' }
     property_name          { "Property Link" }
     sequence(:position)    { |n| n }
     article                factory: :article 
