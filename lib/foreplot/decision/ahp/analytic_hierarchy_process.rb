@@ -1,9 +1,6 @@
 module Foreplot
   module Decision 
 
-    # AHP Module contains the classes for modeling and calculating decision hierarchy using the AHP
-    # (Analytic Hierarchy Process) method.
-    # For background theory, see http://en.wikipedia.org/wiki/Analytic_hierarchy_process
     module Ahp
 
       class AnalyticHierarchyProcess 
@@ -26,17 +23,8 @@ module Foreplot
         # The largest lambda value corresponding to the eigenvectors
         # Returns the largest lambda and the row index needed to get the corresponding eigenvector
         def lambda_max
-          dmax = 0.0
-          idx = 0
-          lambdas = @node.eigenvalues
-          (0..lambdas.size-1).each do |i|
-            d = lambdas[i]
-            if d.real? && dmax < d.abs
-              dmax = d.abs
-              idx = i
-            end
-          end
-          [dmax, idx]
+          dmax = @node.eigenvalues.reject {|v| !v.real? }.max
+          [dmax, @node.eigenvalues.index(dmax)]
         end
     
         def lm
