@@ -6,7 +6,7 @@ class Criterion < ApplicationRecord
   has_many :direct_comparisons, as: :comparable, dependent: :destroy
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
-  has_one  :appraisal
+  has_many :appraisals
 
   validates :title, presence: true
 
@@ -34,7 +34,7 @@ class Criterion < ApplicationRecord
     end
   end
 
-  def comparison_method
-    appraisal_method || (appraisal ? appraisal.appraisal_method : nil)
-  end
+  # def comparison_method
+  #   appraisal_method || (appraisal ? appraisal.appraisal_method : nil)
+  # end
 end

@@ -20,6 +20,8 @@ class CriteriaController < ApplicationController
     @article = @criterion.article
     @criteria = @article.criteria.all
     @table = @criterion.children.map {|c| {no: 1, title: c.title, weight: 0.2 }}
+    appraisal_service = AppraisalService.new @criterion, @member
+    @comparison = appraisal_service.get_comparison
     respond_to do |format|
       format.html { @tree = @article.criteria.root.to_tree }
       format.js 

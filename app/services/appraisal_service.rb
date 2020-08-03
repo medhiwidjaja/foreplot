@@ -1,12 +1,11 @@
 class AppraisalService
   attr_reader :criterion, :appraisal, :appraisal_method
 
-  def initialize(criterion, comparison_method, member_id)
+  def initialize(criterion, member_id, comparison_method=nil)
     @criterion = criterion
-    @appraisal_method = comparison_method.to_s
-    @appraisal = Appraisal.find_or_initialize_by criterion_id: @criterion.id
-    @appraisal.appraisal_method = @appraisal_method
-    @appraisal.member_id = member_id
+    @appraisal = Appraisal.find_or_initialize_by criterion_id: criterion.id, member_id: member_id
+    @appraisal_method = @appraisal.appraisal_method || comparison_method
+    raise RunTimeError, 'appraisal_method cannot be nil' if @appraisal_method.nil?
   end
 
   def get_template
@@ -14,8 +13,7 @@ class AppraisalService
   end
 
   def get_comparisons
-    comparison_method_str = "#{appraisal_method.to_s}_comparisons"
-    comparisons = appraisal.public_send(comparison_method_str)
+    comparisons = appraisal.public_send(appraisal_method.pluralize.underscore)
     criterion.evaluatees.each do |evaluatee|
       comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title
     end if comparisons.size == 0

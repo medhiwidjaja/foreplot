@@ -1,19 +1,25 @@
 #toolbar.button-toolbar
   .btn-group.dropup
-    -if read_only 
-      -unless @appraisal.nil?
-        = link_to_comparison_method(comparison_method, criterion.id, @member.id, {class:'btn btn-primary', 'data-skip' => true}, true)
-      -else
-        button.btn.btn-primary.disabled No ratings
-    -else
-      = link_to_comparison_method(comparison_method || 'direct', criterion.id, @member.id, {class:'btn btn-primary', 'data-skip'=>true })
-      button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
-        span.caret
-      ul.dropdown-menu
-        li
-          = link_to_comparison_method('magiq', criterion.id, @member.id)
-        li
-          = link_to_comparison_method('direct', criterion.id, @member.id)
-        li
-          = link_to_comparison_method('ahp', criterion.id, @member.id)
+    - unless read_only
+      - if @comparison.present?
+        button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
+          span.caret
+        ul.dropdown-menu
+          li
+            = link_to_edit_comparison_method('MagiqComparison', criterion.id, @member.id)
+          li
+            = link_to_edit_comparison_method('DirectComparison', criterion.id, @member.id)
+          li
+            = link_to_edit_comparison_method('PairwiseComparison', criterion.id, @member.id)
+      - else
+        = link_to_new_comparison_method(comparison_method || 'DirectComparison', criterion.id, @member.id, {class:'btn btn-primary', 'data-skip'=>true })
+        button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
+          span.caret
+        ul.dropdown-menu
+          li
+            = link_to_new_comparison_method('MagiqComparison', criterion.id, @member.id)
+          li
+            = link_to_new_comparison_method('DirectComparison', criterion.id, @member.id)
+          li
+            = link_to_new_comparison_method('PairwiseComparison', criterion.id, @member.id)
         
