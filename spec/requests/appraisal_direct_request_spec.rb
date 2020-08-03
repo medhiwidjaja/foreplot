@@ -25,9 +25,12 @@ RSpec.describe "Appraisals", type: :request do
     end
 
     describe "POST #create" do
+      let(:appraisal_with_direct_comparison_attributes) {
+        attributes_for :appraisal, :with_direct_comparisons
+      }
       it "creates a new appraisal" do
         expect {
-          post create_criterion_appraisal_path(root), params: {appraisal: appraisal_attributes}
+          post create_criterion_appraisal_path(root), params: {appraisal: appraisal_with_direct_comparison_attributes}
         }.to change(Appraisal, :count).by(1)
       end
 

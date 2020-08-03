@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_08_115547) do
+ActiveRecord::Schema.define(version: 2020_07_24_023436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 2020_07_08_115547) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_alternatives_on_article_id"
+  end
+
+  create_table "appraisals", force: :cascade do |t|
+    t.bigint "criterion_id"
+    t.bigint "member_id"
+    t.boolean "is_valid"
+    t.string "appraisal_method"
+    t.boolean "is_complete"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["criterion_id"], name: "index_appraisals_on_criterion_id"
+    t.index ["member_id"], name: "index_appraisals_on_member_id"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -55,6 +67,8 @@ ActiveRecord::Schema.define(version: 2020_07_08_115547) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "appraisal_id"
+    t.index ["appraisal_id"], name: "index_comparisons_on_appraisal_id"
     t.index ["comparable_type", "comparable_id"], name: "index_comparisons_on_comparable_type_and_comparable_id"
   end
 
@@ -71,7 +85,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_115547) do
     t.bigint "article_id"
     t.integer "parent_id"
     t.string "comparison_type"
-    t.string "eval_method"
+    t.string "appraisal_method"
     t.index ["article_id"], name: "index_criteria_on_article_id"
   end
 
@@ -149,7 +163,10 @@ ActiveRecord::Schema.define(version: 2020_07_08_115547) do
   end
 
   add_foreign_key "alternatives", "articles"
+  add_foreign_key "appraisals", "criteria"
+  add_foreign_key "appraisals", "members"
   add_foreign_key "articles", "users"
+  add_foreign_key "comparisons", "appraisals"
   add_foreign_key "criteria", "articles"
   add_foreign_key "members", "articles"
   add_foreign_key "members", "users"

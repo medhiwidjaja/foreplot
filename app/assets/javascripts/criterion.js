@@ -50,7 +50,7 @@ function build_tree(root_id) {
     'tree.click',
     function(event) {
       var node = event.node;
-      $("#add-criterion").slideDown();
+      $("#add-criterion").show();
       $("a#add-sub").attr("href", "/criteria/"+node.id+"/new");
       $("a#summary").attr("href", "/criteria/"+node.id+"/aggregate_summary");
       $("a#detail").attr("href", "/criteria/"+node.id+"/aggregate_detail");

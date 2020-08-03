@@ -85,7 +85,7 @@
                     .progress
                       .bar style="width: #{row[:ratio]}%"
 
-      /= render partial: 'toolbar', locals: { read_only: false }
+      = render partial: 'toolbar', locals: { criterion: criterion, comparison_method: criterion.comparison_method, read_only: false }
 
 
 

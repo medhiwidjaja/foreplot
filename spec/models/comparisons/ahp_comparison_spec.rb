@@ -27,6 +27,5 @@ RSpec.describe AhpComparison, type: :model do
 
   describe "associations" do
     it { expect(described_class.reflect_on_association(:comparable).macro).to eq(:belongs_to) }
-    it { expect(described_class.reflect_on_association(:pairwise_comparisons).macro).to eq(:has_many) }
   end
 end

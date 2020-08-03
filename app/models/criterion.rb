@@ -33,4 +33,8 @@ class Criterion < ApplicationRecord
       children
     end
   end
+
+  def comparison_method
+    appraisal_method || (appraisal ? appraisal.appraisal_method : nil)
+  end
 end

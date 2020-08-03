@@ -23,5 +23,6 @@ RSpec.describe Appraisal, type: :model do
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:comparisons).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:pairwise_comparisons).macro).to eq(:has_many) }
   end
 end
