@@ -10,7 +10,7 @@ RSpec.feature "Criteria", type: :feature do
     before(:each) { login_as bingley, scope: :user }
 
     scenario "User creates a new criterion", js: true do
-      visit criteria_article_path(article)
+      visit article_criteria_path(article)
       within '.widget-header' do
         expect(page).to have_css('h3', text: "Goal:#{article.title}")
       end
@@ -32,7 +32,7 @@ RSpec.feature "Criteria", type: :feature do
     }
 
     scenario "User clicks a criterion link from the sidepanel", js: true do
-      visit criteria_article_path(article)
+      visit article_criteria_path(article)
       page.find('#criteria-tree').find('div.jqtree-element', text: 'Important criterion').click
       expect(page).to have_css('h3', text: 'Important criterion')
     end
