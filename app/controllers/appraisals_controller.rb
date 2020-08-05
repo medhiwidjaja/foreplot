@@ -63,7 +63,7 @@ class AppraisalsController < ApplicationController
       params.require(:appraisal).permit(:is_complete, :is_valid, :member_id, :criterion_id, :appraisal_method,
         comparisons_attributes: [
           :id, :comparable_id, :comparable_type, :title, :notes, :score, :score_n, :comparison_method, 
-          :value, :unit, :rank_no, :rank_method, :consistency, :type, :appraisal_id
+          :value, :unit, :rank, :rank_method, :consistency, :type, :appraisal_id
         ]
       )
     end

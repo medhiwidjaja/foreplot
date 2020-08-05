@@ -15,6 +15,13 @@ class DirectComparisonsController < ApplicationController
   end
 
   def create
+    @form = DirectComparisonsForm.new(direct_comparisons_form_params)
+    if @form.submit
+      redirect_to root_path, notice: 'Thank you for your registration'
+    else
+      flash[:error] = @form.errors.full_messages.to_sentence
+      render :new
+    end
   end
 
   def update
@@ -37,7 +44,11 @@ class DirectComparisonsController < ApplicationController
       @article = @criterion.article
     end
 
-    def direct_comparisons_params
-      params.require(:direct_comparison).permit(:comparable_id, :comparable_type, :title, :notes, :comparison_method, :value, :unit, :appraisal_id)
+    def direct_comparisons_form_params
+      params.require(:direct_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method,
+        {direct_comparisons_attributes: 
+          [:comparable_id, :comparable_type, :title, :notes, :comparison_method, :value, :unit, :appraisal_id,
+           :score, :score_n, :rank]
+        })
     end
 end
