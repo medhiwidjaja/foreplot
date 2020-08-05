@@ -1881,14 +1881,17 @@ table.alt-table {
     th.number {
         text-align: right;
     }
-    td.narrow {
+    th.narrow, td.narrow {
         width: 45px;
     }
-    td.wide {
-        width: 400px;
+    th.wide, td.wide {
+        width: 50%;
     }
-    td.number {
-        width: 100px;
+    th.w20 {
+        width: 20%;
+    }
+    th.number, td.number {
+        width: 20%;
         text-align: right !important;
         div, input {
             text-align: right !important;

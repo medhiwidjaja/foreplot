@@ -6,9 +6,23 @@ FactoryBot.define do
     cost                   { false }
     active                 { true }
     comparison_type        { 1 }
-    eval_method            { 1 }
+    appraisal_method       { 'direct' }
     property_name          { "Property Link" }
     sequence(:position)    { |n| n }
     article                factory: :article 
+
+    trait :with_3_children do
+      after :create do |criterion|
+        3.times do |i|
+          create :criterion, title: "Child ##{i+1}", parent: criterion
+        end
+      end
+    end 
+
+    trait :with_appraisal do
+      after :create do |criterion|
+        create :appraisal, criterion: criterion
+      end
+    end
   end
 end

@@ -32,6 +32,11 @@ RSpec.describe Article, type: :model do
       article.criteria.destroy_all
       expect { article.save }.to change { article.criteria.count }.by(1)
     end
+
+    it "creates default member" do
+      expect { article.save }.to change { article.members.count }.by(1)
+      expect(article.members.first.user).to eq(article.user)
+    end
   end
 
   context "when the owner is changed" do
@@ -44,7 +49,6 @@ RSpec.describe Article, type: :model do
   describe "associations" do
     it { expect(described_class.reflect_on_association(:alternatives).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:criteria).macro).to eq(:has_many) }
-    it { expect(described_class.reflect_on_association(:votes).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:members).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to) }
   end

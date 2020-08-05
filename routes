@@ -1,0 +1,65 @@
+                      Prefix Verb   URI Pattern                                                                              Controller#Action
+            new_user_session GET    /users/sign_in(.:format)                                                                 devise/sessions#new
+                user_session POST   /users/sign_in(.:format)                                                                 devise/sessions#create
+        destroy_user_session DELETE /users/sign_out(.:format)                                                                devise/sessions#destroy
+           new_user_password GET    /users/password/new(.:format)                                                            devise/passwords#new
+          edit_user_password GET    /users/password/edit(.:format)                                                           devise/passwords#edit
+               user_password PATCH  /users/password(.:format)                                                                devise/passwords#update
+                             PUT    /users/password(.:format)                                                                devise/passwords#update
+                             POST   /users/password(.:format)                                                                devise/passwords#create
+    cancel_user_registration GET    /users/cancel(.:format)                                                                  devise/registrations#cancel
+       new_user_registration GET    /users/sign_up(.:format)                                                                 devise/registrations#new
+      edit_user_registration GET    /users/edit(.:format)                                                                    devise/registrations#edit
+           user_registration PATCH  /users(.:format)                                                                         devise/registrations#update
+                             PUT    /users(.:format)                                                                         devise/registrations#update
+                             DELETE /users(.:format)                                                                         devise/registrations#destroy
+                             POST   /users(.:format)                                                                         devise/registrations#create
+                        root GET    /                                                                                        home#index
+                       users GET    /users(.:format)                                                                         users#index
+                             POST   /users(.:format)                                                                         users#create
+                    new_user GET    /users/new(.:format)                                                                     users#new
+                   edit_user GET    /users/:id/edit(.:format)                                                                users#edit
+                        user GET    /users/:id(.:format)                                                                     users#show
+                             PATCH  /users/:id(.:format)                                                                     users#update
+                             PUT    /users/:id(.:format)                                                                     users#update
+                             DELETE /users/:id(.:format)                                                                     users#destroy
+                      signup GET    /signup(.:format)                                                                        users#signup
+                             POST   /signup(.:format)                                                                        users#create
+                 my_articles GET    /articles/my(.:format)                                                                   articles#my
+        article_alternatives GET    /articles/:article_id/alternatives(.:format)                                             alternatives#index
+                             POST   /articles/:article_id/alternatives(.:format)                                             alternatives#create
+     new_article_alternative GET    /articles/:article_id/alternatives/new(.:format)                                         alternatives#new
+            edit_alternative GET    /alternatives/:id/edit(.:format)                                                         alternatives#edit
+                 alternative GET    /alternatives/:id(.:format)                                                              alternatives#show
+                             PATCH  /alternatives/:id(.:format)                                                              alternatives#update
+                             PUT    /alternatives/:id(.:format)                                                              alternatives#update
+                             DELETE /alternatives/:id(.:format)                                                              alternatives#destroy
+ update_alternatives_article PATCH  /articles/:id/update_alternatives(.:format)                                              articles#update_alternatives
+                    articles GET    /articles(.:format)                                                                      articles#index
+                             POST   /articles(.:format)                                                                      articles#create
+                 new_article GET    /articles/new(.:format)                                                                  articles#new
+                edit_article GET    /articles/:id/edit(.:format)                                                             articles#edit
+                     article GET    /articles/:id(.:format)                                                                  articles#show
+                             PATCH  /articles/:id(.:format)                                                                  articles#update
+                             PUT    /articles/:id(.:format)                                                                  articles#update
+                             DELETE /articles/:id(.:format)                                                                  articles#destroy
+            criteria_article GET    /articles/:article_id/criteria(.:format)                                                 criteria#index
+               criteria_tree GET    /criteria/:id/tree(.:format)                                                             criteria#tree
+                   criterion GET    /criteria/:id(.:format)                                                                  criteria#show
+               new_criterion GET    /criteria/:id/new(.:format)                                                              criteria#new
+              edit_criterion GET    /criteria/:id/edit(.:format)                                                             criteria#edit
+        create_sub_criterion POST   /criteria/:id(.:format)                                                                  criteria#create
+                             PATCH  /criteria/:id(.:format)                                                                  criteria#update
+                             PUT    /criteria/:id(.:format)                                                                  criteria#update
+                             DELETE /criteria/:id(.:format)                                                                  criteria#destroy
+  criterion_appraisal_direct GET    /criteria/:criterion_id/appraisals/direct(.:format)                                      appraisals#direct
+    criterion_appraisal_rank GET    /criteria/:criterion_id/appraisals/rank(.:format)                                        appraisals#rank
+criterion_appraisal_pairwise GET    /criteria/:criterion_id/appraisals/pairwise(.:format)                                    appraisals#pairwise
+  create_criterion_appraisal POST   /criteria/:criterion_id/appraisals(.:format)                                             appraisals#create
+            update_appraisal PATCH  /appraisals/:id(.:format)                                                                appraisals#update
+           destroy_appraisal DELETE /appraisals/:id(.:format)                                                                appraisals#update
+          rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+   rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+          rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+   update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+        rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create

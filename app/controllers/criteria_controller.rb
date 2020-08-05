@@ -2,6 +2,7 @@ class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
   before_action :set_criterion, only: [:show, :new, :edit, :update, :destroy]
+  before_action :set_article_member, except: [:tree, :create, :update]
   before_action :set_tree, only: [:index, :edit, :new]
 
   # GET /article/1/criteria
@@ -18,8 +19,9 @@ class CriteriaController < ApplicationController
   def show
     @article = @criterion.article
     @criteria = @article.criteria.all
-    @evaluation = nil
     @table = @criterion.children.map {|c| {no: 1, title: c.title, weight: 0.2 }}
+    appraisal_service = AppraisalService.new @criterion, @member
+    @comparison = appraisal_service.get_comparison
     respond_to do |format|
       format.html { @tree = @article.criteria.root.to_tree }
       format.js 
@@ -36,7 +38,6 @@ class CriteriaController < ApplicationController
 
   def tree
     @root = Criterion.find(params[:id]).to_tree
-
     respond_to do |format|
       format.json { render 'tree', locals: {node: @root}}
     end
@@ -86,9 +87,10 @@ class CriteriaController < ApplicationController
   # DELETE /criteria/1.json
   def destroy
     @article = @criterion.article
+    @parent = @criterion.parent
     @criterion.destroy
     respond_to do |format|
-      format.html { redirect_to article_criteria_url(@article), notice: 'Criterion was successfully destroyed.' }
+      format.html { redirect_to @parent, notice: 'Criterion was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -100,16 +102,24 @@ class CriteriaController < ApplicationController
     end
 
     def set_tree
+      @tree = @article.criteria.root.to_tree
+    end
+
+    def set_article_member
       if params[:article_id]
         @article = Article.find params[:article_id]
       else 
         @article = @criterion.article
       end
-      @tree = @article.criteria.root.to_tree
+      @member = if params[:member_id] 
+                  @article.members.where(user_id: params[:member_id]).take
+                else
+                  @article.members.where(user: current_user).take
+                end
     end
 
     # Only allow a list of trusted parameters through.
     def criterion_params
-      params.require(:criterion).permit(:title, :description, :abbrev, :position, :eval_method, :comparison_type, :parent_id, :article_id)
+      params.require(:criterion).permit(:title, :description, :abbrev, :position, :appraisal_method, :comparison_type, :parent_id, :article_id)
     end
 end

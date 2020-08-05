@@ -18,4 +18,5 @@
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'criterion', 'criteria'
   inflect.irregular 'analysis', 'analyses'
+  inflect.acronym 'AHP'
 end

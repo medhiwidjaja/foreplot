@@ -1,0 +1,4 @@
+
+class AhpComparison < Comparison
+  
+end

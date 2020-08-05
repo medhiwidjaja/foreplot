@@ -1,0 +1,22 @@
+- page_title 'Direct method'
+
+= article_menu @article
+- content_for :left_frame do
+  / -if @criterion.leaf? 
+  / 	= render partial: 'ratings/sidepanel', locals: { root_id: @article.criteria.root.id.to_s }
+  / -else
+  = render partial: 'criteria/sidepanel'
+
+#container-box
+  - unless @appraisal.valid?
+    .alert.alert-error
+      a.close data-dismiss="alert" ×
+      | One or more criterions have been deleted. You may want to reevaluate all weightings.
+  - if @appraisal.errors.any?
+    .alert.alert-error
+      a.close data-dismiss="alert" ×
+      = "Please fix the #{inflectize(@appraisal.errors.count, "error")} as indicated below"
+      ul
+        - @appraisal.errors.full_messages.each do |message|
+          li = message
+  = render 'direct_form'
