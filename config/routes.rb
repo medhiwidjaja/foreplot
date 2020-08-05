@@ -28,10 +28,17 @@ Rails.application.routes.draw do
   resources :criteria, only: [:new, :edit, :update, :destroy] do
     member do
       get :tree
-      post 'criteria/:id' => :create, as: :create_sub
+      post '' => :create, as: :create_sub
     end
+    
     # Direct comparisons
-    resources :direct_comparisons, only: [:new, :edit, :create, :update]
+    resources :direct_comparisons, only: [:new, :create] do
+      collection do
+        get :edit
+        patch '' => :update, as: :update
+      end
+    end
+
     resources :magiq_comparisons, only: [:new, :edit, :create, :update]
     resources :pairwise_comparisons, only: [:new, :edit, :create, :update]
   end

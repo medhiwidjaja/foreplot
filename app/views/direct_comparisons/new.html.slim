@@ -1,2 +1,15 @@
-h1 DirectComparisons#new
-p Find me in app/views/direct_comparisons/new.html.slim
+- page_title 'Direct comparison'
+
+= article_menu @article
+- content_for :left_frame do
+  = render partial: 'criteria/sidepanel'
+
+#container-box
+  - if @appraisal.errors.any?
+    .alert.alert-error
+      a.close data-dismiss="alert" ×
+      = "Please fix the #{inflectize(@appraisal.errors.count, "error")} as indicated below"
+      ul
+        - @appraisal.errors.full_messages.each do |message|
+          li = message
+  = render 'direct_form'
