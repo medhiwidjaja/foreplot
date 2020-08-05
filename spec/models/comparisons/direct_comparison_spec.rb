@@ -5,7 +5,7 @@ RSpec.describe DirectComparison, type: :model do
   let (:root) { create :criterion, :with_appraisal, :with_3_children }
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: root.appraisal }
+    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: root.appraisals.first }
   }
   before {
     comparables.each { |c| 
