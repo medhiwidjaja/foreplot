@@ -78,12 +78,12 @@
                   / -if @evaluation.method_is_magiq?
                   / 	td.number = row[:order]
                   td.number 
-                    div = number_with_precision(row[:weight], precision: 2)
+                    div = number_with_precision(row[:score], precision: 2)
                   td.number 
-                      div = "#{row[:weight_n].nil? ? '-' : number_to_percentage(row[:weight_n]*100, precision: 0)}"
+                    div = begin "%0.2f" % row[:score_n] rescue '-' end
                   td
                     .progress
-                      .bar style="width: #{row[:ratio]}%"
+                      .bar style="width: #{number_to_percentage(row[:score_n]*100, precision: 0)}"
 
       = render partial: 'toolbar', locals: { criterion: criterion, comparison: @comparison, comparison_method: criterion.appraisal_method, read_only: false }
 

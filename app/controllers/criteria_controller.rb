@@ -19,7 +19,12 @@ class CriteriaController < ApplicationController
   def show
     @article = @criterion.article
     @criteria = @article.criteria.all
-    @table = @criterion.children.map {|c| {no: 1, title: c.title, weight: 0.2 }}
+    @appraisal = @criterion.appraisals.first
+    if @appraisal
+      @table = @appraisal.relevant_comparisons.map {|c| {no: 1, title: c.title, score:c.score, score_n:c.score_n }}
+    else
+      @table = @criterion.children.map {|c| {no: 1, title: c.title, score: 0.2 }}
+    end
 
     respond_to do |format|
       format.html { @tree = @article.criteria.root.to_tree }
