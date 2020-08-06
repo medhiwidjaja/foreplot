@@ -9,13 +9,17 @@ class Appraisal < ApplicationRecord
 
   validates :member, presence: true
   validates :appraisal_method, presence: true
+  validates :appraisal_method, inclusion: { in: %w(DirectComparison MagiqComparison PairwiseComparison),
+    message: "%{value} is not a valid comparison method" }
   
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons
 
+  COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :pairwise_comparisons].freeze
+
   def find_or_initialize(comparison_method)
-    raise "Unsupported comparisons: #{comparison_method}" unless [:direct_comparisons, :magiq_comparisons, :pairwise_comparisons].include? comparison_method
+    raise "Unsupported comparisons: #{comparison_method}" unless COMPARISON_TYPES.include? comparison_method
     if comparison_method == :pairwise_comparisons
       comparisons = find_or_initialize_pairwise_comparisons
     else
@@ -30,5 +34,9 @@ class Appraisal < ApplicationRecord
   def find_or_initialize_pairwise_comparisons
   end
 
-  private
+  def relevant_comparisons
+    raise "Appraisal method missing" if appraisal_method.blank?
+    send appraisal_method.pluralize.underscore
+  end
+
 end
