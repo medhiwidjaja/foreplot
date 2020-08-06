@@ -6,7 +6,6 @@ class Appraisal < ApplicationRecord
   has_many :direct_comparisons, dependent: :destroy
   has_many :ahp_comparisons, dependent: :destroy
   has_many :magiq_comparisons, dependent: :destroy
-  has_many :pairwise_comparisons, dependent: :destroy
 
   validates :member, presence: true
   validates :appraisal_method, presence: true
@@ -14,8 +13,6 @@ class Appraisal < ApplicationRecord
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons
-
-  #before_save :calculate_comparisons
 
   def find_or_initialize(comparison_method)
     raise "Unsupported comparisons: #{comparison_method}" unless [:direct_comparisons, :magiq_comparisons, :pairwise_comparisons].include? comparison_method
@@ -34,15 +31,4 @@ class Appraisal < ApplicationRecord
   end
 
   private
-
-  def calculate_comparisons
-    case appraisal_method
-    when 'DirectComparison'
-      DirectComparisonCalculatorService.new.call(direct_comparisons)
-    when 'MagiqComparison'
-      MagiqComparisonCalculatorService.new.call(magiq_comparisons)
-    when 'PairwiseComparison'
-      AHPComparisonCalculatorService.new.call(ahp_comparisons, pairwise_comparisons)
-    end
-  end
 end
