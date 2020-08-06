@@ -1,7 +1,7 @@
 class DirectComparisonsForm
   include ActiveModel::Model 
 
-  attr_reader :appraisal, :comparisons
+  attr_reader :appraisal
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
 
   validate :appraisal_is_valid, :comparisons_are_valid
@@ -10,7 +10,7 @@ class DirectComparisonsForm
 
   def initialize(appraisal, params = {})
     @appraisal = appraisal
-    @comparisons = @appraisal.find_or_initialize(:direct_comparisons)
+    @comparisons = @appraisal.find_or_initialize :direct_comparisons
     @appraisal_method = 'DirectComparison'
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
@@ -18,10 +18,8 @@ class DirectComparisonsForm
   end
 
   def submit
-    puts appraisal_params
     appraisal.direct_comparisons.clear
     appraisal.attributes = appraisal_params
-    puts appraisal.attributes
     return false if invalid?
     appraisal.save
     true

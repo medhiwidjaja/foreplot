@@ -38,15 +38,15 @@
             = form.fields_for :direct_comparisons, @comparisons do |dc_fields|
               = dc_fields.hidden_field :comparable_id
               = dc_fields.hidden_field :comparable_type
+              = dc_fields.hidden_field :title
               tr
                 td.narrow = 1
                 td.wide 
                   = dc_fields.object.title
                 td.number 
                   = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
-
                 td.number 
-                  | 0.0%
+                  = begin "%0.2f" % dc_fields.object.score_n rescue nil end
 
       #toolbar.button-toolbar
         button.btn Save
