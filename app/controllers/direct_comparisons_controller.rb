@@ -1,23 +1,22 @@
 class DirectComparisonsController < ApplicationController
 
-  before_action :set_comparison, only: [:edit, :update, :create]
-  before_action :set_related_criterion, only: [:edit, :update, :create]
-  before_action :set_criterion, only: :new
+  before_action :set_criterion
   before_action :set_related_article
+  before_action :set_member
+  before_action :set_appraisal
 
   def new
-    @comparisons 
+    @form = DirectComparisonsForm.new @appraisal
   end
 
   def edit
-    @appraisal = appraisal_service.appraisal
-    @comparison = appraisal_service.get_comparisons
+    @form = DirectComparisonsForm.new @appraisal
   end
 
   def create
-    @form = DirectComparisonsForm.new(direct_comparisons_form_params)
+    @form = DirectComparisonsForm.new @appraisal, direct_comparisons_form_params
     if @form.submit
-      redirect_to root_path, notice: 'Thank you for your registration'
+      redirect_to @criterion, notice: 'Direct comparisons saved'
     else
       flash[:error] = @form.errors.full_messages.to_sentence
       render :new
@@ -28,20 +27,24 @@ class DirectComparisonsController < ApplicationController
   end
 
   private
-    def set_comparison
-      @comparison = DirectComparison.find(params[:id])
-    end
-
-    def set_related_criterion
-      @criterion = @comparison.criterion
-    end
-
     def set_criterion
       @criterion = Criterion.find(params[:criterion_id])
     end
 
     def set_related_article
       @article = @criterion.article
+    end
+
+    def set_member
+      @member = if params[:member_id] 
+                  @article.members.where(user_id: params[:member_id]).take
+                else
+                  @article.members.where(user: current_user).take
+                end
+    end
+
+    def set_appraisal
+      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member, appraisal_method: 'DirectComparison'
     end
 
     def direct_comparisons_form_params

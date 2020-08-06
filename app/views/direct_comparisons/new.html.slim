@@ -5,11 +5,11 @@
   = render partial: 'criteria/sidepanel'
 
 #container-box
-  - if @appraisal.errors.any?
+  - if @form.errors.any?
     .alert.alert-error
       a.close data-dismiss="alert" ×
       = "Please fix the #{inflectize(@appraisal.errors.count, "error")} as indicated below"
       ul
-        - @appraisal.errors.full_messages.each do |message|
+        - @form.errors.full_messages.each do |message|
           li = message
   = render 'direct_form'

@@ -1,0 +1,56 @@
+.widget
+  .widget-header
+    i.icon-file
+    h3 Assign weights using SMART method
+  .well.well-widget-content
+    .section style="padding-bottom: 10px"
+      .widget-content-title With respect to:
+      h3 = @criterion.title
+
+    = form_with model: @form, url: criterion_direct_comparisons_path, class: 'form-inline', local: true do |form|
+      = form.hidden_field :appraisal_method
+      = form.hidden_field :member_id
+      = form.hidden_field :criterion_id
+      .section
+        .section-title 
+          = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+        a.info-button data-toggle="collapse" data-target="#help-info" href="#" 
+          i.icon-question-sign
+
+        #help-info.collapse
+          .alert.alert-info
+            -if @criterion.leaf?
+              | Input the rating of each alternative with respect to the above criterion.
+                
+            -else
+              | Input the weight of each criterion with respect to the above 
+                objective criterion in the form below. 
+                The weight will be normalized so that the total is equal to 100%.
+
+        table.table.table-condensed.table-bordered.objectives-table
+          thead
+            tr
+              th.narrow No.
+              th Title
+              th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
+              th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
+          tbody#table-body
+            = form.fields_for :direct_comparisons, @comparisons do |dc_fields|
+              = dc_fields.hidden_field :comparable_id
+              = dc_fields.hidden_field :comparable_type
+              tr
+                td.narrow = 1
+                td.wide 
+                  = dc_fields.object.title
+                td.number 
+                  = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
+
+                td.number 
+                  | 0.0%
+
+      #toolbar.button-toolbar
+        button.btn Save
+        ' 
+        = link_to :back, class: 'btn' do
+          i.icon-remove
+          |  Close
