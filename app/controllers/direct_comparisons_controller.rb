@@ -44,7 +44,7 @@ class DirectComparisonsController < ApplicationController
 
     def set_member
       @member = if params[:member_id] 
-                  @article.members.where(user_id: params[:member_id]).take
+                  @article.members.where(id: params[:member_id]).take
                 else
                   @article.members.where(user: current_user).take
                 end
