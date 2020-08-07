@@ -21,9 +21,9 @@ class CriteriaController < ApplicationController
     @criteria = @article.criteria.all
     @appraisal = @criterion.appraisals.first
     if @appraisal
-      @table = @appraisal.relevant_comparisons.map {|c| {no: 1, title: c.title, score:c.score, score_n:c.score_n }}
+      @table = @appraisal.relevant_comparisons.map {|c| {no: 1, title: c.title, rank:c.rank, score:c.score, score_n:c.score_n }}
     else
-      @table = @criterion.children.map {|c| {no: 1, title: c.title, score: 0.2 }}
+      @table = @criterion.children.map {|c| {no: 1, title: c.title, rank:3, score:0.4, score_n:0.4  }}
     end
 
     respond_to do |format|
