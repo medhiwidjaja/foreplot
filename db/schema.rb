@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_023436) do
+ActiveRecord::Schema.define(version: 2020_08_05_050257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_023436) do
     t.string "comparison_method"
     t.decimal "value"
     t.string "unit"
-    t.integer "rank_no"
+    t.integer "rank"
     t.string "rank_method"
     t.decimal "consistency"
     t.string "type"

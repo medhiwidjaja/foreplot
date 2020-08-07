@@ -7,7 +7,7 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with model: @appraisal, url: criterion_appraisals_path, class: 'form-inline', local: true do |form|
+    = form_with model: @form, url: criterion_direct_comparisons_path, class: 'form-inline', local: true do |form|
       = form.hidden_field :appraisal_method
       = form.hidden_field :member_id
       = form.hidden_field :criterion_id
@@ -30,18 +30,15 @@
         table.table.table-condensed.table-bordered.objectives-table
           thead
             tr
-              th.narrow No.
               th Title
               th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
               th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
           tbody#table-body
-            = form.fields_for :comparisons, @comparisons do |dc_fields|
+            = form.fields_for :direct_comparisons, @comparisons do |dc_fields|
               = dc_fields.hidden_field :comparable_id
               = dc_fields.hidden_field :comparable_type
               = dc_fields.hidden_field :title
-              = dc_fields.hidden_field :type
               tr
-                td.narrow = 1
                 td.wide 
                   = dc_fields.object.title
                 td.number 

@@ -5,7 +5,7 @@ RSpec.describe MagiqComparison, type: :model do
   let (:root) { create :criterion, :with_appraisal, :with_3_children }
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', rank_no: 1.0, rank_method: 'rank_order_centroid', score: 0.2, score_n: 0.2, appraisal: root.appraisal }
+    { title: 'Title', rank: 1.0, rank_method: 'rank_order_centroid', score: 0.2, score_n: 0.2, appraisal: root.appraisals.first }
   }
   before {
     comparables.each { |c| c.magiq_comparisons << MagiqComparison.create(valid_attributes) }
@@ -27,7 +27,7 @@ RSpec.describe MagiqComparison, type: :model do
 
   describe "without rank no" do
     it "is not valid" do
-      @comparison.rank_no = nil
+      @comparison.rank = nil
       expect(@comparison.valid?).to eq(false)
     end
   end

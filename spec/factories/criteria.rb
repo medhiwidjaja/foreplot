@@ -21,7 +21,7 @@ FactoryBot.define do
 
     trait :with_appraisal do
       after :create do |criterion|
-        create :appraisal, criterion: criterion
+        criterion.appraisals << create(:appraisal)
       end
     end
   end

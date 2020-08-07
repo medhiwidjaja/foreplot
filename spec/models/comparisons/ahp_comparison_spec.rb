@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe AhpComparison, type: :model do
+RSpec.describe AHPComparison, type: :model do
   
   let (:root) { create :criterion, :with_appraisal, :with_3_children }
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', score: 0.2, score_n: 0.2, appraisal: root.appraisal }
+    { title: 'Title', score: 0.2, score_n: 0.2, appraisal: root.appraisals.first }
   }
   before {
-    comparables.each { |c| c.ahp_comparisons << AhpComparison.create(valid_attributes) }
+    comparables.each { |c| c.ahp_comparisons << AHPComparison.create(valid_attributes) }
     @comparison = comparables.first.ahp_comparisons.first
   }
 
