@@ -63,7 +63,6 @@
             / 	caption This user is not allowed to change criteria weights
             thead
               tr
-                th.narrow No.
                 th Title
                 th.number Rank
                 th.number Weight
@@ -72,7 +71,6 @@
             tbody
               - @table.each do |row|
                 tr
-                  td.narrow = row[:no]
                   td = row[:title]
                   td.number = row[:rank]
                   td.number 

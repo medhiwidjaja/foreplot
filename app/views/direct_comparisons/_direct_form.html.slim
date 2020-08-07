@@ -30,7 +30,6 @@
         table.table.table-condensed.table-bordered.objectives-table
           thead
             tr
-              th.narrow No.
               th Title
               th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
               th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
@@ -40,7 +39,6 @@
               = dc_fields.hidden_field :comparable_type
               = dc_fields.hidden_field :title
               tr
-                td.narrow = 1
                 td.wide 
                   = dc_fields.object.title
                 td.number 
