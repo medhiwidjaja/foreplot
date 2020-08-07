@@ -1,10 +1,6 @@
-class DirectComparisonsForm
-  include ActiveModel::Model 
-
+class DirectComparisonsForm < BaseForm
   attr_reader :appraisal
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
-
-  validate :appraisal_is_valid, :comparisons_are_valid
 
   delegate :direct_comparisons, to: :appraisal
 
@@ -14,11 +10,12 @@ class DirectComparisonsForm
     @appraisal_method = 'DirectComparison'
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
+    @models = [@appraisal]
     super(params)
   end
 
   def submit
-    appraisal.direct_comparisons.clear
+    appraisal.direct_comparisons.clear unless appraisal.persisted?
     appraisal.attributes = appraisal_params
     return false if invalid?
     appraisal.save
@@ -32,18 +29,13 @@ class DirectComparisonsForm
       criterion_id: criterion_id,
       member_id: member_id,
       appraisal_method: 'DirectComparison',
-      direct_comparisons_attributes: DirectComparisonCalculatorService.new(direct_comparisons_attributes).call
+      direct_comparisons_attributes: update_with_scores(direct_comparisons_attributes)
     }
   end
-  
-  def appraisal_is_valid
-    errors.add(:appraisal, 'is invalid') if appraisal.invalid?
-    appraisal.valid?
+
+  def update_with_scores(attributes)
+    DirectComparisonCalculatorService.new(attributes).call
   end
 
-  def comparisons_are_valid
-    errors.add(:direct_comparisons, 'are invalid') if direct_comparisons.any?(&:invalid?)
-    direct_comparisons.any?(&:invalid?) ? false : true
-  end
 
 end

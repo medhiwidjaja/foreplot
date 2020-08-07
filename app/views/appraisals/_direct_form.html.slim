@@ -7,9 +7,10 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with model: @appraisal, url: create_criterion_appraisal_path, class: 'form-inline' do |form|
+    = form_with model: @appraisal, url: criterion_appraisals_path, class: 'form-inline', local: true do |form|
       = form.hidden_field :appraisal_method
       = form.hidden_field :member_id
+      = form.hidden_field :criterion_id
       .section
         .section-title 
           = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
@@ -34,16 +35,19 @@
               th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
               th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
           tbody#table-body
-            = form.fields_for :comparisons, @direct_comparisons do |dc_fields|
+            = form.fields_for :comparisons, @comparisons do |dc_fields|
+              = dc_fields.hidden_field :comparable_id
+              = dc_fields.hidden_field :comparable_type
+              = dc_fields.hidden_field :title
+              = dc_fields.hidden_field :type
               tr
                 td.narrow = 1
                 td.wide 
                   = dc_fields.object.title
                 td.number 
                   = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
-
                 td.number 
-                  | 0.0%
+                  = begin "%0.2f" % dc_fields.object.score_n rescue nil end
 
       #toolbar.button-toolbar
         button.btn Save

@@ -4,6 +4,7 @@ class DirectComparisonsController < ApplicationController
   before_action :set_related_article
   before_action :set_member
   before_action :set_appraisal
+  before_action :set_tree, only: [:new, :index, :edit]
 
   def new
     @form = DirectComparisonsForm.new @appraisal
@@ -11,6 +12,8 @@ class DirectComparisonsController < ApplicationController
 
   def edit
     @form = DirectComparisonsForm.new @appraisal
+    # @appraisal = @criterion.appraisals.new member: @member, appraisal_method: 'DirectComparison'
+    # @comparisons = @appraisal.find_or_initialize :direct_comparisons
   end
 
   def create
@@ -33,6 +36,10 @@ class DirectComparisonsController < ApplicationController
 
     def set_related_article
       @article = @criterion.article
+    end
+
+    def set_tree
+      @tree = @article.criteria.root.to_tree
     end
 
     def set_member
