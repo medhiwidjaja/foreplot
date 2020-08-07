@@ -10,7 +10,7 @@ class DirectComparisonsForm < BaseForm
     @appraisal_method = 'DirectComparison'
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
-    @models = [@appraisal]
+    @models = [@appraisal]  # required for validate_models
     super(params)
   end
 

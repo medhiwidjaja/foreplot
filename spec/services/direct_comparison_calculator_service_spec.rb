@@ -2,20 +2,22 @@ require 'rails_helper'
 
 RSpec.describe DirectComparisonCalculatorService, type: :service do
   let(:direct_comparisons) {
-    [ build(:comparison, id:1, value:1.0),
-      build(:comparison, id:2, value:2.0),
-      build(:comparison, id:3, value:4.0)]
+    {"0"=>{"comparable_id"=>"10", "comparable_type"=>"Criterion", "title"=>"C33", "value"=>"76.0", "id"=>"35"}, 
+     "1"=>{"comparable_id"=>"9", "comparable_type"=>"Criterion", "title"=>"C32", "value"=>"125.0", "id"=>"37"}, 
+     "2"=>{"comparable_id"=>"8", "comparable_type"=>"Criterion", "title"=>"C31", "value"=>"12.0", "id"=>"36"}}
   }
 
   let(:expected_result) { 
-    [{:id=>3, :rank=>1}, {:id=>2, :rank=>2}, {:id=>1, :rank=>3}]
+    {"1"=>{"value"=>"125.0", "score"=>"0.5868544600938967", "score_n"=>"0.5868544600938967", "rank"=>"1", "comparable_id"=>"9", "comparable_type"=>"Criterion", "title"=>"C32", "id"=>"37"}, 
+     "0"=>{"value"=>"76.0", "score"=>"0.3568075117370892", "score_n"=>"0.3568075117370892", "rank"=>"2", "comparable_id"=>"10", "comparable_type"=>"Criterion", "title"=>"C33", "id"=>"35"}, 
+     "2"=>{"value"=>"12.0", "score"=>"0.056338028169014086", "score_n"=>"0.056338028169014086", "rank"=>"3", "comparable_id"=>"8", "comparable_type"=>"Criterion", "title"=>"C31", "id"=>"36"}}
   }
 
-  subject { DirectComparisonCalculatorService.new }
+  subject { DirectComparisonCalculatorService.new(direct_comparisons) }
 
   describe 'call' do
     it 'returns modified hash' do
-      expect(subject.call(direct_comparisons).map {|c| c.except(:value, :score, :score_n)}).to eq expected_result
+      expect(subject.call).to eq expected_result
     end
   end
 end
