@@ -12,8 +12,6 @@ class DirectComparisonsController < ApplicationController
 
   def edit
     @form = DirectComparisonsForm.new @appraisal
-    # @appraisal = @criterion.appraisals.new member: @member, appraisal_method: 'DirectComparison'
-    # @comparisons = @appraisal.find_or_initialize :direct_comparisons
   end
 
   def create
