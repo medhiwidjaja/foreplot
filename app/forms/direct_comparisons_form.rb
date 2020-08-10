@@ -4,18 +4,18 @@ class DirectComparisonsForm < BaseForm
 
   delegate :direct_comparisons, to: :appraisal
 
-  validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
+  #validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
 
   APPRAISAL_METHOD = 'DirectComparison'
 
   def initialize(appraisal, params = {})
     @appraisal = appraisal
-    @comparisons = @appraisal.find_or_initialize :direct_comparisons
     @appraisal_method = APPRAISAL_METHOD
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
     @models = [@appraisal]  # required for validate_models
     super(params)
+    @appraisal.find_or_initialize :direct_comparisons
   end
 
   def submit
