@@ -1,9 +1,9 @@
 require 'foreplot/direct_ranking'
 
 RSpec.describe Foreplot::DirectRanking do
-  let(:choices) { [{id:1, value:1.0},{id:2, value:2.0},{id:3, value:4.0}] }
+  let(:choices) { [{id:1, value:1.0},{id:2, value:4.0},{id:3, value:5.0}] }
   let(:expected_result) { 
-    [{:id=>3, :value=>4.0, :score=>0.5714285714285714, :score_n=>0.5714285714285714, :rank=>1}, {:id=>2, :value=>2.0, :score=>0.2857142857142857, :score_n=>0.2857142857142857, :rank=>2}, {:id=>1, :value=>1.0, :score=>0.14285714285714285, :score_n=>0.14285714285714285, :rank=>3}]
+    [{:id=>3, :value=>5.0, :score=>0.5, :score_n=>0.5, :rank=>1}, {:id=>2, :value=>4.0, :score=>0.4, :score_n=>0.4, :rank=>2}, {:id=>1, :value=>1.0, :score=>0.1, :score_n=>0.1, :rank=>3}]
   }
 
   
