@@ -4,7 +4,7 @@ class Article < ApplicationRecord
   belongs_to :user
   has_many :alternatives, dependent: :destroy
   has_many :criteria, dependent: :destroy
-  has_many :members
+  has_many :members, dependent: :destroy
 
   scope :owned_by, -> (user) { where user: user }
 
