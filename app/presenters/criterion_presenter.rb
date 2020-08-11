@@ -4,7 +4,7 @@ class CriterionPresenter < BasePresenter
   def initialize(presentable, curr_user=nil, **params)
     super(presentable, curr_user)
     @article   = params[:article_id] ? Article.find(params[:article_id]) : @presentable.article
-    @member = params[:member_id] ? Member.find(@params[:member_id]) : @article.members.find_by(user_id: current_user.id)
+    @member = params[:member_id] ? Member.find(@params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
   end
 
@@ -35,6 +35,12 @@ class CriterionPresenter < BasePresenter
   def table
     return nil if appraisal.nil?
     @table ||= appraisal.relevant_comparisons.map {|c| {no: 1, title: c.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+  end
+
+  private
+
+  def relevant_member(article)
+    article.members.with_user_id(current_user.id).take || article.members.author.take
   end
 
 end
