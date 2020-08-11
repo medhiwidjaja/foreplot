@@ -2,11 +2,11 @@ module ComparisonHelper
   include ApplicationHelper
 
   # For Toolbar in Criteria and Ratings
-  def link_to_comparison_method(comparison_method, appraisal, options={}, readonly=false)
-    criterion_id = appraisal.criterion_id
-    member_id = appraisal.member_id
+  def link_to_comparison_method(comparison_method, presenter, options={})
     class_option = options[:class]
-    if appraisal.persisted?
+    criterion_id = presenter.criterion.id
+    member_id = presenter.member_id
+    if presenter.appraisal.present? && presenter.appraisal.persisted?
       case comparison_method
       when 'MagiqComparison'
         link_to 'Rank compare', criterion_edit_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option

@@ -1,5 +1,7 @@
 class BasePresenter
   attr_reader :current_user
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
 
   class << self

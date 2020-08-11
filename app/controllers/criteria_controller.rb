@@ -1,12 +1,14 @@
 class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
-  before_action :set_criterion, only: [:show, :new, :edit, :update, :destroy]
-  before_action :set_presenter
+  before_action :set_criterion, except: [:index]
+  before_action :set_presenter, except: [:index, :tree]
 
   # GET /article/1/criteria
   # GET /article/1/criteria.json
   def index
+    @article = Article.find params[:article_id]
+    @presenter = CriterionPresenter.new @article.criteria.root, current_user, {member_id: params[:member_id]}
   end
 
   # GET /criteria/1
@@ -24,7 +26,7 @@ class CriteriaController < ApplicationController
 
   def tree
     respond_to do |format|
-      format.json { render 'tree', locals: {node: @presenter.tree}}
+      format.json { render 'tree', locals: {node: @criterion.to_tree}}
     end
   end
 
@@ -78,7 +80,7 @@ class CriteriaController < ApplicationController
   end
 
   def set_presenter
-    @presenter ||= CriterionPresenter.new @criterion, params, current_user
+    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id], article_id: params[:article_id]}
   end
 
   # Only allow a list of trusted parameters through.
