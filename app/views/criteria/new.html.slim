@@ -21,7 +21,7 @@
 						| Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
 				= form_with model: @criterion, url: create_sub_criterion_path(@presenter.parent) do |f|
-					== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
+					== render partial: 'fields', locals: { form: f, criterion: @criterion, parent_id: @presenter.parent_id, cost: false }
 					br
 					#toolbar.button-toolbar
 						= f.submit 'Save', class:"btn btn-primary"

@@ -28,6 +28,10 @@ class CriterionPresenter < BasePresenter
     @parent ||= @presentable.parent
   end
 
+  def parent_id
+    @parent_id ||= (parent.id if parent.present?)
+  end
+
   def appraisal
     @appraisal ||= @presentable.appraisals.find_by member_id: @member_id
   end

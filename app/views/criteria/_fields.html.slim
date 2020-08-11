@@ -1,4 +1,4 @@
--if @criterion.errors.any?
+-if criterion.errors.any?
 	.alert.alert-error
 		a.close data-dismiss="alert" ×
 		| Oops, we couldn't save your criterion! Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
@@ -15,7 +15,8 @@
 			.controls
 				= form.text_field :abbrev
 
-= form.hidden_field :parent_id, value: @parent_id
+= form.hidden_field :parent_id, value: parent_id
+= form.hidden_field :article_id, value: @presenter.article.id
 .control-group
 	= form.label :description, class: 'control-label'
 	= form.text_area :description, class: 'input-xxlarge wysihtml5', rows: 10

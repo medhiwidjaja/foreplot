@@ -10,7 +10,7 @@
 	.well.well-widget-content
 		.widget-content-title = @criterion.root? ? 'Goal' : 'Criterion'
 		= form_with model: @criterion do |f|
-			== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
+			== render partial: 'fields', locals: { form: f, criterion: @criterion, parent_id: @presenter.parent_id, cost: false }
 
 			#toolbar.button-toolbar
 				= f.submit 'Save', class:"btn btn-primary"

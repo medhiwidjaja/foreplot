@@ -11,7 +11,7 @@ class Criterion < ApplicationRecord
   validates :title, presence: true
 
   def to_tree
-    Criteria::Tree.build_tree(Criterion.includes(children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
+    Criteria::Tree.build_tree(Criterion.includes(:parent, children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
   end
 
   def self.root

@@ -1,8 +1,8 @@
 class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
-  before_action :set_criterion, except: [:index]
-  before_action :set_presenter, except: [:index, :tree]
+  before_action :set_criterion, except: [:index, :new, :create]
+  before_action :set_presenter, except: [:index, :new, :tree]
 
   # GET /article/1/criteria
   # GET /article/1/criteria.json
@@ -22,6 +22,9 @@ class CriteriaController < ApplicationController
 
   # GET /criteria/1/new
   def new
+    @parent = Criterion.find(params[:id])
+    @criterion = Criterion.new parent: @parent, article:@parent.article
+    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
   end
 
   def tree
@@ -37,6 +40,7 @@ class CriteriaController < ApplicationController
   # POST /criteria/1
   # POST /criteria/1.json
   def create
+    @criterion = Criterion.new criterion_params
     respond_to do |format|
       if @criterion.save
         format.html { redirect_to @criterion, notice: 'Criterion was successfully created.' }
