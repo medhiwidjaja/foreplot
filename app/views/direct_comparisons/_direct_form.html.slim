@@ -8,9 +8,7 @@
       h3 = @criterion.title
 
     = form_with model: @form, url: criterion_direct_comparisons_path, class: 'form-inline', local: true do |form|
-      = form.hidden_field :appraisal_method
-      = form.hidden_field :member_id
-      = form.hidden_field :criterion_id
+
       .section
         .section-title 
           = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'

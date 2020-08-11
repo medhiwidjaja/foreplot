@@ -2,7 +2,7 @@
 
 = article_menu @article
 - content_for :left_frame do
-  = render partial: 'criteria/sidepanel'
+  = render partial: 'criteria/sidepanel', locals: { tree: @tree }
 
 #container-box
   = render 'direct_form'

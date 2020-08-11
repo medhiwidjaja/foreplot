@@ -1,11 +1,11 @@
 - page_title "Criteria"
 
-= article_menu @article
+= article_menu @presenter.article
 - content_for :left_frame do
-  = render 'sidepanel'
+  = render partial: 'sidepanel', locals: { tree: @presenter.as_tree }
 
 #container-box
-	-unless @root.nil?
-		= render partial: 'table', locals: { criterion: @root, table: @table }
+	-unless @presenter.root.nil?
+		= render partial: 'table', locals: { criterion: @presenter.criterion, presenter: @presenter }
 
 

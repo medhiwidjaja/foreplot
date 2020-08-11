@@ -26,41 +26,13 @@
             i.icon-plus
             | New subcriterion
 
-    / -if (@evaluation.nil?)
-    /   .section
-    /     .alert.alert-info
-    /      | The user has not made any evaluation for this criterion
-    / -elsif !criterion.children.empty?
     - unless criterion.children.empty?
       .section
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
-        / -unless @evaluation.valid
-        /   .alert.alert-error
-        /     a.close data-dismiss="alert" ×
-        /     | One or more criterions have been deleted. You may want to reevaluate all rankings.
-        -unless @table.nil?
-          / -unless @evaluation.eval_method.nil?
-          / 	-if @criterion.has_incomplete_scores_by? @participation_id
-          / 		.alert.alert-error
-          / 			a.close data-dismiss="alert" ×
-          / 			| Comparison is incomplete
-          / 	.btn-toolbar style="margin: 0"
-          / 		div.pull-right
-          / 			h5 = "Comparison done using #{@comparison_method} method"
-          / 			-if @evaluation.method_is_pairwise? and !@evaluation.c_r.nil?
-          / 				h5 
-          / 					'  Consistency:
-          / 					-if @evaluation.cr > 0.15 
-          / 						span.label.label-important Poor
-          / 					-elsif @evaluation.cr >= 0.10
-          / 						span.label.label-warning Good
-          / 					-else 
-          / 						span.label.label-success Excellent
 
+        -unless presenter.table.nil?
           table.table.table-condensed.table-bordered.objectives-table
-            / -unless @participation.user.can?(:compare, @article) 
-            / 	caption This user is not allowed to change criteria weights
             thead
               tr
                 th Title
@@ -69,7 +41,7 @@
                 th.number Normalized Weight
                 th Ratio
             tbody
-              - @table.each do |row|
+              - presenter.table.each do |row|
                 tr
                   td = row[:title]
                   td.number = row[:rank]
@@ -81,7 +53,8 @@
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"
 
-      = render partial: 'toolbar', locals: { criterion: criterion, comparison: @comparison, comparison_method: criterion.appraisal_method, read_only: false }
+      /= render partial: 'toolbar', locals: { criterion: @criterion, appraisal: @appraisal, member: @member, comparison_method: criterion.appraisal_method, readonly: false }
+      = render partial: 'toolbar', locals: { presenter: presenter, read_only: false }
 
 
 
