@@ -1,33 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe Criterion, type: :model do
-  let(:criterion) { create :criterion }
+  let!(:article) { create :article }
+  let(:root) { article.criteria.root }
 
-  subject { criterion }
+  subject { root }
 
   before(:each) {
-    3.times { create :criterion, parent_id: criterion.id }
-    @tree = criterion.to_tree
+    3.times { root.children << build(:criterion, article: article) }
   }
 
-  context "associations" do
+  context "familial relationships" do
     it "has children" do
-      expect(criterion.children.count).to eq(3)
+      expect(root.children.count).to eq(3)
     end
     it "has a parent" do
-      expect(criterion.children.first.parent).to eq(criterion)
+      expect(root.children.first.parent).to eq(root)
     end
     it "responds to root?" do
-      expect(criterion.root?).to be(true)
+      expect(root.root?).to be(true)
+    end
+  end
+
+  describe "validations" do
+    it "must have a title" do
+      root.title = nil
+      expect(root).to be_invalid
+    end
+
+    it "rejects without parent_id" do
+      orphan = build(:criterion, article: article, parent_id: nil)
+      expect(orphan).to be_invalid
     end
   end
 
   context "converting into tree" do
+    let(:tree) { root.to_tree }
     it "has a root" do
-      expect(@tree.root.name).to match /Criterion/
+      expect(tree.root.name).to be
     end
     it "has 3 children" do
-      expect(@tree.children.count).to eq(3)
+      expect(tree.children.count).to eq(3)
     end
   end 
 
