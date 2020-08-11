@@ -1,5 +1,5 @@
 - page_title "New Criterion"
-= article_menu @article
+= article_menu @presenter.article
 - content_for :left_frame do
 	= render partial: 'sidepanel', locals:{ tree: @presenter.as_tree }
 
@@ -11,7 +11,7 @@
 		.well.well-widget-content
 			.section
 				.widget-content-title Parent node
-				h3 = @parent.title
+				h3 = @presenter.parent.title
 			.section
 				.section-title Criterion
 				
@@ -20,12 +20,12 @@
 						a.close data-dismiss="alert" ×
 						| Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
-				= form_with model: @criterion, url: create_sub_criterion_path(@parent) do |f|
+				= form_with model: @criterion, url: create_sub_criterion_path(@presenter.parent) do |f|
 					== render partial: 'fields', locals: { form: f, criterion: @criterion, cost: false }
 					br
 					#toolbar.button-toolbar
 						= f.submit 'Save', class:"btn btn-primary"
 						' &nbsp;
-						= link_to criterion_path(@parent), class:'btn' do
+						= link_to criterion_path(@presenter.parent), class:'btn' do
 							i.icon-remove
 							|  Cancel
