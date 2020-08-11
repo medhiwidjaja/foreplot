@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe DirectComparisonCalculatorService, type: :service do
   let(:direct_comparisons) {
-    {"0"=>{"comparable_id"=>"10", "comparable_type"=>"Criterion", "title"=>"C33", "value"=>"76.0", "id"=>"35"}, 
-     "1"=>{"comparable_id"=>"9", "comparable_type"=>"Criterion", "title"=>"C32", "value"=>"125.0", "id"=>"37"}, 
-     "2"=>{"comparable_id"=>"8", "comparable_type"=>"Criterion", "title"=>"C31", "value"=>"12.0", "id"=>"36"}}
+    {"0"=>{"value"=>"4.0"}, 
+     "1"=>{"value"=>"1.0"}, 
+     "2"=>{"value"=>"5.0"}}
   }
 
   let(:expected_result) { 
-    {"1"=>{"value"=>"125.0", "score"=>"0.5868544600938967", "score_n"=>"0.5868544600938967", "rank"=>"1", "comparable_id"=>"9", "comparable_type"=>"Criterion", "title"=>"C32", "id"=>"37"}, 
-     "0"=>{"value"=>"76.0", "score"=>"0.3568075117370892", "score_n"=>"0.3568075117370892", "rank"=>"2", "comparable_id"=>"10", "comparable_type"=>"Criterion", "title"=>"C33", "id"=>"35"}, 
-     "2"=>{"value"=>"12.0", "score"=>"0.056338028169014086", "score_n"=>"0.056338028169014086", "rank"=>"3", "comparable_id"=>"8", "comparable_type"=>"Criterion", "title"=>"C31", "id"=>"36"}}
+    {"2"=>{"value"=>"5.0", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1"}, 
+     "0"=>{"value"=>"4.0", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2"}, 
+     "1"=>{"value"=>"1.0", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3"}}
   }
 
   subject { DirectComparisonCalculatorService.new(direct_comparisons) }
