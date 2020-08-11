@@ -25,9 +25,10 @@ Rails.application.routes.draw do
     resources :criteria, only: [:index]
   end
 
-  resources :criteria, only: [:show, :new, :edit, :update, :destroy] do
+  resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do
       get :tree
+      get 'new' => :new, as: :new
       post '' => :create, as: :create_sub
     end
     
