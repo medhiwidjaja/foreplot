@@ -21,6 +21,7 @@ class DirectComparisonsForm < BaseForm
   def submit
     appraisal.direct_comparisons.clear unless appraisal.persisted?
     appraisal.attributes = appraisal_params
+    appraisal.direct_comparisons.each {|dc| puts dc.inspect }
     return false if invalid?
     appraisal.save
     true

@@ -9,11 +9,12 @@ FactoryBot.define do
     appraisal_method       { 'direct' }
     property_name          { "Property Link" }
     sequence(:position)    { |n| n }
+    article                factory: :article 
 
     trait :with_3_children do
       after :create do |criterion|
         3.times do |i|
-          create :criterion, title: "Child ##{i+1}", parent: criterion
+          create :criterion, title: "Child ##{i+1}", parent: criterion, article: article
         end
       end
     end 
