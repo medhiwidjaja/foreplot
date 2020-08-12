@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Appraisal, type: :model do
-  let(:criterion) { create :criterion }
+  let!(:article) { create :article }
+  let(:criterion) { article.criteria.root }
   let(:member)    { create :member }
   let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison' }
 
