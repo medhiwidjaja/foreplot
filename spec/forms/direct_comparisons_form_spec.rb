@@ -30,7 +30,6 @@ RSpec.describe DirectComparisonsForm do
   describe ".submit" do
 
     it "saves new appraisal" do
-      allow_any_instance_of(DirectComparisonsForm).to receive(:appraisal_method).and_return(params)
       form = described_class.new appraisal, params
       expect{ form.submit }.to change(Appraisal, :count).by(1)
       expect(appraisal).to be_valid
@@ -54,7 +53,6 @@ RSpec.describe DirectComparisonsForm do
           "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "id"=>persisted_appraisal.direct_comparisons.third.id}
         }
       }
-      allow_any_instance_of(DirectComparisonsForm).to receive(:appraisal_method).and_return(@new_params)
     end
 
     it "updates persisted appraisal as well" do
