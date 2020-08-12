@@ -1,14 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe DirectComparison, type: :model do
-  let(:criterion) { create :criterion }
+  let!(:article) { create :article }
+  let(:criterion) { article.criteria.root }
   let(:appraisal) { create :appraisal, criterion_id: criterion.id, appraisal_method:'DirectComparison'}
   let!(:direct_comparison) { create :direct_comparison, appraisal_id: appraisal.id, value: 100,
                              comparable_id: criterion.id, comparable_type: 'Criterion' }
 
   describe "uniqueness validation" do
     it "accepts comparison for different criterion" do
-      new_criterion = create :criterion
+      new_criterion = create :criterion, article: article, parent: criterion
       new_comparison = build :direct_comparison, appraisal_id: appraisal.id, value: 100, comparable_id: new_criterion.id, comparable_type: 'Criterion'
       expect(new_comparison).to be_valid
     end
