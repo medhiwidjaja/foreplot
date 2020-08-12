@@ -32,7 +32,7 @@ RSpec.describe DirectComparisonsForm do
     it "saves new appraisal" do
       allow_any_instance_of(DirectComparisonsForm).to receive(:appraisal_method).and_return(params)
       form = described_class.new appraisal, params
-      #expect{ form.submit }.to change(Appraisal, :count).by(1)
+      expect{ form.submit }.to change(Appraisal, :count).by(1)
       expect(appraisal).to be_valid
       expect(form).to be_valid
     end

@@ -4,7 +4,7 @@ class DirectComparisonsForm < BaseForm
 
   delegate :direct_comparisons, to: :appraisal
 
-  #validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
+  validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
 
   APPRAISAL_METHOD = 'DirectComparison'
 
@@ -21,7 +21,6 @@ class DirectComparisonsForm < BaseForm
   def submit
     appraisal.direct_comparisons.clear unless appraisal.persisted?
     appraisal.attributes = appraisal_params
-    appraisal.direct_comparisons.each {|dc| puts dc.inspect }
     return false if invalid?
     appraisal.save
     true
