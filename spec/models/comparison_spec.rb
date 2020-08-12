@@ -18,6 +18,13 @@ RSpec.describe DirectComparison, type: :model do
       same_comparison = build :direct_comparison, appraisal_id: appraisal.id, value: 100, comparable_id: criterion.id, comparable_type: 'Criterion'
       expect(same_comparison).to be_invalid
     end
+
+    it "accepts comparison for different appraisal" do
+      member = build :member
+      different_appraisal = create :appraisal, criterion: criterion, member: member, appraisal_method:'DirectComparison'
+      new_comparison = build :direct_comparison, appraisal_id: different_appraisal.id, value: 100, comparable_id: criterion.id, comparable_type: 'Criterion'
+      expect(new_comparison).to be_valid
+    end
   end
 
   describe "associations" do

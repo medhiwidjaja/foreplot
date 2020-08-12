@@ -2,5 +2,7 @@ class Comparison < ApplicationRecord
   belongs_to :comparable, polymorphic:true
   belongs_to :appraisal
 
-  validates :appraisal_id, presence: true, uniqueness: { scope: [:comparable_id, :type]}
+  validates :type, presence: true
+  validates :comparable_id, presence: true, uniqueness: { scope: [:appraisal_id, :type]}
+
 end
