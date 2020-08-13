@@ -26,6 +26,13 @@ class MagiqComparisonsController < ApplicationController
   end
 
   def update
+    @form = MagiqComparisonsForm.new @appraisal, magiq_comparisons_form_params
+    if @form.submit
+      redirect_to @criterion, notice: 'Magiq comparisons updated'
+    else
+      flash[:error] = @form.errors.full_messages.to_sentence
+      render :edit
+    end
   end
 
   private

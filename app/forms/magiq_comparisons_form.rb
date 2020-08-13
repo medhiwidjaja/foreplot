@@ -1,5 +1,5 @@
 class MagiqComparisonsForm < BaseForm
-  attr_reader :appraisal
+  attr_reader :appraisal, :rest_method
   attr_accessor :magiq_comparisons_attributes, :criterion_id, :member_id, :appraisal_method, :rank_method
 
   delegate :magiq_comparisons, to: :appraisal
@@ -16,6 +16,8 @@ class MagiqComparisonsForm < BaseForm
     @models = [@appraisal]  # required for validate_models
     super(params)
     @appraisal.find_or_initialize :magiq_comparisons
+    @rest_method = @appraisal.persisted? ? :patch : :post
+    @rank_method = @appraisal.rank_method || 'rank_order_centroid'
   end
 
   def submit

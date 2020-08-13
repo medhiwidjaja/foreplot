@@ -3,7 +3,7 @@
     i.icon-file
     h3 Assign weights using MAGIQ method
 
-  = form_with model: @form, url: criterion_magiq_comparisons_path, class: 'form-inline', local: true do |form|
+  = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
     = form.hidden_field :rank_method, value: 'rank_order_centroid'
     .well.well-widget-content
       .section
@@ -26,47 +26,35 @@
               #sort-section
                 ul.sortable#sortable
                   = form.fields_for :magiq_comparisons do |mc_fields|
-                    li.rank-item id='#{mc_fields.object.id}'
-                      strong style="margin-left:5px" = mc_fields.object.title
-                      = mc_fields.hidden_field :id
-                      = mc_fields.hidden_field :title
-                      = mc_fields.hidden_field :rank, class:'order'
-                      = mc_fields.hidden_field :comparable_id
-                      = mc_fields.hidden_field :comparable_type
-
-                  / -@comparisons.each do |mc|							
-                  /   -if mc.rank.nil?
-                  /     li.rank-item id='#{mc.id}'
-                  /       strong style="margin-left:5px" = mc.title
-                  /       = form.fields_for :magiq_comparisons, mc do |mc_fields|
-                  /         = mc_fields.hidden_field :id1, value: mc.id1
-                  /         = mc_fields.hidden_field :title, value: mc.title
-                  /         = mc_fields.hidden_field :pos, value: mc.pos
-                  /         = mc_fields.hidden_field :rank, class:'order'
-
+                    -unless mc_fields.object.persisted?
+                      li.rank-item id='#{mc_fields.object.id}'
+                        strong style="margin-left:5px" = mc_fields.object.title
+                        = mc_fields.hidden_field :id
+                        = mc_fields.hidden_field :title
+                        = mc_fields.hidden_field :rank, class:'order'
+                        = mc_fields.hidden_field :comparable_id
+                        = mc_fields.hidden_field :comparable_type
             td
               #ranks.ui-widget-content style="border:0"
-                / take the larger of the rank (if any) or # of criteria/alternatives
                 - comparisons = @form.magiq_comparisons
                 - (1..comparisons.size).each do |i|
                   .rank
                     .thumbnail
                       h2.pull-left = "# #{i}"
                       ul.droppable data-rank="#{i}"
-                        li.placeholder &nbsp;
-                        / -if comparisons.any? {|c| c.rank==i }
-                        /   - comparisons.map{|c| c if c.rank==i }.compact.each do |mc|
-                        /     -if mc && !mc.rank.nil?
-                        /       li.rank-item id='#{mc.id}'
-                        /         strong style="margin-left:5px" = mc.title
-                        /         = form.fields_for :magiq_comparisons, mc do |mc_fields|
-                        /           = mc_fields.hidden_field :id1, value: mc.id1
-                        /           = mc_fields.hidden_field :title, value: mc.title
-                        /           = mc_fields.hidden_field :pos, value: mc.pos
-                        /           = mc_fields.hidden_field :rank, class:'order',
-                        /               value: mc.rank.nil? ? i : mc.rank		
-                        / -else
-                        /   li.placeholder &nbsp;
+                        -if comparisons.any? {|c| c.rank==i }
+                          - comparisons.map{|c| c if c.rank==i }.compact.each do |mc|
+                            -if mc && !mc.rank.nil?
+                              li.rank-item id='#{mc.id}'
+                                strong style="margin-left:5px" = mc.title
+                                = form.fields_for :magiq_comparisons, mc do |mc_fields|
+                                  = mc_fields.hidden_field :id, value: mc.id
+                                  = mc_fields.hidden_field :title, value: mc.title
+                                  = mc_fields.hidden_field :rank, value: (mc.rank || i), class:'order'
+                                  = mc_fields.hidden_field :comparable_id
+                                  = mc_fields.hidden_field :comparable_type
+                        -else
+                          li.placeholder &nbsp;
 
     #toolbar.button-toolbar
       button.btn Save
