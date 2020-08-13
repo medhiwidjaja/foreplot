@@ -1,0 +1,8 @@
+- page_title 'Magiq comparison'
+
+= article_menu @article
+- content_for :left_frame do
+  = render partial: 'criteria/sidepanel', locals: { tree: @tree }
+
+#container-box
+  = render 'magiq_form'

@@ -54,7 +54,7 @@ class MagiqComparisonsController < ApplicationController
     end
 
     def magiq_comparisons_form_params
-      params.require(:magiq_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method,
+      params.require(:magiq_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method, :rank_method,
         {magiq_comparisons_attributes: 
           [:id, :comparable_id, :comparable_type, :title, :notes, :comparison_method, :appraisal_id,
            :score, :score_n, :rank]

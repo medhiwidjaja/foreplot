@@ -19,7 +19,7 @@
 //= require jquery-ui
 //= require alternative
 //= require criteria_tree
-//= require jquery.simulate.drag-sortable
+//= require magiq_form
 //= require tree.jquery
 
 

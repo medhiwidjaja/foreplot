@@ -1,6 +1,6 @@
 class MagiqComparisonsForm < BaseForm
   attr_reader :appraisal
-  attr_accessor :magiq_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
+  attr_accessor :magiq_comparisons_attributes, :criterion_id, :member_id, :appraisal_method, :rank_method
 
   delegate :magiq_comparisons, to: :appraisal
 
@@ -33,6 +33,7 @@ class MagiqComparisonsForm < BaseForm
       criterion_id: criterion_id,
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
+      rank_method: rank_method,
       magiq_comparisons_attributes: update_with_scores(magiq_comparisons_attributes)
     }
   end
