@@ -35,7 +35,7 @@
           table.table.table-condensed.table-bordered.objectives-table
             thead
               tr
-                th Title
+                th.wide Title
                 th.number Rank
                 th.number Weight
                 th.number Normalized Weight
@@ -43,7 +43,7 @@
             tbody
               - presenter.table.each do |row|
                 tr
-                  td = row[:title]
+                  td.wide = row[:title]
                   td.number = row[:rank]
                   td.number 
                     div = number_with_precision(row[:score], precision: 2) || '-'
