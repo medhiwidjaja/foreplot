@@ -21,7 +21,7 @@ class MagiqComparisonsForm < BaseForm
   end
 
   def submit
-    appraisal.magiq_comparisons.clear unless appraisal.persisted?
+    appraisal.magiq_comparisons.clear unless persisted?
     appraisal.attributes = appraisal_params
     return false if invalid?
     appraisal.save
@@ -44,5 +44,8 @@ class MagiqComparisonsForm < BaseForm
     MagiqComparisonCalculatorService.new(attributes).call
   end
 
-
+  def persisted?
+    appraisal.magiq_comparisons.any? &:persisted?
+  end
+  
 end

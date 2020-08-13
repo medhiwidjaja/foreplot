@@ -56,7 +56,7 @@ class DirectComparisonsController < ApplicationController
     end
 
     def set_appraisal
-      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member, appraisal_method: 'DirectComparison'
+      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member
     end
 
     def direct_comparisons_form_params

@@ -20,7 +20,7 @@ class DirectComparisonsForm < BaseForm
   end
 
   def submit
-    appraisal.direct_comparisons.clear unless appraisal.persisted?
+    appraisal.direct_comparisons.clear unless persisted?
     appraisal.attributes = appraisal_params
     return false if invalid?
     appraisal.save
@@ -42,5 +42,8 @@ class DirectComparisonsForm < BaseForm
     DirectComparisonCalculatorService.new(attributes).call
   end
 
+  def persisted?
+    appraisal.direct_comparisons.any? &:persisted?
+  end
 
 end

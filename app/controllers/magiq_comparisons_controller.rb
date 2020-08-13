@@ -57,7 +57,7 @@ class MagiqComparisonsController < ApplicationController
     end
 
     def set_appraisal
-      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member, appraisal_method: 'MagiqComparison'
+      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member
     end
 
     def magiq_comparisons_form_params
