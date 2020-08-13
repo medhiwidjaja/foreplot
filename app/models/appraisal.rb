@@ -12,7 +12,8 @@ class Appraisal < ApplicationRecord
   validates :appraisal_method, inclusion: { in: %w(DirectComparison MagiqComparison PairwiseComparison),
     message: "%{value} is not a valid comparison method" }
   validates :criterion_id, uniqueness: {scope: [:member_id, :appraisal_method]}
-  
+  validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
+
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons

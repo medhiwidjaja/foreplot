@@ -14,5 +14,15 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :with_magiq_comparisons do
+      appraisal_method { "MagiqComparison" }
+      rank_method { "rank_order_centroid" }
+      after :create do |appraisal|
+        3.times do |i|
+          appraisal.magiq_comparisons << build(:magiq_comparisons)
+        end
+      end
+    end
   end
 end

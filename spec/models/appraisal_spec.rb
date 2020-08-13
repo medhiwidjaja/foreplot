@@ -28,6 +28,16 @@ RSpec.describe Appraisal, type: :model do
     end
   end
 
+  describe "validation for Magiq comparison" do
+    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_order_centroid'}
+    subject { appraisal }
+    it { is_expected.to be_valid }
+    it "is not valid without rank method" do
+      appraisal.rank_method = nil
+      is_expected.to be_invalid
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:direct_comparisons).macro).to eq(:has_many) }

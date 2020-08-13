@@ -15,7 +15,6 @@ FactoryBot.define do
     trait :magiq_comparison do
       comparison_method { "MagiqComparison" }
       rank { 1 }
-      rank_method { "ROC" }
     end
 
     trait :pairwise_comparison do
