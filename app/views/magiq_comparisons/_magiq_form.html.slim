@@ -2,13 +2,13 @@
   .widget-header
     i.icon-file
     h3 Assign weights using MAGIQ method
+  .well.well-widget-content
+    .section
+      .widget-content-title With respect to:
+      h3 = @criterion.title
 
-  = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
-    = form.hidden_field :rank_method, value: 'rank_order_centroid'
-    .well.well-widget-content
-      .section
-        .widget-content-title With respect to:
-        h3 = @criterion.title
+    = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
+      = form.hidden_field :rank_method, value: 'rank_order_centroid'
       .section
         .section-title 
           = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
