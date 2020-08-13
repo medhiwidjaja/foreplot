@@ -56,9 +56,6 @@
                         -else
                           li.placeholder &nbsp;
 
-    #toolbar.button-toolbar
-      button.btn Save
-      ' 
-      = link_to :back, class: 'btn' do
-        i.icon-remove
-        |  Close
+      = render partial: 'settings'
+
+      = render 'toolbar'

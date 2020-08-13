@@ -1,0 +1,15 @@
+#toolbar.button-toolbar
+  button.btn Save
+  ' 
+  = link_to :back, class: 'btn' do
+    i.icon-remove
+    |  Close
+  .pull-right
+    = link_to "#", data: {toggle:"collapse", target:"#notes-section"}, class: 'btn' do
+      i.icon-edit
+      '
+      |  Add notes
+    a.btn data-toggle="collapse" data-target="#settings-section" href="#"
+      i.icon-wrench
+      ' 
+      |  Settings
