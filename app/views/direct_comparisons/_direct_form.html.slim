@@ -32,7 +32,7 @@
               th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
               th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
           tbody#table-body
-            = form.fields_for :direct_comparisons, @comparisons do |dc_fields|
+            = form.fields_for :direct_comparisons do |dc_fields|
               = dc_fields.hidden_field :comparable_id
               = dc_fields.hidden_field :comparable_type
               = dc_fields.hidden_field :title
