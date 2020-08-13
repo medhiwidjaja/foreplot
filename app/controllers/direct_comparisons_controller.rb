@@ -25,6 +25,13 @@ class DirectComparisonsController < ApplicationController
   end
 
   def update
+    @form = DirectComparisonsForm.new @appraisal, direct_comparisons_form_params
+    if @form.submit
+      redirect_to @criterion, notice: 'Direct comparisons updated'
+    else
+      flash[:error] = @form.errors.full_messages.to_sentence
+      render :edit
+    end
   end
 
   private

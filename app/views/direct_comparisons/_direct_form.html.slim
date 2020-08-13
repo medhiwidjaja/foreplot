@@ -7,7 +7,7 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with model: @form, url: criterion_direct_comparisons_path, class: 'form-inline', local: true do |form|
+    = form_with model: @form, url: criterion_direct_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
 
       .section
         .section-title 
