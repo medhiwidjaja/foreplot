@@ -23,8 +23,13 @@ RSpec.describe Appraisal, type: :model do
 
   describe "uniqueness validation" do
     it "rejects appraisal with same method by the same member" do
-      same_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison'
-      expect(same_appraisal).to be_invalid
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison'
+      expect(other_appraisal).to be_invalid
+    end
+
+    it "rejects appraisal with different method by the same member" do
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_sum'
+      expect(other_appraisal).to be_invalid
     end
   end
 
