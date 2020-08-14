@@ -18,7 +18,14 @@ class Article < ApplicationRecord
     private ? 'Private' : 'Public'
   end
 
+  def delete_completely!
+    criteria.destroy_all
+    members.delete_all
+    self.destroy
+  end
+
   private
+
   def create_goal
     criteria.create title: title
   end
@@ -30,5 +37,6 @@ class Article < ApplicationRecord
   def create_default_member
     members << Member.create(user:user, role:'owner', active:true, weight:1.0)
   end
+
 
 end
