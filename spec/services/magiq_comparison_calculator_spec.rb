@@ -7,9 +7,9 @@ RSpec.describe MagiqComparisonCalculator, type: :service do
      "2"=>{"rank"=>"1"}}
   }
   let(:expected_result) { 
-    {"2"=>{"rank"=>"1", "score"=>"0.611111111111111"}, 
-     "0"=>{"rank"=>"2", "score"=>"0.27777777777777773"}, 
-     "1"=>{"rank"=>"3", "score"=>"0.1111111111111111"}}
+    {"2"=>{"rank"=>"1", "score"=>"0.611111111111111", "score_n"=>"0.611111111111111"}, 
+     "0"=>{"rank"=>"2", "score"=>"0.27777777777777773", "score_n"=>"0.27777777777777773"}, 
+     "1"=>{"rank"=>"3", "score"=>"0.1111111111111111", "score_n"=>"0.1111111111111111"}}
   }
 
   subject { MagiqComparisonCalculator.new(magiq_comparisons) }
