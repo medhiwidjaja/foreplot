@@ -1,13 +1,15 @@
 class MagiqComparisonCalculatorService < BaseCalculatorService
-  attr_reader :comparisons, :result
-  def initialize(comparisons)
+  attr_reader :comparisons, :rank_method, :result
+
+  def initialize(comparisons, rank_method='rank_order_centroid')
     @comparisons = comparisons
+    @rank_method = rank_method
   end
 
   def call
     @result = convert_to_attributes(
       add_score_n_field(
-        Foreplot::MagiqRanking.new(params(comparisons)).rank
+        Foreplot::MagiqRanking.new(params(comparisons)).rank(rank_method)
       ))
   end
 

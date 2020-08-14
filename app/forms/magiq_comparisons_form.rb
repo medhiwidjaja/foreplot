@@ -1,6 +1,7 @@
 class MagiqComparisonsForm < BaseForm
   attr_reader :appraisal
-  attr_accessor :magiq_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
+  attr_accessor :magiq_comparisons_form, :magiq_comparisons_attributes, :criterion_id, 
+                :member_id, :appraisal_method, :rank_method, :notes
 
   delegate :magiq_comparisons, to: :appraisal
 
@@ -34,10 +35,6 @@ class MagiqComparisonsForm < BaseForm
     magiq_comparisons.size
   end
 
-  def rank_method
-    appraisal.rank_method || 'rank_order_centroid'
-  end
-
   private
 
   def appraisal_params
@@ -51,7 +48,7 @@ class MagiqComparisonsForm < BaseForm
   end
 
   def update_with_scores(attributes)
-    MagiqComparisonCalculatorService.new(attributes).call
+    MagiqComparisonCalculatorService.new(attributes, rank_method).call
   end
 
   def persisted?

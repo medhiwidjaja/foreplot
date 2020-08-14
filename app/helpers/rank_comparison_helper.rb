@@ -16,9 +16,7 @@ module RankComparisonHelper
 
   def rank_barchart(rank_method:, num_rank:)
     rank_table = send "#{rank_method.to_s}_table", num_rank
-    puts rank_table
-    puts num_rank
-    puts rank_method
+
     content_tag(:ul, class:'dist-table') do
       (0..num_rank-1).map do |i|
         content_tag(:li) do
