@@ -1,4 +1,4 @@
-#settings-section.collapse
+#settings-section
   .section
     .widget-content-title Settings
     table.table.table-condensed.rank-table
@@ -7,16 +7,16 @@
 
       tr
         th.narrow 
-          label.radio
-            = radio_button "appraisal", "rank_method", 'rank_order_centroid', checked:@appraisal.rank_method=='rank_order_centroid'
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_order_centroid', checked:@appraisal.rank_method=='rank_order_centroid'
             | Rank Order Centroid
         th.narrow 
-          label.radio
-            = radio_button "appraisal", "rank_method", 'rank_reciprocal', checked:@appraisal.rank_method=='rank_reciprocal'
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_reciprocal', checked:@appraisal.rank_method=='rank_reciprocal'
             | Rank Reciprocal
         th.narrow 
-          label.radio
-            = radio_button "appraisal", "rank_method", 'rank_sum', checked:@appraisal.rank_method=='rank_sum'
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_sum', checked:@appraisal.rank_method=='rank_sum'
             | Rank Sum
 
       tr.control-groups
