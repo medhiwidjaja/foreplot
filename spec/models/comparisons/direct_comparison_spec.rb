@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe DirectComparison, type: :model do
-  
-  let (:root) { create :criterion, :with_appraisal, :with_3_children }
+  let!(:article) { create :article }
+  let(:root) { article.criteria.root }
+  let(:appraisal) { create :appraisal, criterion: root }
+  before {
+    3.times { root.children << build(:criterion, article: article) }
+  }
+
   let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: root.appraisals.first }
+    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: appraisal }
   }
   before {
     comparables.each { |c| 

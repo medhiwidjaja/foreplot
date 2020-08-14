@@ -9,9 +9,10 @@ class Criterion < ApplicationRecord
   has_many :appraisals
 
   validates :title, presence: true
+  validate :must_have_parent_if_not_root
 
   def to_tree
-    Criteria::Tree.build_tree(Criterion.includes(children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
+    Criteria::Tree.build_tree(Criterion.includes(:parent, children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
   end
 
   def self.root
@@ -34,7 +35,12 @@ class Criterion < ApplicationRecord
     end
   end
 
-  # def comparison_method
-  #   appraisal_method || (appraisal ? appraisal.appraisal_method : nil)
-  # end
+  private
+
+  def must_have_parent_if_not_root
+    if parent_id.blank? && Criterion.where(article_id:article_id).root.present?
+      errors.add(:parent_id, "can't be blank")
+    end
+  end
+
 end

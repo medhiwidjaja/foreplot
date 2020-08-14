@@ -1,3 +1,3 @@
 class MagiqComparison < Comparison
-  validates :rank, :rank_method, presence: true
+  validates :rank, presence: true
 end

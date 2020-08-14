@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Appraisal, type: :model do
-  let(:criterion) { create :criterion }
+  let!(:article) { create :article }
+  let(:criterion) { article.criteria.root }
   let(:member)    { create :member }
   let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison' }
 
@@ -22,8 +23,23 @@ RSpec.describe Appraisal, type: :model do
 
   describe "uniqueness validation" do
     it "rejects appraisal with same method by the same member" do
-      same_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison'
-      expect(same_appraisal).to be_invalid
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison'
+      expect(other_appraisal).to be_invalid
+    end
+
+    it "rejects appraisal with different method by the same member" do
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_sum'
+      expect(other_appraisal).to be_invalid
+    end
+  end
+
+  describe "validation for Magiq comparison" do
+    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_order_centroid'}
+    subject { appraisal }
+    it { is_expected.to be_valid }
+    it "is not valid without rank method" do
+      appraisal.rank_method = nil
+      is_expected.to be_invalid
     end
   end
 

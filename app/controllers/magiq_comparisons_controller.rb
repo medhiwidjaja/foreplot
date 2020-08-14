@@ -1,4 +1,5 @@
-class DirectComparisonsController < ApplicationController
+
+class MagiqComparisonsController < ApplicationController
 
   before_action :set_criterion
   before_action :set_related_article
@@ -7,17 +8,17 @@ class DirectComparisonsController < ApplicationController
   before_action :set_tree, only: [:new, :index, :edit]
 
   def new
-    @form = DirectComparisonsForm.new @appraisal
+    @form = MagiqComparisonsForm.new @appraisal
   end
 
   def edit
-    @form = DirectComparisonsForm.new @appraisal
+    @form = MagiqComparisonsForm.new @appraisal
   end
 
   def create
-    @form = DirectComparisonsForm.new @appraisal, direct_comparisons_form_params
+    @form = MagiqComparisonsForm.new @appraisal, magiq_comparisons_form_params
     if @form.submit
-      redirect_to @criterion, notice: 'Direct comparisons saved'
+      redirect_to @criterion, notice: 'Magiq comparisons saved'
     else
       flash[:error] = @form.errors.full_messages.to_sentence
       render :new
@@ -25,9 +26,9 @@ class DirectComparisonsController < ApplicationController
   end
 
   def update
-    @form = DirectComparisonsForm.new @appraisal, direct_comparisons_form_params
+    @form = MagiqComparisonsForm.new @appraisal, magiq_comparisons_form_params
     if @form.submit
-      redirect_to @criterion, notice: 'Direct comparisons updated'
+      redirect_to @criterion, notice: 'Magiq comparisons updated'
     else
       flash[:error] = @form.errors.full_messages.to_sentence
       render :edit
@@ -59,10 +60,10 @@ class DirectComparisonsController < ApplicationController
       @appraisal = @criterion.appraisals.find_or_initialize_by member: @member
     end
 
-    def direct_comparisons_form_params
-      params.require(:direct_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method,
-        {direct_comparisons_attributes: 
-          [:id, :comparable_id, :comparable_type, :title, :notes, :comparison_method, :value, :unit, :appraisal_id,
+    def magiq_comparisons_form_params
+      params.require(:magiq_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method, :rank_method,
+        {magiq_comparisons_attributes: 
+          [:id, :comparable_id, :comparable_type, :title, :notes, :comparison_method, :appraisal_id,
            :score, :score_n, :rank]
         })
     end

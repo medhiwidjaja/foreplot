@@ -1,0 +1,28 @@
+#settings-section
+  .section
+    .widget-content-title Settings
+    table.table.table-condensed.rank-table
+      tr
+        th colspan=3 Choose weight distribution method
+
+      tr
+        th.narrow 
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_order_centroid', checked:@appraisal.rank_method=='rank_order_centroid'
+            | Rank Order Centroid
+        th.narrow 
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_reciprocal', checked:@appraisal.rank_method=='rank_reciprocal'
+            | Rank Reciprocal
+        th.narrow 
+          = form.label :rank_method
+            = form.radio_button :rank_method, 'rank_sum', checked:@appraisal.rank_method=='rank_sum'
+            | Rank Sum
+
+      tr.control-groups
+        td.narrow
+          = rank_barchart rank_method: 'rank_order_centroid', num_rank: @form.num_comparisons
+        td.narrow
+          = rank_barchart rank_method: 'rank_reciprocal', num_rank: @form.num_comparisons
+        td.narrow
+          = rank_barchart rank_method: 'rank_sum', num_rank: @form.num_comparisons

@@ -18,8 +18,8 @@
 //= require tinymce
 //= require jquery-ui
 //= require alternative
-//= require criterion
-//= require jquery.simulate.drag-sortable
+//= require criteria_tree
+//= require magiq_form
 //= require tree.jquery
 
 

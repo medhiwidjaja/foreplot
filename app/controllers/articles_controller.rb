@@ -61,7 +61,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
-    @article.destroy
+    @article.delete_completely!
     respond_to do |format|
       format.html { redirect_to articles_url, notice: 'Article was successfully destroyed.' }
       format.json { head :no_content }
@@ -90,4 +90,5 @@ class ArticlesController < ApplicationController
       params.require(:article).permit(:title, :description, :likes, :slug, :private, :active, :user_id,
                                      {alternatives_attributes: [:id, :title, :abbrev, :description, :position]} )
     end
+
 end

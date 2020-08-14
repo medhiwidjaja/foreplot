@@ -1,0 +1,61 @@
+.widget
+  .widget-header
+    i.icon-file
+    h3 Assign weights using MAGIQ method
+  .well.well-widget-content
+    .section
+      .widget-content-title With respect to:
+      h3 = @criterion.title
+
+    = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
+      = form.hidden_field :rank_method, value: 'rank_order_centroid'
+      .section
+        .section-title 
+          = evaluated_items_title(@criterion)
+          |  Ranking
+        .alert.alert-info
+          a.close data-dismiss="alert" ×
+          | Assign rankings by dragging the items to the desired ranking position. In case of tied rankings, put the items in the same ranking position.
+        #error-box
+        table.table
+          tr
+            th = evaluated_items_title(@criterion)
+            th Rank
+          tr
+            td
+              #sort-section
+                ul.sortable#sortable
+                  = form.fields_for :magiq_comparisons do |mc_fields|
+                    -unless mc_fields.object.persisted?
+                      li.rank-item id='#{mc_fields.object.id}'
+                        strong style="margin-left:5px" = mc_fields.object.title
+                        = mc_fields.hidden_field :id
+                        = mc_fields.hidden_field :title
+                        = mc_fields.hidden_field :rank, class:'order'
+                        = mc_fields.hidden_field :comparable_id
+                        = mc_fields.hidden_field :comparable_type
+            td
+              #ranks.ui-widget-content style="border:0"
+                - comparisons = @form.magiq_comparisons
+                - (1..comparisons.size).each do |i|
+                  .rank
+                    .thumbnail
+                      h2.pull-left = "# #{i}"
+                      ul.droppable data-rank="#{i}"
+                        -if comparisons.any? {|c| c.rank==i }
+                          - comparisons.map{|c| c if c.rank==i }.compact.each do |mc|
+                            -if mc && !mc.rank.nil?
+                              li.rank-item id='#{mc.id}'
+                                strong style="margin-left:5px" = mc.title
+                                = form.fields_for :magiq_comparisons, mc do |mc_fields|
+                                  = mc_fields.hidden_field :id, value: mc.id
+                                  = mc_fields.hidden_field :title, value: mc.title
+                                  = mc_fields.hidden_field :rank, value: (mc.rank || i), class:'order'
+                                  = mc_fields.hidden_field :comparable_id
+                                  = mc_fields.hidden_field :comparable_type
+                        -else
+                          li.placeholder &nbsp;
+
+      = render partial: 'settings', locals: {form: form}
+
+      = render 'toolbar'

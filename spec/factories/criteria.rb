@@ -14,7 +14,7 @@ FactoryBot.define do
     trait :with_3_children do
       after :create do |criterion|
         3.times do |i|
-          create :criterion, title: "Child ##{i+1}", parent: criterion
+          create :criterion, title: "Child ##{i+1}", parent: criterion, article: article
         end
       end
     end 

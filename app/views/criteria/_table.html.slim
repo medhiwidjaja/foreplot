@@ -35,7 +35,7 @@
           table.table.table-condensed.table-bordered.objectives-table
             thead
               tr
-                th Title
+                th.wide Title
                 th.number Rank
                 th.number Weight
                 th.number Normalized Weight
@@ -43,17 +43,16 @@
             tbody
               - presenter.table.each do |row|
                 tr
-                  td = row[:title]
+                  td.wide = row[:title]
                   td.number = row[:rank]
                   td.number 
                     div = number_with_precision(row[:score], precision: 2) || '-'
                   td.number 
-                    div = begin "%0.2f" % row[:score_n] rescue '-' end
+                    div = number_with_precision(row[:score_n], precision: 2) || '-'
                   td
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"
 
-      /= render partial: 'toolbar', locals: { criterion: @criterion, appraisal: @appraisal, member: @member, comparison_method: criterion.appraisal_method, readonly: false }
       = render partial: 'toolbar', locals: { presenter: presenter, read_only: false }
 
 

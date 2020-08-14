@@ -1,10 +1,10 @@
-class DirectComparisonsForm < BaseForm
-  attr_reader :appraisal
+class DirectComparisonsForm < BaseForm 
+  attr_reader :appraisal, :rest_method
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
 
   delegate :direct_comparisons, to: :appraisal
 
-  #validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
+  validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
 
   APPRAISAL_METHOD = 'DirectComparison'
 
@@ -16,10 +16,11 @@ class DirectComparisonsForm < BaseForm
     @models = [@appraisal]  # required for validate_models
     super(params)
     @appraisal.find_or_initialize :direct_comparisons
+    @rest_method = @appraisal.persisted? ? :patch : :post
   end
 
   def submit
-    appraisal.direct_comparisons.clear unless appraisal.persisted?
+    appraisal.direct_comparisons.clear unless persisted?
     appraisal.attributes = appraisal_params
     return false if invalid?
     appraisal.save
@@ -38,8 +39,11 @@ class DirectComparisonsForm < BaseForm
   end
 
   def update_with_scores(attributes)
-    DirectComparisonCalculatorService.new(attributes).call
+    DirectComparisonCalculator.new(attributes).call
   end
 
+  def persisted?
+    appraisal.direct_comparisons.any? &:persisted?
+  end
 
 end
