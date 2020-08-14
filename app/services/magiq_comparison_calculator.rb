@@ -1,4 +1,4 @@
-class MagiqComparisonCalculatorService < BaseCalculatorService
+class MagiqComparisonCalculator < BaseCalculator
   attr_reader :comparisons, :rank_method, :result
 
   def initialize(comparisons, rank_method='rank_order_centroid')

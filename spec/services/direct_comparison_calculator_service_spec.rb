@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DirectComparisonCalculatorService, type: :service do
+RSpec.describe DirectComparisonCalculator, type: :service do
   let(:direct_comparisons) {
     {"0"=>{"value"=>"4.0"}, 
      "1"=>{"value"=>"1.0"}, 
@@ -13,7 +13,7 @@ RSpec.describe DirectComparisonCalculatorService, type: :service do
      "1"=>{"value"=>"1.0", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3"}}
   }
 
-  subject { DirectComparisonCalculatorService.new(direct_comparisons) }
+  subject { DirectComparisonCalculator.new(direct_comparisons) }
 
   describe 'call' do
     it 'returns modified hash' do

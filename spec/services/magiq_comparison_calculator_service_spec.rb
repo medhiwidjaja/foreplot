@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MagiqComparisonCalculatorService, type: :service do
+RSpec.describe MagiqComparisonCalculator, type: :service do
   let(:magiq_comparisons) {
     {"0"=>{"rank"=>"2"}, 
      "1"=>{"rank"=>"3"}, 
@@ -12,7 +12,7 @@ RSpec.describe MagiqComparisonCalculatorService, type: :service do
      "1"=>{"rank"=>"3", "score"=>"0.1111111111111111"}}
   }
 
-  subject { MagiqComparisonCalculatorService.new(magiq_comparisons) }
+  subject { MagiqComparisonCalculator.new(magiq_comparisons) }
 
   describe 'call' do
     it 'returns modified hash' do

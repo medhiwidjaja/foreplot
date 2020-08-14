@@ -1,4 +1,4 @@
-class BaseCalculatorService
+class BaseCalculator
 
   private
 

@@ -1,4 +1,4 @@
-class DirectComparisonCalculatorService < BaseCalculatorService
+class DirectComparisonCalculator < BaseCalculator
   attr_reader :comparisons, :result
   def initialize(comparisons)
     @comparisons = comparisons

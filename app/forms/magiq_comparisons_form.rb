@@ -48,7 +48,7 @@ class MagiqComparisonsForm < BaseForm
   end
 
   def update_with_scores(attributes)
-    MagiqComparisonCalculatorService.new(attributes, rank_method).call
+    MagiqComparisonCalculator.new(attributes, rank_method).call
   end
 
   def persisted?

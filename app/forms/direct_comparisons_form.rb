@@ -39,7 +39,7 @@ class DirectComparisonsForm < BaseForm
   end
 
   def update_with_scores(attributes)
-    DirectComparisonCalculatorService.new(attributes).call
+    DirectComparisonCalculator.new(attributes).call
   end
 
   def persisted?
