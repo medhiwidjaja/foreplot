@@ -11,7 +11,7 @@
 		.well.well-widget-content
 			.section
 				.widget-content-title Parent node
-				h3 = @presenter.parent.title
+				h3 = @presenter.parent.title unless @presenter.parent.nil?
 			.section
 				.section-title Criterion
 				

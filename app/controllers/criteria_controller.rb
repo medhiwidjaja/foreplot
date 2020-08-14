@@ -46,7 +46,12 @@ class CriteriaController < ApplicationController
         format.html { redirect_to @criterion, notice: 'Criterion was successfully created.' }
         format.json { render :show, status: :created, location: @criterion }
       else
-        format.html { render :new, alert: @criterion.errors }
+        format.html { 
+          @parent = Criterion.find(params[:id])
+          @criterion.parent = @parent
+          @presenter = CriterionPresenter.new @criterion, current_user
+          render :new
+        }
         format.json { render json: @criterion.errors, status: :unprocessable_entity }
       end
     end
@@ -72,7 +77,7 @@ class CriteriaController < ApplicationController
     @parent = @criterion.parent
     @criterion.destroy
     respond_to do |format|
-      format.html { redirect_to @parent, notice: 'Criterion was successfully destroyed.' }
+      format.html { redirect_to article_criteria_path(@parent.article), notice: 'Criterion was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

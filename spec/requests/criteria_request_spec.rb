@@ -3,20 +3,18 @@ require 'rails_helper'
 RSpec.describe "Criterion", type: :request do
   let (:bingley) { create :bingley, :with_articles }
   let (:bingleys_article) { bingley.articles.first }
-  let (:root) { create(:criterion, article_id: bingleys_article.id) }
+  let (:root) { bingleys_article.criteria.first }
   let(:valid_attributes) {
-    { title: 'Criterion 1', article_id: bingleys_article.id, abbrev: 'C#1' }
+    { title: 'Criterion 1', article_id: bingleys_article.id, abbrev: 'C#1', parent_id: root.id }
   }
   let(:invalid_attributes) {
-    { title: '' }
+    { title: '', article_id: bingleys_article.id }
   }
 
   context "with signed in user" do
     before(:each) {
       sign_in bingley
       @article = bingleys_article
-      @root = root
-      3.times { create(:criterion, parent_id: @root.id) }
     }
 
     describe "GET #index" do
@@ -47,19 +45,19 @@ RSpec.describe "Criterion", type: :request do
       context "with valid params" do
         it "creates a new criterion" do
           expect {
-            post criterion_path(root), params: {criterion: valid_attributes}
+            post create_sub_criterion_path(root), params: {criterion: valid_attributes}
           }.to change(Criterion, :count).by(1)
         end
 
         it "redirects to the created criterion" do
-          post criterion_path(root), params: {criterion: valid_attributes}
+          post create_sub_criterion_path(root), params: {criterion: valid_attributes}
           expect(response).to redirect_to(@article.criteria.last)
         end
       end
 
       context "with invalid params" do
         it "returns a success response (i.e. to display the 'new' template)" do
-          post criterion_path(root), params: {criterion: invalid_attributes}
+          post create_sub_criterion_path(root), params: {criterion: invalid_attributes}
           expect(response).to be_successful
           expect(response).to render_template(:new)
         end
