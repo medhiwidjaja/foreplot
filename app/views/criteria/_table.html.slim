@@ -48,7 +48,7 @@
                   td.number 
                     div = number_with_precision(row[:score], precision: 2) || '-'
                   td.number 
-                    div = begin "%0.2f" % row[:score_n] rescue '-' end
+                    div = number_with_precision(row[:score_n], precision: 2) || '-'
                   td
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"

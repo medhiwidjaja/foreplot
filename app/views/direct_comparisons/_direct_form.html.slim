@@ -11,7 +11,7 @@
 
       .section
         .section-title 
-          = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+          = evaluated_items_title(@criterion)
         a.info-button data-toggle="collapse" data-target="#help-info" href="#" 
           i.icon-question-sign
 
@@ -42,7 +42,7 @@
                 td.number 
                   = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
                 td.number 
-                  = begin "%0.2f" % dc_fields.object.score_n rescue nil end
+                  = number_with_precision dc_fields.object.score_n, precision:2
 
       #toolbar.button-toolbar
         button.btn Save

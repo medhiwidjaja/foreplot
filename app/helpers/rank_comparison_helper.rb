@@ -30,5 +30,5 @@ module RankComparisonHelper
       end.join('').html_safe
     end
   end
-
+  
 end

@@ -26,4 +26,8 @@ module ComparisonHelper
       end
     end
   end
+  
+  def evaluated_items_title(criterion)
+    criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+  end
 end

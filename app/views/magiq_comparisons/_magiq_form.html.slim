@@ -11,7 +11,7 @@
       = form.hidden_field :rank_method, value: 'rank_order_centroid'
       .section
         .section-title 
-          = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+          = evaluated_items_title(@criterion)
           |  Ranking
         .alert.alert-info
           a.close data-dismiss="alert" ×
@@ -19,7 +19,7 @@
         #error-box
         table.table
           tr
-            th = @criterion.leaf? ? 'Alternatives' : 'Sub-criteria'
+            th = evaluated_items_title(@criterion)
             th Rank
           tr
             td
