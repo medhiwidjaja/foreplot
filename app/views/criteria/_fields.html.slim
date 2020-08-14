@@ -26,22 +26,22 @@
 .control-group
 	= form.label "Comparison method to be used by all participants at this node:", class: 'control-label'
 	.controls.pop-over
-		label.radio
-			= form.radio_button :appraisal_method, 'magiq'
+		= form.label :appraisal_method, class:'radio'
+			= form.radio_button :appraisal_method, 'MagiqComparison'
 			span rel='popover' data-content='Assign weights by ranking using Multi-Attribute Global Inference of Quality method' data-original-title='MAGIC Method'
 				| MAGIQ method
 	.controls.pop-over
-		label.radio
-			= form.radio_button :appraisal_method, 'direct'
+		= form.label :appraisal_method, class:'radio'
+			= form.radio_button :appraisal_method, 'DirectComparison'
 			span rel='popover' data-content='Directly assign weights to each sub-criteria using Simple Multi-Attribute Rating Technique' data-original-title='SMART method'
 				| SMART method
 	.controls.pop-over
-		label.radio
-			= form.radio_button :appraisal_method, 'ahp'
+		= form.label :appraisal_method, class:'radio'
+			= form.radio_button :appraisal_method, 'PairwiseComparison'
 			span rel='popover' data-content='Assign weights by making pairwise comparisons using Analytic Hierarchy Process' data-original-title='AHP Pairwise method'
 				| AHP Pairwise method
 	.controls.pop-over
-		label.radio
+		= form.label :appraisal_method, class:'radio'
 			= form.radio_button :appraisal_method, nil
 			span rel='popover' data-content='Each participant is free to choose any of the above method. Note that combining results of different methods may not give meaningfull answer.' data-original-title="No assigned method" data-html=true
 				| No assigned method
