@@ -41,6 +41,10 @@ class CriterionPresenter < BasePresenter
     @table ||= appraisal.relevant_comparisons.map {|c| {no: 1, title: c.title, rank:c.rank, score:c.score, score_n:c.score_n }}
   end
 
+  def comparison_type
+    appraisal.appraisal_method
+  end
+
   private
 
   def relevant_member(article)
