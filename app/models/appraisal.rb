@@ -46,9 +46,10 @@ class Appraisal < ApplicationRecord
 
   def unintermittency
     rank_sequence = magiq_comparisons.collect(&:rank).uniq.sort
+    check = (1..rank_sequence.size).to_a
     indexes = (1..magiq_comparisons.size).to_a
     empty_slots = indexes - rank_sequence 
-    if empty_slots.present?
+    if rank_sequence != check
       message = "#{'Slot'.pluralize(empty_slots.size)} #{empty_slots.join(', ')} can't be empty"
       errors.add(:base, message)
       throw(:abort)

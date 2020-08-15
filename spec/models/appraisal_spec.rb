@@ -44,24 +44,38 @@ RSpec.describe Appraisal, type: :model do
       is_expected.to be_invalid
     end
 
-    describe "rank numbers should be consequential, starting from 1" do
-      before {
-        allow_any_instance_of(MagiqComparison).to receive(:valid?).and_return(:true)
-        appraisal.magiq_comparisons << [
-          build(:magiq_comparison, rank: 3),
-          build(:magiq_comparison, rank: 3),
-          build(:magiq_comparison, rank: 3),
-          build(:magiq_comparison, rank: 5),
-          build(:magiq_comparison, rank: 5)
-        ]
-      }
-      it "is not valid if rank numbers are intermittent" do
-        is_expected.to be_invalid
+    describe "rank numbers should be sequential, starting from 1" do
+      context "rank numbers are sequential" do
+        before {
+          allow_any_instance_of(MagiqComparison).to receive(:valid?).and_return(:true)
+          appraisal.magiq_comparisons << [
+            build(:magiq_comparison, rank: 1),
+            build(:magiq_comparison, rank: 2),
+            build(:magiq_comparison, rank: 2),
+            build(:magiq_comparison, rank: 3),
+            build(:magiq_comparison, rank: 3)
+          ]
+        }
+        it { is_expected.to be_valid }
       end
 
-      it "sets correct error messages" do
-        appraisal.valid?
-        expect(appraisal.errors.messages).to eq({:base=>["Slots 1, 2, 4 can't be empty"]})
+      context "rank numbers are intermittent" do
+        before {
+          allow_any_instance_of(MagiqComparison).to receive(:valid?).and_return(:true)
+          appraisal.magiq_comparisons << [
+            build(:magiq_comparison, rank: 3),
+            build(:magiq_comparison, rank: 3),
+            build(:magiq_comparison, rank: 3),
+            build(:magiq_comparison, rank: 5),
+            build(:magiq_comparison, rank: 5)
+          ]
+        }
+        it { is_expected.to be_invalid }
+
+        it "sets correct error messages" do
+          appraisal.valid?
+          expect(appraisal.errors.messages).to eq({:base=>["Slots 1, 2, 4 can't be empty"]})
+        end
       end
     end
   end
