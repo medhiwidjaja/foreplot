@@ -42,7 +42,7 @@ class CriterionPresenter < BasePresenter
   end
 
   def comparison_type
-    appraisal.appraisal_method
+    appraisal.appraisal_method if appraisal.present?
   end
 
   private
