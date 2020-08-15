@@ -36,10 +36,33 @@ RSpec.describe Appraisal, type: :model do
   describe "validation for Magiq comparison" do
     let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_order_centroid'}
     subject { appraisal }
+
     it { is_expected.to be_valid }
+    
     it "is not valid without rank method" do
       appraisal.rank_method = nil
       is_expected.to be_invalid
+    end
+
+    describe "rank numbers should be consequential, starting from 1" do
+      before {
+        allow_any_instance_of(MagiqComparison).to receive(:valid?).and_return(:true)
+        appraisal.magiq_comparisons << [
+          build(:magiq_comparison, rank: 3),
+          build(:magiq_comparison, rank: 3),
+          build(:magiq_comparison, rank: 3),
+          build(:magiq_comparison, rank: 5),
+          build(:magiq_comparison, rank: 5)
+        ]
+      }
+      it "is not valid if rank numbers are intermittent" do
+        is_expected.to be_invalid
+      end
+
+      it "sets correct error messages" do
+        appraisal.valid?
+        expect(appraisal.errors.messages).to eq({:base=>["Slots 1, 2, 4 can't be empty"]})
+      end
     end
   end
 

@@ -13,6 +13,7 @@ class Appraisal < ApplicationRecord
     message: "%{value} is not a valid comparison method" }
   validates :criterion_id, uniqueness: {scope: [:member_id]}
   validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
+  validate  :unintermittency, if: -> { appraisal_method == 'MagiqComparison' }
 
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
@@ -41,4 +42,16 @@ class Appraisal < ApplicationRecord
     send appraisal_method.pluralize.underscore
   end
 
+  private
+
+  def unintermittency
+    rank_sequence = magiq_comparisons.collect(&:rank).uniq.sort
+    indexes = (1..magiq_comparisons.size).to_a
+    empty_slots = indexes - rank_sequence 
+    if empty_slots.present?
+      message = "#{'Slot'.pluralize(empty_slots.size)} #{empty_slots.join(', ')} can't be empty"
+      errors.add(:base, message)
+      throw(:abort)
+    end
+  end
 end
