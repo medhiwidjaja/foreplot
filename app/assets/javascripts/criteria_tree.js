@@ -95,26 +95,7 @@ function build_tree(root_id) {
 };
 
 $(document).on("turbolinks:load", function() {
-  // Tree
   if ($('#criteria-tree').length > 0) { 
     build_tree($('#criteria-tree').data('node'));
   };
-
-  // Participant
-  // $("li.participant").bind("click", function(){
-  //     $("li.participant").removeClass("active");
-  //     $(this).addClass("active");
-  //   });
-
-  // $("a.participant-anchor").bind("click", function(event){
-  //   var criterionId;
-  //   if ($("ul.tree").find(".selected").length == 0)
-  //     criterionId = $("#criteria-tree").attr("data-node");
-  //   else
-  //     criterionId = $("ul.tree").find(".selected").attr("id");
-  //   $.ajax({
-  //     url: "/criteria/"+criterionId+"?p="+$(this).parent("li").attr('id')
-  //   });
-  //   event.preventDefault();
-  // })
 });
