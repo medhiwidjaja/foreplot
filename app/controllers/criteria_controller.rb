@@ -1,7 +1,7 @@
 class CriteriaController < ApplicationController
   include TurbolinksCacheControl
 
-  before_action :set_criterion, except: [:index, :new, :create]
+  before_action :set_criterion, except: [:index, :new, :create, :tree]
   before_action :set_presenter, except: [:index, :new, :tree]
 
   # GET /article/1/criteria
@@ -28,8 +28,15 @@ class CriteriaController < ApplicationController
   end
 
   def tree
+    member_id = params[:p] 
     respond_to do |format|
-      format.json { render 'tree', locals: {node: @criterion.to_tree}}
+      root =  if member_id
+                Criterion.includes_appraisals_by(member_id)
+              else
+                Criterion.includes_family
+              end
+              .find(params[:id])
+      format.json { render 'tree', locals: {node: root, member_id: member_id}}
     end
   end
 
@@ -85,7 +92,7 @@ class CriteriaController < ApplicationController
   private
 
   def set_criterion
-    @criterion = Criterion.find(params[:id])
+    @criterion = Criterion.includes(:appraisals).find(params[:id])
   end
 
   def set_presenter

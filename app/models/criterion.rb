@@ -7,9 +7,18 @@ class Criterion < ApplicationRecord
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
   has_many :appraisals
-
+  
   validates :title, presence: true
   validate :must_have_parent_if_not_root
+
+  scope :includes_appraisals_by, ->(member_id) {
+    includes(:appraisals, children: {children: [{children: [{children: [:children, :appraisals]}, :appraisals]}, :appraisals]})
+      .where(appraisals: {member_id: member_id})
+  }
+
+  scope :includes_family, -> {
+    includes(:parent, children: {children: {children: {children: {children: :children}}}})
+  }
 
   def to_tree
     Criteria::Tree.build_tree(Criterion.includes(:parent, children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }

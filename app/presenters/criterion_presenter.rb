@@ -44,6 +44,10 @@ class CriterionPresenter < BasePresenter
     appraisal&.appraisal_method
   end
 
+  def allow_navigate
+    true
+  end
+
   private
 
   def relevant_member(article)
