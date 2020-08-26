@@ -1,4 +1,4 @@
--if tree.blank?
+-if root.blank?
   .well.side-widget
     .side-widget-header
     .side-widget-title Criteria Tree
@@ -14,7 +14,7 @@
     #widget1.collapse.in
       .side-widget-content
         /TODO: Vote ID
-        = content_tag "div", id: "criteria-tree", data: {node: tree.id, allow_click:true, vid:'VOTE_ID' } do
+        = content_tag "div", id: "criteria-tree", data: {node: root.id, allow_click: allow_click, pid: member_id} do
           div style="width:90%;"
             = image_tag "ajax-loader.gif"
       /-if can? :modify, @article

@@ -1,7 +1,7 @@
 - page_title 'Edit criteria'
 = article_menu @presenter.article
 - content_for :left_frame do
-  = render partial: 'sidepanel', locals:{ tree: @presenter.as_tree }
+  = render partial: 'sidepanel', locals:{ root: @presenter.root, member_id: @presenter.member_id, allow_click: @presenter.allow_navigate }
 	
 .widget
 	.widget-header
