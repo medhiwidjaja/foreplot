@@ -19,7 +19,7 @@
             = image_tag "ajax-loader.gif"
       /-if can? :modify, @article
       .side-widget-toolbar
-        = link_to url_for(only_path: false), class:"btn btn-mini edit-button"
+        = link_to url_for([@article, :criteria]), class:"btn btn-mini edit-button"
           i.icon-align-justify
         = link_to "Done", "#", class: "btn btn-mini btn-primary done-button", style: "display: none"
         span#add-criterion style="display: none; padding: 5px 0 0 10px"
