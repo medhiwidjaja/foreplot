@@ -125,6 +125,19 @@ RSpec.describe "Criterion", type: :request do
       end
     end
 
+    describe "criteria tree" do
+      let!(:criterion) { @article.criteria.create! valid_attributes }    
+      let(:root) { @article.criteria.root }  
+      let(:member_id) { @article.members.first.id }
+      let(:expected_json) {
+        %Q({"id":#{root.id},"label":"#{@article.title}","weights_incomplete":true,"children":[{"id":#{criterion.id},"label":"#{criterion.title}","weights_incomplete":true}]})
+      }
+      it "returns the JSON object of the criteria tree" do
+        get tree_criterion_path(root, p:member_id, format: :json)
+        expect(response.body).to eq(expected_json)
+      end
+    end
+
   end
 
 end

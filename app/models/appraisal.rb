@@ -19,6 +19,8 @@ class Appraisal < ApplicationRecord
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons
 
+  scope :by, -> (member_id) { where(member_id: member_id) }
+  
   COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :pairwise_comparisons].freeze
 
   def find_or_initialize(comparison_method)

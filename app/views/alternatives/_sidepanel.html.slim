@@ -25,7 +25,7 @@
                         i.icon-align-justify.pull-right.handle
       .side-widget-toolbar
         -if @alternatives.present?
-          = link_to url_for(only_path: false), class:"btn btn-mini edit-button"
+          = link_to url_for([@article, :alternatives]), class:"btn btn-mini edit-button"
             i.icon-align-justify
           = form.submit "Done", class: "btn btn-mini btn-primary done-button", style: "display: none"
         '

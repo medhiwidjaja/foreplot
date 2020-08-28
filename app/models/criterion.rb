@@ -7,13 +7,33 @@ class Criterion < ApplicationRecord
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
   has_many :appraisals
-
+  
   validates :title, presence: true
   validate :must_have_parent_if_not_root
 
-  def to_tree
-    Criteria::Tree.build_tree(Criterion.includes(:parent, children: {children: :children}).find(self.id)) {|c| c.attributes.slice("id","title") }
-  end
+  scope :with_appraisals_by, ->(member_id) {
+    joins("LEFT OUTER JOIN appraisals a ON a.criterion_id = criteria.id AND a.member_id = #{ActiveRecord::Base.connection.quote(member_id)}")
+    .select('a.is_complete as is_complete')
+  }
+
+  scope :includes_appraisals_by, ->(member_id) {
+    includes(:appraisals, children: {children: [{children: [{children: [:children, :appraisals]}, :appraisals]}, :appraisals]})
+      .where('appraisals.member_id' => member_id)
+  }
+
+  scope :includes_family, -> {
+    includes(:parent, children: {children: {children: {children: {children: :children}}}})
+  }
+
+  scope :with_children, -> {
+    joins(<<-SQL
+    LEFT OUTER JOIN (
+      SELECT DISTINCT parent_id as id, array_agg(id) over (partition by parent_id) as children 
+      FROM criteria ) pc USING(id)
+    SQL
+    ).select('criteria.*, children as subnodes')
+    .order(:id)
+  }
 
   def self.root
     where(parent:nil).take

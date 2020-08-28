@@ -1,11 +1,6 @@
 
 class MagiqComparisonsController < ApplicationController
-
-  before_action :set_criterion
-  before_action :set_related_article
-  before_action :set_member
-  before_action :set_appraisal
-  before_action :set_tree, only: [:new, :index, :edit]
+  include ComparisonConcern
 
   def new
     @form = MagiqComparisonsForm.new @appraisal
@@ -36,29 +31,6 @@ class MagiqComparisonsController < ApplicationController
   end
 
   private
-    def set_criterion
-      @criterion = Criterion.find(params[:criterion_id])
-    end
-
-    def set_related_article
-      @article = @criterion.article
-    end
-
-    def set_tree
-      @tree = @article.criteria.root.to_tree
-    end
-
-    def set_member
-      @member = if params[:member_id] 
-                  @article.members.where(id: params[:member_id]).take
-                else
-                  @article.members.where(user: current_user).take
-                end
-    end
-
-    def set_appraisal
-      @appraisal = @criterion.appraisals.find_or_initialize_by member: @member
-    end
 
     def magiq_comparisons_form_params
       params.require(:magiq_comparisons_form).permit(:criterion_id, :member_id, :appraisal_method, :rank_method,
