@@ -1,27 +1,21 @@
-class Criteria::Tree < Tree::TreeNode
+class Criteria::Tree < Criteria::TreeBase
 
-  # Example:
-  #     Criteria::Tree.build_tree(criterion) { |node| node.attributes }
-  def self.build_tree(criterion, &proc)
-    node = new(criterion.title, proc.call(criterion))
-    unless criterion.children.empty?
-      criterion.children.collect { |child| node << Criteria::Tree.build_tree(child, &proc) }
-    end 
-    node
+  attr_reader :tree
+
+  def initialize(article_id, member_id)
+    query = Criterion.with_children.where(article_id: article_id)
+    query = query.with_appraisals_by(member_id) if member_id
+    super(query)
   end
 
-  def pretty_print 
-    self.collect do |n| 
-      puts "#{'  '*n.node_depth}- #{n.name}:\t #{yield n}"
-    end 
-  end
-
-  def method_missing(method, *args, &block)
-    if content.keys.include? method.to_s
-      content[method.to_s]
-    else
-      raise NoMethodError
+  def get_tree(root_id)
+    @tree = build_tree(data[root_id]) do |c| 
+      {id: c.id, label: c.title, weights_incomplete: !c.is_complete} 
     end
+  end
+
+  def as_json_tree(root_id)
+    get_tree(root_id).to_json
   end
 
 end
