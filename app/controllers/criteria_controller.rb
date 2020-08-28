@@ -29,14 +29,10 @@ class CriteriaController < ApplicationController
 
   def tree
     member_id = params[:p] 
-    respond_to do |format|
-      root =  if member_id
-                Criterion.includes_appraisals_by(member_id)
-              else
-                Criterion.includes_family
-              end
-              .find(params[:id])
-      format.json { render 'tree', locals: {node: root, member_id: member_id}}
+    root = Criterion.find(params[:id])
+    tree = Criteria::Tree.new(root.article_id, member_id)
+    respond_to do |format|     
+      format.json { render json: tree.as_json_tree(root.id) }
     end
   end
 
