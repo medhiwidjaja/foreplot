@@ -81,7 +81,7 @@ RSpec.describe Appraisal, type: :model do
   end
 
   describe "validation for AHP comparison" do
-    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'PairwiseComparison'}
+    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'AHPComparison'}
     subject { appraisal }
 
     before {

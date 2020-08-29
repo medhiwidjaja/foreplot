@@ -10,7 +10,7 @@ class Appraisal < ApplicationRecord
 
   validates :member, presence: true
   validates :appraisal_method, presence: true
-  validates :appraisal_method, inclusion: { in: %w(DirectComparison MagiqComparison PairwiseComparison),
+  validates :appraisal_method, inclusion: { in: %w(DirectComparison MagiqComparison AHPComparison),
     message: "%{value} is not a valid comparison method" }
   validates :criterion_id, uniqueness: {scope: [:member_id]}
   validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
@@ -23,7 +23,7 @@ class Appraisal < ApplicationRecord
 
   scope :by, -> (member_id) { where(member_id: member_id) }
   
-  COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :pairwise_comparisons].freeze
+  COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :ahp_comparisons].freeze
 
   def find_or_initialize(comparison_method)
     raise "Unsupported comparisons: #{comparison_method}" unless COMPARISON_TYPES.include? comparison_method
