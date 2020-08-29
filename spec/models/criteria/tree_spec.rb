@@ -13,7 +13,7 @@ RSpec.describe Criteria::Tree do
   end
 
   let(:expected_hash) {
-    { id: kind_of(Integer), label: 'Article 1', weights_incomplete: true, 
+    { id: kind_of(Integer), label: /Article/, weights_incomplete: true, 
       children: a_collection_containing_exactly(
         a_hash_including({label: "C 1", weights_incomplete: true, children: 
           a_collection_containing_exactly(
