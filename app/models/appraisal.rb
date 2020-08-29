@@ -6,6 +6,7 @@ class Appraisal < ApplicationRecord
   has_many :direct_comparisons, dependent: :destroy
   has_many :ahp_comparisons, dependent: :destroy
   has_many :magiq_comparisons, dependent: :destroy
+  has_many :pairwise_comparisons, dependent: :destroy
 
   validates :member, presence: true
   validates :appraisal_method, presence: true
@@ -14,6 +15,7 @@ class Appraisal < ApplicationRecord
   validates :criterion_id, uniqueness: {scope: [:member_id]}
   validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
   validate  :unintermittency, if: -> { appraisal_method == 'MagiqComparison' }
+  validates :pairwise_comparisons, presence: true, if: -> { ahp_comparisons.present? }
 
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons

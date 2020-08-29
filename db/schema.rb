@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_034900) do
+ActiveRecord::Schema.define(version: 2020_08_29_045434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,11 +107,11 @@ ActiveRecord::Schema.define(version: 2020_08_13_034900) do
     t.string "comparable1_type"
     t.integer "comparable2_id"
     t.string "comparable2_type"
-    t.bigint "ahp_comparison_id"
     t.decimal "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ahp_comparison_id"], name: "index_pairwise_comparisons_on_ahp_comparison_id"
+    t.bigint "appraisal_id"
+    t.index ["appraisal_id"], name: "index_pairwise_comparisons_on_appraisal_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_034900) do
   add_foreign_key "criteria", "articles"
   add_foreign_key "members", "articles"
   add_foreign_key "members", "users"
+  add_foreign_key "pairwise_comparisons", "appraisals"
   add_foreign_key "properties", "alternatives"
   add_foreign_key "properties", "articles"
   add_foreign_key "rankings", "alternatives"

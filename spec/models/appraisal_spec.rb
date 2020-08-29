@@ -80,10 +80,39 @@ RSpec.describe Appraisal, type: :model do
     end
   end
 
+  describe "validation for AHP comparison" do
+    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'PairwiseComparison'}
+    subject { appraisal }
+
+    before {
+      allow_any_instance_of(AHPComparison).to receive(:valid?).and_return(:true)
+      appraisal.ahp_comparisons << [
+        build(:ahp_comparison, comparable_id: 1, comparable_type: 'Criterion'),
+        build(:ahp_comparison, comparable_id: 2, comparable_type: 'Criterion'),
+        build(:ahp_comparison, comparable_id: 3, comparable_type: 'Criterion')
+      ]
+      appraisal.pairwise_comparisons << [
+        build(:pairwise_comparison),
+        build(:pairwise_comparison),
+        build(:pairwise_comparison)
+      ]
+    }
+    
+    context "with valid pairwise comparisons" do
+      it { is_expected.to be_valid }
+    end
+    
+    it "is not valid without pairwise comparisons" do
+      appraisal.pairwise_comparisons.clear
+      is_expected.to be_invalid
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:direct_comparisons).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:magiq_comparisons).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:ahp_comparisons).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:pairwise_comparisons).macro).to eq(:has_many) }
   end
 end
