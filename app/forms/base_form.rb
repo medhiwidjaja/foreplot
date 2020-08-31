@@ -4,6 +4,16 @@ class BaseForm
   validate :validate_models
 
   attr_accessor :models
+  attr_reader   :appraisal
+
+  def initialize(appraisal, params = {})
+    @appraisal = appraisal
+    super(params)
+  end
+
+  def rest_method
+    appraisal.persisted? ? :patch : :post
+  end
 
   private
 
