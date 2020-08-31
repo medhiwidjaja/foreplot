@@ -5,9 +5,9 @@ RSpec.describe AHPComparisonCalculator, type: :service do
   let(:decision_matrix) { [0.25, 4, 9] }
   let(:expected_result) { 
     { 
-      "2" => { "name"=>"Atari",     "score"=>"0.7170650412287761",  "score_n"=>"0.7170650412287761",  "rank"=>"1" }, 
-      "1" => { "name"=>"Apple",     "score"=>"0.2171656088028061",  "score_n"=>"0.2171656088028061",  "rank"=>"2" }, 
-      "3" => { "name"=>"Commodore", "score"=>"0.06576934996841792", "score_n"=>"0.06576934996841792", "rank"=>"3" } 
+      "2" => { "comparable_id" => "2", "score"=>"0.7170650412287761",  "score_n"=>"0.7170650412287761",  "rank"=>"1" }, 
+      "1" => { "comparable_id" => "1", "score"=>"0.2171656088028061",  "score_n"=>"0.2171656088028061",  "rank"=>"2" }, 
+      "3" => { "comparable_id" => "3", "score"=>"0.06576934996841792", "score_n"=>"0.06576934996841792", "rank"=>"3" } 
     }
   }
   let(:expected_cr) { 0.03180650067105072 }
