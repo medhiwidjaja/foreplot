@@ -19,7 +19,7 @@ class AHPComparisonCalculator < BaseCalculator
   private 
 
   def choice_array(choices)
-    choices.map {|choice| {id: choice["id"].to_i, name: choice["name"] } }
+    choices.map &:symbolize_keys
   end
   
   def entries
@@ -29,9 +29,9 @@ class AHPComparisonCalculator < BaseCalculator
   end
 
   def convert_to_attributes(result)
-    result.reduce(Hash.new) do |acc, r|
-      acc.merge( {"#{r[:id]}" => 
-        param_hash(r, except: [:id, :name]).merge({"comparable_id" => "#{r[:id]}"}) 
+    result.each_with_index.reduce(Hash.new) do |acc, (r, idx)|
+      acc.merge( {"#{r[:id] || idx}" => 
+        param_hash(r, except: [:name]).merge({"comparable_id" => "#{r[:comparable_id]}", "comparable_type" => "#{r[:comparable_type]}" }) 
       } )
     end
   end 

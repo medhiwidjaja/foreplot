@@ -20,6 +20,7 @@ class Appraisal < ApplicationRecord
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons
+  accepts_nested_attributes_for :pairwise_comparisons
 
   scope :by, -> (member_id) { where(member_id: member_id) }
   
@@ -27,18 +28,18 @@ class Appraisal < ApplicationRecord
 
   def find_or_initialize(comparison_method)
     raise "Unsupported comparisons: #{comparison_method}" unless COMPARISON_TYPES.include? comparison_method
-    if comparison_method == :pairwise_comparisons
-      comparisons = find_or_initialize_pairwise_comparisons
-    else
-      comparisons = self.public_send("#{comparison_method.to_s}")
-      criterion.evaluatees.each do |evaluatee|
-        comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, appraisal: self
-      end if comparisons.size == 0
-    end
+    comparisons = self.public_send("#{comparison_method.to_s}")
+    criterion.evaluatees.each do |evaluatee|
+      comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, appraisal: self
+    end if comparisons.size == 0
     comparisons
   end
 
   def find_or_initialize_pairwise_comparisons
+    comparison_pairs.each do |evaluatee|
+      pairwise_comparisons.find_or_initialize_by comparable1: evaluatee.first, comparable2: evaluatee.last
+    end
+    pairwise_comparisons
   end
 
   def relevant_comparisons
@@ -58,5 +59,9 @@ class Appraisal < ApplicationRecord
       errors.add(:base, message)
       throw(:abort)
     end
+  end
+
+  def comparison_pairs
+    criterion.evaluatees.order(id: :asc).map{|e| e }.combination(2)
   end
 end
