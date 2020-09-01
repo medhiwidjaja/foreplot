@@ -21,6 +21,8 @@
 //= require criteria_tree
 //= require magiq_form
 //= require tree.jquery
+//= require jquery.slider-ext
+//= require pairwise_slider
 
 
 
