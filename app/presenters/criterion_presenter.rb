@@ -37,7 +37,7 @@ class CriterionPresenter < BasePresenter
   end
 
   def table
-    @table ||= appraisal&.relevant_comparisons&.map {|c| {no: 1, title: c.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+    @table ||= appraisal&.relevant_comparisons&.order(:comparable_id)&.map {|c| {no: 1, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
   end
 
   def comparison_type

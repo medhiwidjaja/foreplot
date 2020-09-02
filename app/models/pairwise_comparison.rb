@@ -5,4 +5,5 @@ class PairwiseComparison < ApplicationRecord
 
   validates :value, presence: true
   validates :appraisal, presence: true
+
 end
