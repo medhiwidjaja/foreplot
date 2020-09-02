@@ -25,7 +25,7 @@ class AHPComparisonCalculator < BaseCalculator
   def entries
     comparisons
       .sort_by {|k,v| [v["comparable1_id"], v["comparable2_id"]] }
-      .map {|k,v| v["value"].to_f }
+      .map {|k,v| comparison_value v["value"] }
   end
 
   def convert_to_attributes(result)
@@ -36,4 +36,8 @@ class AHPComparisonCalculator < BaseCalculator
     end
   end 
 
+  def comparison_value(v)
+    value = v.to_f
+    value > 0 ? 1/(value+1) : -value+1
+  end
 end

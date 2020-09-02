@@ -9,14 +9,14 @@ RSpec.describe AHPComparisonsForm do
   let(:c2) { create :criterion, article:article, parent:criterion }
   let(:c3) { create :criterion, article:article, parent:criterion }
   let(:params)    {
-    {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
+    {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison"
       :ahp_comparisons_attributes=>{
         "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
         "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
         "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
       },
       :pairwise_comparisons_attributes=>{
-        "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
+        "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>-4}, 
         "1"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>4}, 
         "2"=>{"comparable1_id"=>c2.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>9}
       }
@@ -87,8 +87,8 @@ RSpec.describe AHPComparisonsForm do
           "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "id"=>persisted_appraisal.ahp_comparisons.last.id}
         },
         :pairwise_comparisons_attributes => {
-          "0"=>{"comparable1_id" => "#{c1.id}", "comparable2_id" => "#{c2.id}", "value"=>"0.25", "id"=>persisted_appraisal.pairwise_comparisons.first.id }, 
-          "1"=>{"comparable1_id" => "#{c1.id}", "comparable2_id" => "#{c2.id}", "value"=>"4", "id"=>persisted_appraisal.pairwise_comparisons.second.id }, 
+          "0"=>{"comparable1_id" => "#{c1.id}", "comparable2_id" => "#{c2.id}", "value"=>"-4", "id"=>persisted_appraisal.pairwise_comparisons.first.id }, 
+          "1"=>{"comparable1_id" => "#{c1.id}", "comparable2_id" => "#{c3.id}", "value"=>"4", "id"=>persisted_appraisal.pairwise_comparisons.second.id }, 
           "2"=>{"comparable1_id" => "#{c2.id}", "comparable2_id" => "#{c3.id}", "value"=>"9", "id"=>persisted_appraisal.pairwise_comparisons.last.id }
         }
       }
@@ -105,7 +105,7 @@ RSpec.describe AHPComparisonsForm do
       form = described_class.new persisted_appraisal, @new_params
       form.submit
       comparisons = persisted_appraisal.ahp_comparisons.reload
-      expect(comparisons.order(:id).map{|x| "%0.2f" % x.score}).to eq(["0.22", "0.72", "0.07"])
+      expect(comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score}).to eq(["0.22", "0.72", "0.07"])
     end
 
   end

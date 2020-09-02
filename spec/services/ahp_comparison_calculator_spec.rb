@@ -6,7 +6,7 @@ RSpec.describe AHPComparisonCalculator, type: :service do
     {"id"=>2, "name"=>"Atari", "comparable_id" => 12, "comparable_type" => "Alternative"}, 
     {"id"=>3, "name"=>"Commodore", "comparable_id" => 13, "comparable_type" => "Alternative"}
   ] }
-  let(:decision_matrix) { [0.25, 4, 9] }
+
   let(:expected_result) { 
     { 
       "2" => { "id" => "2", "comparable_id" => "12", "comparable_type" => 'Alternative', "score"=>"0.7170650412287761",  "score_n"=>"0.7170650412287761",  "rank"=>"1" }, 
@@ -17,7 +17,7 @@ RSpec.describe AHPComparisonCalculator, type: :service do
   let(:expected_cr) { 0.03180650067105072 }
   let(:pairwise_comparisons) {
     {
-      "0" => {"comparable1_id" => "11", "comparable2_id" => "12", "value" => "0.25"},
+      "0" => {"comparable1_id" => "11", "comparable2_id" => "12", "value" => "-4"},
       "1" => {"comparable1_id" => "11", "comparable2_id" => "13", "value" => "4"},
       "2" => {"comparable1_id" => "12", "comparable2_id" => "13", "value" => "9"}
     }
