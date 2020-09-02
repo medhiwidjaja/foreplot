@@ -45,6 +45,9 @@ class AHPComparisonsForm < BaseForm
     }
   end
 
+  # FIXME: Slider value is zero based so offset is wrong
+  # TODO:  Instead of storing the slider values in the database, we should store the real comparison values
+  
   def update_with_scores(attributes, choices)
     AHPComparisonCalculator.new(attributes, choices).call
   end
