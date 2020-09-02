@@ -12,8 +12,8 @@ module ComparisonHelper
         link_to 'Rank compare', criterion_edit_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'DirectComparison'
         link_to 'Direct compare', criterion_edit_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
-      when 'PairwiseComparison'
-        link_to 'Pairwise compare', criterion_edit_pairwise_comparisons_path(criterion_id, member_id: member_id), class: class_option
+      when 'AHPComparison'
+        link_to 'Pairwise compare', criterion_edit_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
       end
     else
       case comparison_method
@@ -21,8 +21,8 @@ module ComparisonHelper
         link_to 'Rank compare', criterion_new_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'DirectComparison'
         link_to 'Direct compare', criterion_new_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
-      when 'PairwiseComparison'
-        link_to 'Pairwise compare', criterion_new_pairwise_comparisons_path(criterion_id, member_id: member_id), class: class_option
+      when 'AHPComparison'
+        link_to 'Pairwise compare', criterion_new_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
       end
     end
   end
