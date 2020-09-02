@@ -41,34 +41,36 @@
                 = link_to 'Free scale (1.0-9.0)', "#", id: 'free-scale'
 
         fieldset data-disable=false
-          /= form.hidden_field :ahp_scale, id:"ahp-scale", value: @evaluation.ahp_scale	
           #ahp-comparison
-            -@form.ahp_comparisons.each do |ahp|
-              = form.fields_for :ahp_comparisons do |ahp_fields|
-                = ahp_fields.hidden_field :id
-                = ahp_fields.hidden_field :comparable_id 
-                = ahp_fields.hidden_field :comparable_type
-                = ahp_fields.hidden_field :title
+            = form.fields_for :ahp_comparisons do |ahp_fields|
+              = ahp_fields.hidden_field :id
+              = ahp_fields.hidden_field :comparable_id 
+              = ahp_fields.hidden_field :comparable_type
           #pairwise-comparison 
-            -@form.pairwise_comparisons.each.with_index(1) do |pair, i|
-              = form.fields_for :pairwise_comparisons, pair do |pw_fields|
-                .pair-container
-                  .slider-container.slider-top-section
-                    .option-left data-jam="-1" data-pair="#{i}" data-id="#{pair.comparable1_id}"
-                      label for="#{i}a-#{pair.comparable1_id}" = pair.comparable1.title
-                    .option-right data-jam="1" data-pair="#{i}" data-id=="#{pair.comparable2_id}"
-                      label for="#{i}b-#{pair.comparable2_id}" = pair.comparable2.title
-                  .slider-container.slider-middle-section
-                    .marker
-                      label id="level-l-#{i}" data-pair="#{i}" &nbsp;
-                    .marker
-                      label id="level-r-#{i}" data-pair="#{i}" &nbsp;
-                  .slider-container.slider-bottom-section
-                    .pairwise-slider data-pair="#{i}" name="#{pair.comparable1.title}" data-value="#{pair.value.nil? ? 0 : pair.slider_value}"
+            /-@form.pairwise_comparisons.each.with_index(1) do |pair, i|
+            - i = 0
+            = form.fields_for :pairwise_comparisons do |pw_fields|
+              - i += 1
+              - pair = pw_fields.object
+              .pair-container
+                .slider-container.slider-top-section
+                  .option-left data-jam="-1" data-pair="#{i}" data-id="#{pair.comparable1_id}"
+                    label for="#{i}a-#{pair.comparable1_id}" = pair.comparable1.title
+                  .option-right data-jam="1" data-pair="#{i}" data-id=="#{pair.comparable2_id}"
+                    label for="#{i}b-#{pair.comparable2_id}" = pair.comparable2.title
+                .slider-container.slider-middle-section
+                  .marker
+                    label id="level-l-#{i}" data-pair="#{i}" &nbsp;
+                  .marker
+                    label id="level-r-#{i}" data-pair="#{i}" &nbsp;
+                .slider-container.slider-bottom-section
+                  .pairwise-slider data-pair="#{i}" name="#{pair.comparable1.title}" data-value="#{pair.value.nil? ? 0 : pair.value}"
 
-                  = pw_fields.hidden_field :comparable1_id, value: pair.comparable1_id
-                  = pw_fields.hidden_field :comparable2_id, value: pair.comparable2_id
-                  = pw_fields.hidden_field :value, id:"comparison-#{i}", value: ""
+                = pw_fields.hidden_field :comparable1_id
+                = pw_fields.hidden_field :comparable1_type
+                = pw_fields.hidden_field :comparable2_id
+                = pw_fields.hidden_field :comparable2_type
+                = pw_fields.hidden_field :value, id:"comparison-#{i}", value: ""
 
       = render partial: 'settings', locals: {form: form}
 
