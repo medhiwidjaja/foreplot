@@ -32,3 +32,6 @@
 
 # Ignore .vscode
 /.vscode
+
+# Ignore all DS_Store file
+.DS_Store
