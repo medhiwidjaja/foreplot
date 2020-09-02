@@ -27,9 +27,18 @@ RSpec.describe Appraisal, type: :model do
       expect(other_appraisal).to be_invalid
     end
 
-    it "rejects appraisal with different method by the same member" do
+    it "accepts appraisal with different method by the same member" do
       other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_sum'
-      expect(other_appraisal).to be_invalid
+      expect(other_appraisal).to be_valid
+    end
+  end
+
+  describe "overrides appraisal with new method" do
+    it "inactivate other appraisals by same member using other method" do
+      new_appraisal = create :appraisal, criterion: criterion, member: member, appraisal_method: 'AHPComparison'
+      expect(new_appraisal).to be
+      expect(new_appraisal.is_valid).to eq(true)
+      expect(appraisal.reload.is_valid).to eq(false)
     end
   end
 

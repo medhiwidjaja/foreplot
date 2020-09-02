@@ -12,7 +12,7 @@ class Appraisal < ApplicationRecord
   validates :appraisal_method, presence: true
   validates :appraisal_method, inclusion: { in: %w(DirectComparison MagiqComparison AHPComparison),
     message: "%{value} is not a valid comparison method" }
-  validates :criterion_id, uniqueness: {scope: [:member_id]}
+  validates :criterion_id, uniqueness: {scope: [:member_id, :appraisal_method]}
   validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
   validate  :unintermittency, if: -> { appraisal_method == 'MagiqComparison' }
   validates :pairwise_comparisons, presence: true, if: -> { ahp_comparisons.present? }
@@ -22,6 +22,9 @@ class Appraisal < ApplicationRecord
   accepts_nested_attributes_for :ahp_comparisons
   accepts_nested_attributes_for :pairwise_comparisons
 
+  before_save :invalidate_other_appraisals
+
+  default_scope { where is_valid: true }
   scope :by, -> (member_id) { where(member_id: member_id) }
   
   COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :ahp_comparisons].freeze
@@ -63,5 +66,12 @@ class Appraisal < ApplicationRecord
 
   def comparison_pairs
     criterion.evaluatees.order(id: :asc).map{|e| e }.combination(2)
+  end
+
+  def invalidate_other_appraisals
+    is_valid = true
+    criterion.appraisals
+      .where(member_id: member_id).where.not(appraisal_method: appraisal_method)
+      .update_all is_valid: false
   end
 end
