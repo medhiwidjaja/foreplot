@@ -55,10 +55,18 @@ RSpec.describe AHPComparisonsForm do
     let(:expected_scores) {
       ["0.22", "0.72", "0.07"]
     }
+    let(:expected_cr) { 0.032 }
+
     it "stores correct comparison results" do
       form = described_class.new appraisal, params
       form.submit
       expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score_n}).to eq(expected_scores)
+    end
+
+    it "saves the consistency ratio in appraisals table" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.reload.consistency_ratio.round(3)).to eq(expected_cr)
     end
 
   end

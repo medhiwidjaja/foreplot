@@ -18,13 +18,14 @@ class AHPComparisonsForm < BaseForm
     @appraisal.find_or_initialize :ahp_comparisons
     @appraisal.find_or_initialize_pairwise_comparisons
     @choices = get_choices(@appraisal)
-    @comparable_type = @choices&.first[:comparable_type]
+    @comparable_type = @appraisal.ahp_comparisons.first[:comparable_type]
   end
 
   def submit
     appraisal.ahp_comparisons.clear unless persisted?
     appraisal.pairwise_comparisons.clear unless persisted?
-    appraisal.attributes = appraisal_params
+    calculator = AHPComparisonCalculator.new(pairwise_comparisons_attributes, choices)
+    appraisal.attributes = appraisal_params(calculator)
     return false if invalid?
     appraisal.save
     true
@@ -36,12 +37,13 @@ class AHPComparisonsForm < BaseForm
 
   private
 
-  def appraisal_params
+  def appraisal_params(calculator)
     {
       criterion_id: criterion_id,
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
-      ahp_comparisons_attributes: update_with_scores(pairwise_comparisons_attributes, choices),
+      consistency_ratio: calculator.cr,
+      ahp_comparisons_attributes: calculator.call,
       pairwise_comparisons_attributes: pairwise_comparisons_attributes
     }
   end
@@ -56,7 +58,7 @@ class AHPComparisonsForm < BaseForm
 
   def get_choices(appraisal)
     appraisal.ahp_comparisons
-      .order(:comparable_id)
+      .sort_by(&:comparable_id)
       .map {|c| {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, name: c.title }}
   end
 
