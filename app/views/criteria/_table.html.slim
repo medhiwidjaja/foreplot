@@ -31,6 +31,7 @@
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
 
+        / TODO: Show consistency ratio result of AHP calculation
         -unless presenter.table.nil?
           table.table.table-condensed.table-bordered.objectives-table
             thead
