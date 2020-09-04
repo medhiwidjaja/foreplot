@@ -27,18 +27,18 @@
             ul.dropdown-menu
               -if @criterion.leaf?
                 li
-                  = link_to 'Verbal scale', "#", id: 'level-scale-5'
+                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'level-scale-5'
                 li
-                  = link_to 'Verbal scale (9 levels)', "#", id: 'level-scale-9'
+                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'level-scale-9'
               -else
                 li
-                  = link_to 'Verbal scale', "#", id: 'importance-scale-5'
+                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'importance-scale-5'
                 li
-                  = link_to 'Verbal scale (9 levels)', "#", id: 'importance-scale-9'
+                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'importance-scale-9'
               li
-                = link_to 'Numeric (1-9)', "#", id: 'numeric-scale'
+                = link_to 'Numeric (1-9)', "#", class: 'ahp-scale', name: 'numeric-scale'
               li
-                = link_to 'Free scale (1.0-9.0)', "#", id: 'free-scale'
+                = link_to 'Free scale (1.0-9.0)', "#", class: 'ahp-scale', name: 'free-scale'
 
         fieldset data-disable=false
           #ahp-comparison
@@ -55,9 +55,9 @@
               .pair-container
                 .slider-container.slider-top-section
                   .option-left data-jam="-1" data-pair="#{i}" data-id="#{pair.comparable1_id}"
-                    label for="#{i}a-#{pair.comparable1_id}" = pair.comparable1.title
+                    label = pair.comparable1.title
                   .option-right data-jam="1" data-pair="#{i}" data-id=="#{pair.comparable2_id}"
-                    label for="#{i}b-#{pair.comparable2_id}" = pair.comparable2.title
+                    label = pair.comparable2.title
                 .slider-container.slider-middle-section
                   .marker
                     label id="level-l-#{i}" data-pair="#{i}" &nbsp;

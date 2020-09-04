@@ -1,7 +1,8 @@
-$(document).on("turbolinks:load", function() {
+$(document).on("ready turbolinks:load", function() {
 	var pairwise = (function() {
 		var sliderDivClass = "div[class^=pairwise-slider]";
 		var defaultScale = 'numeric';
+		var selectedScale;
 
 		var importanceScale = function(val) {
 			var scales = ['equally as important',
@@ -26,7 +27,7 @@ $(document).on("turbolinks:load", function() {
 							'very strongly better',
 							'very strongly to extremely better',
 							'extremely better'];
-			return scales[Math.abs(val)];
+			return scales[Math.abs(val)];	
 		};
 	
 		var numericScale = function(val) {
@@ -34,47 +35,27 @@ $(document).on("turbolinks:load", function() {
 							'2 X', '3 X', '4 X', '5 X', '6 X', '7 X', '8 X', '9 X' ];
 			return scales[Math.abs(val)];
 		};
-	
+		
 		var freeScale = function(val) {
 			return (Math.abs(val)+1) + " x";
 		};
 
-		var useScale = function(scale, disable) {
-			var labelText;
-			if (scale=='importance') { 
-				$("#ahp-scale").attr("value", 'importance');
-				buildSliders(2, importanceScale, disable);
-				labelText = 'Verbal Importance';
-			}
-			else if (scale=='importance-9') { 
-				$("#ahp-scale").attr("value", 'importance-9');
-				buildSliders(1, importanceScale, disable);
-				labelText = 'Verbal Importance (9 levels)';
-			}
-			else if (scale=='level') { 
-				$("#ahp-scale").attr("value", 'level');
-				buildSliders(2, levelScale, disable);
-				labelText = 'Verbal Scale';
-			}
-			else if (scale=='level-9') { 
-				$("#ahp-scale").attr("value", 'level-9');
-				buildSliders(1, levelScale, disable);
-				labelText = 'Verbal Scale (9 levels)';
-			}
-			else if (scale=='numeric') { 
-				$("#ahp-scale").attr("value", 'numeric');
-				buildSliders(1, numericScale, disable);
-				labelText = 'Numeric (0..9)';
-			}
-			else if (scale=='free') { 
-				$("#ahp-scale").attr("value", 'free');
-				buildSliders(0.1, freeScale, disable);
-				labelText = 'Free scale (0.0 - 9.0)';
+		var useScale = function(scaleElement, disable) {
+			var scale = scaleElement.attr("name");
+			$('#scale-label').text(scaleElement.text());
+			switch(scale) {
+				case 'importance-scale-5': buildSliders(importanceScale, 2, disable); break;
+				case 'importance-scale-9': buildSliders(importanceScale, 1, disable); break;
+				case 'level-scale-5':      buildSliders(levelScale, 2, disable); break;
+				case 'level-scale-9':			 buildSliders(levelScale, 1, disable); break;
+				case 'numeric-scale': 		 buildSliders(numericScale, 1, disable); break;
+				case 'free-scale':				 buildSliders(freeScale, 0.1, disable); break;
 			};
-			$('#scale-label').text(labelText);
+			selectedScale = scale;
 		};
 	
-		var updateMarker = function(slider, val, pairNo, scaleFunction) {
+		var updateMarker = function(val, pairNo, scaleFunction) {
+			console.log("UPDAYE: ", val, pairNo, scaleFunction);
 			var activeOption = (val > 0 ? $(".option-right") : $(".option-left"))
 				.filter("div[data-pair='"+pairNo+"']");
 			$("div[data-pair='"+pairNo+"']").removeClass("option-selected");
@@ -91,57 +72,50 @@ $(document).on("turbolinks:load", function() {
 			sel.html("<span class='od'>"+scaleFunction(val)+"</span>");
 		};
 	
-		var buildSliders = function(numberOfSteps, scaleFunction, disable) {
+		var buildSliders = function(scaleFunction, step, disable) {
 			var sliderOpts = {
 				min: -8,
 				max: 8,
-				step: numberOfSteps,
+				step: step,
 				range: "zero-based",
 				disabled: disable,
-				create: function(e, ui) {
+				create: function() {
 					var pairNo = $(this).data("pair");
-					var val = $(this).slider("value");
+					var val = $(this).data("value");
 					$("#comparison-"+pairNo).attr("value", val);
-					updateMarker($(this), val, pairNo, scaleFunction);
+					updateMarker(val, pairNo, scaleFunction);
 				},
-				change: function(e, ui) {
-					var pairNo = $(this).data("pair");
-					var val = $(this).slider("value");
-					$("#comparison-"+pairNo).attr("value", val);
-					updateMarker($(this), val, pairNo, scaleFunction);				
-				},
-				slide: function(e, ui) {
+				slide: function(_e, ui) {
 					var val = ui.value;
 					var pairNo = $(this).data("pair");
-					updateMarker($(this), val, pairNo, scaleFunction);
+					updateMarker(val, pairNo, scaleFunction);
 				}
 			};
 		
-
 			$(sliderDivClass).slider(sliderOpts);
-
-			$("div[class^=option]").on("click", function() {
-				var pairNo = $(this).data("pair");
-				$("div[data-pair='"+pairNo+"']").removeClass("option-selected");
-				$(this).addClass('option-selected');
-				var val = $(".pairwise-slider").filter("[data-pair='"+pairNo+"']").slider("value");
-				var newValue = $(this).data("jam")*val > 0 ? val : -val;
-				$(".pairwise-slider").filter("[data-pair='"+pairNo+"']").slider("value", newValue);
-			});
 		};
 		
 		return {
-			importanceScale: importanceScale,
-			levelScale: levelScale,
-			numericScale: numericScale,
-			freeScale: freeScale,
-			useScale: useScale,
-			buildSliders: buildSliders
+			useScale: 		  useScale,
+			buildSliders:   buildSliders,
+			selectedScale:  selectedScale,
+			defaultScale:   defaultScale,
+			sliderDivClass: sliderDivClass
 		}
 	})();
 
-	$(".pairwise-slider").each(function(){
-		pairwise.buildSliders(1, pairwise.importanceScale, false);
+	var defaultScaleElement = $("[name='numeric-scale']");
+	pairwise.useScale(defaultScaleElement, false); // the default
+
+	$('.ahp-scale').on('click', function(ev){
+		ev.preventDefault();
+		disable = $('#pairwise-comparison').data("disable")=='yes';
+		pairwise.useScale($(this), disable);
+	});
+	$(pairwise.sliderDivClass).each(function(){ 
+		if ($(this).data("value")!=undefined && $(this).data("value")!=0) { 
+			$(this).slider("value", $(this).data("value"));
+		}
 	});
 });
 
