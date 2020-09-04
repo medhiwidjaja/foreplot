@@ -4,7 +4,7 @@ class AHPComparisonCalculator < BaseCalculator
   def initialize(pairwise_comparisons, choices)
     @comparisons = pairwise_comparisons
     @choices = choices
-    @ahp = Foreplot::AHPRanking.new(choice_array(@choices), entries)
+    @ahp = Foreplot::AHPRanking.new(choice_array(@choices), entries(@comparisons))
     @ahp.rank
   end
 
@@ -16,16 +16,16 @@ class AHPComparisonCalculator < BaseCalculator
     @ahp.consistency_ratio
   end
 
-  private 
+  private
 
   def choice_array(choices)
     choices.map &:symbolize_keys
   end
   
-  def entries
+  def entries(comparisons)
     comparisons
       .sort_by {|k,v| [v["comparable1_id"], v["comparable2_id"]] }
-      .map {|k,v| comparison_value v["value"] }
+      .map {|k,v| v["value"].to_f }
   end
 
   def convert_to_attributes(result)
@@ -36,8 +36,4 @@ class AHPComparisonCalculator < BaseCalculator
     end
   end 
 
-  def comparison_value(v)
-    value = v.to_f
-    value > 0 ? 1/(value+1) : -value+1
-  end
 end

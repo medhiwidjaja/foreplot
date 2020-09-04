@@ -6,4 +6,5 @@ class PairwiseComparison < ApplicationRecord
   validates :value, presence: true
   validates :appraisal, presence: true
 
+  default_scope { order(:comparable1_id, :comparable2_id) }
 end

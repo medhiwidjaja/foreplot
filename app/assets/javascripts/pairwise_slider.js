@@ -55,7 +55,6 @@ $(document).on("ready turbolinks:load", function() {
 		};
 	
 		var updateMarker = function(val, pairNo, scaleFunction) {
-			console.log("UPDAYE: ", val, pairNo, scaleFunction);
 			var activeOption = (val > 0 ? $(".option-right") : $(".option-left"))
 				.filter("div[data-pair='"+pairNo+"']");
 			$("div[data-pair='"+pairNo+"']").removeClass("option-selected");
@@ -81,18 +80,25 @@ $(document).on("ready turbolinks:load", function() {
 				disabled: disable,
 				create: function() {
 					var pairNo = $(this).data("pair");
-					var val = $(this).data("value");
-					$("#comparison-"+pairNo).attr("value", val);
-					updateMarker(val, pairNo, scaleFunction);
+					var score = $(this).data("value");
+					$("#comparison-"+pairNo).attr("value", score);
+					updateMarker(scoreToSliderValue(score), pairNo, scaleFunction);
 				},
 				slide: function(_e, ui) {
 					var val = ui.value;
 					var pairNo = $(this).data("pair");
+					$("#comparison-"+pairNo).attr("value", sliderValueToScore(val));
 					updateMarker(val, pairNo, scaleFunction);
 				}
-			};
-		
+			};		
 			$(sliderDivClass).slider(sliderOpts);
+		};
+		var sliderValueToScore = function(value) {
+			return value > 0 ? 1.0/(value+1) : -value+1.0
+		};
+
+		var scoreToSliderValue = function(score) {
+			return score < 1 ? (1/score)-1 : -score+1;
 		};
 		
 		return {
@@ -100,7 +106,8 @@ $(document).on("ready turbolinks:load", function() {
 			buildSliders:   buildSliders,
 			selectedScale:  selectedScale,
 			defaultScale:   defaultScale,
-			sliderDivClass: sliderDivClass
+			sliderDivClass: sliderDivClass,
+			scoreToSliderValue: scoreToSliderValue
 		}
 	})();
 
@@ -114,7 +121,8 @@ $(document).on("ready turbolinks:load", function() {
 	});
 	$(pairwise.sliderDivClass).each(function(){ 
 		if ($(this).data("value")!=undefined && $(this).data("value")!=0) { 
-			$(this).slider("value", $(this).data("value"));
+			var score = $(this).data("value");
+			$(this).slider("value", pairwise.scoreToSliderValue(score));
 		}
 	});
 });

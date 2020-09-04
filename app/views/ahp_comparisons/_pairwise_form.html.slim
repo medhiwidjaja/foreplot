@@ -47,7 +47,6 @@
               = ahp_fields.hidden_field :comparable_id 
               = ahp_fields.hidden_field :comparable_type
           #pairwise-comparison 
-            /-@form.pairwise_comparisons.each.with_index(1) do |pair, i|
             - i = 0
             = form.fields_for :pairwise_comparisons do |pw_fields|
               - i += 1

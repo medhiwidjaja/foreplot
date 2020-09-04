@@ -58,7 +58,9 @@ class AHPComparisonsForm < BaseForm
   end
 
   def get_choices(appraisal)
-    appraisal.ahp_comparisons.map {|c| {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, name: c.title }}
+    appraisal.ahp_comparisons
+      .order(:comparable_id)
+      .map {|c| {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, name: c.title }}
   end
 
 end
