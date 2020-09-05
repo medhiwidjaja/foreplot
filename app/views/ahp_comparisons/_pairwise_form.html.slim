@@ -63,7 +63,7 @@
                   .marker
                     label id="level-r-#{i}" data-pair="#{i}" &nbsp;
                 .slider-container.slider-bottom-section
-                  .pairwise-slider data-pair="#{i}" name="#{pair.comparable1.title}" data-value="#{pair.value.nil? ? 0 : pair.value}"
+                  .pairwise-slider data-pair="#{i}" id="slider-#{i}" name="#{pair.comparable1.title}" data-value="#{pair.value.nil? ? 0 : pair.value}"
 
                 = pw_fields.hidden_field :comparable1_id
                 = pw_fields.hidden_field :comparable1_type

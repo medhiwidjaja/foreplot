@@ -42,16 +42,22 @@ $(document).on("ready turbolinks:load", function() {
 
 		var useScale = function(scaleElement, disable) {
 			var scale = scaleElement.attr("name");
+			var scaleFunction;
 			$('#scale-label').text(scaleElement.text());
 			switch(scale) {
-				case 'importance-scale-5': buildSliders(importanceScale, 2, disable); break;
-				case 'importance-scale-9': buildSliders(importanceScale, 1, disable); break;
-				case 'level-scale-5':      buildSliders(levelScale, 2, disable); break;
-				case 'level-scale-9':			 buildSliders(levelScale, 1, disable); break;
-				case 'numeric-scale': 		 buildSliders(numericScale, 1, disable); break;
-				case 'free-scale':				 buildSliders(freeScale, 0.1, disable); break;
+				case 'importance-scale-5': scaleFunction = importanceScale; buildSliders(scaleFunction, 2, disable); break;
+				case 'importance-scale-9': scaleFunction = importanceScale; buildSliders(scaleFunction, 1, disable); break;
+				case 'level-scale-5':      scaleFunction = levelScale; buildSliders(scaleFunction, 2, disable); break;
+				case 'level-scale-9':			 scaleFunction = levelScale; buildSliders(scaleFunction, 1, disable); break;
+				case 'numeric-scale': 		 scaleFunction = numericScale; buildSliders(scaleFunction, 1, disable); break;
+				case 'free-scale':				 scaleFunction = freeScale; buildSliders(scaleFunction, 0.1, disable); break;
 			};
 			selectedScale = scale;
+			$(pairwise.sliderDivClass).each(function(){ 
+				var pairNo = $(this).data("pair");
+				var score = $(this).data("value");
+				updateMarker(scoreToSliderValue(score), pairNo, scaleFunction);
+			});
 		};
 	
 		var updateMarker = function(val, pairNo, scaleFunction) {
@@ -88,6 +94,7 @@ $(document).on("ready turbolinks:load", function() {
 					var val = ui.value;
 					var pairNo = $(this).data("pair");
 					$("#comparison-"+pairNo).attr("value", sliderValueToScore(val));
+					$("#slider-"+pairNo).data("value", sliderValueToScore(val));
 					updateMarker(val, pairNo, scaleFunction);
 				}
 			};		
