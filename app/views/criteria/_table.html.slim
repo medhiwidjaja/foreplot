@@ -31,7 +31,9 @@
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
 
-        -unless presenter.table.nil?
+        - if presenter.table.nil?
+          .alert.alert-info You have not made any comparison for this criterion.
+        - else
           = render partial: 'comparison_method', locals: { presenter: presenter }
           table.table.table-condensed.table-bordered.objectives-table
             thead
