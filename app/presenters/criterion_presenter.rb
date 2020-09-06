@@ -1,11 +1,12 @@
 class CriterionPresenter < BasePresenter
-  attr_reader :article, :member, :member_id
+  attr_reader :article, :member, :member_id, :appraisal
   
   def initialize(presentable, curr_user=nil, **params)
     super(presentable, curr_user)
     @article   = params[:article_id] ? Article.find(params[:article_id]) : @presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
+    @appraisal = @presentable.appraisals.find_by member_id: @member_id
   end
 
   def criterion
@@ -32,12 +33,11 @@ class CriterionPresenter < BasePresenter
     @parent_id ||= (parent.id if parent.present?)
   end
 
-  def appraisal
-    @appraisal ||= @presentable.appraisals.find_by member_id: @member_id
-  end
-
   def table
-    @table ||= appraisal&.relevant_comparisons&.order(:comparable_id)&.map {|c| {no: 1, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+    @table ||= appraisal&.relevant_comparisons
+      &.includes(:comparable)
+      &.order(:comparable_id)
+      &.map {|c| {no: 1, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
   end
 
   def comparison_type
