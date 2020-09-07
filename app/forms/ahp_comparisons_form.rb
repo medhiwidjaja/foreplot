@@ -19,7 +19,7 @@ class AHPComparisonsForm < BaseForm
     @appraisal.find_or_initialize :ahp_comparisons
     @appraisal.find_or_initialize_pairwise_comparisons
     @choices = get_choices(@appraisal)
-    @comparable_type = comparable_type(@criterion)
+    @comparable_type = comparable(@criterion)
   end
 
   def submit
@@ -45,6 +45,7 @@ class AHPComparisonsForm < BaseForm
       appraisal_method: APPRAISAL_METHOD,
       consistency_ratio: calculator.cr,
       is_complete: true,
+      comparable_type: @comparable_type,
       ahp_comparisons_attributes: calculator.call,
       pairwise_comparisons_attributes: pairwise_comparisons_attributes
     }
@@ -62,10 +63,6 @@ class AHPComparisonsForm < BaseForm
     appraisal.ahp_comparisons
       .sort_by(&:comparable_id)
       .map {|c| {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, name: c.title }}
-  end
-
-  def comparable_type(criterion)
-    criterion.children.exists? ? 'Criterion' : 'Alternative'
   end
 
 end

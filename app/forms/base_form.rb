@@ -29,4 +29,8 @@ class BaseForm
     end
   end
 
+  def comparable(criterion)
+    criterion.children.exists? ? 'Criterion' : 'Alternative'
+  end
+
 end

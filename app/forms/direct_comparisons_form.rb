@@ -14,6 +14,8 @@ class DirectComparisonsForm < BaseForm
     @criterion_id = @appraisal.criterion_id
     @models = [@appraisal]  # required for validate_models
     @appraisal.find_or_initialize :direct_comparisons
+    @criterion = Criterion.find @criterion_id
+    @comparable_type = comparable(@criterion)
   end
 
   def submit
@@ -31,6 +33,7 @@ class DirectComparisonsForm < BaseForm
       criterion_id: criterion_id,
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
+      comparable_type: @comparable_type,
       direct_comparisons_attributes: update_with_scores(direct_comparisons_attributes)
     }
   end
