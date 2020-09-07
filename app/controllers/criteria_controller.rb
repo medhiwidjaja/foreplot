@@ -85,6 +85,8 @@ class CriteriaController < ApplicationController
     end
   end
 
+  # TODO: Handle move criterion requests (from criteria_tree.js)
+
   private
 
   def set_criterion

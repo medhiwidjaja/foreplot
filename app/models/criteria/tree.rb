@@ -18,4 +18,6 @@ class Criteria::Tree < Criteria::TreeBase
     get_tree(root_id).to_json
   end
 
+  # TODO: move nodes (move_above, move_below, move_to_top)
+
 end
