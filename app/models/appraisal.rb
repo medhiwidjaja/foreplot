@@ -16,7 +16,8 @@ class Appraisal < ApplicationRecord
   validates :rank_method, presence: true, if: -> { appraisal_method == 'MagiqComparison' }
   validate  :unintermittency, if: -> { appraisal_method == 'MagiqComparison' }
   validates :pairwise_comparisons, presence: true, if: -> { ahp_comparisons.present? }
-
+  validates :comparable_type, presence: true
+  
   accepts_nested_attributes_for :direct_comparisons
   accepts_nested_attributes_for :magiq_comparisons
   accepts_nested_attributes_for :ahp_comparisons

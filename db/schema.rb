@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_130036) do
+ActiveRecord::Schema.define(version: 2020_09_07_122728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_130036) do
     t.datetime "updated_at", null: false
     t.string "rank_method"
     t.decimal "consistency_ratio"
+    t.string "comparable_type"
     t.index ["criterion_id"], name: "index_appraisals_on_criterion_id"
     t.index ["member_id"], name: "index_appraisals_on_member_id"
   end
