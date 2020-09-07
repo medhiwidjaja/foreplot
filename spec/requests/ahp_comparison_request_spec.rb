@@ -56,6 +56,11 @@ RSpec.describe "AHPComparisons", type: :request do
           post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
         }.to change(PairwiseComparison, :count).by(3)
       end
+
+      it "should sets appraisal is_complete to true" do
+        post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
+        expect( criterion.appraisals.where(member: member).take.is_complete ).to eq(true)
+      end
     end
 
     describe "GET #edit" do

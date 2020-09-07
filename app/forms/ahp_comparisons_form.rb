@@ -44,6 +44,7 @@ class AHPComparisonsForm < BaseForm
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
       consistency_ratio: calculator.cr,
+      is_complete: true,
       ahp_comparisons_attributes: calculator.call,
       pairwise_comparisons_attributes: pairwise_comparisons_attributes
     }

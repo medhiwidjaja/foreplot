@@ -69,6 +69,12 @@ RSpec.describe AHPComparisonsForm do
       expect(appraisal.reload.consistency_ratio.round(3)).to eq(expected_cr)
     end
 
+    it "set the is_complete flag in Appraisal" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.is_complete).to eq(true)
+    end
+
   end
 
   describe "editing comparisons" do
