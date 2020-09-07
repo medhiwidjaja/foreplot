@@ -62,6 +62,7 @@ criterion_edit_direct_comparisons GET    /criteria/:criterion_id/direct_comparis
         criterion_ahp_comparisons POST   /criteria/:criterion_id/ahp_comparisons(.:format)                                        ahp_comparisons#create
                                   PATCH  /criteria/:criterion_id/ahp_comparisons(.:format)                                        ahp_comparisons#update
                                   PUT    /criteria/:criterion_id/ahp_comparisons(.:format)                                        ahp_comparisons#update
+                criterion_ratings GET    /criteria/:criterion_id/ratings(.:format)                                                ratings#index
                    edit_criterion GET    /criteria/:id/edit(.:format)                                                             criteria#edit
                         criterion GET    /criteria/:id(.:format)                                                                  criteria#show
                                   PATCH  /criteria/:id(.:format)                                                                  criteria#update

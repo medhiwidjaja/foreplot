@@ -6,7 +6,8 @@ class CriterionPresenter < BasePresenter
     @article   = params[:article_id] ? Article.with_criteria.find(params[:article_id]) : @presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
-    @appraisal = @presentable.appraisals.find_by member_id: @member_id
+    comparable_type = @presentable.children.exists? ? 'Criterion' : 'Alternative'
+    @appraisal = @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
   end
 
   def criterion
@@ -15,6 +16,10 @@ class CriterionPresenter < BasePresenter
 
   def criteria
     article.criteria
+  end
+
+  def alternatives
+    criterion.article.alternatives
   end
 
   def root
@@ -37,7 +42,7 @@ class CriterionPresenter < BasePresenter
     @table ||= appraisal&.relevant_comparisons
       &.includes(:comparable)
       &.order(:comparable_id)
-      &.map {|c| {no: 1, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+      &.map {|c| {no: c.comparable&.position, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
   end
 
   def comparison_type
