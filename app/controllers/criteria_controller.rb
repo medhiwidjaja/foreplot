@@ -7,7 +7,7 @@ class CriteriaController < ApplicationController
   # GET /article/1/criteria
   # GET /article/1/criteria.json
   def index
-    @article = Article.find params[:article_id]
+    @article = Article.with_criteria.find params[:article_id]
     @presenter = CriterionPresenter.new @article.criteria.root, current_user, {member_id: params[:member_id]}
   end
 

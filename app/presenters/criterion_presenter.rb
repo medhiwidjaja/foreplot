@@ -3,7 +3,7 @@ class CriterionPresenter < BasePresenter
   
   def initialize(presentable, curr_user=nil, **params)
     super(presentable, curr_user)
-    @article   = params[:article_id] ? Article.find(params[:article_id]) : @presentable.article
+    @article   = params[:article_id] ? Article.with_criteria.find(params[:article_id]) : @presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
     @appraisal = @presentable.appraisals.find_by member_id: @member_id
