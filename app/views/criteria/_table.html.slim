@@ -32,7 +32,7 @@
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
 
         - if presenter.table.nil?
-          .alert.alert-info You have not made any comparison for this criterion.
+          .alert.alert-info Select one of the comparison methods below to create comparison of the subcriteria below this node.
         - else
           = render partial: 'comparison_method', locals: { presenter: presenter }
           table.table.table-condensed.table-bordered.objectives-table
