@@ -19,6 +19,7 @@
 //= require jquery-ui
 //= require alternative
 //= require criteria_tree
+//= require ratings_tree
 //= require magiq_form
 //= require tree.jquery
 //= require jquery.slider-ext
