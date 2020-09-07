@@ -55,6 +55,9 @@ Rails.application.routes.draw do
       patch 'ahp_comparisons'    => :update
       put 'ahp_comparisons'      => :update
     end
+
+    # Ratings
+    resources :ratings, only: [:index]
   end
 
 end
