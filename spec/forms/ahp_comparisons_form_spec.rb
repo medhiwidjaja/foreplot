@@ -79,7 +79,7 @@ RSpec.describe AHPComparisonsForm do
 
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
-                                appraisal_method:'AHPComparison', is_complete:true }
+                                appraisal_method:'AHPComparison', is_complete:true, comparable_type: 'Criterion' }
     let(:persisted_ahp_comparisons) { [ 
       build(:ahp_comparison, rank: 1, score: 0.3, comparable_id:c1.id, comparable_type: 'Criterion'), 
       build(:ahp_comparison, rank: 2, score: 0.3, comparable_id:c2.id, comparable_type: 'Criterion'), 

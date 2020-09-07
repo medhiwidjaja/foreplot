@@ -51,7 +51,7 @@ RSpec.describe MagiqComparisonsForm do
 
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
-                                appraisal_method:'MagiqComparison', rank_method: 'rank_order_centroid', is_complete:true }
+                                appraisal_method:'MagiqComparison', rank_method: 'rank_order_centroid', is_complete:true, comparable_type: 'Criterion' }
     let(:dc1) { MagiqComparison.new(rank: 1, comparable_id:c1.id, comparable_type: 'Criterion') }
     let(:dc2) { MagiqComparison.new(rank: 2, comparable_id:c2.id, comparable_type: 'Criterion') }
     let(:dc3) { MagiqComparison.new(rank: 3, comparable_id:c3.id, comparable_type: 'Criterion') }
