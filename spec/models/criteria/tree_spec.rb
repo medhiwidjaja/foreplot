@@ -17,20 +17,20 @@ RSpec.describe Criteria::Tree do
       children: a_collection_containing_exactly(
         a_hash_including({label: "C 1", weights_incomplete: true, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 1-1", weights_incomplete: true}),
-            a_hash_including({label: "C 1-2", weights_incomplete: true})
+            a_hash_including({label: "C 1-1", weights_incomplete: false}),
+            a_hash_including({label: "C 1-2", weights_incomplete: false})
           )
         }),
         a_hash_including({label: "C 2", weights_incomplete: true, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 2-1", weights_incomplete: true}),
-            a_hash_including({label: "C 2-2", weights_incomplete: true})
+            a_hash_including({label: "C 2-1", weights_incomplete: false}),
+            a_hash_including({label: "C 2-2", weights_incomplete: false})
           )
         }),
         a_hash_including({label: "C 3", weights_incomplete: true, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 3-1", weights_incomplete: true}),
-            a_hash_including({label: "C 3-2", weights_incomplete: true})
+            a_hash_including({label: "C 3-1", weights_incomplete: false}),
+            a_hash_including({label: "C 3-2", weights_incomplete: false})
           )
         })
       )
