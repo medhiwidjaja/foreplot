@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_034900) do
+ActiveRecord::Schema.define(version: 2020_09_07_122728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2020_08_13_034900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "rank_method"
+    t.decimal "consistency_ratio"
+    t.string "comparable_type"
     t.index ["criterion_id"], name: "index_appraisals_on_criterion_id"
     t.index ["member_id"], name: "index_appraisals_on_member_id"
   end
@@ -107,11 +109,11 @@ ActiveRecord::Schema.define(version: 2020_08_13_034900) do
     t.string "comparable1_type"
     t.integer "comparable2_id"
     t.string "comparable2_type"
-    t.bigint "ahp_comparison_id"
     t.decimal "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ahp_comparison_id"], name: "index_pairwise_comparisons_on_ahp_comparison_id"
+    t.bigint "appraisal_id"
+    t.index ["appraisal_id"], name: "index_pairwise_comparisons_on_appraisal_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -170,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_034900) do
   add_foreign_key "criteria", "articles"
   add_foreign_key "members", "articles"
   add_foreign_key "members", "users"
+  add_foreign_key "pairwise_comparisons", "appraisals"
   add_foreign_key "properties", "alternatives"
   add_foreign_key "properties", "articles"
   add_foreign_key "rankings", "alternatives"

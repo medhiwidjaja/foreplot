@@ -48,13 +48,16 @@ Rails.application.routes.draw do
       put 'magiq_comparisons'      => :update
     end
 
-    controller :pairwise_comparisons do
-      get 'pairwise_comparisons/new'  => :new,    as: :new_pairwise_comparisons
-      get 'pairwise_comparisons/edit' => :edit,   as: :edit_pairwise_comparisons
-      post 'pairwise_comparisons'     => :create, as: :pairwise_comparisons
-      patch 'pairwise_comparisons'    => :update
-      put 'pairwise_comparisons'      => :update
+    controller :ahp_comparisons do
+      get 'ahp_comparisons/new'  => :new,    as: :new_ahp_comparisons
+      get 'ahp_comparisons/edit' => :edit,   as: :edit_ahp_comparisons
+      post 'ahp_comparisons'     => :create, as: :ahp_comparisons
+      patch 'ahp_comparisons'    => :update
+      put 'ahp_comparisons'      => :update
     end
+
+    # Ratings
+    resources :ratings, only: [:index]
   end
 
 end

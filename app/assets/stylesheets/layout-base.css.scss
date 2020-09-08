@@ -1708,15 +1708,158 @@ table {
     }
 }
 
-ul.tree {
+.jqtree-element {
     span.incomplete {
         font-weight: bold;
-        color: $red;
+        color: #E5521D !important;
     }
     span.unselectable-node {
         color: #999;
         cursor: default;
     }
+}
+
+ul.jqtree-tree {
+	margin-left: 12px;
+}
+
+ul.jqtree-tree,
+ul.jqtree-tree ul {
+	list-style: none outside;
+	margin-bottom: 0;
+}
+
+ul.jqtree-tree ul {
+	display: block;
+	margin-left: 12px;
+	margin-right: 0;
+}
+
+ul.jqtree-tree li.closed > ul {
+	display: none;
+}
+
+ul.jqtree-tree li {
+	clear: both;
+}
+
+ul.jqtree-tree .toggler {
+	background-image: url(icons.png);
+	background-repeat: no-repeat;
+	background-position: -8px 0;
+	width: 8px;
+	height: 8px;
+	display: block;
+	position: absolute;
+	left: -12px;
+	top: 30%;
+	text-indent: -9999px;
+	border-bottom: none;
+}
+
+ul.jqtree-tree div {
+	cursor: pointer;
+}
+
+ul.jqtree-tree .jqtree-title {
+	color: #3392B5;
+	vertical-align: middle;
+}
+
+ul.jqtree-tree li.folder {
+	margin-bottom: 4px;
+}
+
+ul.jqtree-tree li.folder.closed {
+	margin-bottom: 1px;
+}
+
+ul.jqtree-tree li.folder .jqtree-title {
+	margin-left: 0;
+}
+
+ul.jqtree-tree .toggler.closed {
+	background-position: 0 0;
+}
+
+span.tree-dragging {
+	color: #fff;
+	background: #000;
+	opacity: 0.6;
+	cursor: pointer;
+	padding: 2px 8px;
+}
+
+ul.jqtree-tree li.ghost {
+	position: relative;
+	z-index: 10;
+	margin-right: 10px;
+}
+
+ul.jqtree-tree li.ghost span {
+	display: block;
+}
+
+ul.jqtree-tree li.ghost span.circle {
+	background-image: url(icons.png);
+	background-repeat: no-repeat;
+	background-position: 0 -8px;
+	height: 8px;
+	width: 8px;
+	position: absolute;
+	top: -4px;
+	left: 2px;
+}
+
+ul.jqtree-tree li.ghost span.line {
+	background-color: #0000ff;
+	height: 2px;
+	padding: 0;
+	position: absolute;
+	top: -1px;
+	left: 10px;
+	width: 100%;
+}
+
+ul.jqtree-tree li.ghost.inside {
+	margin-left: 48px;
+}
+
+ul.jqtree-tree span.tree-hit {
+	position: absolute;
+	display: block;
+}
+
+ul.jqtree-tree span.border {
+	position: absolute;
+	display: block;
+	left: -2px;
+	top: 0;
+	border: solid 2px #0000ff;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	margin: 0;
+}
+
+ul.jqtree-tree div {
+	width: 100%;
+	position: relative;
+}
+
+ul.jqtree-tree li > div:hover {
+	background-color: #CED2CB;
+}
+
+ul.jqtree-tree li.selected > div,
+ul.jqtree-tree li.selected > div:hover,
+ul.jqtree-tree li.selected > div > span.title {
+	background-color: #3392B5;
+	color: #fff !important;
+}
+
+ul.jqtree-tree .moving > div .title {
+	outline: dashed 1px #0000ff;
 }
 
 
@@ -2287,8 +2430,6 @@ td.new-row {
     18. Slider
 ----------------------------------------------------------------------------*/
 
-
-
 #pairwise-comparison {
     margin: 0 -19px;
     .pair-container {
@@ -2405,6 +2546,57 @@ td.new-row {
         font-size: 14px;
         color: $orange;
     }
+
+    .slider-container .pairwise-slider {
+        float: left;
+        margin: 10px 20px;
+        width: 510px;
+    }
+    .ui-slider-horizontal {
+        height: .8em;
+    }
+    .ui-slider {
+        position: relative;
+        text-align: left;
+    }
+    
+    .ui-slider-horizontal .ui-slider-handle {
+        top: -.3em;
+        margin-left: -.6em;
+    }
+    
+    .ui-slider .ui-slider-handle {
+        position: absolute;
+        z-index: 2;
+        width: 1.2em;
+        height: 1.2em;
+        cursor: default;
+    }
+    .ui-widget-header {
+        border: 1px solid #e78f08;
+        background: #f6a828 !important;
+        font-weight: bold;
+    }
+    
+    .ui-slider-horizontal .ui-slider-range {
+        top: 0;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+        font-size: .7em;
+        display: block;
+        border: 0;
+        background-position: 0 0;
+    }
+    
+    .ui-slider-range.ui-corner-all {
+        border-radius: 0px;
+    }
+
+    .ui-state-active {
+        background: #EEB;
+        border-color: #f6a828;
+    }
 }
 
 .oldimportance {
@@ -2434,6 +2626,7 @@ td.new-row {
     filter: Alpha(Opacity=50);
     background-image: none;
 }
+
 
 
 /*---------------------------------------------------------------------------

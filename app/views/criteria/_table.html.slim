@@ -31,14 +31,16 @@
         .section-title 
           = (criterion.root? ? 'Criteria' : 'Sub-criteria') + ' under this node'
 
-        -unless presenter.table.nil?
+        - if presenter.table.nil?
+          .alert.alert-info Select one of the comparison methods below to create comparison of the subcriteria below this node.
+        - else
+          = render partial: 'comparison_method', locals: { presenter: presenter }
           table.table.table-condensed.table-bordered.objectives-table
             thead
               tr
                 th.wide Title
                 th.number Rank
-                th.number Weight
-                th.number Normalized Weight
+                th.number Priority
                 th Ratio
             tbody
               - presenter.table.each do |row|
@@ -46,9 +48,7 @@
                   td.wide = row[:title]
                   td.number = row[:rank]
                   td.number 
-                    div = number_with_precision(row[:score], precision: 2) || '-'
-                  td.number 
-                    div = number_with_precision(row[:score_n], precision: 2) || '-'
+                    div = number_to_percentage((row[:score_n] || 0)*100, precision: 1) || '-'
                   td
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"

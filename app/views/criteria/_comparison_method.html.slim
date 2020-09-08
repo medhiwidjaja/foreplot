@@ -1,0 +1,12 @@
+.btn-toolbar style="margin: 0"
+  div.pull-right
+    h5 = "Comparison done using #{presenter.comparison_type} method"
+    -if presenter.comparison_type == 'AHPComparison'
+      h5 
+        '  Consistency:
+        -if presenter.appraisal.consistency_ratio > 0.15 
+          span.label.label-important Poor
+        -elsif presenter.appraisal.consistency_ratio >= 0.10
+          span.label.label-warning Good
+        -else 
+          span.label.label-success Excellent

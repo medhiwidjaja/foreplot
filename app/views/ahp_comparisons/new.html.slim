@@ -1,0 +1,8 @@
+- page_title 'AHP Pairwise comparisons'
+
+= article_menu @presenter.article
+- content_for :left_frame do
+  = render partial: 'criteria/sidepanel', locals:{ p: @presenter }
+
+#container-box
+  = render 'pairwise_form'

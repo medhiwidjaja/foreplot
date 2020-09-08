@@ -1,7 +1,7 @@
 #toolbar.button-toolbar
   .btn-group.dropup
     - unless read_only
-      = link_to_comparison_method(presenter.comparison_type || 'DirectComparison', presenter, {class:'btn btn-primary', 'data-skip'=>true })
+      = link_to_comparison_method(presenter.comparison_type || 'AHPComparison', presenter, {class:'btn btn-primary', 'data-skip'=>true })
       button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
         span.caret
       ul.dropdown-menu
@@ -10,5 +10,5 @@
         li
           = link_to_comparison_method('DirectComparison', presenter)
         li
-          = link_to_comparison_method('PairwiseComparison', presenter)
+          = link_to_comparison_method('AHPComparison', presenter)
         

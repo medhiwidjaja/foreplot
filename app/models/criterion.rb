@@ -16,15 +16,6 @@ class Criterion < ApplicationRecord
     .select('a.is_complete as is_complete')
   }
 
-  scope :includes_appraisals_by, ->(member_id) {
-    includes(:appraisals, children: {children: [{children: [{children: [:children, :appraisals]}, :appraisals]}, :appraisals]})
-      .where('appraisals.member_id' => member_id)
-  }
-
-  scope :includes_family, -> {
-    includes(:parent, children: {children: {children: {children: {children: :children}}}})
-  }
-
   scope :with_children, -> {
     joins(<<-SQL
     LEFT OUTER JOIN (
