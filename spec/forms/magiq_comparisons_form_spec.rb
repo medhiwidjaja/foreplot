@@ -47,6 +47,12 @@ RSpec.describe MagiqComparisonsForm do
       expect(appraisal.magiq_comparisons.order(:id).map{|x| "%0.2f" % x.score_n}).to eq(["0.61", "0.28", "0.11"])
     end
 
+    it "set the is_complete flag in Appraisal" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.is_complete).to eq(true)
+    end
+
   end
 
   describe "editing comparisons" do

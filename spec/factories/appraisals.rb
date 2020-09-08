@@ -2,8 +2,6 @@ FactoryBot.define do
   factory :appraisal do
     criterion 
     member 
-    is_valid      { true }
-    is_complete   { true }
     appraisal_method  { "DirectComparison" }
     
     trait :with_direct_comparisons do

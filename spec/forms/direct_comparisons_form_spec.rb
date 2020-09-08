@@ -35,6 +35,12 @@ RSpec.describe DirectComparisonsForm do
       expect(appraisal).to be_valid
       expect(form).to be_valid
     end
+
+    it "set the is_complete flag in Appraisal" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.is_complete).to eq(true)
+    end
   end
 
   describe "editing comparisons" do

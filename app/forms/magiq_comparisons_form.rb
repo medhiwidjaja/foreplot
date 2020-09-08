@@ -41,6 +41,7 @@ class MagiqComparisonsForm < BaseForm
       appraisal_method: APPRAISAL_METHOD,
       rank_method: rank_method,
       comparable_type: @comparable_type,
+      is_complete: true,
       magiq_comparisons_attributes: update_with_scores(magiq_comparisons_attributes)
     }
   end

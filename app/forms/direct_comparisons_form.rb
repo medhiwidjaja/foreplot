@@ -34,6 +34,7 @@ class DirectComparisonsForm < BaseForm
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
       comparable_type: @comparable_type,
+      is_complete: true,
       direct_comparisons_attributes: update_with_scores(direct_comparisons_attributes)
     }
   end
