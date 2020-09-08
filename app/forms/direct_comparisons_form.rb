@@ -1,6 +1,7 @@
 class DirectComparisonsForm < BaseForm 
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
-
+  attr_reader :comparable_type
+  
   delegate :direct_comparisons, to: :appraisal
 
   validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true

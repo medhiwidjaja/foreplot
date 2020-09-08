@@ -12,7 +12,7 @@ class DirectComparisonsController < ApplicationController
   def create
     @form = DirectComparisonsForm.new @appraisal, direct_comparisons_form_params
     if @form.submit
-      redirect_to @criterion, notice: 'Direct comparisons saved'
+      redirect_to @form.redirect_url(@criterion), notice: 'Direct comparisons saved'
     else
       flash[:error] = @form.errors.full_messages.to_sentence
       render :new

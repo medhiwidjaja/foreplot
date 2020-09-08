@@ -21,6 +21,18 @@ RSpec.describe "MagiqComparisons", type: :request do
   let(:invalid_attributes) {
     { title: '' }
   }
+  let(:alt1) { create :alternative, article: bingleys_article }
+  let(:alt2) { create :alternative, article: bingleys_article }
+  let(:alt3) { create :alternative, article: bingleys_article }
+  let(:alt_params)    {
+    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"MagiqComparison", rank_method: 'rank_order_centroid', 
+      :magiq_comparisons_attributes=>{
+        "0"=>{"rank"=>"1", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title}, 
+        "1"=>{"rank"=>"2", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title}, 
+        "2"=>{"rank"=>"3", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title}
+      }
+    }
+  }
 
   context "comparing sub-criteria" do
     before(:each) {
@@ -52,7 +64,7 @@ RSpec.describe "MagiqComparisons", type: :request do
     end
 
     describe "PUT #update" do
-      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: root.id, appraisal_method:'MagiqComparison', rank_method:'rank_sum', is_complete:true }
+      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: root.id, appraisal_method:'MagiqComparison', rank_method:'rank_sum', is_complete:true, comparable_type: 'Criterion' }
       let(:dc1) { MagiqComparison.new(rank: 3, score: 0.17, comparable_id:c1.id, comparable_type: 'Criterion') }
       let(:dc2) { MagiqComparison.new(rank: 2, score: 0.33, comparable_id:c2.id, comparable_type: 'Criterion') }
       let(:dc3) { MagiqComparison.new(rank: 1, score: 0.50, comparable_id:c3.id, comparable_type: 'Criterion') }
@@ -79,5 +91,21 @@ RSpec.describe "MagiqComparisons", type: :request do
       end
     end
   
+    describe "redirections" do
+      it "redirects Criteria comparison to criterion" do
+        post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: appraisal_attributes}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(root)
+        follow_redirect!
+      end
+
+      it "redirects Criteria comparison to ratings" do
+        post criterion_magiq_comparisons_path(c1), params: {magiq_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
+      end
+    end
+
   end
 end

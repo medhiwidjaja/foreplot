@@ -23,6 +23,23 @@ RSpec.describe "AHPComparisons", type: :request do
       }
     }
   }
+  let(:alt1) { create :alternative, article: bingleys_article }
+  let(:alt2) { create :alternative, article: bingleys_article }
+  let(:alt3) { create :alternative, article: bingleys_article }
+  let(:alt_params)    {
+    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
+      :ahp_comparisons_attributes=>{
+        "0"=>{"comparable_id"=>alt1.id, "comparable_type"=>alt1.class, "title"=>alt1.title}, 
+        "1"=>{"comparable_id"=>alt2.id, "comparable_type"=>alt1.class, "title"=>alt2.title}, 
+        "2"=>{"comparable_id"=>alt3.id, "comparable_type"=>alt1.class, "title"=>alt3.title}
+      },
+      :pairwise_comparisons_attributes=>{
+        "0"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt2.id, "comparable2_type"=>"Alternative", "value"=>0.25}, 
+        "1"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>4}, 
+        "2"=>{"comparable1_id"=>alt2.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>9}
+      }
+    }
+  }
 
   context "comparing sub-criteria" do
     before(:each) {
@@ -72,7 +89,7 @@ RSpec.describe "AHPComparisons", type: :request do
 
     describe "PATCH #update" do
       let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, is_valid: true,
-                                  appraisal_method:'AHPComparison', is_complete:true }
+                                  appraisal_method:'AHPComparison', is_complete:true, comparable_type: 'Criterion' }
       let(:persisted_ahp_comparisons) { [ 
         build(:ahp_comparison, rank: 1, score: 0.3, comparable_id:c1.id, comparable_type: 'Criterion'), 
         build(:ahp_comparison, rank: 2, score: 0.3, comparable_id:c2.id, comparable_type: 'Criterion'), 
@@ -110,6 +127,22 @@ RSpec.describe "AHPComparisons", type: :request do
         patch criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: @new_params}
         comparisons = persisted_appraisal.ahp_comparisons.reload
         expect(comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score}).to eq(["0.22", "0.72", "0.07"])
+      end
+    end
+
+    describe "redirections" do
+      it "redirects Criteria comparison to criterion" do
+        post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion)
+        follow_redirect!
+      end
+
+      it "redirects Criteria comparison to ratings" do
+        post criterion_ahp_comparisons_path(c1), params: {ahp_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
       end
     end
   

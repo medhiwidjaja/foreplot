@@ -1,5 +1,6 @@
 class BaseForm
   include ActiveModel::Model
+  include Rails.application.routes.url_helpers
   
   validate :validate_models
 
@@ -13,6 +14,12 @@ class BaseForm
 
   def rest_method
     appraisal.persisted? ? :patch : :post
+  end
+
+  def redirect_url(criterion)
+    comparable(criterion) == 'Criterion' ? 
+        criterion_path(criterion)
+      : criterion_ratings_path(criterion)
   end
 
   private

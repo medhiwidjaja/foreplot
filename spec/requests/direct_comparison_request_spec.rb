@@ -21,6 +21,18 @@ RSpec.describe "DirectComparisons", type: :request do
   let(:invalid_attributes) {
     { title: '' }
   }
+  let(:alt1) { create :alternative, article: bingleys_article }
+  let(:alt2) { create :alternative, article: bingleys_article }
+  let(:alt3) { create :alternative, article: bingleys_article }
+  let(:alt_params)    {
+    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"DirectComparison",
+      :direct_comparisons_attributes=>{
+        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title}, 
+        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title}, 
+        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title}
+      }
+    }
+  }
 
   context "comparing sub-criteria" do
     before(:each) {
@@ -51,8 +63,8 @@ RSpec.describe "DirectComparisons", type: :request do
       end
     end
 
-    describe "PUT #update" do
-      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: root.id, appraisal_method:'DirectComparison', is_complete:true }
+    describe "PATCH #update" do
+      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: root.id, appraisal_method:'DirectComparison', is_complete:true, comparable_type: 'Criterion' }
       let(:dc1) { DirectComparison.new(value: 100, rank: 3, score: 1, comparable_id:c1.id, comparable_type: 'Criterion') }
       let(:dc2) { DirectComparison.new(value: 200, rank: 2, score: 2, comparable_id:c2.id, comparable_type: 'Criterion') }
       let(:dc3) { DirectComparison.new(value: 400, rank: 1, score: 4, comparable_id:c3.id, comparable_type: 'Criterion') }
@@ -76,6 +88,22 @@ RSpec.describe "DirectComparisons", type: :request do
         comparisons = persisted_appraisal.direct_comparisons.reload
         expect(comparisons.order(:score_n).map(&:score_n)).to eq([0.1, 0.4, 0.5])
         expect(comparisons.order(:value).map(&:value)).to eq([1.0, 4.0, 5.0])
+      end
+    end
+
+    describe "redirections" do
+      it "redirects Criteria comparison to criterion" do
+        post criterion_direct_comparisons_path(root), params: {direct_comparisons_form: appraisal_attributes}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(root)
+        follow_redirect!
+      end
+
+      it "redirects Criteria comparison to ratings" do
+        post criterion_direct_comparisons_path(c1), params: {direct_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
       end
     end
   
