@@ -51,10 +51,6 @@ class AHPComparisonsForm < BaseForm
     }
   end
 
-  def update_with_scores(attributes, choices)
-    AHPComparisonCalculator.new(attributes, choices).call
-  end
-
   def persisted?
     @persisted ||= appraisal.ahp_comparisons.any? &:persisted?
   end
