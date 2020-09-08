@@ -10,7 +10,11 @@ class Criteria::Tree < Criteria::TreeBase
 
   def get_tree(root_id)
     @tree = build_tree(data[root_id]) do |c| 
-      {id: c.id, label: c.title, weights_incomplete: !c.is_complete && c.subnodes.present? } 
+      { id: c.id, 
+        label: c.title, 
+        weights_incomplete: !c.is_complete && c.subnodes.present?,
+        ratings_incomplete: !c.is_complete && c.subnodes.blank?
+      } 
     end
   end
 

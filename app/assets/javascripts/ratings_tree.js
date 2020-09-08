@@ -1,6 +1,6 @@
 $(document).on("ready turbolinks:load", function() {
   var $tree = $('#ratings-tree');
-	var criteria_tree = (function() {
+	var ratings_tree = (function() {
     function build_tree(root_id) {
       $.getJSON( '/criteria/'+root_id+"/tree.json?p="+$tree.data('pid'),
         function(data) {
@@ -11,9 +11,9 @@ $(document).on("ready turbolinks:load", function() {
             selectable: true,
             onCreateLi: function(node, $li) {
               if (node.children.length == 0) {
-                $li.find('.jqtree-title').before('<i class="icon-leaf"></i> ');
+                $li.find('.jqtree-title').addClass('leaf').before('<i class="icon-leaf"></i> ');
               } else {
-                $li.find('.jqtree-title').before('<i class="icon-th-list"></i> ').addClass('unselectable-node');
+                $li.find('.jqtree-title').addClass('unselectable-node').before('<i class="icon-th-list"></i> ');
               }
               if (node.ratings_incomplete) {
                 $li.find('.jqtree-title').addClass('incomplete');

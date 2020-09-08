@@ -5,7 +5,7 @@
   - if @presenter.criteria.empty?
     .alert.alert-info "Please create some criteria first"
   - else
-    = render partial: 'criteria/sidepanel', locals:{ p: @presenter }
+    = render partial: 'sidepanel', locals:{ p: @presenter }
 
 #container-box
   -unless @presenter.root.nil?
