@@ -128,6 +128,13 @@ RSpec.describe "AHPComparisons", type: :request do
         comparisons = persisted_appraisal.ahp_comparisons.reload
         expect(comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score}).to eq(["0.22", "0.72", "0.07"])
       end
+
+      it "redirects Criteria comparison to criterion" do
+        patch criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: @new_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion)
+        follow_redirect!
+      end
     end
 
     describe "redirections" do
@@ -140,6 +147,15 @@ RSpec.describe "AHPComparisons", type: :request do
 
       it "redirects Criteria comparison to ratings" do
         post criterion_ahp_comparisons_path(c1), params: {ahp_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
+      end
+    end
+
+    describe "redirections for #update method comparing alternatives" do
+      it "redirects Criteria comparison to ratings" do
+        patch criterion_ahp_comparisons_path(c1), params: {ahp_comparisons_form: alt_params}
         expect(response.status).to eql 302
         expect(response).to redirect_to(criterion_ratings_path(c1))
         follow_redirect!

@@ -89,6 +89,13 @@ RSpec.describe "DirectComparisons", type: :request do
         expect(comparisons.order(:score_n).map(&:score_n)).to eq([0.1, 0.4, 0.5])
         expect(comparisons.order(:value).map(&:value)).to eq([1.0, 4.0, 5.0])
       end
+
+      it "redirects Criteria comparison to criterion" do
+        patch criterion_direct_comparisons_path(root), params: {direct_comparisons_form: @new_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(root)
+        follow_redirect!
+      end
     end
 
     describe "redirections" do
@@ -101,6 +108,15 @@ RSpec.describe "DirectComparisons", type: :request do
 
       it "redirects Criteria comparison to ratings" do
         post criterion_direct_comparisons_path(c1), params: {direct_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
+      end
+    end
+
+    describe "redirections for #update method comparing alternatives" do
+      it "redirects Criteria comparison to ratings" do
+        patch criterion_direct_comparisons_path(c1), params: {direct_comparisons_form: alt_params}
         expect(response.status).to eql 302
         expect(response).to redirect_to(criterion_ratings_path(c1))
         follow_redirect!

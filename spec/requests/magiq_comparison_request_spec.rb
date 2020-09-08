@@ -63,7 +63,7 @@ RSpec.describe "MagiqComparisons", type: :request do
       end
     end
 
-    describe "PUT #update" do
+    describe "PATCH #update" do
       let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: root.id, appraisal_method:'MagiqComparison', rank_method:'rank_sum', is_complete:true, comparable_type: 'Criterion' }
       let(:dc1) { MagiqComparison.new(rank: 3, score: 0.17, comparable_id:c1.id, comparable_type: 'Criterion') }
       let(:dc2) { MagiqComparison.new(rank: 2, score: 0.33, comparable_id:c2.id, comparable_type: 'Criterion') }
@@ -89,9 +89,16 @@ RSpec.describe "MagiqComparisons", type: :request do
         expect(comparisons.order(:id).map(&:score_n)).to eq([0.50, 0.33, 0.17])
         expect(comparisons.order(:id).map(&:rank)).to eq([1, 2, 3])
       end
+
+      it "redirects Criteria comparison to criterion" do
+        patch criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: @new_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(root)
+        follow_redirect!
+      end
     end
   
-    describe "redirections" do
+    describe "redirections for #create method" do
       it "redirects Criteria comparison to criterion" do
         post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: appraisal_attributes}
         expect(response.status).to eql 302
@@ -101,6 +108,15 @@ RSpec.describe "MagiqComparisons", type: :request do
 
       it "redirects Criteria comparison to ratings" do
         post criterion_magiq_comparisons_path(c1), params: {magiq_comparisons_form: alt_params}
+        expect(response.status).to eql 302
+        expect(response).to redirect_to(criterion_ratings_path(c1))
+        follow_redirect!
+      end
+    end
+
+    describe "redirections for #update method comparing alternatives" do
+      it "redirects Criteria comparison to ratings" do
+        patch criterion_magiq_comparisons_path(c1), params: {magiq_comparisons_form: alt_params}
         expect(response.status).to eql 302
         expect(response).to redirect_to(criterion_ratings_path(c1))
         follow_redirect!

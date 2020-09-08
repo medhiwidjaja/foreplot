@@ -23,7 +23,7 @@ class AHPComparisonsController < ApplicationController
   def update
     @form = AHPComparisonsForm.new @appraisal, ahp_comparisons_form_params
     if @form.submit
-      redirect_to @criterion, notice: 'AHP comparisons updated'
+      redirect_to @form.redirect_url(@criterion), notice: 'AHP comparisons updated'
     else
       flash[:error] = @form.errors.full_messages.to_sentence
       render :edit
