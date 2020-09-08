@@ -23,6 +23,14 @@ Rails.application.routes.draw do
 
     # Criteria
     resources :criteria, only: [:index]
+
+    resources :results, only: [:index] do
+      member do
+        get :sensitivity
+        get :sankey
+        get :chart
+      end
+    end
   end
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
