@@ -31,30 +31,17 @@ $(document).on("ready turbolinks:load", function() {
           });
         }
       );	
-      // if($tree.data('allowClick')) {
-      //   $tree.bind(
-      //     'tree.click',
-      //     function(event) {
-      //       var node = event.node;
-      //       $("a#summary").attr("href", "/criteria/"+node.id+"/ratings/aggregate_summary");
-      //       $("a#detail").attr("href", "/criteria/"+node.id+"/ratings/aggregate_detail");
-      //       var part = $("li.participant.active").attr("id");
-      //       var url;
-      //       if (part == "summary") {
-      //         url = "/criteria/"+node.id+"/ratings/aggregate_summary";
-      //       } 
-      //       else if (part == "detail") {
-      //         url = "/criteria/"+node.id+"/ratings/aggregate_detail";
-      //       } else {
-      //         url = "/criteria/"+node.id+"/ratings?p="+part;
-      //       };
-      //       $.pjax({
-      //         url: url,
-      //         container: "[data-pjax-container]"
-      //       });
-      //     }
-      //   );
-      // };
+      if($tree.data('allowClick')) {
+        $tree.bind(
+          'tree.click',
+          function(event) {
+            var node = event.node;
+            var part = $tree.data('pid');
+            var url = "/criteria/"+node.id+"/ratings?format=js&p="+part;
+            $.get(url);
+          }
+        );
+      };
     };
     return { build_tree };
   })();
