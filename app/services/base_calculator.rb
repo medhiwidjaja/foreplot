@@ -9,8 +9,8 @@ class BaseCalculator
     .merge(comparisons) {|k,r,c| r.merge(c)}
   end 
 
-  def param_hash(row)
-    row.except(:id).reduce(Hash.new) do |acc,kv| 
+  def param_hash(row, except: :id)
+    row.except(*except).reduce(Hash.new) do |acc,kv| 
       acc.merge( {kv.first.to_s => kv.last.to_s} ) 
     end
   end

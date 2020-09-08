@@ -34,16 +34,6 @@ RSpec.describe Criterion, type: :model do
     end
   end
 
-  context "converting into tree" do
-    let(:tree) { root.to_tree }
-    it "has a root" do
-      expect(tree.root.name).to be
-    end
-    it "has 3 children" do
-      expect(tree.children.count).to eq(3)
-    end
-  end 
-
   describe "associations" do
     it { expect(described_class.reflect_on_association(:children).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:parent).macro).to eq(:belongs_to) }

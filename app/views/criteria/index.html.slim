@@ -2,7 +2,7 @@
 
 = article_menu @presenter.article
 - content_for :left_frame do
-  = render partial: 'sidepanel', locals:{ root: @presenter.root, member_id: @presenter.member_id, allow_click: @presenter.allow_navigate }
+  = render partial: 'sidepanel', locals:{ p: @presenter }
 
 #container-box
 	-unless @presenter.root.nil?

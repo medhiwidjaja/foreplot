@@ -1,5 +1,5 @@
 class MagiqComparisonsForm < BaseForm
-  attr_reader :appraisal
+  attr_reader :comparable_type
   attr_accessor :magiq_comparisons_form, :magiq_comparisons_attributes, :criterion_id, 
                 :member_id, :appraisal_method, :rank_method, :notes
 
@@ -10,13 +10,14 @@ class MagiqComparisonsForm < BaseForm
   APPRAISAL_METHOD = 'MagiqComparison'
 
   def initialize(appraisal, params = {})
-    @appraisal = appraisal
+    super(appraisal, params)
     @appraisal_method = APPRAISAL_METHOD
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
     @models = [@appraisal]  # required for validate_models
-    super(params)
     @appraisal.find_or_initialize :magiq_comparisons
+    @criterion = Criterion.find @criterion_id
+    @comparable_type = comparable(@criterion)
   end
 
   def submit
@@ -25,10 +26,6 @@ class MagiqComparisonsForm < BaseForm
     return false if invalid?
     appraisal.save
     true
-  end
-
-  def rest_method
-    appraisal.persisted? ? :patch : :post
   end
 
   def num_comparisons
@@ -43,6 +40,7 @@ class MagiqComparisonsForm < BaseForm
       member_id: member_id,
       appraisal_method: APPRAISAL_METHOD,
       rank_method: rank_method,
+      comparable_type: @comparable_type,
       magiq_comparisons_attributes: update_with_scores(magiq_comparisons_attributes)
     }
   end

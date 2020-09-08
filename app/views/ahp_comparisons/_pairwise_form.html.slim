@@ -1,0 +1,76 @@
+.widget
+  .widget-header
+    i.icon-file
+    h3 Make comparison using Pairwise method
+  
+  = form_with model: @form, url: criterion_ahp_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
+    .well.well-widget-content
+      .section
+        .widget-content-title With respect to:
+        h3 = @criterion.title
+
+        .alert.alert-info
+          a.close data-dismiss="alert" ×
+          | Compare the following item pairs with respect to the criterion
+            in the form below. 
+
+      .section
+        .section-title Pairwise Comparisons
+
+        .btn-toolbar style="height: 28px; margin: 0"
+          .btn-group.pull-right
+            a.btn href="#"
+              '  Scale: 
+              span#scale-label Verbal Scale 
+            button.btn.dropdown-toggle data-toggle="dropdown" 
+              span.caret
+            ul.dropdown-menu
+              -if @criterion.leaf?
+                li
+                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'level-scale-5'
+                li
+                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'level-scale-9'
+              -else
+                li
+                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'importance-scale-5'
+                li
+                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'importance-scale-9'
+              li
+                = link_to 'Numeric (1-9)', "#", class: 'ahp-scale', name: 'numeric-scale'
+              li
+                = link_to 'Free scale (1.0-9.0)', "#", class: 'ahp-scale', name: 'free-scale'
+
+        fieldset data-disable=false
+          #ahp-comparison
+            = form.fields_for :ahp_comparisons do |ahp_fields|
+              = ahp_fields.hidden_field :id
+              = ahp_fields.hidden_field :comparable_id 
+              = ahp_fields.hidden_field :comparable_type
+          #pairwise-comparison 
+            - i = 0
+            = form.fields_for :pairwise_comparisons do |pw_fields|
+              - i += 1
+              - pair = pw_fields.object
+              .pair-container
+                .slider-container.slider-top-section
+                  .option-left data-jam="-1" data-pair="#{i}" data-id="#{pair.comparable1_id}"
+                    label = pair.comparable1.title
+                  .option-right data-jam="1" data-pair="#{i}" data-id=="#{pair.comparable2_id}"
+                    label = pair.comparable2.title
+                .slider-container.slider-middle-section
+                  .marker
+                    label id="level-l-#{i}" data-pair="#{i}" &nbsp;
+                  .marker
+                    label id="level-r-#{i}" data-pair="#{i}" &nbsp;
+                .slider-container.slider-bottom-section
+                  .pairwise-slider data-pair="#{i}" id="slider-#{i}" name="#{pair.comparable1.title}" data-value="#{pair.value.nil? ? 0 : pair.value}"
+
+                = pw_fields.hidden_field :comparable1_id
+                = pw_fields.hidden_field :comparable1_type
+                = pw_fields.hidden_field :comparable2_id
+                = pw_fields.hidden_field :comparable2_type
+                = pw_fields.hidden_field :value, id:"comparison-#{i}", value: ""
+
+      = render partial: 'settings', locals: {form: form}
+
+      = render 'toolbar'

@@ -4,7 +4,7 @@ RSpec.describe Appraisal, type: :model do
   let!(:article) { create :article }
   let(:criterion) { article.criteria.root }
   let(:member)    { create :member }
-  let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison' }
+  let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison', comparable_type: 'Criterion' }
 
   subject { appraisal }
 
@@ -23,18 +23,29 @@ RSpec.describe Appraisal, type: :model do
 
   describe "uniqueness validation" do
     it "rejects appraisal with same method by the same member" do
-      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison'
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'DirectComparison', comparable_type: 'Criterion'
       expect(other_appraisal).to be_invalid
     end
 
-    it "rejects appraisal with different method by the same member" do
-      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_sum'
-      expect(other_appraisal).to be_invalid
+    it "accepts appraisal with different method by the same member" do
+      other_appraisal = build :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_sum', comparable_type: 'Criterion'
+      expect(other_appraisal).to be_valid
+    end
+  end
+
+  describe "overrides appraisal with new method" do
+    it "inactivate other appraisals by same member using other method" do
+      new_appraisal = create :appraisal, criterion: criterion, member: member, appraisal_method: 'AHPComparison', comparable_type: 'Criterion'
+      expect(new_appraisal).to be
+      expect(new_appraisal.is_valid).to eq(true)
+      expect(appraisal.reload.is_valid).to eq(false)
     end
   end
 
   describe "validation for Magiq comparison" do
-    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_order_centroid'}
+    let!(:appraisal) { 
+      create :appraisal, criterion: criterion, member: member, appraisal_method: 'MagiqComparison', rank_method: 'rank_order_centroid', comparable_type: 'Criterion'
+    }
     subject { appraisal }
 
     it { is_expected.to be_valid }
@@ -80,10 +91,39 @@ RSpec.describe Appraisal, type: :model do
     end
   end
 
+  describe "validation for AHP comparison" do
+    let!(:appraisal) { create :appraisal, criterion: criterion, member: member, appraisal_method: 'AHPComparison', comparable_type: 'Criterion'}
+    subject { appraisal }
+
+    before {
+      allow_any_instance_of(AHPComparison).to receive(:valid?).and_return(:true)
+      appraisal.ahp_comparisons << [
+        build(:ahp_comparison, comparable_id: 1, comparable_type: 'Criterion'),
+        build(:ahp_comparison, comparable_id: 2, comparable_type: 'Criterion'),
+        build(:ahp_comparison, comparable_id: 3, comparable_type: 'Criterion')
+      ]
+      appraisal.pairwise_comparisons << [
+        build(:pairwise_comparison),
+        build(:pairwise_comparison),
+        build(:pairwise_comparison)
+      ]
+    }
+    
+    context "with valid pairwise comparisons" do
+      it { is_expected.to be_valid }
+    end
+    
+    it "is not valid without pairwise comparisons" do
+      appraisal.pairwise_comparisons.clear
+      is_expected.to be_invalid
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:direct_comparisons).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:magiq_comparisons).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:ahp_comparisons).macro).to eq(:has_many) }
+    it { expect(described_class.reflect_on_association(:pairwise_comparisons).macro).to eq(:has_many) }
   end
 end

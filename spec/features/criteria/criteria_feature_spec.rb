@@ -17,7 +17,7 @@ RSpec.feature "Criteria", type: :feature do
       click_link "New subcriterion"
       fill_in 'title',       with: valid_attributes[:title]
       fill_in 'criterion_description', with: valid_attributes[:description]
-      page.choose('MAGIQ method')
+      page.choose(option: 'MagiqComparison')
       click_button 'Save'
       expect(page).to have_css('h3', text: 'Criterion 1')
       within '#criteria-tree' do

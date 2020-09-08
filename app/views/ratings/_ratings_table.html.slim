@@ -1,0 +1,51 @@
+- criterion = presenter.criterion
+.widget
+  .widget-header
+    i.icon-sitemap
+    h3 Alternative ratings
+  .well.well-widget-content
+    .section
+      .widget-content-title Alternative ratings with respect to:
+      h3 = criterion.title
+      -unless criterion.description.blank?
+        blockquote.formatted-output
+          = raw(criterion.description)
+
+    - if presenter.alternatives.blank?
+      .alert.alert-info 
+        | You need to create some alternatives first. 
+        = link_to 'Create now', new_article_alternative_path(presenter.article)
+    - else
+      .section
+        .section-title Alternative scores
+        - if presenter.table.nil?
+          .alert.alert-info Select one of the comparison methods below to create comparison of the alternatives with respect to this criterion.
+        - else
+          = render partial: 'criteria/comparison_method', locals: { presenter: presenter }
+          table.table.table-condensed.table-bordered.objectives-table
+            thead
+              tr
+                th.narrow No
+                th.wide Alternative
+                th.number Rank
+                th.number Score
+                th Ratio
+            tbody
+              - presenter.table.each.with_index(1) do |row, idx|
+                tr
+                  td.narrow = row[:no] || idx
+                  td.wide = row[:title]
+                  td.number = row[:rank]
+                  td.number 
+                    div = number_to_percentage((row[:score_n] || 0)*100, precision: 1) || '-'
+                  td
+                    .progress
+                      .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"
+
+      = render partial: 'criteria/toolbar', locals: { presenter: presenter, read_only: false }
+
+
+
+
+
+

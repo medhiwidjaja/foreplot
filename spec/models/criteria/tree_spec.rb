@@ -11,24 +11,31 @@ RSpec.describe Criteria::Tree do
       2.times { |i| node.children << create(:criterion, parent_id: node.id, title: "#{node.title}-#{i+1}", article: article) } 
     end
   end
+
   let(:expected_hash) {
-    {id:1, label: "Article 1", weights_incomplete: true, children: [
-        {id: 2, label: "C 1", weights_incomplete: true, children: [
-          {id: 5, label: "C 1-1", weights_incomplete: true},
-          {id: 6, label: "C 1-2", weights_incomplete: true}
-        ]},
-        {id: 3, label: "C 2", weights_incomplete: true, children: [
-          {id: 7, label: "C 2-1", weights_incomplete: true},
-          {id: 8, label: "C 2-2", weights_incomplete: true}
-        ]},
-        {id: 4, label: "C 3", weights_incomplete: true, children: [
-          {id: 9, label: "C 3-1", weights_incomplete: true},
-          {id: 10, label: "C 3-2", weights_incomplete: true}
-        ]}
-      ]
+    { id: kind_of(Integer), label: /Article/, weights_incomplete: true, 
+      children: a_collection_containing_exactly(
+        a_hash_including({label: "C 1", weights_incomplete: true, children: 
+          a_collection_containing_exactly(
+            a_hash_including({label: "C 1-1", weights_incomplete: false}),
+            a_hash_including({label: "C 1-2", weights_incomplete: false})
+          )
+        }),
+        a_hash_including({label: "C 2", weights_incomplete: true, children: 
+          a_collection_containing_exactly(
+            a_hash_including({label: "C 2-1", weights_incomplete: false}),
+            a_hash_including({label: "C 2-2", weights_incomplete: false})
+          )
+        }),
+        a_hash_including({label: "C 3", weights_incomplete: true, children: 
+          a_collection_containing_exactly(
+            a_hash_including({label: "C 3-1", weights_incomplete: false}),
+            a_hash_including({label: "C 3-2", weights_incomplete: false})
+          )
+        })
+      )
     }
   }
-  let(:expected_json) { expected_hash.to_json }
 
   let(:tree) { Criteria::Tree.new(article.id, member_id) }
 
@@ -36,8 +43,16 @@ RSpec.describe Criteria::Tree do
 
   describe "tree creation" do
     it "creates nested tree hash of the criteria" do
-      expect(tree.get_tree root.id).to eq(expected_hash)
-      expect(tree.as_json_tree root.id).to eq(expected_json)
+      expect(tree.get_tree root.id).to match(expected_hash)
+    end
+  end
+
+  describe "json tree" do
+    it "returns json representation of the tree hash" do
+      json = tree.as_json_tree root.id
+      parsed_json = JSON.parse json
+      expect(parsed_json['label']).to match(/Article/)
+      expect(parsed_json['children'].size).to eq(3)
     end
   end
 end

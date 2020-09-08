@@ -7,7 +7,7 @@ class CriteriaController < ApplicationController
   # GET /article/1/criteria
   # GET /article/1/criteria.json
   def index
-    @article = Article.find params[:article_id]
+    @article = Article.with_criteria.find params[:article_id]
     @presenter = CriterionPresenter.new @article.criteria.root, current_user, {member_id: params[:member_id]}
   end
 
@@ -84,6 +84,8 @@ class CriteriaController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # TODO: Handle move criterion requests (from criteria_tree.js)
 
   private
 
