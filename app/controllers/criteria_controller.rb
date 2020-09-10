@@ -46,6 +46,7 @@ class CriteriaController < ApplicationController
     @criterion = Criterion.new criterion_params
     respond_to do |format|
       if @criterion.save
+        @criterion.destroy_related_appraisals
         format.html { redirect_to @criterion, notice: 'Criterion was successfully created.' }
         format.json { render :show, status: :created, location: @criterion }
       else
