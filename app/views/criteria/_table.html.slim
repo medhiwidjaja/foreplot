@@ -22,7 +22,9 @@
             i.icon-edit
             | Edit
         .btn-group
-          = link_to new_criterion_path(criterion), class:"btn btn-primary"
+          = link_to new_criterion_path(criterion), 
+              class:"btn btn-primary", 
+              data: presenter.confirm_destroy_related_appraisals
             i.icon-plus
             | New subcriterion
 

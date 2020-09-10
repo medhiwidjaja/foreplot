@@ -53,6 +53,10 @@ class CriterionPresenter < BasePresenter
     true
   end
 
+  def confirm_destroy_related_appraisals
+    {confirm: "Warning! All comparisons done related to the parent node will be destroyed."} if @presentable.appraisals.present?
+  end
+
   private
 
   def relevant_member(article)

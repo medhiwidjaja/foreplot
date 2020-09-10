@@ -38,4 +38,25 @@ RSpec.feature "Criteria", type: :feature do
     end
   
   end
+
+  context "updating tree structure with existing appraisals" do
+    let!(:bingley) { create :bingley, :with_articles }
+    let!(:article) { bingley.articles.first }
+    let (:root) { article.criteria.first }
+
+    before(:each) {
+      login_as bingley, scope: :user
+      @article = article
+      @appraisal = create :appraisal, criterion: root, comparable_type: 'Criterion'
+    }
+
+    scenario "When a user creates a new subcriterion, it will warn that related appraisal to parent node will be deleted", js: true do
+      visit criterion_path(root)
+      msg = accept_confirm do
+        click_link "New subcriterion"
+      end
+      expect(msg).to eq("Warning! All comparisons done related to the parent node will be destroyed.")
+    end
+
+  end
 end
