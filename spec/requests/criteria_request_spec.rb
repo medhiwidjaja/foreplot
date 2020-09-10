@@ -154,6 +154,17 @@ RSpec.describe "Criterion", type: :request do
         }.to change(Appraisal, :count).by(-1)
       end
     end
+
+    describe "deleting a subcriterion" do
+      before {
+        @subcriterion = create :criterion, parent: root
+      }
+      it "destroys appraisals related to parent node" do
+        expect {
+          delete criterion_path(@subcriterion)
+        }.to change(root.appraisals, :count).by(-1)
+      end
+    end
   end
 
 end

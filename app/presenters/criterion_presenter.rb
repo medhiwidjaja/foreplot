@@ -54,7 +54,9 @@ class CriterionPresenter < BasePresenter
   end
 
   def confirm_destroy_related_appraisals
-    {confirm: "Warning! All comparisons done related to the parent node will be destroyed."} if @presentable.appraisals.present?
+    if @presentable.appraisals.present? || @presentable.parent&.appraisals&.present?
+      {confirm: "This action will delete all related comparisons previously created by you and/or other participants (if any).\n\nAre you sure to proceed?"}
+    end
   end
 
   private

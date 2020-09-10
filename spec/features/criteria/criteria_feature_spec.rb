@@ -42,8 +42,9 @@ RSpec.feature "Criteria", type: :feature do
   context "updating tree structure with existing appraisals" do
     let!(:bingley) { create :bingley, :with_articles }
     let!(:article) { bingley.articles.first }
-    let (:root) { article.criteria.first }
-
+    let (:root)    { article.criteria.first }
+    let (:warning) { "This action will delete all related comparisons previously created by you and/or other participants (if any).\n\nAre you sure to proceed?" }
+    
     before(:each) {
       login_as bingley, scope: :user
       @article = article
@@ -55,7 +56,16 @@ RSpec.feature "Criteria", type: :feature do
       msg = accept_confirm do
         click_link "New subcriterion"
       end
-      expect(msg).to eq("Warning! All comparisons done related to the parent node will be destroyed.")
+      expect(msg).to eq warning
+    end
+
+    scenario "When a user creates a new subcriterion, it will warn that related appraisal to parent node will be deleted", js: true do
+      @subcriterion = create :criterion, parent: root
+      visit edit_criterion_path(@subcriterion)
+      msg = accept_confirm do
+        click_link "Delete"
+      end
+      expect(msg).to eq warning
     end
 
   end

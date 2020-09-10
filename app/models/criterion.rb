@@ -46,9 +46,9 @@ class Criterion < ApplicationRecord
     end
   end
 
-  # Called when creating new sub-criterion 
+  # Called when creating new 
   def destroy_related_appraisals
-    parent.appraisals.destroy_all
+    appraisals.destroy_all
   end
 
   private
