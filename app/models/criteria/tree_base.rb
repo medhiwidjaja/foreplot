@@ -1,10 +1,7 @@
 class Criteria::TreeBase
 
-  attr_reader :tree
-
   def initialize(query)
     @data = query.reduce({}) {|acc,record| acc.merge({record.id => record}) }
-    @tree = {}
   end
 
   def build_tree(node, &proc)
@@ -17,8 +14,15 @@ class Criteria::TreeBase
     hash
   end
 
+  def search(id)
+    data[id]
+  end
+
+  def children(parent_id)
+    data.select {|id,node| data[parent_id].subnodes.include? id}.map {|k,v| v}
+  end
+
   private
-
   attr_reader :data
-
+  
 end
