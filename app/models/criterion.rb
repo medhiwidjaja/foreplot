@@ -1,12 +1,12 @@
 class Criterion < ApplicationRecord
   belongs_to :article
   belongs_to :parent, class_name: 'Criterion', optional: true
-  has_many :children, class_name: 'Criterion', foreign_key: :parent_id
+  has_many :children, class_name: 'Criterion', foreign_key: :parent_id, dependent: :destroy
   has_many :comparisons, as: :comparable, dependent: :destroy
   has_many :direct_comparisons, as: :comparable, dependent: :destroy
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
-  has_many :appraisals
+  has_many :appraisals, dependent: :destroy
   
   validates :title, presence: true
   validate :must_have_parent_if_not_root
@@ -17,12 +17,8 @@ class Criterion < ApplicationRecord
   }
 
   scope :with_children, -> {
-    joins(<<-SQL
-    LEFT OUTER JOIN (
-      SELECT DISTINCT parent_id as id, array_agg(id) over (partition by parent_id) as children 
-      FROM criteria ) pc USING(id)
-    SQL
-    ).select('criteria.*, children as subnodes')
+    joins("LEFT OUTER JOIN (SELECT DISTINCT parent_id as id, array_agg(id) over (partition by parent_id) as children FROM criteria ) pc USING(id)")
+    .select('criteria.*, children as subnodes')
     .order(:id)
   }
 
