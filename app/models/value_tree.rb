@@ -1,9 +1,8 @@
 class ValueTree
 
   attr_reader :tree_data, :score_data, :article_id, :member_id
-  attr_accessor :score_query
 
-  def initialize(article_id, member_id, root_id, &block)
+  def initialize(article_id, member_id, root_id)
     @article_id = article_id
     @member_id = member_id
     @tree_data = tree_hash 
@@ -12,9 +11,8 @@ class ValueTree
   end
 
   def build_tree(node_id, type, &block)
-    node = tree_data["#{node_id}-#{type}"]
-    puts "++>> #{node_id}, #{type} --> #{node['type']}"
-    record = score_data["#{node_id}-#{node['type']}"]
+    node = tree_data[ "#{node_id}-#{type}" ]
+    record = score_data[ "#{node_id}-#{node['type']}" ]
     content = block.call(record) if record
     branch = Tree::TreeNode.new(node_id.to_s, content)
     unless node['subnodes'].blank?
@@ -23,19 +21,7 @@ class ValueTree
         branch << new_branch unless new_branch.nil?
       end
     end
-
     branch
-  end
-
-
-  def as_hash(node, &proc)
-    hash = proc.call node
-    unless node['subnodes'].blank?
-      hash[:children]  = node['subnodes'].sort.collect do |child_id|
-        build_tree(data[child_id], &proc)
-      end
-    end
-    hash
   end
 
   private
@@ -76,7 +62,7 @@ class ValueTree
   def score_query
     Comparison.find_by_sql([<<-SQL.squish, member_id: member_id, article_id: article_id])
       SELECT DISTINCT 
-        cmp.comparable_id || '-' || cmp.comparable_type as idx, 
+        c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
         cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
       FROM comparisons cmp
       LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
@@ -87,7 +73,7 @@ class ValueTree
       UNION
 
       SELECT DISTINCT 
-        cmp.comparable_id || '-' || cmp.comparable_type as idx, 
+        c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
         cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
       FROM comparisons cmp
       LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
@@ -104,6 +90,6 @@ class ValueTree
   end
 
   def make_array(str)
-    str.slice(1..-2).split(',').map &:to_i
+    str.slice(1..-2).split(',').map(&:to_i) if str
   end
 end
