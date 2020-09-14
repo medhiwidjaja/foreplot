@@ -1,27 +1,54 @@
 class ValueTree
 
-  attr_reader :tree_data, :score_data, :article_id, :member_id
+  attr_reader :tree, :tree_data, :score_data, :article_id, :member_id
 
-  def initialize(article_id, member_id, root_id)
+  def initialize(article_id, member_id, root_id, &block)
     @article_id = article_id
     @member_id = member_id
     @tree_data = tree_hash 
     @score_data = score_hash
-    @root_id = root_id
+    @tree = build_tree(root_id, 'Criterion', nil, &block)
   end
 
-  def build_tree(node_id, type, &block)
+  def build_tree(node_id, type, criterion_id=nil, &block)
     node = tree_data[ "#{node_id}-#{type}" ]
-    record = score_data[ "#{node_id}-#{node['type']}" ]
-    content = block.call(record) if record
+
+    record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
+    content = record ? block.call(record) : {id: node_id}
+    end
+
     branch = Tree::TreeNode.new(node_id.to_s, content)
-    unless node['subnodes'].blank?
-      node['subnodes'].each do |subnode| 
-        new_branch = build_tree(subnode, node['type'], &block)
+    unless node[:subnodes].blank?
+      node[:subnodes].each do |subnode| 
+        new_branch = build_tree(subnode, node[:type], node_id, &block)
         branch << new_branch unless new_branch.nil?
       end
     end
     branch
+  end
+
+  def normalize!(weight)
+    tree.each do |node|
+      unless node.is_root?
+        # node.parent.content.update(sum: node.parent.children.reduce(0) {|sum, c| sum + c.content[weight] } )
+        node.parent.content.update(sum: node.parent.children.sum {|child| child.content[weight] } )
+        node.content.update((weight.to_s+"_n").to_sym => node.content[weight].to_f / node.parent.content[:sum].to_f)
+      end
+    end
+  end
+
+  def globalize!(weight)
+    w_n = (weight.to_s+"_n").to_sym
+    w_g = (weight.to_s+"_g").to_sym
+    
+    tree.each do |node|
+      if node.is_root?
+        global_weight = 1     # global weight of root is always 1
+      else
+        global_weight = (node.parent.content[w_g] || 0) * (node.content[w_n] || 0)
+      end
+      node.content.update(w_g => global_weight)
+    end
   end
 
   private
@@ -55,7 +82,7 @@ class ValueTree
 
   def tree_hash
     tree_query.reduce({}) do |acc,record| 
-      acc.merge({record['idx'] => record.merge('subnodes' => make_array(record['children']))})
+      acc.merge({record['idx'] => record.symbolize_keys.merge(:subnodes => make_array(record['children']))})
     end
   end
 
