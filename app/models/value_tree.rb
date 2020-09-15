@@ -15,7 +15,6 @@ class ValueTree
 
     record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
     content = record ? block.call(record) : {id: node_id}
-    end
 
     branch = Tree::TreeNode.new(node_id.to_s, content)
     unless node[:subnodes].blank?
@@ -30,7 +29,6 @@ class ValueTree
   def normalize!(weight)
     tree.each do |node|
       unless node.is_root?
-        # node.parent.content.update(sum: node.parent.children.reduce(0) {|sum, c| sum + c.content[weight] } )
         node.parent.content.update(sum: node.parent.children.sum {|child| child.content[weight] } )
         node.content.update((weight.to_s+"_n").to_sym => node.content[weight].to_f / node.parent.content[:sum].to_f)
       end
