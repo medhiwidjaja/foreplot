@@ -5,6 +5,6 @@ FactoryBot.define do
     comparable2      factory: :criterion
     comparable2_type { "Criterion" }
     appraisal        factory: :appraisal
-    score            { 0.25 }
+    value            { 0.25 }
   end
 end
