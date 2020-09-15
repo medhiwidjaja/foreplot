@@ -1,5 +1,6 @@
 
 class MagiqComparisonsController < ApplicationController
+  include TurbolinksCacheControl
   include ComparisonConcern
 
   def new

@@ -1,4 +1,5 @@
 class DirectComparisonsController < ApplicationController
+  include TurbolinksCacheControl
   include ComparisonConcern
 
   def new

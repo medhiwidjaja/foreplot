@@ -1,5 +1,6 @@
 
 class AHPComparisonsController < ApplicationController
+  include TurbolinksCacheControl
   include ComparisonConcern
 
   def new
