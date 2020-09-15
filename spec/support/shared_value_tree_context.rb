@@ -1,7 +1,7 @@
 RSpec.shared_context "comparisons context for value tree", :shared_context => :metadata do
   before(:all) do
-    bingley = create :bingley, :with_articles
-    @bingleys_article = bingley.articles.first
+    @bingley = create :bingley, :with_articles
+    @bingleys_article = @bingley.articles.first
     @member = @bingleys_article.members.first
     @root = @bingleys_article.criteria.first
   
