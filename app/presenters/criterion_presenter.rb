@@ -1,13 +1,11 @@
 class CriterionPresenter < BasePresenter
-  attr_reader :article, :member, :member_id, :appraisal
+  attr_reader :article, :member, :member_id
   
   def initialize(presentable, curr_user=nil, **params)
     super(presentable, curr_user)
     @article   = params[:article_id] ? Article.with_criteria.find(params[:article_id]) : @presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
-    comparable_type = @presentable.children.exists? ? 'Criterion' : 'Alternative'
-    @appraisal = @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
   end
 
   def criterion
@@ -24,6 +22,11 @@ class CriterionPresenter < BasePresenter
 
   def root
     article.criteria.root
+  end
+
+  def appraisal
+    comparable_type = @presentable.children.exists? ? 'Criterion' : 'Alternative'
+    @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
   end
 
   def as_tree
