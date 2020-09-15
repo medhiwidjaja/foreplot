@@ -5,7 +5,7 @@ RSpec.describe ValueTree, type: :model do
   include_context "comparisons context for value tree" 
 
   let(:value_tree) { 
-    ValueTree.new(@bingleys_article.id, @member.id, @root.id) {|n| {:id => n.comparable_id, :name => n.title, :score => n.score, :criterion => n.cid} } 
+    ValueTree.new(@bingleys_article.id, @member.id) 
   }
 
   subject { value_tree }
@@ -29,6 +29,9 @@ RSpec.describe ValueTree, type: :model do
   end
 
   describe "tree structure" do
+    before {
+      value_tree.build_tree(@root.id) {|n| {:id => n.comparable_id, :name => n.title, :score => n.score, :criterion => n.cid} } 
+    }
       
     let(:tree) { value_tree.tree }
 

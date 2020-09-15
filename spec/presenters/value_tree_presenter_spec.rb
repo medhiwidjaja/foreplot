@@ -5,10 +5,10 @@ RSpec.describe ValueTreePresenter do
   include_context "comparisons context for value tree" 
 
   let(:value_tree) { 
-    ValueTree.new(@bingleys_article.id, @member.id, @root.id) {|n| {:id => n.comparable_id, :name => n.title, :score => n.score, :criterion => n.cid} } 
+    ValueTree.new @bingleys_article.id, @member.id 
   }
   let(:presenter) {
-    ValueTreePresenter.new value_tree
+    ValueTreePresenter.new value_tree, @root.id
   }
 
   subject { presenter }

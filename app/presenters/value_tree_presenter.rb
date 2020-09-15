@@ -2,7 +2,8 @@ class ValueTreePresenter
 
   attr_reader :tree
 
-  def initialize(value_tree, score_key: :score_g)
+  def initialize(value_tree, root_id, score_key: :score_g)
+    value_tree.build_tree(root_id) {|n| {:id => n.comparable_id, :name => n.title, :score => n.score, :criterion => n.cid} } 
     value_tree.normalize! :score
     value_tree.globalize! :score
     @tree = value_tree.tree

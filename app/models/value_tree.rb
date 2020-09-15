@@ -2,15 +2,14 @@ class ValueTree
 
   attr_reader :tree, :tree_data, :score_data, :article_id, :member_id
 
-  def initialize(article_id, member_id, root_id, &block)
+  def initialize(article_id, member_id)
     @article_id = article_id
     @member_id = member_id
     @tree_data = tree_hash 
     @score_data = score_hash
-    @tree = build_tree(root_id, 'Criterion', nil, &block)
   end
 
-  def build_tree(node_id, type, criterion_id=nil, &block)
+  def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
     node = tree_data[ "#{node_id}-#{type}" ]
 
     record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
@@ -23,7 +22,7 @@ class ValueTree
         branch << new_branch unless new_branch.nil?
       end
     end
-    branch
+    @tree = branch
   end
 
   def normalize!(weight)
