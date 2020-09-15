@@ -1,7 +1,11 @@
 class ValueTreePresenter
-  
-  def initialize(tree, score_key: :score_g)
-    @tree = tree
+
+  attr_reader :tree
+
+  def initialize(value_tree, score_key: :score_g)
+    value_tree.normalize! :score
+    value_tree.globalize! :score
+    @tree = value_tree.tree
     @score_key = score_key
   end
 
@@ -50,7 +54,7 @@ class ValueTreePresenter
 
   private
 
-  attr_reader :score_key, :tree
+  attr_reader :score_key
 
   def collect_scores(alt_array)
     { 

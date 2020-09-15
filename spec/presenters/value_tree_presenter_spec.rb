@@ -8,15 +8,10 @@ RSpec.describe ValueTreePresenter do
     ValueTree.new(@bingleys_article.id, @member.id, @root.id) {|n| {:id => n.comparable_id, :name => n.title, :score => n.score, :criterion => n.cid} } 
   }
   let(:presenter) {
-    ValueTreePresenter.new value_tree.tree
+    ValueTreePresenter.new value_tree
   }
 
   subject { presenter }
-
-  before {
-    value_tree.normalize! :score
-    value_tree.globalize! :score
-  }
 
   describe ".score_table" do
     it "creates score table for all alternatives" do
