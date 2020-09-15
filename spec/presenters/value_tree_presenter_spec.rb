@@ -29,6 +29,11 @@ RSpec.describe ValueTreePresenter do
       expect(presenter.score_table[@alt2.id]).to match(hash_including(ratio: 1.0))
     end
 
+    it "contains titles of each alternatives" do
+      expect(presenter.score_table[@alt1.id]).to match(hash_including(title: @alt1.title))
+      expect(presenter.score_table[@alt2.id]).to match(hash_including(title: @alt2.title))
+    end
+
     it "sorts and ranks the alternatives" do
       expect(presenter.score_table.keys).to eq [2,1]
       expect(presenter.score_table.values.first).to match(hash_including(rank: 1))
