@@ -2,37 +2,33 @@
 
 = article_menu @article
 - content_for :left_frame do
-  - if @presenter.criteria.empty?
-    .alert.alert-info "Please create some criteria first"
-  - else
-    = render partial: 'sidepanel', locals:{ p: @presenter }
+  = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
 
 #container-box
   //= render partial: 'results_nav_menu'
 
-	.alert.alert-info
-		a.close data-dismiss="alert" ×
-		= "Click one of the criteria at left to view ranking result with respect to respective criterion.".html_safe
+  .alert.alert-info
+    a.close data-dismiss="alert" ×
+    = "Click one of the criteria at left to view ranking result with respect to respective criterion.".html_safe
 
-	.widget
-		.widget-header.ellipsis
-			i.icon-bar-chart
-			h3 = "Rank with respect to goal: #{@presenter.goal.title unless @presenter.goal.nil?}"
-		.well.well-widget-content
-			-unless @presenter.appraisal&.is_complete?
-				= render 'incomplete_evaluation_messages'
-			-else
-				.section
-					.widget-content-title Chart
-					#chart-box style="height: 300px; margin-bottom: 10px"
-						= render partial: 'chart'
-				.section style="padding-top: 0px"
-					.widget-content-title Detail Chart
-					#chart-box style="height: 300px; margin-bottom: 10px"
-						= render partial: 'stacked_chart'
-				.section style="padding-top: 0px"
-					.widget-content-title Table
-					#table-box style="margin-top: 10px; padding:10px 0; position: relative"
-						= render partial: 'score_table'
-
-		= render partial: 'ratings_table', locals: { alternatives: @alternatives, presenter: @presenter }
+  .widget
+    .widget-header
+      i.icon-bar-chart
+      h3 = "Rank with respect to goal: #{@criterion.title}"
+    .well.well-widget-content
+      -if @criteria_presenter.appraisal&.is_complete?
+        / .section
+        / 	.widget-content-title Chart
+        / 	#chart-box style="height: 300px; margin-bottom: 10px"
+        / 		= render partial: 'chart', locals: { presenter: @value_tree_presenter }
+        / .section style="padding-top: 0px"
+        / 	.widget-content-title Detail Chart
+        / 	#chart-box style="height: 300px; margin-bottom: 10px"
+        / 		= render partial: 'stacked_chart', locals: { presenter: @value_tree_presenter }
+        .section
+          / style="padding-top: 0px"
+          .widget-content-title Table
+          #table-box style="margin-top: 10px; padding:10px 0; position: relative"
+            = render partial: 'rank_table', locals: { presenter: @value_tree_presenter }
+      -else
+        = render 'incomplete_evaluation_messages'
