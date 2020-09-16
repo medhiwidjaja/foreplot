@@ -42,7 +42,7 @@ $(document).on("ready turbolinks:load", function() {
             tooltipLocation: 'ne',
             tooltipContentEditor: function(str, seriesIndex, pointIndex) {
                 var objLabel = names[pointIndex];
-                var val = data[pointIndex];
+                var val = chartData[pointIndex];
                 return "<span style='font-weight:bold; font-size:12pt; color:#333'>"+val.toPrecision(2)+"</span>";
             }
         },
@@ -50,11 +50,12 @@ $(document).on("ready turbolinks:load", function() {
             show: false
         }
     });
-  });
-
-  $('#chart').bind('jqplotDataClick', 
+    $('#chart').bind('jqplotDataClick', 
       function (ev, seriesIndex, pointIndex, data) {
           $('#point-info').html('series: '+ names[pointIndex]+', value: '+data[1].toPrecision(3));
       }
-  );
+    );
+  });
+
+  
 });
