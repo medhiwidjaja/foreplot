@@ -10,6 +10,9 @@ class ResultsController < ApplicationController
   end
 
   def chart 
+    respond_to do |format|
+      format.json { @presenter = @value_tree_presenter }
+    end
   end
 
 

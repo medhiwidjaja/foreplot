@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :criteria, only: [:index]
 
     resources :results, only: [:index] do
-      member do
+      collection do
         get :sensitivity
         get :sankey
         get :chart

@@ -1,7 +1,6 @@
 = tag.div id:'chart', class:'span6', style:"height: 300px; margin-left: 50px", 
-  data: {chart: "#{presenter.chart_data}", 
-         labels:"#{presenter.alternative_labels}", 
-         names:"#{presenter.alternative_names}" }
+  data: {id: "#{params[:article_id]}", 
+         pid:"#{params[:p]}" }
 
 #point-info
 
