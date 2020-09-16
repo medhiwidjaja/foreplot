@@ -27,14 +27,14 @@ class ValueTreePresenter
       }
 
     max_score = scores.max{ |a, b| a.last[:score] <=> b.last[:score] }.last[:score]
-    scores.each { |k,v| 
+    scores.each { |_k,v| 
       v.update(ratio: v[:score].to_f/max_score)               # add normalized ratio = score/max_score
     }
     scores.to_h
   end
 
   def chart_data
-    score_table.map {|a| a[:score] }
+    score_table.map {|_k, alt| alt[:score] }
   end
 
   def detail_chart_data
@@ -46,11 +46,11 @@ class ValueTreePresenter
   end
 
   def alternative_labels
-    score_table.map {|a| split_lines(a[:abbrev].blank? ? a[:title] : a[:abbrev]) }
+    score_table.map {|_k, alt| split_lines(alt[:abbrev].blank? ? alt[:title] : alt[:abbrev]) }
   end
 
   def alternative_names
-    score_table.map {|a| a[:title] }
+    score_table.map {|_k, alt| alt[:title] }
   end
 
   private
@@ -65,4 +65,14 @@ class ValueTreePresenter
     }
   end
 
+  # Split the string into 2 lines at the closest space before the center, separated by <br/>
+  def split_lines(str)
+    unless str.length < 10
+      length = str.split.first.length > str.length/2 ? str.split.first.length : str.length/2
+      regex = /(.{1,#{length}}) (.+)$/
+      '<div style="text-align:center">'+str.scan(regex).join('<br/>')+'</div>'
+    else
+      '<div style="text-align:center">'+str+'</div>'
+    end
+  end
 end

@@ -17,10 +17,10 @@
       h3 = "Rank with respect to goal: #{@criterion.title}"
     .well.well-widget-content
       -if @criteria_presenter.appraisal&.is_complete?
-        / .section
-        / 	.widget-content-title Chart
-        / 	#chart-box style="height: 300px; margin-bottom: 10px"
-        / 		= render partial: 'chart', locals: { presenter: @value_tree_presenter }
+        .section
+        	.widget-content-title Chart
+        	#chart-box style="height: 300px; margin-bottom: 10px"
+        		= render partial: 'chart', locals: { presenter: @value_tree_presenter }
         / .section style="padding-top: 0px"
         / 	.widget-content-title Detail Chart
         / 	#chart-box style="height: 300px; margin-bottom: 10px"
