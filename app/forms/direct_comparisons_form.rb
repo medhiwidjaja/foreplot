@@ -1,4 +1,4 @@
-class DirectComparisonsForm < BaseForm 
+class DirectComparisonsForm < ComparisonFormBase 
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
   attr_reader :comparable_type
   

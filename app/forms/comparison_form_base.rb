@@ -1,10 +1,6 @@
-class BaseForm
-  include ActiveModel::Model
+class ComparisonFormBase < FormBase
   include Rails.application.routes.url_helpers
   
-  validate :validate_models
-
-  attr_accessor :models
   attr_reader   :appraisal
 
   def initialize(appraisal, params = {})
@@ -22,19 +18,7 @@ class BaseForm
       : criterion_ratings_path(criterion)
   end
 
-  private
-
-  def promote_errors(model)
-    model.errors.each do |attribute, message|
-      errors.add(attribute, message)
-    end
-  end
-
-  def validate_models
-    models.each do |model|
-      promote_errors(model) if model.invalid?
-    end
-  end
+ private
 
   def comparable(criterion)
     criterion.children.exists? ? 'Criterion' : 'Alternative'

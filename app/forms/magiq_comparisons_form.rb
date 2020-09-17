@@ -1,4 +1,4 @@
-class MagiqComparisonsForm < BaseForm
+class MagiqComparisonsForm < ComparisonFormBase
   attr_reader :comparable_type
   attr_accessor :magiq_comparisons_form, :magiq_comparisons_attributes, :criterion_id, 
                 :member_id, :appraisal_method, :rank_method, :notes

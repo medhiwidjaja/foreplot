@@ -1,4 +1,4 @@
-class AHPComparisonsForm < BaseForm
+class AHPComparisonsForm < ComparisonFormBase
   attr_reader :choices, :comparable_type
   attr_accessor :ahp_comparisons_form, :ahp_comparisons_attributes, :pairwise_comparisons_attributes,
                 :criterion_id, :member_id, :appraisal_method, :notes, :choices
