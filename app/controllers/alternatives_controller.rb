@@ -7,27 +7,27 @@ class AlternativesController < ApplicationController
   # GET /article/1/alternatives.json
   def index
     @article = Article.find params[:article_id]
-    @alternatives = @article.alternatives.all.order(:position)
+    @alternatives = @article.alternatives.order_by_position
   end
 
   # GET /alternatives/1
   # GET /alternatives/1.json
   def show
     @article = @alternative.article
-    @alternatives = @article.alternatives.all.order(:position)
+    @alternatives = @article.alternatives.order_by_position
   end
 
   # GET /articles/1/alternatives/new
   def new
     @article = Article.find(params[:article_id])
     @alternative = @article.alternatives.new
-    @alternatives = @article.alternatives.all.order(:position)
+    @alternatives = @article.alternatives.order_by_position
   end
 
   # GET /alternatives/1/edit
   def edit
     @article = @alternative.article
-    @alternatives = @article.alternatives.all.order(:position)
+    @alternatives = @article.alternatives.order_by_position
   end
 
   # POST /article/1/alternatives
@@ -73,6 +73,14 @@ class AlternativesController < ApplicationController
     end
   end
 
+  # PATCH /articles/1/alternatives/update_all
+  def update_all
+    @alternatives = Alternative.update alternatives_params.keys, alternatives_params.values
+    respond_to do |format|
+      format.js { flash.now[:notice] = "Updated succesfully." }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_alternative
@@ -82,5 +90,9 @@ class AlternativesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def alternative_params
       params.require(:alternative).permit(:title, :description, :abbrev, :position, :article_id)
+    end
+
+    def alternatives_params
+      params.require(:alternatives) #.permit(:alternatives => [:position])
     end
 end

@@ -8,4 +8,6 @@ class Alternative < ApplicationRecord
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
   validates :title, presence: true
   
+  scope :order_by_position, -> { order(:position) }
+
 end

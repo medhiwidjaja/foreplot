@@ -124,6 +124,19 @@ RSpec.describe "Alternative", type: :request do
       end
     end
 
+    describe "updating ordering positions" do
+      before {
+        @alt1 = create :alternative, article: @article, position: 1
+        @alt2 = create :alternative, article: @article, position: 2
+      }
+      it "accepts input and display the list in correct order" do
+        expect {
+          post update_all_article_alternatives_path(@article), params: {alternatives: {@alt1.id => {position: 2}, @alt2.id => {position: 1}} }, xhr: true
+        }.to change { @alt1.reload.position }.from(1).to(2)
+          .and change { @alt2.reload.position }.from(2).to(1)
+      end
+    end
+
   end
 
 end

@@ -11,24 +11,8 @@
   .well.well-widget-content
     .widget-content-title List of alternatives
     
-
-    div style="overflow: auto"
-      -unless @alternatives.blank?
-        table.table.table-condensed.table-bordered.table-striped.alt-table
-          thead
-            tr
-              th No
-              th Alternative
-
-          tbody
-            - @alternatives.each do |alt|
-              tr
-                td = alt.position.nil? ? '' : alt.position + 1
-                td = link_to alt.title, alternative_path(alt)
-
-      -else
-        .alert.alert-info
-          | This article has no alternatives
+    #alternative-list style="overflow: auto"
+      = render partial: 'table'
 
     / TODO: finish this
     / div style="overflow: auto"

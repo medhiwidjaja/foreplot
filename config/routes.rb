@@ -16,9 +16,10 @@ Rails.application.routes.draw do
     end
     
     # Alternatives
-    resources :alternatives, shallow: true
-    member do
-      patch :update_alternatives
+    resources :alternatives, shallow: true do
+      collection do
+        post :update_all
+      end
     end
 
     # Criteria
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       collection do
         get :sensitivity
         get :sankey
+        get :bc
         get :chart
       end
     end

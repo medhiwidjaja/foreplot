@@ -9,8 +9,6 @@ class Article < ApplicationRecord
   scope :owned_by, -> (user) { where user: user }
 
   scope :with_criteria, -> { includes(:criteria) }
-
-  accepts_nested_attributes_for :alternatives
   
   after_create :create_goal
   after_create :create_default_member
