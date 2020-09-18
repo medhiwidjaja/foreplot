@@ -11,6 +11,9 @@ class Criterion < ApplicationRecord
   validates :title, presence: true
   validate :must_have_parent_if_not_root
 
+  before_create :assign_position_number
+  after_save :sync_position_with_ahp_comparisons, if: :saved_change_to_position?
+
   scope :with_appraisals_by, ->(member_id) {
     joins("LEFT OUTER JOIN appraisals a ON a.criterion_id = criteria.id AND a.member_id = #{ActiveRecord::Base.connection.quote(member_id)}")
     .select('a.is_complete as is_complete')
@@ -53,6 +56,20 @@ class Criterion < ApplicationRecord
     if parent_id.blank? && Criterion.where(article_id:article_id).root.present?
       errors.add(:parent_id, "can't be blank")
     end
+  end
+
+  def assign_position_number
+    unless parent.blank?
+      if parent.children.exists?
+        self.position = 1 + parent.children.maximum(:position)
+      else 
+        self.position = 1
+      end
+    end
+  end
+
+  def sync_position_with_ahp_comparisons
+    ahp_comparisons.update_all position: position
   end
 
 end

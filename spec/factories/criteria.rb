@@ -8,7 +8,6 @@ FactoryBot.define do
     comparison_type        { 1 }
     appraisal_method       { 'direct' }
     property_name          { "Property Link" }
-    sequence(:position)    { |n| n }
     article                factory: :article 
 
     trait :with_3_children do

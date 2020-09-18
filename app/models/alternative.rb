@@ -6,12 +6,13 @@ class Alternative < ApplicationRecord
   has_many :direct_comparisons, as: :comparable, dependent: :destroy
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
-  validates :title, presence: true
   
-  scope :order_by_position, -> { order(:position) }
+  validates :title, presence: true
 
   before_create :assign_position_number
   after_save :sync_position_with_ahp_comparisons, if: :saved_change_to_position?
+
+  scope :order_by_position, -> { order(:position) }
 
   private
 

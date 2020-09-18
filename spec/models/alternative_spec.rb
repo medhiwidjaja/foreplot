@@ -44,7 +44,7 @@ RSpec.describe Alternative, type: :model do
     let(:root) { article.criteria.root }
     before {
       alternative.save
-      appraisal = create :appraisal, criterion: root, appraisal_method: 'DirectComparison'
+      appraisal = build :appraisal, criterion: root, appraisal_method: 'DirectComparison'
       @ahp = create :ahp_comparison, comparable: alternative, appraisal: appraisal, position: 1
     }
 
