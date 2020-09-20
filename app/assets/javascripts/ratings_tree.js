@@ -36,9 +36,11 @@ $(document).on("ready turbolinks:load", function() {
           'tree.click',
           function(event) {
             var node = event.node;
-            var part = $tree.data('pid');
-            var url = "/criteria/"+node.id+"/ratings?format=js&p="+part;
-            $.get(url);
+            if (node.children.length == 0) {
+              var part = $tree.data('pid');
+              var url = "/criteria/"+node.id+"/ratings?format=js&p="+part;
+              $.get(url);
+            }
           }
         );
       };
