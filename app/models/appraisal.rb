@@ -33,8 +33,8 @@ class Appraisal < ApplicationRecord
   def find_or_initialize(comparison_method)
     raise "Unsupported comparisons: #{comparison_method}" unless COMPARISON_TYPES.include? comparison_method
     comparisons = self.public_send("#{comparison_method.to_s}")
-    criterion.evaluatees.each do |evaluatee|
-      comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, appraisal: self
+    criterion.evaluatees.order(position: :asc, id: :asc).each do |evaluatee|
+      comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, position: evaluatee.position || evaluatee.id, appraisal: self
     end if comparisons.size == 0
     comparisons
   end
@@ -66,7 +66,7 @@ class Appraisal < ApplicationRecord
   end
 
   def comparison_pairs
-    criterion.evaluatees.order(id: :asc).map{|e| e }.combination(2)
+    criterion.evaluatees.order(position: :asc, id: :asc).map{|e| e }.combination(2)
   end
 
   def invalidate_other_appraisals

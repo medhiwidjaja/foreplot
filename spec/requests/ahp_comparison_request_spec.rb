@@ -9,39 +9,23 @@ RSpec.describe "AHPComparisons", type: :request do
   let(:c1) { create :criterion, article:bingleys_article, parent:criterion }
   let(:c2) { create :criterion, article:bingleys_article, parent:criterion }
   let(:c3) { create :criterion, article:bingleys_article, parent:criterion }
-  let(:appraisal_attributes)    {
-    {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
-      :ahp_comparisons_attributes=>{
-        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
-        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
-      },
-      :pairwise_comparisons_attributes=>{
-        "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
-        "1"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>4}, 
-        "2"=>{"comparable1_id"=>c2.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>9}
-      }
-    }
-  }
-  let(:alt1) { create :alternative, article: bingleys_article }
-  let(:alt2) { create :alternative, article: bingleys_article }
-  let(:alt3) { create :alternative, article: bingleys_article }
-  let(:alt_params)    {
-    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
-      :ahp_comparisons_attributes=>{
-        "0"=>{"comparable_id"=>alt1.id, "comparable_type"=>alt1.class, "title"=>alt1.title}, 
-        "1"=>{"comparable_id"=>alt2.id, "comparable_type"=>alt1.class, "title"=>alt2.title}, 
-        "2"=>{"comparable_id"=>alt3.id, "comparable_type"=>alt1.class, "title"=>alt3.title}
-      },
-      :pairwise_comparisons_attributes=>{
-        "0"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt2.id, "comparable2_type"=>"Alternative", "value"=>0.25}, 
-        "1"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>4}, 
-        "2"=>{"comparable1_id"=>alt2.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>9}
-      }
-    }
-  }
 
   context "comparing sub-criteria" do
+    let(:appraisal_attributes)    {
+      {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
+        :ahp_comparisons_attributes=>{
+          "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
+          "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
+          "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
+        },
+        :pairwise_comparisons_attributes=>{
+          "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
+          "1"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>4}, 
+          "2"=>{"comparable1_id"=>c2.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>9}
+        }
+      }
+    }
+    
     before(:each) {
       sign_in bingley
       @article = bingleys_article
@@ -144,7 +128,35 @@ RSpec.describe "AHPComparisons", type: :request do
         expect(response).to redirect_to(criterion)
         follow_redirect!
       end
+    end
+  end
 
+  context "comparing alternatives" do
+    let(:alt1) { create :alternative, article: bingleys_article }
+    let(:alt2) { create :alternative, article: bingleys_article }
+    let(:alt3) { create :alternative, article: bingleys_article }
+    let(:alt_params)    {
+      {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
+        :ahp_comparisons_attributes=>{
+          "0"=>{"comparable_id"=>alt1.id, "comparable_type"=>alt1.class, "title"=>alt1.title}, 
+          "1"=>{"comparable_id"=>alt2.id, "comparable_type"=>alt1.class, "title"=>alt2.title}, 
+          "2"=>{"comparable_id"=>alt3.id, "comparable_type"=>alt1.class, "title"=>alt3.title}
+        },
+        :pairwise_comparisons_attributes=>{
+          "0"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt2.id, "comparable2_type"=>"Alternative", "value"=>0.25}, 
+          "1"=>{"comparable1_id"=>alt1.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>4}, 
+          "2"=>{"comparable1_id"=>alt2.id, "comparable1_type"=>"Alternative", "comparable2_id"=>alt3.id, "comparable2_type"=>"Alternative", "value"=>9}
+        }
+      }
+    }
+
+    before(:each) {
+      sign_in bingley
+      @article = bingleys_article
+      @criterion = criterion
+    }
+
+    describe "redirections" do
       it "redirects Criteria comparison to ratings" do
         post criterion_ahp_comparisons_path(c1), params: {ahp_comparisons_form: alt_params}
         expect(response.status).to eql 302

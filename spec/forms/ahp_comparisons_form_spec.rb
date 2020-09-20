@@ -5,15 +5,15 @@ RSpec.describe AHPComparisonsForm do
   let(:criterion) { article.criteria.root }
   let(:member)    { create :member }
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'AHPComparison'}
-  let(:c1) { create :criterion, article:article, parent:criterion }
-  let(:c2) { create :criterion, article:article, parent:criterion }
-  let(:c3) { create :criterion, article:article, parent:criterion }
+  let!(:c1) { create :criterion, article:article, parent:criterion, position: 3 }
+  let!(:c2) { create :criterion, article:article, parent:criterion, position: 2 }
+  let!(:c3) { create :criterion, article:article, parent:criterion, position: 1 }
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
       :ahp_comparisons_attributes=>{
-        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
-        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
+        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
+        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
       },
       :pairwise_comparisons_attributes=>{
         "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
@@ -60,7 +60,7 @@ RSpec.describe AHPComparisonsForm do
     it "stores correct comparison results" do
       form = described_class.new appraisal, params
       form.submit
-      expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score_n}).to eq(expected_scores)
+      expect(appraisal.ahp_comparisons.order(:position).map{|x| "%0.2f" % x.score_n}).to eq(expected_scores)
     end
 
     it "saves the consistency ratio in appraisals table" do

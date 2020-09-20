@@ -24,7 +24,7 @@ class AHPComparisonsForm < ComparisonFormBase
 
   def submit
     appraisal.ahp_comparisons.clear unless persisted?
-    appraisal.pairwise_comparisons.clear unless persisted?
+    appraisal.pairwise_comparisons.clear unless persisted?   
     calculator = AHPComparisonCalculator.new(pairwise_comparisons_attributes, choices)
     appraisal.attributes = appraisal_params(calculator)
     return false if invalid?
@@ -56,9 +56,10 @@ class AHPComparisonsForm < ComparisonFormBase
   end
 
   def get_choices(appraisal)
-    appraisal.ahp_comparisons
-      .sort_by(&:comparable_id)
-      .map {|c| {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, name: c.title }}
+    appraisal.ahp_comparisons.map {|c| 
+      {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, position: c.position, name: c.title }
+    }
+    .sort {|h| h[:position]}.reverse
   end
 
 end
