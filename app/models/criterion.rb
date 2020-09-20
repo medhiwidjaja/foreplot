@@ -15,13 +15,22 @@ class Criterion < ApplicationRecord
   after_save :sync_position_with_ahp_comparisons, if: :saved_change_to_position?
 
   scope :with_appraisals_by, ->(member_id) {
-    joins("LEFT OUTER JOIN appraisals a ON a.criterion_id = criteria.id AND a.member_id = #{ActiveRecord::Base.connection.quote(member_id)}")
-    .select('a.is_complete as is_complete')
+    joins(<<-SQL.squish
+      LEFT OUTER JOIN appraisals a 
+      ON a.criterion_id = criteria.id 
+      AND a.member_id = #{ActiveRecord::Base.connection.quote(member_id)}
+    SQL
+    ).select('a.is_complete as is_complete')
   }
 
   scope :with_children, -> {
-    joins("LEFT OUTER JOIN (SELECT DISTINCT parent_id as id, array_agg(id) over (partition by parent_id) as children FROM criteria ) pc USING(id)")
-    .select('criteria.*, children as subnodes')
+    joins(<<-SQL.squish
+      LEFT OUTER JOIN (
+        SELECT DISTINCT parent_id as id, array_agg(id) OVER (PARTITION BY parent_id) AS children 
+        FROM criteria 
+      ) pc USING(id)
+    SQL
+    ).select('criteria.*, children as subnodes')
     .order(:id)
   }
 
