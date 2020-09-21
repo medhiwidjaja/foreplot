@@ -24,12 +24,15 @@ RSpec.describe "AHPComparisons", type: :request do
     
     before(:each) {
       sign_in bingley
+      @criteria = [c1, c2, c3]
+      @alternatives = [alt1, alt2, alt3]
     }
 
     describe "GET #new" do
       it "returns a success response" do
         get criterion_new_ahp_comparisons_path(criterion)
         expect(response).to be_successful
+        expect(response.body).to include('3 comparisons')
       end
     end
 
@@ -68,6 +71,7 @@ RSpec.describe "AHPComparisons", type: :request do
       it "returns a success response" do
         get criterion_edit_ahp_comparisons_path(criterion)
         expect(response).to be_successful
+        expect(response.body).to include('3 comparisons')
       end
     end
 
@@ -81,8 +85,10 @@ RSpec.describe "AHPComparisons", type: :request do
       let(:pw1) { create(:pairwise_comparison, comparable1_id: c1.id, comparable2_id: c2.id, value: 1, appraisal: persisted_appraisal) }
       let(:pw2) { create(:pairwise_comparison, comparable1_id: c1.id, comparable2_id: c3.id, value: 1, appraisal: persisted_appraisal) }
       let(:pw3) { create(:pairwise_comparison, comparable1_id: c2.id, comparable2_id: c3.id, value: 1, appraisal: persisted_appraisal) }
-      
+
       before(:each) do
+        persisted_appraisal.ahp_comparisons << [ ahp1, ahp2, ahp3 ] 
+        persisted_appraisal.pairwise_comparisons << [ pw1, pw2, pw3 ]
         @new_params = {
           :criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
           :ahp_comparisons_attributes => {
@@ -118,6 +124,25 @@ RSpec.describe "AHPComparisons", type: :request do
         # expect(response.body).to include(c1.title)
         # expect(response.body).to include(c2.title)
         # expect(response.body).to include(c3.title)
+      end
+
+      context "after changing the orders of alternatives" do
+        before {
+          alt1.update position: 2
+          alt2.update position: 3
+          alt3.update position: 1 
+        }
+
+        it "with new alternative orders" do
+          expect(article.alternatives.order(:id).pluck :position).to eq [2, 3, 1]
+        end
+
+        it "should not be affected by the changes of alternative orders" do
+          expect(persisted_appraisal.ahp_comparisons.order_by_position.map{|x| x.score}).to eq([0.1, 0.2, 0.3])
+          get criterion_edit_ahp_comparisons_path(criterion)
+          expect(response).to be_successful
+          expect(response.body).to include('3 comparisons')
+        end
       end
     end
 
@@ -182,6 +207,6 @@ RSpec.describe "AHPComparisons", type: :request do
         expect(response.body).to include(alt3.title)
       end
     end
-  
   end
+
 end

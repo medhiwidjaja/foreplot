@@ -40,8 +40,10 @@ class Appraisal < ApplicationRecord
   end
 
   def find_or_initialize_pairwise_comparisons
+    return pairwise_comparisons if pairwise_comparisons.exists?
+
     comparison_pairs.each do |evaluatee|
-      pairwise_comparisons.find_or_initialize_by comparable1: evaluatee.first, comparable2: evaluatee.last
+      pairwise_comparisons.new comparable1: evaluatee.first, comparable2: evaluatee.last
     end
     pairwise_comparisons
   end
