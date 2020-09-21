@@ -21,12 +21,15 @@ class CriterionPresenter < BasePresenter
   end
 
   def root
-    article.criteria.root
+    @root ||= article.criteria.root
   end
 
   def appraisal
-    comparable_type = @presentable.children.exists? ? 'Criterion' : 'Alternative'
-    @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
+    @appraisal ||= @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
+  end
+
+  def comparable_type
+    @comparable_type ||= @presentable.children.exists? ? 'Criterion' : 'Alternative'
   end
 
   def as_tree
@@ -43,9 +46,8 @@ class CriterionPresenter < BasePresenter
 
   def table
     @table ||= appraisal&.relevant_comparisons
-      &.includes(:comparable)
-      &.order(:comparable_id)
-      &.map {|c| {no: c.comparable&.position, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+      &.order(:position)
+      &.map {|c| {no: c.position, title: c.title, rank:c.rank, score:c.score, score_n:c.score_n }}
   end
 
   def comparison_type
