@@ -59,7 +59,7 @@ class AHPComparisonsForm < ComparisonFormBase
     appraisal.ahp_comparisons.map {|c| 
       {id: c.id, comparable_id: c.comparable_id, comparable_type: c.comparable_type, position: c.position, name: c.title }
     }
-    .sort {|h| h[:position]}.reverse
+    .sort_by {|h| h[:position]}
   end
 
 end
