@@ -87,6 +87,11 @@ RSpec.describe "MagiqComparisons", type: :request do
         expect(response.status).to eql 302
         expect(response).to redirect_to(root)
         follow_redirect!
+        expect(response).to render_template(:show)
+        expect(response.body).to include('Magiq comparisons updated')
+        # expect(response.body).to include(c1.title)
+        # expect(response.body).to include(c2.title)
+        # expect(response.body).to include(c3.title)
       end
     end
   
@@ -96,6 +101,10 @@ RSpec.describe "MagiqComparisons", type: :request do
         expect(response.status).to eql 302
         expect(response).to redirect_to(root)
         follow_redirect!
+        expect(response).to render_template(:show)
+        expect(response.body).to include(c1.title)
+        expect(response.body).to include(c2.title)
+        expect(response.body).to include(c3.title)
       end
 
       it "redirects Criteria comparison to ratings" do
@@ -103,6 +112,10 @@ RSpec.describe "MagiqComparisons", type: :request do
         expect(response.status).to eql 302
         expect(response).to redirect_to(criterion_ratings_path(c1))
         follow_redirect!
+        expect(response).to render_template(:show)
+        expect(response.body).to include(alt1.title)
+        expect(response.body).to include(alt2.title)
+        expect(response.body).to include(alt3.title)
       end
     end
 
@@ -112,6 +125,10 @@ RSpec.describe "MagiqComparisons", type: :request do
         expect(response.status).to eql 302
         expect(response).to redirect_to(criterion_ratings_path(c1))
         follow_redirect!
+        expect(response).to render_template(:show)
+        expect(response.body).to include(alt1.title)
+        expect(response.body).to include(alt2.title)
+        expect(response.body).to include(alt3.title)
       end
     end
 
