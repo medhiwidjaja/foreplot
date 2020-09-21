@@ -7,7 +7,8 @@ RSpec.describe "criteria/index", type: :view do
   before(:each) do
     @article = article
     @presenter = double(article: article, root: root, member_id:1, allow_navigate: true, parent_id: root.id, 
-                        criterion: root, table: nil, comparison_type: 'DirectComparison', appraisal: nil)
+                        criterion: root, table: nil, comparison_type: 'DirectComparison', appraisal: nil,
+                        confirm_destroy_related_appraisals: true)
   end
 
   it "displays the root criterion" do

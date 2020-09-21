@@ -11,8 +11,8 @@ RSpec.describe "articles/index", type: :view do
 
     it "displays both articles" do
       render
-      expect(rendered).to match /Article 1/
-      expect(rendered).to match /Article 2/
+      expect(rendered).to match /Article [1..9]/
+      expect(rendered).to match /Article [1..9]/
     end
   end
 end

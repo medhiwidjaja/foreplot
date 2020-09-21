@@ -6,7 +6,9 @@ RSpec.describe "criteria/edit", type: :view do
   before(:each) do
     allow(view).to receive(:user_signed_in?) { true } 
     allow(view).to receive(:current_user) { FactoryBot.build(:user) }
-    @presenter = double(article: article, root: criterion, member_id:1, allow_navigate: true, parent_id: criterion.id)
+    @presenter = double(article: article, root: criterion, member_id:1, 
+                        allow_navigate: true, parent_id: criterion.id, 
+                        confirm_destroy_related_appraisals: true)
     @article = article
     @criterion = criterion
   end
