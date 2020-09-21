@@ -1,0 +1,12 @@
+- page_title "Ratings for #{@presenter.criterion.title}"
+
+= article_menu @presenter.article
+- content_for :left_frame do
+  - if @presenter.criteria.empty?
+    .alert.alert-info "Please create some criteria first"
+  - else
+    = render partial: 'sidepanel', locals:{ p: @presenter }
+
+#container-box
+  -unless @presenter.root.nil?
+		= render partial: 'ratings_table', locals: { alternatives: @alternatives, presenter: @presenter }
