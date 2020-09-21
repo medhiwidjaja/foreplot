@@ -33,6 +33,9 @@ Rails.application.routes.draw do
         get :chart
       end
     end
+
+    # Ratings
+    resources :ratings, only: [:index]
   end
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
@@ -66,8 +69,9 @@ Rails.application.routes.draw do
       put 'ahp_comparisons'      => :update
     end
 
-    # Ratings
-    resources :ratings, only: [:index]
+    controller :ratings do
+      get 'ratings' => :show, as: :ratings
+    end
   end
 
 end
