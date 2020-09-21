@@ -8,5 +8,6 @@ FactoryBot.define do
     value { "4.0" }
     unit { "unit" }
     comparable  factory: :criterion
+    position        { 1 }
   end
 end

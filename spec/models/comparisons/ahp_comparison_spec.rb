@@ -1,19 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AHPComparison, type: :model do
-  let!(:article) { create :article }
-  let(:root) { article.criteria.root }
-  let(:appraisal) { create :appraisal, criterion: root }
-  before {
-    3.times { root.children << build(:criterion, article: article) }
-  }
-  let (:comparables ) { root.children }
+  include_context "shared comparables"
+
   let (:valid_attributes) {
-    { title: 'Title', score: 0.2, score_n: 0.2, appraisal: appraisal }
+    { title: 'Title', score: 0.2, score_n: 0.2, appraisal: @appraisal, position: 1 }
   }
   before {
-    comparables.each { |c| c.ahp_comparisons << AHPComparison.create(valid_attributes) }
-    @comparison = comparables.first.ahp_comparisons.first
+    @comparables.each { |c| c.ahp_comparisons << AHPComparison.create(valid_attributes) }
+    @comparison = @comparables.first.ahp_comparisons.first
   }
 
   subject {@comparison}
@@ -24,7 +19,7 @@ RSpec.describe AHPComparison, type: :model do
     end
 
     it "holds reference to the criterion" do
-      expect(@comparison.comparable).to eq(comparables.first)
+      expect(@comparison.comparable).to eq(@comparables.first)
       expect(@comparison.comparable_type).to eq('Criterion')
     end
   end
