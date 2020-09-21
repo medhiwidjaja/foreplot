@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe AHPComparisonsForm do
-  let!(:article) { create :article }
-  let(:criterion) { article.criteria.root }
-  let(:member)    { create :member }
+
+  include_context "criteria context for comparisons" 
+
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'AHPComparison'}
-  let!(:c1) { create :criterion, article:article, parent:criterion, position: 3 }
-  let!(:c2) { create :criterion, article:article, parent:criterion, position: 2 }
-  let!(:c3) { create :criterion, article:article, parent:criterion, position: 1 }
+
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
       :ahp_comparisons_attributes=>{

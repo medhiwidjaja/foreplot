@@ -1,19 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe MagiqComparisonsForm do
-  let!(:article) { create :article }
-  let(:criterion) { article.criteria.root }
-  let(:member)    { create :member }
+
+  include_context "criteria context for comparisons" 
+
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'MagiqComparison', rank_method: 'rank_order_centroid'}
-  let(:c1) { create :criterion, article:article, parent:criterion }
-  let(:c2) { create :criterion, article:article, parent:criterion }
-  let(:c3) { create :criterion, article:article, parent:criterion }
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"MagiqComparison", rank_method: 'rank_order_centroid', 
       :magiq_comparisons_attributes=>{
-        "0"=>{"rank"=>"1", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
-        "1"=>{"rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-        "2"=>{"rank"=>"3", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
+        "0"=>{"rank"=>"1", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
+        "1"=>{"rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "2"=>{"rank"=>"3", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
       }
     }
   }
@@ -58,9 +55,9 @@ RSpec.describe MagiqComparisonsForm do
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
                                 appraisal_method:'MagiqComparison', rank_method: 'rank_order_centroid', is_complete:true, comparable_type: 'Criterion' }
-    let(:dc1) { MagiqComparison.new(rank: 1, comparable_id:c1.id, comparable_type: 'Criterion') }
-    let(:dc2) { MagiqComparison.new(rank: 2, comparable_id:c2.id, comparable_type: 'Criterion') }
-    let(:dc3) { MagiqComparison.new(rank: 3, comparable_id:c3.id, comparable_type: 'Criterion') }
+    let(:dc1) { MagiqComparison.new(rank: 1, comparable_id:c1.id, comparable_type: 'Criterion', "position"=>c1.position) }
+    let(:dc2) { MagiqComparison.new(rank: 2, comparable_id:c2.id, comparable_type: 'Criterion', "position"=>c2.position) }
+    let(:dc3) { MagiqComparison.new(rank: 3, comparable_id:c3.id, comparable_type: 'Criterion', "position"=>c3.position) }
     let(:persisted_comparisons) { [ dc1, dc2, dc3 ] }
 
     before(:each) do

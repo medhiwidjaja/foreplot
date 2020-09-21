@@ -1,19 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe DirectComparisonsForm do
-  let!(:article) { create :article }
-  let(:criterion) { article.criteria.root }
-  let(:member)    { create :member }
+
+  include_context "criteria context for comparisons" 
+
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'DirectComparison'}
-  let(:c1) { create :criterion, article:article, parent:criterion }
-  let(:c2) { create :criterion, article:article, parent:criterion }
-  let(:c3) { create :criterion, article:article, parent:criterion }
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"DirectComparison", 
       :direct_comparisons_attributes=>{
-        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}, 
-        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}
+        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}, 
+        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}
       }
     }
   }
@@ -45,9 +42,9 @@ RSpec.describe DirectComparisonsForm do
 
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'DirectComparison', is_complete:true, comparable_type: 'Criterion' }
-    let(:dc1) { DirectComparison.new(value: 100, rank: 3, score: 1, comparable_id:c1.id, comparable_type: 'Criterion') }
-    let(:dc2) { DirectComparison.new(value: 200, rank: 2, score: 2, comparable_id:c2.id, comparable_type: 'Criterion') }
-    let(:dc3) { DirectComparison.new(value: 400, rank: 1, score: 4, comparable_id:c3.id, comparable_type: 'Criterion') }
+    let(:dc1) { DirectComparison.new(value: 100, rank: 3, score: 1, comparable_id:c1.id, comparable_type: 'Criterion', "position"=>c1.position) }
+    let(:dc2) { DirectComparison.new(value: 200, rank: 2, score: 2, comparable_id:c2.id, comparable_type: 'Criterion', "position"=>c2.position) }
+    let(:dc3) { DirectComparison.new(value: 400, rank: 1, score: 4, comparable_id:c3.id, comparable_type: 'Criterion', "position"=>c3.position) }
     let(:persisted_comparisons) { [ dc1, dc2, dc3 ] }
 
     before(:each) do
