@@ -59,12 +59,12 @@ RSpec.describe Criterion, type: :model do
     before {
       criterion.save
       appraisal = create :appraisal, criterion: root, appraisal_method: 'DirectComparison'
-      @ahp = create :ahp_comparison, comparable: criterion, appraisal: appraisal, position: 1
+      @comparison = create :direct_comparison, comparable: criterion, appraisal: appraisal, position: 1
     }
 
     it "syncronize the position number in related ahp_comparisons" do
       criterion.position = 2
-      expect { criterion.save }.to change { @ahp.reload.position }.from(1).to(2)
+      expect { criterion.save }.to change { @comparison.reload.position }.from(1).to(2)
     end
   end
 

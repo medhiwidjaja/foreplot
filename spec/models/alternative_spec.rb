@@ -44,11 +44,11 @@ RSpec.describe Alternative, type: :model do
     let(:root) { article.criteria.root }
     before {
       alternative.save
-      appraisal = build :appraisal, criterion: root, appraisal_method: 'DirectComparison'
-      @ahp = create :ahp_comparison, comparable: alternative, appraisal: appraisal, position: 1
+      appraisal = build :appraisal, criterion: root, appraisal_method: 'AHPComparison'
+      @ahp      = create :magiq_comparison, comparable: alternative, appraisal: appraisal, position: 1
     }
 
-    it "syncronize the position number in related ahp_comparisons" do
+    it "syncronize the position number in related comparisons" do
       alternative.position = 2
       expect { alternative.save }.to change { @ahp.reload.position }.from(1).to(2)
     end

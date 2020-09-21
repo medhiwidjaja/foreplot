@@ -12,7 +12,7 @@ class Criterion < ApplicationRecord
   validate :must_have_parent_if_not_root
 
   before_create :assign_position_number
-  after_save :sync_position_with_ahp_comparisons, if: :saved_change_to_position?
+  after_save :sync_position_with_comparisons, if: :saved_change_to_position?
 
   scope :with_appraisals_by, ->(member_id) {
     joins(<<-SQL.squish
@@ -77,8 +77,8 @@ class Criterion < ApplicationRecord
     end
   end
 
-  def sync_position_with_ahp_comparisons
-    ahp_comparisons.update_all position: position
+  def sync_position_with_comparisons
+    comparisons.update_all position: position
   end
 
 end

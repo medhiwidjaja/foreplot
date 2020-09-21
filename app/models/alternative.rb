@@ -10,7 +10,7 @@ class Alternative < ApplicationRecord
   validates :title, presence: true
 
   before_create :assign_position_number
-  after_save :sync_position_with_ahp_comparisons, if: :saved_change_to_position?
+  after_save :sync_position_with_comparisons, if: :saved_change_to_position?
 
   scope :order_by_position, -> { order(:position) }
 
@@ -24,8 +24,8 @@ class Alternative < ApplicationRecord
     end
   end
 
-  def sync_position_with_ahp_comparisons
-    ahp_comparisons.update_all position: position
+  def sync_position_with_comparisons
+    comparisons.update_all position: position
   end
 
 end
