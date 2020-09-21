@@ -20,6 +20,11 @@ RSpec.describe "Results", type: :request do
         expect(response).to render_template("results/_sidepanel")
       end
 
+      it "shows a chart" do
+        get article_results_path(@bingleys_article)
+        expect(response).to render_template("results/_chart")
+      end
+
       it "shows a table of the result" do
         get article_results_path(@bingleys_article)
         expect(response).to render_template("results/_rank_table")
@@ -38,6 +43,17 @@ RSpec.describe "Results", type: :request do
           rank:  1, 
           score: 0.6,
           ratio: 1.0
+        )
+      end
+    end
+
+    describe "GET #chart json format" do
+      it "returns chart data in json format" do
+        get chart_article_results_path(@bingleys_article, format: :json)
+        expect(response.content_type).to eq("application/json")   
+        expect(body_as_json).to include(
+          chart_data: [0.6, 0.4],
+          names:      [@alt2.title, @alt1.title]
         )
       end
     end

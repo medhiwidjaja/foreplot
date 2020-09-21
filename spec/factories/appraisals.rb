@@ -4,5 +4,6 @@ FactoryBot.define do
     member 
     appraisal_method  { "DirectComparison" }
     comparable_type  { "Criterion" }
+    is_complete { true }
   end
 end
