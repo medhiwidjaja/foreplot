@@ -1,22 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "AHPComparisons", type: :request do
-  let(:bingley) { create :bingley, :with_articles }
-  let(:bingleys_article) { bingley.articles.first }
-  let(:member)  { bingleys_article.members.first }
-  let(:criterion) { bingleys_article.criteria.first }
+
+  include_context "criteria context for comparisons" 
+
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'AHPComparison'}
-  let(:c1) { create :criterion, article:bingleys_article, parent:criterion }
-  let(:c2) { create :criterion, article:bingleys_article, parent:criterion }
-  let(:c3) { create :criterion, article:bingleys_article, parent:criterion }
 
   context "comparing sub-criteria" do
     let(:appraisal_attributes)    {
       {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
         :ahp_comparisons_attributes=>{
-          "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
-          "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-          "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
+          "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
+          "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+          "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
         },
         :pairwise_comparisons_attributes=>{
           "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
@@ -28,13 +24,11 @@ RSpec.describe "AHPComparisons", type: :request do
     
     before(:each) {
       sign_in bingley
-      @article = bingleys_article
-      @criterion = criterion
     }
 
     describe "GET #new" do
       it "returns a success response" do
-        get criterion_new_ahp_comparisons_path(@criterion)
+        get criterion_new_ahp_comparisons_path(criterion)
         expect(response).to be_successful
       end
     end
@@ -66,7 +60,7 @@ RSpec.describe "AHPComparisons", type: :request do
 
     describe "GET #edit" do
       it "returns a success response" do
-        get criterion_edit_ahp_comparisons_path(@criterion)
+        get criterion_edit_ahp_comparisons_path(criterion)
         expect(response).to be_successful
       end
     end
@@ -75,9 +69,9 @@ RSpec.describe "AHPComparisons", type: :request do
       let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, is_valid: true,
                                   appraisal_method:'AHPComparison', is_complete:true, comparable_type: 'Criterion' }
       let(:persisted_ahp_comparisons) { [ 
-        build(:ahp_comparison, rank: 1, score: 0.3, comparable_id:c1.id, comparable_type: 'Criterion'), 
-        build(:ahp_comparison, rank: 2, score: 0.3, comparable_id:c2.id, comparable_type: 'Criterion'), 
-        build(:ahp_comparison, rank: 3, score: 0.3, comparable_id:c3.id, comparable_type: 'Criterion')
+        build(:ahp_comparison, rank: 1, score: 0.3, comparable_id:c1.id, comparable_type: 'Criterion', position:c1.position), 
+        build(:ahp_comparison, rank: 2, score: 0.3, comparable_id:c2.id, comparable_type: 'Criterion', position:c2.position), 
+        build(:ahp_comparison, rank: 3, score: 0.3, comparable_id:c3.id, comparable_type: 'Criterion', position:c3.position)
       ]}
       let(:persisted_pairwise_comparisons) { [
         build(:pairwise_comparison, comparable1_id: c1.id, comparable2_id: c2.id, value: 1),
@@ -132,9 +126,7 @@ RSpec.describe "AHPComparisons", type: :request do
   end
 
   context "comparing alternatives" do
-    let(:alt1) { create :alternative, article: bingleys_article }
-    let(:alt2) { create :alternative, article: bingleys_article }
-    let(:alt3) { create :alternative, article: bingleys_article }
+
     let(:alt_params)    {
       {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
         :ahp_comparisons_attributes=>{
@@ -152,8 +144,6 @@ RSpec.describe "AHPComparisons", type: :request do
 
     before(:each) {
       sign_in bingley
-      @article = bingleys_article
-      @criterion = criterion
     }
 
     describe "redirections" do
