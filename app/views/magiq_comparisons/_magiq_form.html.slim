@@ -34,6 +34,7 @@
                         = mc_fields.hidden_field :rank, class:'order'
                         = mc_fields.hidden_field :comparable_id
                         = mc_fields.hidden_field :comparable_type
+                        = mc_fields.hidden_field :position
             td
               #ranks.ui-widget-content style="border:0"
                 - comparisons = @form.magiq_comparisons
