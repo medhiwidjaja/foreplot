@@ -25,18 +25,17 @@ Rails.application.routes.draw do
     # Criteria
     resources :criteria, only: [:index]
 
-    resources :results, only: [:index] do
-      collection do
-        get :sensitivity
-        get :sankey
-        get :bc
-        get :chart
-      end
-    end
-
     # Ratings
     resources :ratings, only: [:index]
   end
+
+  # Results
+  get '/articles/:article_id/results' => 'results#index', as: :article_results
+  get '/articles/:article_id/chart'   => 'results#chart', as: :article_chart
+
+  # Flow diagram
+  get '/articles/:article_id/flow'    => 'flow#index',    as: :article_flow
+  get '/articles/:article_id/sankey'  => 'flow#sankey',   as: :article_sankey
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do

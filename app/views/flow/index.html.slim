@@ -1,0 +1,21 @@
+- page_title "Results for #{@article.title}"
+
+= article_menu @article
+- content_for :left_frame do
+  = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
+
+#container-box
+  = render partial: 'results/_results_nav_menu', locals: { presenter: @criteria_presenter }
+
+	.alert.alert-info
+		a.close data-dismiss="alert" ×
+		| Hover over a line to see the weight score of the corresponding criterion. Move any node vertically to rearrange the diagram.
+		a.close data-dismiss="alert" ×
+		| Click on one of the nodes in the criteria tree on the left to zoom in to a particular criterion.
+
+	.widget
+		.widget-header.ellipsis
+			i.icon-bar-chart
+			h3 Flow Diagram
+		.well.well-widget-content
+			p id="sankey" data-url="#{@sankey_url}"

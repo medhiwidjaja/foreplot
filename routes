@@ -36,11 +36,6 @@
                                   PUT    /alternatives/:id(.:format)                                                              alternatives#update
                                   DELETE /alternatives/:id(.:format)                                                              alternatives#destroy
                  article_criteria GET    /articles/:article_id/criteria(.:format)                                                 criteria#index
-      sensitivity_article_results GET    /articles/:article_id/results/sensitivity(.:format)                                      results#sensitivity
-           sankey_article_results GET    /articles/:article_id/results/sankey(.:format)                                           results#sankey
-               bc_article_results GET    /articles/:article_id/results/bc(.:format)                                               results#bc
-            chart_article_results GET    /articles/:article_id/results/chart(.:format)                                            results#chart
-                  article_results GET    /articles/:article_id/results(.:format)                                                  results#index
                   article_ratings GET    /articles/:article_id/ratings(.:format)                                                  ratings#index
                          articles GET    /articles(.:format)                                                                      articles#index
                                   POST   /articles(.:format)                                                                      articles#create
@@ -50,6 +45,10 @@
                                   PATCH  /articles/:id(.:format)                                                                  articles#update
                                   PUT    /articles/:id(.:format)                                                                  articles#update
                                   DELETE /articles/:id(.:format)                                                                  articles#destroy
+                  article_results GET    /articles/:article_id/results(.:format)                                                  results#index
+                    article_chart GET    /articles/:article_id/chart(.:format)                                                    results#chart
+             article_flow_diagram GET    /articles/:article_id/flow_diagram(.:format)                                             flow_diagram#index
+                   article_sankey GET    /articles/:article_id/sankey(.:format)                                                   flow_diagram#sankey
                    tree_criterion GET    /criteria/:id/tree(.:format)                                                             criteria#tree
                     new_criterion GET    /criteria/:id/new(.:format)                                                              criteria#new
              create_sub_criterion POST   /criteria/:id(.:format)                                                                  criteria#create
