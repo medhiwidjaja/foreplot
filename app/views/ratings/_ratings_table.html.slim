@@ -11,7 +11,7 @@
         blockquote.formatted-output
           = raw(criterion.description)
 
-    - if presenter.alternatives.blank?
+    - unless presenter.alternatives.exists?
       .alert.alert-info 
         | You need to create some alternatives first. 
         = link_to 'Create now', new_article_alternative_path(presenter.article)
