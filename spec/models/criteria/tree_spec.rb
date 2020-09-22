@@ -13,24 +13,24 @@ RSpec.describe Criteria::Tree do
   end
 
   let(:expected_hash) {
-    { id: kind_of(Integer), label: /Article/, weights_incomplete: true, 
+    { id: kind_of(Integer), label: /Article/, weights_incomplete: true, ratings_incomplete: false,
       children: a_collection_containing_exactly(
-        a_hash_including({label: "C 1", weights_incomplete: true, children: 
+        a_hash_including({label: "C 1", weights_incomplete: true, ratings_incomplete: false, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 1-1", weights_incomplete: false}),
-            a_hash_including({label: "C 1-2", weights_incomplete: false})
+            a_hash_including({label: "C 1-1", weights_incomplete: false, ratings_incomplete: true}),
+            a_hash_including({label: "C 1-2", weights_incomplete: false, ratings_incomplete: true})
           )
         }),
-        a_hash_including({label: "C 2", weights_incomplete: true, children: 
+        a_hash_including({label: "C 2", weights_incomplete: true, ratings_incomplete: false, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 2-1", weights_incomplete: false}),
-            a_hash_including({label: "C 2-2", weights_incomplete: false})
+            a_hash_including({label: "C 2-1", weights_incomplete: false, ratings_incomplete: true}),
+            a_hash_including({label: "C 2-2", weights_incomplete: false, ratings_incomplete: true})
           )
         }),
-        a_hash_including({label: "C 3", weights_incomplete: true, children: 
+        a_hash_including({label: "C 3", weights_incomplete: true, ratings_incomplete: false, children: 
           a_collection_containing_exactly(
-            a_hash_including({label: "C 3-1", weights_incomplete: false}),
-            a_hash_including({label: "C 3-2", weights_incomplete: false})
+            a_hash_including({label: "C 3-1", weights_incomplete: false, ratings_incomplete: true}),
+            a_hash_including({label: "C 3-2", weights_incomplete: false, ratings_incomplete: true})
           )
         })
       )
