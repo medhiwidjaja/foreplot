@@ -73,15 +73,4 @@ class ValueTreePresenter
       detail: alt_array.collect{ |a| a[:criterion] }.reduce({}){ |acc,h| acc.merge(h) }
     }
   end
-
-  # Split the string into 2 lines at the closest space before the center, separated by <br/>
-  def split_lines(str)
-    unless str.length < 10
-      length = str.split.first.length > str.length/2 ? str.split.first.length : str.length/2
-      regex = /(.{1,#{length}}) (.+)$/
-      '<div style="text-align:center">'+str.scan(regex).join('<br/>')+'</div>'
-    else
-      '<div style="text-align:center">'+str+'</div>'
-    end
-  end
 end
