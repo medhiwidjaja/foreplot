@@ -11,7 +11,6 @@ class ValueTree
 
   def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
     node = tree_data[ "#{node_id}-#{type}" ]
-
     record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
     content = record ? block.call(record) : {id: node_id}
 
@@ -58,8 +57,8 @@ class ValueTree
           cmp.comparable_type as type, 
           array_agg(cmp.comparable_id) OVER (PARTITION BY a.id) as children
         FROM criteria c 
-        LEFT OUTER JOIN appraisals a ON a.criterion_id = c.id 
-        LEFT OUTER JOIN comparisons cmp ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
+        INNER JOIN appraisals a ON a.criterion_id = c.id AND a.is_valid = true
+        INNER JOIN comparisons cmp ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
         WHERE c.article_id = :article_id
       )
 
