@@ -65,6 +65,14 @@ RSpec.describe "AHPComparisons", type: :request do
         post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
         expect( criterion.appraisals.where(member: member).take.is_complete ).to eq(true)
       end
+
+      let(:expected_titles_and_position) {
+        [c1, c2, c3].map {|c| [c.title, c.position]}
+      }
+      it "saves the title and position in ahp_comparison" do
+        post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
+        expect(criterion.appraisals.first.ahp_comparisons.order(:comparable_id).map{|x| [x.title, x.position] }).to eq(expected_titles_and_position)
+      end
     end
 
     describe "GET #edit" do

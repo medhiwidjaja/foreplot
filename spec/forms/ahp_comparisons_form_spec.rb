@@ -61,6 +61,15 @@ RSpec.describe AHPComparisonsForm do
       expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score_n}).to eq(expected_scores)
     end
 
+    let(:expected_titles_and_position) {
+      [c1, c2, c3].map {|c| [c.title, c.position]}
+    }
+    it "saves the title and position in ahp_comparison" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| [x.title, x.position] }).to eq(expected_titles_and_position)
+    end
+
     it "saves the consistency ratio in appraisals table" do
       form = described_class.new appraisal, params
       form.submit
