@@ -38,15 +38,11 @@ class ValueTreePresenter
   end
 
   def detail_chart_data
-    score_table.map {|a| a[:criterion].map {|o| o.last } }.transpose
+    score_table.map {|_, a| a[:detail].map {|_,v| v}}.transpose
   end
 
   def criteria_labels
-    score_table.first[:criterion].map {|o| @article.criteria.find(o.first).title }
-  end
-
-  def alternative_labels
-    score_table.map {|_k, alt| split_lines(alt[:abbrev].blank? ? alt[:title] : alt[:abbrev]) }
+    Criterion.where(id: score_table.first[1][:detail].keys).pluck :title
   end
 
   def alternative_names

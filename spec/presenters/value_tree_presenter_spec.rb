@@ -40,9 +40,25 @@ RSpec.describe ValueTreePresenter do
       expect(presenter.score_table.values.last).to match(hash_including(rank: 2))
     end
 
-    it "know the detail breakdown of the score by criteria" do
+    it "knows the detail breakdown of the score by criteria" do
       expect(presenter.score_table.values.first).to match(hash_including(detail: {c1.id => 0.4*0.6, c2.id => 0.6*0.6}))
       expect(presenter.score_table.values.second).to match(hash_including(detail: {c1.id => 0.4*0.4, c2.id => 0.6*0.4}))
     end
+  end
+
+  it "gives chart data from the score table" do
+    expect(presenter.chart_data).to eq [0.4*0.6 + 0.6*0.6, 0.4*0.4 + 0.6*0.4]
+  end
+
+  it "gives detail chart data (breakdown by criteria scores) from the score table" do
+    expect(presenter.detail_chart_data).to eq [ [0.6*0.6, 0.6*0.4], [0.4*0.6, 0.4*0.4] ]
+  end
+
+  it "gives the criteria names" do
+    expect(presenter.criteria_labels).to eq [ c1.title, c2.title ]
+  end
+
+  it "gives the alternative names" do
+    expect(presenter.alternative_names).to eq [ alt2.title, alt1.title ]
   end
 end
