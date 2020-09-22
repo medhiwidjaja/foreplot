@@ -42,6 +42,7 @@
               = ahp_fields.hidden_field :id
               = ahp_fields.hidden_field :comparable_id 
               = ahp_fields.hidden_field :comparable_type
+              = ahp_fields.hidden_field :position
           #pairwise-comparison 
             = form.fields_for :pairwise_comparisons do |pw_fields|
               - i = pw_fields.options[:child_index]
