@@ -25,6 +25,11 @@ RSpec.describe "Results", type: :request do
         expect(response).to render_template("results/_chart")
       end
 
+      it "show detail chart" do
+        get article_results_path(article)
+        expect(response).to render_template("results/_detail_chart")
+      end
+
       it "shows a table of the result" do
         get article_results_path(article)
         expect(response).to render_template("results/_rank_table")

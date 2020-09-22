@@ -49,6 +49,18 @@ class ValueTreePresenter
     score_table.map {|_k, alt| alt[:title] }
   end
 
+  def chart_data_json
+    { chart_data: chart_data,
+      labels:     alternative_names,
+      names:      alternative_names }.to_json
+  end
+
+  def stacked_chart_data_json
+    { chart_data:   detail_chart_data,
+      tick_labels:  alternative_names,
+      series_names: criteria_labels }.to_json
+  end
+
   private
 
   attr_reader :score_key
