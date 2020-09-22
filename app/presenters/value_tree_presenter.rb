@@ -14,7 +14,7 @@ class ValueTreePresenter
     scores =
       tree.each_leaf.map { |node| 
         node.content                                          # get the contents of each leaf node
-          .merge(:criterion => {node.parent.name => node.content[score_key]})
+          .merge(:criterion => {node.parent.name.to_i => node.content[score_key]})
       }
       .group_by { |node| node[:id] }                          # group by alternative id
       .reduce({}) { |hash, ary| 
@@ -59,9 +59,10 @@ class ValueTreePresenter
 
   def collect_scores(alt_array)
     { 
-      id:           alt_array.first[:id], 
-      title:        alt_array.first[:title], 
-      score:        alt_array.sum { |a| a[score_key] } 
+      id:     alt_array.first[:id], 
+      title:  alt_array.first[:title], 
+      score:  alt_array.sum{ |a| a[score_key] },
+      detail: alt_array.collect{ |a| a[:criterion] }.reduce({}){ |acc,h| acc.merge(h) }
     }
   end
 
