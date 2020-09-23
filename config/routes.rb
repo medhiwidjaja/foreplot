@@ -33,9 +33,15 @@ Rails.application.routes.draw do
   get '/articles/:article_id/results' => 'results#index', as: :article_results
   get '/articles/:article_id/chart'   => 'results#chart', as: :article_chart
 
-  # Flow diagram
-  get '/articles/:article_id/flow'    => 'flow#index',    as: :article_flow
-  get '/articles/:article_id/sankey'  => 'flow#sankey',   as: :article_sankey
+  # Visualization
+  get '/articles/:article_id/viz'     => 'viz#index',    as: :article_viz
+  get '/articles/:article_id/sankey'  => 'viz#sankey',   as: :article_sankey
+
+  # Benefit Cost Analysis (Feasibility)
+  get '/articles/:article_id/feasibility' => 'feasibility#index',  as: :article_feasibility
+
+  # Sensitivity Analysis 
+  get '/articles/:article_id/sensitivity' => 'sensitivity#index',  as: :article_sensitivity
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do
