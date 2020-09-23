@@ -1,7 +1,0 @@
-- action = params[:action]
-
-ul.nav.nav-pills.results
-  = link_or_text(action == 'index',       article_results_path(presenter.article, p: presenter.member_id),             'Ranking')
-  = link_or_text(action == 'bc',          bc_article_results_path(presenter.article, p: presenter.member_id),          'Benefit-Cost Analysis')
-  = link_or_text(action == 'sankey',      sankey_article_results_path(presenter.article, p: presenter.member_id),      'Flow Diagram')
-  = link_or_text(action == 'sensitivity', sensitivity_article_results_path(presenter.article, p: presenter.member_id), 'Sensitivity Analysis')

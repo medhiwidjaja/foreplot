@@ -5,7 +5,7 @@
   = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
 
 #container-box
-  = render partial: 'results_nav_menu', locals: { presenter: @criteria_presenter }
+  = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
 
   .alert.alert-info
     a.close data-dismiss="alert" ×
