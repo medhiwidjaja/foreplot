@@ -12,7 +12,7 @@ class ValueTree
   def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
     node = tree_data[ "#{node_id}-#{type}" ]
     record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
-    content = record ? block.call(record) : {id: node_id}
+    content = record ? block.call(record) : {id: node_id, title: node[:title]}
 
     branch = Tree::TreeNode.new(node_id.to_s, content)
     unless node[:subnodes].blank?
