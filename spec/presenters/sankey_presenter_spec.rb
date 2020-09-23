@@ -13,15 +13,15 @@ RSpec.describe SankeyPresenter do
 
     it "gives a list of nodes for sankey chart" do
       expect(presenter.sankey_nodes).to eq [
-        {id: root.id.to_s, name: root.title}, 
-        {id: c2.id.to_s, name: c2.title}, 
-        {id: c1.id.to_s, name: c1.title}, 
-        {id: alt2.id.to_s, name: alt2.title}, 
-        {id: alt1.id.to_s, name: alt1.title}] 
+        {id: "Root-0", name: root.title}, 
+        {id: "Criterion-#{c2.id}", name: c2.title}, 
+        {id: "Criterion-#{c1.id}", name: c1.title}, 
+        {id: "Alternative-#{alt2.id}", name: alt2.title}, 
+        {id: "Alternative-#{alt1.id}", name: alt1.title}] 
     end
 
     it "gives a list of links for sankey chart" do
-      expect(presenter.sankey_links).to include({"source": root.id.to_s, "target": c1.id.to_s, "value": 0.4})
+      expect(presenter.sankey_links).to include({"source": "Root-0", "target": "Criterion-#{c1.id}", "value": 0.4})
     end
 
   end
@@ -31,13 +31,13 @@ RSpec.describe SankeyPresenter do
 
     it "gives a list of nodes for sankey chart" do
       expect(presenter.sankey_nodes).to eq [
-        {id: c1.id.to_s, name: c1.title}, 
-        {id: alt2.id.to_s, name: alt2.title}, 
-        {id: alt1.id.to_s, name: alt1.title}] 
+        {id: "Root-0", name: c1.title}, 
+        {id: "Alternative-#{alt2.id}", name: alt2.title}, 
+        {id: "Alternative-#{alt1.id}", name: alt1.title}] 
     end
 
     it "gives a list of links for sankey chart" do
-      expect(presenter.sankey_links).to include({"source": c1.id.to_s, "target": alt1.id.to_s, "value": 0.4})
+      expect(presenter.sankey_links).to include({"source": "Root-0", "target": "Alternative-#{alt1.id}", "value": 0.4})
       expect(presenter.sankey_links).to_not include(nil)
     end
   end
