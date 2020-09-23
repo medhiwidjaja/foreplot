@@ -5,8 +5,6 @@
   = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
 
 #container-box
-  = render partial: 'results/_results_nav_menu', locals: { presenter: @criteria_presenter }
-
 	.alert.alert-info
 		a.close data-dismiss="alert" ×
 		| Hover over a line to see the weight score of the corresponding criterion. Move any node vertically to rearrange the diagram.
@@ -16,6 +14,6 @@
 	.widget
 		.widget-header.ellipsis
 			i.icon-bar-chart
-			h3 Flow Diagram
+			h3 Visualization
 		.well.well-widget-content
-			p id="sankey" data-url="#{@sankey_url}"
+			#sankey data-url="#{article_sankey_path(@article, format:'json')}"

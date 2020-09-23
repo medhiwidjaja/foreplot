@@ -1,18 +1,19 @@
-class FlowController < ApplicationController
+class VizController < ApplicationController
   include TurbolinksCacheControl
   
   before_action :set_article
   before_action :set_criterion
   before_action :set_member
-  before_action :set_value_tree_presenter
 
   def index
     @criteria_presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
   end
 
   def sankey
+    @value_tree = ValueTree.new @article.id, @member.id
+    @sankey_presenter = SankeyPresenter.new @value_tree, @criterion.id
     respond_to do |format|
-      format.json { @presenter = @value_tree_presenter }
+      format.json { @presenter = @sankey_presenter }
     end
   end
 
@@ -30,8 +31,4 @@ class FlowController < ApplicationController
     @member = params[:member_id] ? Member.find(params[:member_id]) : @article.members.author.take
   end
 
-  def set_value_tree_presenter
-    @value_tree = ValueTree.new @article.id, @member.id
-    @value_tree_presenter = SankeyPresenter.new @value_tree, @criterion.id
-  end
 end
