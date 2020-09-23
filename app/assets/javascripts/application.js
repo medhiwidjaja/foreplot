@@ -33,6 +33,9 @@
 //= require jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer
 //= require jquery.jqplot/plugins/jqplot.canvasTextRenderer
 //= require jqplot_chart
+//= require d3/d3.v3.min
+//= require d3/sankey
+//= require sankey_chart
 //= require jquery.slider-ext
 //= require pairwise_slider
 
