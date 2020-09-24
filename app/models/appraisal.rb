@@ -59,10 +59,10 @@ class Appraisal < ApplicationRecord
     ranks = magiq_comparisons.pluck :rank
     return true if ranks.empty?
  
-    empty_slots = (1..ranks.max).to_a - ranks.uniq
-    if empty_slots.size > 0
-      message = "#{'Slot'.pluralize(empty_slots.size)} #{empty_slots.join(', ')} can't be empty"
-      errors.add(:base, message)
+    begin
+      Foreplot::Magiq::OrdinalScore.validate_scores ranks
+    rescue => error
+      errors.add(:base, error.message)
       throw(:abort)
     end
   end

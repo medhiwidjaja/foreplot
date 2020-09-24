@@ -85,7 +85,7 @@ RSpec.describe Appraisal, type: :model do
 
         it "sets correct error messages" do
           appraisal.valid?
-          expect(appraisal.errors.messages).to eq({:base=>["Slots 1, 2, 4 can't be empty"]})
+          expect(appraisal.errors.messages).to eq({:base=>["Interior ranks are empty: 1, 2, 4"]})
         end
       end
     end
