@@ -9,7 +9,7 @@ class MagiqComparisonCalculator < BaseCalculator
   def call
     @result = convert_to_attributes(
       add_score_n_field(
-        Foreplot::MagiqRanking.new(params(comparisons)).rank(rank_method)
+        Foreplot::MagiqRanking.new(params(comparisons), rank_method).rank
       ))
   end
 

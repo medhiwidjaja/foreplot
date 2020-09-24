@@ -1,6 +1,4 @@
 module RankComparisonHelper
-  include Foreplot::Magiq::OrdinalScore
-
   def sortable_form_fields(form)
     form.fields_for :magiq_comparisons do |mc_fields|
       content_tag :li, class:'rank-item', id:mc_fields.object.id do
@@ -15,7 +13,7 @@ module RankComparisonHelper
   end
 
   def rank_barchart(rank_method:, num_rank:)
-    rank_table = send "#{rank_method.to_s}_table", num_rank
+    rank_table = Foreplot::Magiq::OrdinalScore.send "#{rank_method.to_s}_table", num_rank
 
     content_tag(:ul, class:'dist-table') do
       (0..num_rank-1).map do |i|
