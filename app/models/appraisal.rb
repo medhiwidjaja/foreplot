@@ -36,7 +36,7 @@ class Appraisal < ApplicationRecord
     criterion.evaluatees.order(position: :asc, id: :asc).each do |evaluatee|
       comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, position: evaluatee.position || evaluatee.id, appraisal: self
     end if comparisons.size == 0
-    comparisons
+    comparisons.order_by_position
   end
 
   def find_or_initialize_pairwise_comparisons

@@ -28,19 +28,22 @@
         table.table.table-condensed.table-bordered.objectives-table
           thead
             tr
+              th.narrow No.
               th Title
-              th.w20 = @criterion.leaf? ? 'Rating' : 'Weight' 
-              th.w20 = @criterion.leaf? ? 'Score' : 'Normalized weight'
+              th.w20.number = @criterion.leaf? ? 'Rating' : 'Weight' 
+              th.w20.number = @criterion.leaf? ? 'Score' : 'Normalized weight'
           tbody#table-body
-            = form.fields_for :direct_comparisons do |dc_fields|
+            = form.fields_for :direct_comparisons, @form.comparisons do |dc_fields|
               = dc_fields.hidden_field :comparable_id
               = dc_fields.hidden_field :comparable_type
               = dc_fields.hidden_field :title
               = dc_fields.hidden_field :position
               tr
+                td.narrow
+                  = dc_fields.options[:child_index] + 1
                 td.wide 
                   = dc_fields.object.title
-                td.number 
+                td.number
                   = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
                 td.number 
                   = number_with_precision dc_fields.object.score_n, precision:2
