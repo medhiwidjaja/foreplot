@@ -1,3 +1,3 @@
-
 class AHPComparison < Comparison
+
 end

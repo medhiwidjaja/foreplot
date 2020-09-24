@@ -1,13 +1,11 @@
 class CriterionPresenter < BasePresenter
-  attr_reader :article, :member, :member_id, :appraisal
+  attr_reader :article, :member, :member_id
   
   def initialize(presentable, curr_user=nil, **params)
     super(presentable, curr_user)
     @article   = params[:article_id] ? Article.with_criteria.find(params[:article_id]) : @presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article)
     @member_id = params[:member_id] || @member.id
-    comparable_type = @presentable.children.exists? ? 'Criterion' : 'Alternative'
-    @appraisal = @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
   end
 
   def criterion
@@ -23,7 +21,15 @@ class CriterionPresenter < BasePresenter
   end
 
   def root
-    article.criteria.root
+    @root ||= article.criteria.root
+  end
+
+  def appraisal
+    @appraisal ||= @presentable.appraisals.where(comparable_type: comparable_type).find_by member_id: @member_id
+  end
+
+  def comparable_type
+    @comparable_type ||= @presentable.children.exists? ? 'Criterion' : 'Alternative'
   end
 
   def as_tree
@@ -40,9 +46,8 @@ class CriterionPresenter < BasePresenter
 
   def table
     @table ||= appraisal&.relevant_comparisons
-      &.includes(:comparable)
-      &.order(:comparable_id)
-      &.map {|c| {no: c.comparable&.position, title: c.comparable&.title, rank:c.rank, score:c.score, score_n:c.score_n }}
+      &.order(:position)
+      &.map {|c| {no: c.position, title: c.title, rank:c.rank, score:c.score.to_f, score_n:c.score_n.to_f }}
   end
 
   def comparison_type
@@ -51,6 +56,12 @@ class CriterionPresenter < BasePresenter
 
   def allow_navigate
     true
+  end
+
+  def confirm_destroy_related_appraisals
+    if @presentable.appraisals.present? || @presentable.parent&.appraisals&.present?
+      {confirm: "This action will delete all related comparisons previously created by you and/or other participants (if any).\n\nAre you sure to proceed?"}
+    end
   end
 
   private

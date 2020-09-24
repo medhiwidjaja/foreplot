@@ -19,6 +19,8 @@ module ComparisonConcern
 
   def set_appraisal
     appraisals_method = controller_name.classify
-    @appraisal = @criterion.appraisals.where(appraisal_method: appraisals_method).find_or_initialize_by member: @presenter.member
+    @appraisal = @criterion.appraisals
+      .where(appraisal_method: appraisals_method)
+      .find_or_initialize_by member: @presenter.member
   end
 end 

@@ -130,7 +130,7 @@ RSpec.describe "Criterion", type: :request do
       let(:root) { @article.criteria.root }  
       let(:member_id) { @article.members.first.id }
       let(:expected_json) {
-        %Q({"id":#{root.id},"label":"#{@article.title}","weights_incomplete":true,"children":[{"id":#{criterion.id},"label":"#{criterion.title}","weights_incomplete":false}]})
+        %Q({"id":#{root.id},"label":"#{@article.title}","weights_incomplete":true,"ratings_incomplete":false,"children":[{"id":#{criterion.id},"label":"#{criterion.title}","weights_incomplete":false,"ratings_incomplete":true}]})
       }
       it "returns the JSON object of the criteria tree" do
         get tree_criterion_path(root, p:member_id, format: :json)
@@ -138,6 +138,33 @@ RSpec.describe "Criterion", type: :request do
       end
     end
 
+  end
+
+  context "updating tree structure with existing appraisals" do
+    before(:each) {
+      sign_in bingley
+      @article = bingleys_article
+      @appraisal = create :appraisal, criterion: root, comparable_type: 'Criterion'
+    }
+
+    describe "create a new subcriterion" do
+      it "destroys appraisals related to parent node" do
+        expect {
+          post create_sub_criterion_path(root), params: {criterion: valid_attributes}
+        }.to change(Appraisal, :count).by(-1)
+      end
+    end
+
+    describe "deleting a subcriterion" do
+      before {
+        @subcriterion = create :criterion, parent: root
+      }
+      it "destroys appraisals related to parent node" do
+        expect {
+          delete criterion_path(@subcriterion)
+        }.to change(root.appraisals, :count).by(-1)
+      end
+    end
   end
 
 end

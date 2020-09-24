@@ -1,4 +1,4 @@
-class MagiqComparisonsForm < BaseForm
+class MagiqComparisonsForm < ComparisonFormBase
   attr_reader :comparable_type
   attr_accessor :magiq_comparisons_form, :magiq_comparisons_attributes, :criterion_id, 
                 :member_id, :appraisal_method, :rank_method, :notes
@@ -41,6 +41,7 @@ class MagiqComparisonsForm < BaseForm
       appraisal_method: APPRAISAL_METHOD,
       rank_method: rank_method,
       comparable_type: @comparable_type,
+      is_complete: true,
       magiq_comparisons_attributes: update_with_scores(magiq_comparisons_attributes)
     }
   end

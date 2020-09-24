@@ -20,6 +20,40 @@ RSpec.describe Alternative, type: :model do
     it { is_expected.not_to be_valid }
   end
 
+  describe "creating new alternative assigns position" do
+    context "for the first item in the Article" do
+      it "assigns position no 1" do
+        alternative.save
+        expect( alternative.position ).to eq 1
+      end
+    end
+
+    context "when there are other alternatives in the article" do
+      before {
+        create :alternative, article: article
+        create :alternative, article: article
+      }
+      it "assigns the next position number" do
+        alternative.save
+        expect( alternative.position ).to eq 3
+      end
+    end
+  end
+
+  describe "changing position number" do
+    let(:root) { article.criteria.root }
+    before {
+      alternative.save
+      appraisal = build :appraisal, criterion: root, appraisal_method: 'AHPComparison'
+      @ahp      = create :magiq_comparison, comparable: alternative, appraisal: appraisal, position: 1
+    }
+
+    it "syncronize the position number in related comparisons" do
+      alternative.position = 2
+      expect { alternative.save }.to change { @ahp.reload.position }.from(1).to(2)
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:properties).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:rankings).macro).to eq(:has_many) }

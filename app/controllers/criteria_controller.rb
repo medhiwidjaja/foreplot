@@ -46,6 +46,7 @@ class CriteriaController < ApplicationController
     @criterion = Criterion.new criterion_params
     respond_to do |format|
       if @criterion.save
+        @criterion.parent.destroy_related_appraisals
         format.html { redirect_to @criterion, notice: 'Criterion was successfully created.' }
         format.json { render :show, status: :created, location: @criterion }
       else
@@ -79,6 +80,7 @@ class CriteriaController < ApplicationController
   def destroy
     @parent = @criterion.parent
     @criterion.destroy
+    @parent.destroy_related_appraisals
     respond_to do |format|
       format.html { redirect_to article_criteria_path(@parent.article), notice: 'Criterion was successfully destroyed.' }
       format.json { head :no_content }

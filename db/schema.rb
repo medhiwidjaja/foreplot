@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_122728) do
+ActiveRecord::Schema.define(version: 2020_09_18_084439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_122728) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "appraisal_id"
+    t.integer "position"
     t.index ["appraisal_id"], name: "index_comparisons_on_appraisal_id"
     t.index ["comparable_type", "comparable_id"], name: "index_comparisons_on_comparable_type_and_comparable_id"
   end

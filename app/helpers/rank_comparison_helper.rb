@@ -1,6 +1,4 @@
 module RankComparisonHelper
-  include Foreplot::Magiq::OrdinalScore
-
   def sortable_form_fields(form)
     form.fields_for :magiq_comparisons do |mc_fields|
       content_tag :li, class:'rank-item', id:mc_fields.object.id do
@@ -15,7 +13,7 @@ module RankComparisonHelper
   end
 
   def rank_barchart(rank_method:, num_rank:)
-    rank_table = send "#{rank_method.to_s}_table", num_rank
+    rank_table = Foreplot::Magiq::OrdinalScore.send "#{rank_method.to_s}_table", num_rank
 
     content_tag(:ul, class:'dist-table') do
       (0..num_rank-1).map do |i|
@@ -28,6 +26,16 @@ module RankComparisonHelper
           end
         end
       end.join('').html_safe
+    end
+  end
+
+  
+  def radio_button_for_rank_method(rank_method, appraisal_rank_method, form)
+    rank_method = rank_method.to_s
+    checked = appraisal_rank_method.present? ? appraisal_rank_method==rank_method : rank_method=='rank_order_centroid'
+    form.label "rank_method_#{rank_method}".to_sym, class:'radio' do
+      form.radio_button(:rank_method, rank_method, checked: checked) +
+      rank_method.to_s.titlecase
     end
   end
   

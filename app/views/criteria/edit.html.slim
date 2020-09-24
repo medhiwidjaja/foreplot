@@ -17,6 +17,6 @@
 				= link_to @criterion, class:"btn" do
 					i.icon-remove
 					|  Cancel
-				= link_to @criterion, method: :delete, class: "btn btn-danger pull-right", confirm: "Deleting a criterion will also delete all related scores and evaluations. You and other participants (if any) will have to redo all comparisons previously done.\n\nAre you sure to proceed?", title: @criterion.title do
+				= link_to @criterion, method: :delete, class: "btn btn-danger pull-right", data: @presenter.confirm_destroy_related_appraisals, title: @criterion.title do
 					i.icon-trash
 					|  Delete

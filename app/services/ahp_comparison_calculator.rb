@@ -31,7 +31,9 @@ class AHPComparisonCalculator < BaseCalculator
   def convert_to_attributes(result)
     result.each_with_index.reduce(Hash.new) do |acc, (r, idx)|
       acc.merge( {"#{r[:id] || idx}" => 
-        param_hash(r, except: [:name]).merge({"comparable_id" => "#{r[:comparable_id]}", "comparable_type" => "#{r[:comparable_type]}" }) 
+        param_hash(r, except: [:name]).merge(
+          {"comparable_id" => "#{r[:comparable_id]}", "comparable_type" => "#{r[:comparable_type]}", "title" =>  "#{r[:name]}" }
+        ) 
       } )
     end
   end 

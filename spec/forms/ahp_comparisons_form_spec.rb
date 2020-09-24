@@ -1,19 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe AHPComparisonsForm do
-  let!(:article) { create :article }
-  let(:criterion) { article.criteria.root }
-  let(:member)    { create :member }
+
+  include_context "criteria context for comparisons" 
+
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'AHPComparison'}
-  let(:c1) { create :criterion, article:article, parent:criterion }
-  let(:c2) { create :criterion, article:article, parent:criterion }
-  let(:c3) { create :criterion, article:article, parent:criterion }
+
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison",
       :ahp_comparisons_attributes=>{
-        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title}, 
-        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title}, 
-        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title}
+        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
+        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
       },
       :pairwise_comparisons_attributes=>{
         "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
@@ -61,6 +59,15 @@ RSpec.describe AHPComparisonsForm do
       form = described_class.new appraisal, params
       form.submit
       expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| "%0.2f" % x.score_n}).to eq(expected_scores)
+    end
+
+    let(:expected_titles_and_position) {
+      [c1, c2, c3].map {|c| [c.title, c.position]}
+    }
+    it "saves the title and position in ahp_comparison" do
+      form = described_class.new appraisal, params
+      form.submit
+      expect(appraisal.ahp_comparisons.order(:comparable_id).map{|x| [x.title, x.position] }).to eq(expected_titles_and_position)
     end
 
     it "saves the consistency ratio in appraisals table" do

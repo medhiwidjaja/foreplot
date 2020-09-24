@@ -7,14 +7,11 @@
 
       tr
         th.narrow 
-          = form.label :rank_method_rank_order_centroid, class:'radio'
-            = form.radio_button :rank_method, 'rank_order_centroid', checked:@appraisal.rank_method=='rank_order_centroid'
-            | Rank Order Centroid
+          = radio_button_for_rank_method :rank_order_centroid, @appraisal.rank_method, form
         th.narrow 
-          = form.label :rank_method_rank_reciprocal, class:'radio'
-            = form.radio_button :rank_method, 'rank_reciprocal', checked:@appraisal.rank_method=='rank_reciprocal'
-            | Rank Reciprocal
+          = radio_button_for_rank_method :rank_reciprocal, @appraisal.rank_method, form
         th.narrow 
+          /= radio_button_for_rank_method :rank_sum, @appraisal.rank_method, form
           = form.label :rank_method_rank_sum, class:'radio'
             = form.radio_button :rank_method, 'rank_sum', checked:@appraisal.rank_method=='rank_sum'
             | Rank Sum

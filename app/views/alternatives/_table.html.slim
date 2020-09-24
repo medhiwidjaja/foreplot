@@ -1,0 +1,16 @@
+-unless @alternatives.blank?
+  table.table.table-condensed.table-bordered.table-striped.alt-table
+    thead
+      tr
+        th.narrow No
+        th Alternative
+
+    tbody
+      - @alternatives.each.with_index(1) do |alt, i|
+        tr
+          td.narrow = alt.position || i  
+          td = link_to alt.title, alternative_path(alt)
+
+-else
+  .alert.alert-info
+    | This article has no alternatives

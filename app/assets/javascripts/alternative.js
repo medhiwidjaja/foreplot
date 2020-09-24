@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function(){
 			update: function(event, ui){  
 					  $('ul li').each(function(){
 						$(this).find('span.badge').html($(this).index()+1);
-						$(this).find('input.position').attr('value', $(this).index());
+						$(this).find('input.position').attr('value', $(this).index()+1);
 					  });                 
 					}
 		});

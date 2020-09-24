@@ -15,30 +15,26 @@
             in the form below. 
 
       .section
-        .section-title Pairwise Comparisons
+        .section-title 
+          | Pairwise Comparisons 
+          span style="color:#006A9A" (#{@form.pairwise_comparisons.size} comparisons)
 
         .btn-toolbar style="height: 28px; margin: 0"
           .btn-group.pull-right
             a.btn href="#"
-              '  Scale: 
+              |  Scale: 
               span#scale-label Verbal Scale 
             button.btn.dropdown-toggle data-toggle="dropdown" 
               span.caret
             ul.dropdown-menu
               -if @criterion.leaf?
-                li
-                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'level-scale-5'
-                li
-                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'level-scale-9'
+                li = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'level-scale-5'
+                li = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'level-scale-9'
               -else
-                li
-                  = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'importance-scale-5'
-                li
-                  = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'importance-scale-9'
-              li
-                = link_to 'Numeric (1-9)', "#", class: 'ahp-scale', name: 'numeric-scale'
-              li
-                = link_to 'Free scale (1.0-9.0)', "#", class: 'ahp-scale', name: 'free-scale'
+                li = link_to 'Verbal scale', "#", class: 'ahp-scale', name: 'importance-scale-5'
+                li = link_to 'Verbal scale (9 levels)', "#", class: 'ahp-scale', name: 'importance-scale-9'
+              li = link_to 'Numeric (1-9)', "#", class: 'ahp-scale', name: 'numeric-scale'
+              li = link_to 'Free scale (1.0-9.0)', "#", class: 'ahp-scale', name: 'free-scale'
 
         fieldset data-disable=false
           #ahp-comparison
@@ -46,16 +42,16 @@
               = ahp_fields.hidden_field :id
               = ahp_fields.hidden_field :comparable_id 
               = ahp_fields.hidden_field :comparable_type
+              = ahp_fields.hidden_field :position
           #pairwise-comparison 
-            - i = 0
             = form.fields_for :pairwise_comparisons do |pw_fields|
-              - i += 1
+              - i = pw_fields.options[:child_index]
               - pair = pw_fields.object
               .pair-container
                 .slider-container.slider-top-section
-                  .option-left data-jam="-1" data-pair="#{i}" data-id="#{pair.comparable1_id}"
+                  .option-left data-pair="#{i}" data-id="#{pair.comparable1_id}"
                     label = pair.comparable1.title
-                  .option-right data-jam="1" data-pair="#{i}" data-id=="#{pair.comparable2_id}"
+                  .option-right data-pair="#{i}" data-id=="#{pair.comparable2_id}"
                     label = pair.comparable2.title
                 .slider-container.slider-middle-section
                   .marker

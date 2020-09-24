@@ -9,7 +9,8 @@ RSpec.describe "criteria/show", type: :view do
     @article = article
     @criterion = criterion
     @presenter = double(article: article, root: criterion, member_id:1, allow_navigate: true, parent_id: criterion.id, parent: criterion,
-      criterion: criterion, table: nil, comparison_type: 'DirectComparison', appraisal: nil)
+                        criterion: criterion, table: nil, comparison_type: 'DirectComparison', appraisal: nil,
+                        confirm_destroy_related_appraisals: true)
   end
 
   it "renders attributes" do

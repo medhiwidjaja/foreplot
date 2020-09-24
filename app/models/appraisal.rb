@@ -33,15 +33,17 @@ class Appraisal < ApplicationRecord
   def find_or_initialize(comparison_method)
     raise "Unsupported comparisons: #{comparison_method}" unless COMPARISON_TYPES.include? comparison_method
     comparisons = self.public_send("#{comparison_method.to_s}")
-    criterion.evaluatees.each do |evaluatee|
-      comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, appraisal: self
+    criterion.evaluatees.order(position: :asc, id: :asc).each do |evaluatee|
+      comparisons.find_or_initialize_by comparable: evaluatee, title: evaluatee.title, position: evaluatee.position || evaluatee.id, appraisal: self
     end if comparisons.size == 0
-    comparisons
+    comparisons.order_by_position
   end
 
   def find_or_initialize_pairwise_comparisons
+    return pairwise_comparisons if pairwise_comparisons.exists?
+
     comparison_pairs.each do |evaluatee|
-      pairwise_comparisons.find_or_initialize_by comparable1: evaluatee.first, comparable2: evaluatee.last
+      pairwise_comparisons.new comparable1: evaluatee.first, comparable2: evaluatee.last
     end
     pairwise_comparisons
   end
@@ -54,19 +56,19 @@ class Appraisal < ApplicationRecord
   private
 
   def unintermittency
-    rank_sequence = magiq_comparisons.collect(&:rank).uniq.sort
-    check = (1..rank_sequence.size).to_a
-    indexes = (1..magiq_comparisons.size).to_a
-    empty_slots = indexes - rank_sequence 
-    if rank_sequence != check
-      message = "#{'Slot'.pluralize(empty_slots.size)} #{empty_slots.join(', ')} can't be empty"
-      errors.add(:base, message)
+    ranks = magiq_comparisons.pluck :rank
+    return true if ranks.empty?
+ 
+    begin
+      Foreplot::Magiq::OrdinalScore.validate_scores ranks
+    rescue => error
+      errors.add(:base, error.message)
       throw(:abort)
     end
   end
 
   def comparison_pairs
-    criterion.evaluatees.order(id: :asc).map{|e| e }.combination(2)
+    criterion.evaluatees.order(position: :asc, id: :asc).map{|e| e }.combination(2)
   end
 
   def invalidate_other_appraisals

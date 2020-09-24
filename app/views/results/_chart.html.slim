@@ -1,0 +1,8 @@
+= tag.div id:'chart', class:'span6', style:"height: 300px; margin-left: 50px", 
+  data: { id:    "#{params[:article_id]}", 
+          pid:   "#{params[:p]}",
+          chart: presenter.chart_data_json }
+
+#point-info
+
+style .jqplot-point-label { font-size: 12px; }

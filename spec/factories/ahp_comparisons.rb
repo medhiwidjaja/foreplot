@@ -6,6 +6,6 @@ FactoryBot.define do
     score           { "0.99" }
     score_n         { "0.99" }
     comparable      factory: :criterion
-    comparable_type { "Criterion" }
+    position        { 1 }
   end
 end

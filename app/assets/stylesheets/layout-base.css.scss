@@ -1714,7 +1714,7 @@ table {
         color: #E5521D !important;
     }
     span.unselectable-node {
-        color: #999;
+        color: #999 !important;
         cursor: default;
     }
 }
@@ -2033,7 +2033,7 @@ table.alt-table {
     th.w20 {
         width: 20%;
     }
-    th.number, td.number {
+    td.number {
         width: 80px;
         text-align: right !important;
         div, input {
@@ -2751,9 +2751,8 @@ li.rank-item {
 /*---------------------------------------------------------------------------
     20. Sankey Diagram
 ----------------------------------------------------------------------------*/
-#chart {
+#sankey {
     height: 500px;
-    }
 
     .node rect {
         cursor: move;
@@ -2775,7 +2774,7 @@ li.rank-item {
     .link:hover {
         stroke-opacity: .5;
     }
-
+}
 
 /*---------------------------------------------------------------------------
     21. Wysihtml5 (formatting output of Wysihtml5)

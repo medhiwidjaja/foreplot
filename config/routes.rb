@@ -16,14 +16,32 @@ Rails.application.routes.draw do
     end
     
     # Alternatives
-    resources :alternatives, shallow: true
-    member do
-      patch :update_alternatives
+    resources :alternatives, shallow: true do
+      collection do
+        post :update_all
+      end
     end
 
     # Criteria
     resources :criteria, only: [:index]
+
+    # Ratings
+    resources :ratings, only: [:index]
   end
+
+  # Results
+  get '/articles/:article_id/results' => 'results#index', as: :article_results
+  get '/articles/:article_id/chart'   => 'results#chart', as: :article_chart
+
+  # Visualization
+  get '/articles/:article_id/viz'     => 'viz#index',    as: :article_viz
+  get '/articles/:article_id/sankey'  => 'viz#sankey',   as: :article_sankey
+
+  # Benefit Cost Analysis (Feasibility)
+  get '/articles/:article_id/feasibility' => 'feasibility#index',  as: :article_feasibility
+
+  # Sensitivity Analysis 
+  get '/articles/:article_id/sensitivity' => 'sensitivity#index',  as: :article_sensitivity
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do
@@ -56,8 +74,9 @@ Rails.application.routes.draw do
       put 'ahp_comparisons'      => :update
     end
 
-    # Ratings
-    resources :ratings, only: [:index]
+    controller :ratings do
+      get 'ratings' => :show, as: :ratings
+    end
   end
 
 end

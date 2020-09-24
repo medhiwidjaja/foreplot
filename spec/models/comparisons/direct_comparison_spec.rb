@@ -1,22 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe DirectComparison, type: :model do
-  let!(:article) { create :article }
-  let(:root) { article.criteria.root }
-  let(:appraisal) { create :appraisal, criterion: root }
-  before {
-    3.times { root.children << build(:criterion, article: article) }
-  }
+  include_context "shared comparables"
 
-  let (:comparables ) { root.children }
   let (:valid_attributes) {
-    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: appraisal }
+    { title: 'Title', value: 12.0, unit: 'pcs', score: 0.2, score_n: 0.2, appraisal: @appraisal, position: 1 }
   }
   before {
-    comparables.each { |c| 
+    @comparables.each { |c| 
       c.direct_comparisons << DirectComparison.create(valid_attributes) 
     }
-    @comparison = comparables.first.direct_comparisons.first
+    @comparison = @comparables.first.direct_comparisons.first
   }
 
   subject {@comparison}
@@ -27,7 +21,7 @@ RSpec.describe DirectComparison, type: :model do
     end
 
     it "holds reference to the criterion" do
-      expect(@comparison.comparable).to eq(comparables.first)
+      expect(@comparison.comparable).to eq(@comparables.first)
       expect(@comparison.comparable_type).to eq('Criterion')
     end
   end

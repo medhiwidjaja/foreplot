@@ -1,0 +1,23 @@
+- if presenter.score_table.nil?
+  .alert.alert-error
+		a.close data-dismiss="alert" ×
+		| Error: score table is missing.
+- else
+  table.rank-table.table.table-condensed.table-bordered.table-striped
+    thead
+      tr
+        th.narrow Rank
+        th Alternative
+        th.number Score
+        th Ratio
+    tbody
+      - presenter.score_table.values.each do |alt|
+        -unless alt.nil?
+          tr
+            td.narrow = alt[:rank]
+            td = alt[:title]
+            td.number = "#{number_with_precision(alt[:score], precision: 3 )}"
+            td
+              .progress
+                .bar style="width: #{alt[:ratio]*100}%"
+
