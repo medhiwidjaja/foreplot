@@ -30,5 +30,15 @@ module RankComparisonHelper
       end.join('').html_safe
     end
   end
+
+  
+  def radio_button_for_rank_method(rank_method, appraisal_rank_method, form)
+    rank_method = rank_method.to_s
+    checked = appraisal_rank_method.present? ? appraisal_rank_method==rank_method : rank_method=='rank_order_centroid'
+    form.label "rank_method_#{rank_method}".to_sym, class:'radio' do
+      form.radio_button(:rank_method, rank_method, checked: checked) +
+      rank_method.to_s.titlecase
+    end
+  end
   
 end
