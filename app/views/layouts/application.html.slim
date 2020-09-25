@@ -15,12 +15,12 @@ html
     = render 'layouts/header'
     = yield :article_menu
 
-    .container-fluid style="margin-top:32px" data-page-container=true
-      .row-fluid
+    .container style="margin-top:32px" data-page-container=true
+      .row
         .span3
           = yield :left_frame
         .span9
-          div data-pjax-container=true
+          div
             #flashes
               = render 'shared/flash_messages'          
             = yield :layout
