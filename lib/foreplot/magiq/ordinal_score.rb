@@ -48,7 +48,6 @@ module Foreplot
       end
 
       def self.score(ranks, rank_method=:rank_order_centroid)
-        validate_scores(ranks)
         rank_table = self.send "#{rank_method}_table", ranks.size
         offset = 0
         prev_rank = 0

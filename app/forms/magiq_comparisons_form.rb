@@ -24,6 +24,7 @@ class MagiqComparisonsForm < ComparisonFormBase
     appraisal.magiq_comparisons.clear unless persisted?
     appraisal.attributes = appraisal_params
     return false if invalid?
+    appraisal.magiq_comparisons_attributes = update_with_scores(magiq_comparisons_attributes)
     appraisal.save
     true
   end
@@ -42,7 +43,7 @@ class MagiqComparisonsForm < ComparisonFormBase
       rank_method: rank_method,
       comparable_type: @comparable_type,
       is_complete: true,
-      magiq_comparisons_attributes: update_with_scores(magiq_comparisons_attributes)
+      magiq_comparisons_attributes: magiq_comparisons_attributes
     }
   end
 
