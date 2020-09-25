@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_18_084439) do
+ActiveRecord::Schema.define(version: 2020_09_25_084805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,10 @@ ActiveRecord::Schema.define(version: 2020_09_18_084439) do
     t.string "rank_method"
     t.decimal "consistency_ratio"
     t.string "comparable_type"
+    t.boolean "minimize"
+    t.decimal "range_min"
+    t.decimal "range_max"
+    t.boolean "normalize"
     t.index ["criterion_id"], name: "index_appraisals_on_criterion_id"
     t.index ["member_id"], name: "index_appraisals_on_member_id"
   end
