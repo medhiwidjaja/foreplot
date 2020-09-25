@@ -56,7 +56,7 @@ class Appraisal < ApplicationRecord
   private
 
   def unintermittency
-    ranks = magiq_comparisons.pluck :rank
+    ranks = magiq_comparisons.collect(&:rank)
     return true if ranks.empty?
  
     begin

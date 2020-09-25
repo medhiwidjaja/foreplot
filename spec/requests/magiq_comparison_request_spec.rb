@@ -26,6 +26,15 @@ RSpec.describe "MagiqComparisons", type: :request do
       }
     }
   }
+  let(:invalid_params)    {
+    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"MagiqComparison", rank_method: 'rank_order_centroid', 
+      :magiq_comparisons_attributes=>{
+        "0"=>{"rank"=>"1", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title, "position"=>alt1.position}, 
+        "1"=>{"rank"=>"1", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title, "position"=>alt2.position}, 
+        "2"=>{"rank"=>"3", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title, "position"=>alt3.position}
+      }
+    }
+  }
 
   context "comparing sub-criteria" do
     before(:each) {
@@ -132,5 +141,18 @@ RSpec.describe "MagiqComparisons", type: :request do
       end
     end
 
+    describe "with invalid params" do
+      it "won't save the comparisons" do
+        expect {
+          post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: invalid_params}
+        }.to change(Appraisal, :count).by(0)
+      end
+
+      it "displays an error message" do
+        post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: invalid_params}
+        expect(response).to render_template(:new)
+        expect(response.body).to include('Interior ranks are empty: 2')
+      end
+    end
   end
 end

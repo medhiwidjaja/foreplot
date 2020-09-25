@@ -26,7 +26,7 @@
               #sort-section
                 ul.sortable#sortable
                   = form.fields_for :magiq_comparisons do |mc_fields|
-                    -unless mc_fields.object.persisted?
+                    -if mc_fields.object.rank.nil?
                       li.rank-item id='#{mc_fields.object.id}'
                         strong style="margin-left:5px" = mc_fields.object.title
                         = mc_fields.hidden_field :id
@@ -54,6 +54,7 @@
                                   = mc_fields.hidden_field :rank, value: (mc.rank || i), class:'order'
                                   = mc_fields.hidden_field :comparable_id
                                   = mc_fields.hidden_field :comparable_type
+                                  = mc_fields.hidden_field :position
                         -else
                           li.placeholder &nbsp;
 
