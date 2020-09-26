@@ -45,8 +45,8 @@ class DirectComparisonsForm < ComparisonFormBase
 
   def update_with_scores(attributes)
     options = { 
-      range_min: range_min.nil? ? nil : range_min.to_f, 
-      range_max: range_max.nil? ? nil : range_max.to_f, 
+      range_min: range_min.blank? ? nil : range_min.to_f, 
+      range_max: range_max.blank? ? nil : range_max.to_f, 
       minimize:  minimize 
     } 
     DirectComparisonCalculator.new(attributes, options).call
