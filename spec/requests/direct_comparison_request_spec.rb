@@ -9,9 +9,9 @@ RSpec.describe "DirectComparisons", type: :request do
   let(:appraisal_attributes) {
     {:criterion_id=>root.id, :member_id=>member.id, :appraisal_method=>"DirectComparison", 
       :direct_comparisons_attributes=>{
-        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}, 
-        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
-        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}
+        "2"=>{"value"=>"5", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}, 
+        "1"=>{"value"=>"4", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "0"=>{"value"=>"1", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}
       }
     }
   }
@@ -19,13 +19,22 @@ RSpec.describe "DirectComparisons", type: :request do
     { title: '' }
   }
 
+  let(:alternative_comparison_attributes) {
+    {"2"=>{"value"=>"5", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title, "position"=>alt3.position}, 
+     "1"=>{"value"=>"4", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title, "position"=>alt2.position}, 
+     "0"=>{"value"=>"1", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title, "position"=>alt1.position}}
+  }
+
   let(:alt_params)    {
-    {:criterion_id=>c1.id, :member_id=>member.id, :appraisal_method=>"DirectComparison",
-      :direct_comparisons_attributes=>{
-        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title, "position"=>alt3.position}, 
-        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title, "position"=>alt2.position}, 
-        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title, "position"=>alt1.position}
-      }
+    {:criterion_id => c1.id, :member_id => member.id, :appraisal_method => "DirectComparison",
+      :direct_comparisons_attributes => alternative_comparison_attributes
+    }
+  }
+
+  let(:alt_params_with_options)    {
+    {:criterion_id => c1.id, :member_id => member.id, :appraisal_method => "DirectComparison", 
+      :minimize => true, :range_min => 0.0, :range_max => 6.0,
+      :direct_comparisons_attributes => alternative_comparison_attributes
     }
   }
 
@@ -54,6 +63,12 @@ RSpec.describe "DirectComparisons", type: :request do
           post criterion_direct_comparisons_path(root), params: {direct_comparisons_form: appraisal_attributes}
         }.to change(DirectComparison, :count).by(3)
       end
+
+      it "handles input with options" do
+        post criterion_direct_comparisons_path(root), params: {direct_comparisons_form: alt_params_with_options}
+        comparisons = DirectComparison.all
+        expect(comparisons.order(:id).map(&:score).map(&:to_f)).to eq([0.8333333333333334, 0.3333333333333333, 0.16666666666666666])
+      end
     end
 
     describe "PATCH #update" do
@@ -67,9 +82,9 @@ RSpec.describe "DirectComparisons", type: :request do
         persisted_appraisal.direct_comparisons << persisted_comparisons
         @new_params = {:criterion_id=>root.id, :member_id=>member.id, :appraisal_method=>"DirectComparison", 
           :direct_comparisons_attributes=>{
-            "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "id"=>persisted_appraisal.direct_comparisons.first.id}, 
-            "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "id"=>persisted_appraisal.direct_comparisons.second.id}, 
-            "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "id"=>persisted_appraisal.direct_comparisons.third.id}
+            "2"=>{"value"=>"5", "score"=>"5.0", "score_n"=>"0.5", "rank"=>"1", "id"=>persisted_appraisal.direct_comparisons.first.id}, 
+            "1"=>{"value"=>"4", "score"=>"4.0", "score_n"=>"0.4", "rank"=>"2", "id"=>persisted_appraisal.direct_comparisons.second.id}, 
+            "0"=>{"value"=>"1", "score"=>"1.0", "score_n"=>"0.1", "rank"=>"3", "id"=>persisted_appraisal.direct_comparisons.third.id}
           }
         }
       end
