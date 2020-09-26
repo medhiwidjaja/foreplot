@@ -8,10 +8,22 @@ RSpec.describe DirectComparisonsForm do
   let(:params)    {
     {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"DirectComparison", 
       :direct_comparisons_attributes=>{
-        "2"=>{"value"=>"5", "score"=>"0.5", "score_n"=>"0.5", "rank"=>"1", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}, 
-        "1"=>{"value"=>"4", "score"=>"0.4", "score_n"=>"0.4", "rank"=>"2", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
-        "0"=>{"value"=>"1", "score"=>"0.1", "score_n"=>"0.1", "rank"=>"3", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}
+        "2"=>{"value"=>"5", "comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}, 
+        "1"=>{"value"=>"4", "comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "0"=>{"value"=>"1", "comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}
       }
+    }
+  }
+  let(:alternative_comparison_attributes) {
+    {"2"=>{"value"=>"5", "comparable_id"=>alt3.id, "comparable_type"=>"Alternative", "title"=>alt3.title, "position"=>alt3.position}, 
+     "1"=>{"value"=>"4", "comparable_id"=>alt2.id, "comparable_type"=>"Alternative", "title"=>alt2.title, "position"=>alt2.position}, 
+     "0"=>{"value"=>"1", "comparable_id"=>alt1.id, "comparable_type"=>"Alternative", "title"=>alt1.title, "position"=>alt1.position}}
+  }
+
+  let(:alt_params_with_options)    {
+    {:criterion_id => c1.id, :member_id => member.id, :appraisal_method => "DirectComparison", 
+      :minimize => true, :range_min => 0.0, :range_max => 6.0,
+      :direct_comparisons_attributes => alternative_comparison_attributes
     }
   }
 
@@ -37,6 +49,13 @@ RSpec.describe DirectComparisonsForm do
       form = described_class.new appraisal, params
       form.submit
       expect(appraisal.is_complete).to eq(true)
+    end
+
+    it "handles input with options" do
+      form = described_class.new appraisal, alt_params_with_options
+      form.submit
+      comparisons = DirectComparison.all
+      expect(comparisons.order(:id).map(&:score).map(&:to_f)).to eq([0.8333333333333334, 0.3333333333333333, 0.16666666666666666])
     end
   end
 

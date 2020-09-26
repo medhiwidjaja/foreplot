@@ -1,5 +1,5 @@
 class DirectComparisonsForm < ComparisonFormBase 
-  attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
+  attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method, :range_min, :range_max, :minimize
   attr_reader :comparable_type
   
   delegate :direct_comparisons, to: :appraisal
@@ -36,12 +36,20 @@ class DirectComparisonsForm < ComparisonFormBase
       appraisal_method: APPRAISAL_METHOD,
       comparable_type: @comparable_type,
       is_complete: true,
+      minimize: minimize,
+      range_min: range_min,
+      range_max: range_max, 
       direct_comparisons_attributes: update_with_scores(direct_comparisons_attributes)
     }
   end
 
   def update_with_scores(attributes)
-    DirectComparisonCalculator.new(attributes).call
+    options = { 
+      range_min: range_min.blank? ? nil : range_min.to_f, 
+      range_max: range_max.blank? ? nil : range_max.to_f, 
+      minimize:  minimize 
+    } 
+    DirectComparisonCalculator.new(attributes, options).call
   end
 
   def persisted?

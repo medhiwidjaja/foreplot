@@ -1,0 +1,41 @@
+#option-section
+  .section style="margin-top:0px"
+    .section-title Option Settings
+  
+    a.info-button data-toggle="collapse" data-target="#range-help-info" href="#" 
+      i.icon-question-sign
+    #range-help-info.collapse
+      .alert.alert-info
+        | Specify whether to maximize or minimize the rating score. Range values (minimum and maximum acceptable values) will be used to interpolate the rating values to get the score values. 
+    
+    .form-horizontal
+      .control-group
+        = form.label 'Rating numbers', class: 'control-label'
+        .controls
+          = form.label :minimize, class:'radio'
+            = form.radio_button :minimize, false
+            | Maximize -- Bigger number is preferable
+  
+          = form.label :minimize, class:'radio'
+            = form.radio_button :minimize, true
+            | Minimize -- Smaller number is preferable
+          
+      .control-group
+        = form.label 'Rating range', class: 'control-label'
+        .controls
+          .input-prepend
+            span.add-on.narrow Min
+            = form.text_field :range_min, class:"number input-small"
+              
+          .input-prepend
+            span.add-on.narrow Max
+            = form.text_field :range_max, class:"number input-small"
+
+      .control-group
+        = form.label 'Normalize', class: 'control-label'
+        .controls
+          label.checkbox
+            = check_box "evaluation", "normalize"
+            | Convert scores so they add up to 1. 
+            br
+            | (Necessary if used in combination with other methods such as Rank or Pairwise comparisons)

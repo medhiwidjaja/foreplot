@@ -28,6 +28,8 @@
                 th.narrow No
                 th.wide Alternative
                 th.number Rank
+                - if presenter.comparison_type == 'DirectComparison'
+                  th.number Value
                 th.number Score
                 th Ratio
             tbody
@@ -36,6 +38,8 @@
                   td.narrow = row[:no] || idx
                   td.wide = row[:title]
                   td.number = row[:rank]
+                  - if presenter.comparison_type == 'DirectComparison'
+                    td.number = row[:value]
                   td.number 
                     div = number_to_percentage((row[:score_n] || 0)*100, precision: 1) || '-'
                   td
