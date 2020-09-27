@@ -2,8 +2,8 @@ class ValueTreePresenter
 
   attr_reader :tree
 
-  def initialize(value_tree, root_id, score_key: :score_g)
-    value_tree.build_tree(root_id) {|n| {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} } 
+  def initialize(value_tree, root_id, score_key: :score_g, &block)
+    value_tree.build_tree(root_id, &block) 
     value_tree.normalize! :score
     value_tree.globalize! :score
     @tree = value_tree.tree
@@ -31,34 +31,6 @@ class ValueTreePresenter
       v.update(ratio: v[:score].to_f/max_score)               # add normalized ratio = score/max_score
     }
     scores.to_h
-  end
-
-  def chart_data
-    score_table.map {|_k, alt| alt[:score] }
-  end
-
-  def detail_chart_data
-    score_table.map {|_, a| a[:detail].map {|_,v| v}}.transpose
-  end
-
-  def criteria_labels
-    Criterion.where(id: score_table.first[1][:detail].keys).pluck :title
-  end
-
-  def alternative_names
-    score_table.map {|_k, alt| alt[:title] }
-  end
-
-  def chart_data_json
-    { chart_data: chart_data,
-      labels:     alternative_names,
-      names:      alternative_names }.to_json
-  end
-
-  def stacked_chart_data_json
-    { chart_data:   detail_chart_data,
-      tick_labels:  alternative_names,
-      series_names: criteria_labels }.to_json
   end
 
   private
