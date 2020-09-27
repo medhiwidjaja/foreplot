@@ -20,14 +20,14 @@
         .section
         	.widget-content-title Chart
         	#chart-box style="height: 300px; margin-bottom: 10px"
-        		= render partial: 'chart', locals: { presenter: @value_tree_presenter }
+        		= render partial: 'chart', locals: { presenter: @rank_chart_presenter }
         .section style="padding-top: 0px"
         	.widget-content-title Detail Chart
         	#chart-box style="height: 300px; margin-bottom: 10px"
-        		= render partial: 'detail_chart', locals: { presenter: @value_tree_presenter }
+        		= render partial: 'detail_chart', locals: { presenter: @rank_chart_presenter }
         .section style="padding-top: 0px"
           .widget-content-title Table
           #table-box style="margin-top: 10px; padding:10px 0; position: relative"
-            = render partial: 'rank_table', locals: { presenter: @value_tree_presenter }
+            = render partial: 'rank_table', locals: { presenter: @rank_chart_presenter }
       -else
         = render 'incomplete_evaluation_messages'
