@@ -54,7 +54,7 @@ RSpec.describe "Results", type: :request do
 
     describe "GET #chart json format" do
       it "returns chart data in json format" do
-        get chart_article_results_path(article, format: :json)
+        get article_chart_path(article, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
           chart_data: [0.6, 0.4],
