@@ -17,7 +17,7 @@ RSpec.describe SensitivityPresenter do
 
     it "gives data for sensitivity chart" do
       expect(presenter.sensitivity_data).to eq( [
-        [[0.0, 0.76], [1.0, 0.16000000000000003]], [[0.0, 0.24], [1.0, 0.84]]
+        [[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]
       ] )
     end
 

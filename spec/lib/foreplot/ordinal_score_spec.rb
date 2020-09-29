@@ -23,8 +23,4 @@ RSpec.describe Foreplot::Magiq::OrdinalScore do
   it "the score table given ranks" do
     expect(subject.score [1, 2, 3, 3]).to eq [0.5208333333333334, 0.2708333333333333, 0.10416666666666666, 0.10416666666666666]
   end
-
-  it "also validates the input" do
-    expect{ subject.score [1, 3, 3, 5, 5] }.to raise_error Foreplot::EmptyInteriorRankError, "Interior ranks are empty: 2, 4"
-  end
 end
