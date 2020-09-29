@@ -20,29 +20,24 @@
 							- my_articles.each do |article|
 								li = link_to article.title, article
 
-		li class=link_status('articles')
-			= link_to article_path(article)
+		li.disable
+			a 
 				i.icon-file
 				span  Article
-
-		li class=link_status('alternatives', disabled:false)
-			= link_to article_alternatives_path(article)
+		li.disable
+			a
 				i.icon-move
 				span  Alternatives
-		li class=link_status('criteria', disabled:false)
-			= link_to article_criteria_path(article)
+		li.disable
+			a
 				i.icon-th-list
 				span  Criteria
-		li class=link_status('ratings', disabled:false)
-			= link_to article_ratings_path(article)
+		li.disable
+			a
 				i.icon-random
 				span  Rate
-
-		li class=link_status(['results','sensitivity','viz'])
-			a href=article_results_path(article)
+		li.disable 
+			a
 				i.icon-bar-chart
 				span  Results
 		li.divider-right
-		li.article-box
-			span.article-label Article:
-			span.title = link_to article.title, article
