@@ -14,6 +14,7 @@ $(document).on("ready turbolinks:load", function() {
         var chartLabels = data.labels;
         var weight = data.weight;
 
+        $(".weight-value").html(weight.toFixed(3));
         $chart.css("width", width).css("height", height);
         $("#rank-chart").css("width", width).css("height", height);
 

@@ -4,34 +4,41 @@
 - content_for :left_frame do
   = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
 
-#container-box
-	.alert.alert-info
-		a.close data-dismiss="alert" ×
-		= "Showing sensitivity for criterion: <strong>#{@criterion.title}</strong>. <br>Click in the Criteria Tree at left to view sensitivity with respect to other criteria.".html_safe
+  .alert.alert-warning
+    a.close data-dismiss="alert" ×
+    = "Showing sensitivity for criterion: <strong>#{@criterion.title}</strong>. <br>Click one of the criteria above to view sensitivity with respect to other criteria.".html_safe
 
-	.widget
-		.widget-header.ellipsis
-			i.icon-bar-chart
-			h3 Sensitivity Analysis
-		.well.well-widget-content
-			- if @criterion.root?
-				.section
-					| Select a criterion under the goal
-			- else
-				.section
-					.widget-content-title Sensitivity with respect to
-					h3 = @criterion.title
-					h4 Current weight value: #{ number_with_precision @weight, precision:2 }
-					.alert.alert-info
-						a.close data-dismiss="alert" ×
-						| Hover over the sensitivity chart below to see ranking changes with respect to changes in the weight of the selected criterion.
-				.section style="padding-top: 0px; min-height:350px"
-					.span6
-						.widget-content-title Sensitivity Chart
-						#sensitivity-chart data-cid="#{@criterion.id}" data-article="#{@article.id}"
-							= image_tag "ajax-loader.gif"
-					.span6
-						.widget-content-title#point-info Rank with weight of '#{@criterion.title}' at: #{ number_with_precision @weight, precision:3 }
-						#rank-chart
-							= image_tag "ajax-loader.gif"
-			
+#container-box
+  = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
+
+
+  .widget
+    .widget-header.ellipsis
+      i.icon-bar-chart
+      h3 Sensitivity Analysis
+    .well.well-widget-content
+      - if @criterion.root?
+        .section
+          | Select a criterion under the goal
+      - else
+        .section
+          .widget-content-title Sensitivity with respect to
+          h3 = @criterion.title
+          h4 
+            | Current weight value: 
+            span.weight-value
+          .alert.alert-info
+            a.close data-dismiss="alert" ×
+            | Hover over the sensitivity chart below to see ranking changes with respect to changes in the weight of the selected criterion.
+        .section style="padding-top: 0px; min-height:350px"
+          .span6
+            .widget-content-title Sensitivity Chart
+            #sensitivity-chart data-cid="#{@criterion.id}" data-article="#{@article.id}"
+              = image_tag "ajax-loader.gif"
+          .span6
+            .widget-content-title#point-info 
+              | Rank with weight of '#{@criterion.title}' at: 
+              span.weight-value
+            #rank-chart
+              = image_tag "ajax-loader.gif"
+      
