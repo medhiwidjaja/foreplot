@@ -2,6 +2,5 @@
 
 ul.nav.nav-pills.results
   = link_or_text(action == 'index',       article_results_path(presenter.article, p: presenter.member_id),     'Ranking')
-  = link_or_text(action == 'feasibility', article_feasibility_path(presenter.article, p: presenter.member_id), 'Benefit-Cost Analysis')
   = link_or_text(action == 'sankey',      article_viz_path(presenter.article, p: presenter.member_id),         'Visualization')
   = link_or_text(action == 'sensitivity', article_sensitivity_path(presenter.article, p: presenter.member_id), 'Sensitivity Analysis')
