@@ -36,6 +36,7 @@
 //= require d3/d3.v3.min
 //= require d3/sankey
 //= require sankey_chart
+//= require sensitivity_chart
 //= require jquery.slider-ext
 //= require pairwise_slider
 
