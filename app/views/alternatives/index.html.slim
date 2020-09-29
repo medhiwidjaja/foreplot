@@ -13,42 +13,9 @@
     
     #alternative-list style="overflow: auto"
       = render partial: 'table'
-
-    / TODO: finish this
-    / div style="overflow: auto"
-    /   -unless @alternatives.blank?
-    /     table.table.table-condensed.table-bordered.table-striped.alt-table
-    /       thead
-    /         tr
-    /           th No
-    /           th Property
-    /           - @alternatives.each do |alt|
-    /             th = alt.title
-    /       tbody
-    /         - i=0
-    /         - @common_properties.each do |property|
-    /           tr 
-    /             td = i += 1
-    /             td = property 
-    /             - @alternatives.each do |alt|
-    /               - p = alt.properties.where(:k => property).first
-    /               -if p
-    /                 td = p.v
-    /               -else
-    /                 td &nbsp;
-    /   -else
-    /     .alert.alert-info
-    /       | This article has no alternatives
-    br
     
     #toolbar.button-toolbar
       = link_to "Add new alternative", new_article_alternative_path(@article), class: "btn btn-primary"
-      / TODO: finish this
-      / .pull-right
-      /   span style="margin:4px 15px 0 0"
-      /     = check_box_tag "toggle-name", 0
-      /     |  Use short name, if available
-      /   button.btn Switch columns/rows
 
 
   
