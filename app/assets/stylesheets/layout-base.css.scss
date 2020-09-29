@@ -1870,9 +1870,18 @@ div.control-group {
     }
 }
 
-label.radio, label.checkbox {
-    input[type="checkbox"], input[type="radio"] {
+label.radio {
+    input[type="radio"] {
         margin-top: 2px;
+    }
+}
+
+.form-inline {
+    label.checkbox {
+        padding-left: 8px;        
+    }
+    input[type="checkbox"] { 
+        margin-bottom: 5px !important;
     }
 }
 
@@ -1921,6 +1930,7 @@ td.new-row {
         font-size: 0.9em;
     }
 }
+
 
 /*--- jQuery UI autocomplete ----------*/
 

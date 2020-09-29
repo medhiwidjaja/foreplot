@@ -3,7 +3,7 @@
     a.close data-dismiss="alert" ×
     | Please check the errors below
 
-= form_with model: @article, local: true do |f|
+= form_with model: @article, class:'form-inline', local: true do |f|
   = f.hidden_field :user_id, value: current_user.id
   .control-group
     = f.label :title, class: "control-label"
