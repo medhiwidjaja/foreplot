@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
   # Sensitivity Analysis 
   get '/articles/:article_id/sensitivity' => 'sensitivity#index',  as: :article_sensitivity
+  get '/articles/:article_id/sensitivity_data' => 'sensitivity#data',  as: :article_sensitivity_data
 
   resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do
