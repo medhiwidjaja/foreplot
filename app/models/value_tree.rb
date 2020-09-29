@@ -47,6 +47,17 @@ class ValueTree
     end
   end
 
+  def get_tree_node(node_name)
+    match = nil
+    tree.each do |n| 
+      if n.name == node_name.to_s
+        match = n
+        break
+      end
+    end
+    match
+  end
+
   private
 
   def tree_query
