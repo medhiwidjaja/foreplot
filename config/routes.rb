@@ -37,9 +37,6 @@ Rails.application.routes.draw do
   get '/articles/:article_id/viz'     => 'viz#index',    as: :article_viz
   get '/articles/:article_id/sankey'  => 'viz#sankey',   as: :article_sankey
 
-  # Benefit Cost Analysis (Feasibility)
-  get '/articles/:article_id/feasibility' => 'feasibility#index',  as: :article_feasibility
-
   # Sensitivity Analysis 
   get '/articles/:article_id/sensitivity' => 'sensitivity#index',  as: :article_sensitivity
   get '/articles/:article_id/sensitivity_data' => 'sensitivity#data',  as: :article_sensitivity_data
