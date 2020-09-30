@@ -84,7 +84,7 @@ RSpec.describe "AHPComparisons", type: :request do
     end
 
     describe "PATCH #update" do
-      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, is_valid: true,
+      let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
                                   appraisal_method:'AHPComparison', is_complete:true, comparable_type: 'Criterion' }
       let(:ahp1) { create(:ahp_comparison, rank: 1, score: 0.1, comparable_id:c1.id, comparable_type: 'Criterion', position:c1.position, appraisal: persisted_appraisal) }
       let(:ahp2) { create(:ahp_comparison, rank: 2, score: 0.2, comparable_id:c2.id, comparable_type: 'Criterion', position:c2.position, appraisal: persisted_appraisal) }

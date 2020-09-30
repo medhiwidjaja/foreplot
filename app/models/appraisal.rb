@@ -23,9 +23,8 @@ class Appraisal < ApplicationRecord
   accepts_nested_attributes_for :ahp_comparisons
   accepts_nested_attributes_for :pairwise_comparisons
 
-  before_save :invalidate_other_appraisals
+  after_save :invalidate_other_appraisals
 
-  default_scope { where is_valid: true }
   scope :by, -> (member_id) { where(member_id: member_id) }
   
   COMPARISON_TYPES = [:direct_comparisons, :magiq_comparisons, :ahp_comparisons].freeze
@@ -72,9 +71,8 @@ class Appraisal < ApplicationRecord
   end
 
   def invalidate_other_appraisals
-    is_valid = true
     criterion.appraisals
       .where(member_id: member_id).where.not(appraisal_method: appraisal_method)
-      .update_all is_valid: false
+      .destroy_all
   end
 end
