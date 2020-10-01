@@ -44,6 +44,11 @@ RSpec.feature "Criteria", type: :feature do
       click_button 'Save'
       expect(page).to have_content 'Please check the indicated field below.'
     end
+
+    scenario "User should not see delete button on root criterion" do
+      visit edit_criterion_path(root)
+      expect(page).to_not have_content 'Delete'
+    end
   
   end
 

@@ -27,12 +27,6 @@ RSpec.describe Article, type: :model do
       expect { article.save }.to change { article.criteria.count }.by(1)
     end
 
-    it "checks for article goal everytime it's saved" do
-      article.save
-      article.criteria.destroy_all
-      expect { article.save }.to change { article.criteria.count }.by(1)
-    end
-
     it "creates default member" do
       expect { article.save }.to change { article.members.count }.by(1)
       expect(article.members.first.user).to eq(article.user)
