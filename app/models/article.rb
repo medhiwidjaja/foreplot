@@ -3,16 +3,16 @@ class Article < ApplicationRecord
 
   belongs_to :user
   has_many :alternatives, dependent: :destroy
-  has_many :criteria, dependent: :destroy
-  has_many :members, dependent: :destroy
-
-  scope :owned_by, -> (user) { where user: user }
-
-  scope :with_criteria, -> { includes(:criteria) }
+  has_many :criteria, dependent: :delete_all
+  has_many :members, dependent: :delete_all
   
   after_create :create_goal
   after_create :create_default_member
   after_save :check_goal
+
+  scope :owned_by, -> (user) { where user: user }
+  scope :with_criteria, -> { includes(:criteria) }
+  scope :private_articles, -> { where(private: true) }
 
   def visibility
     private ? 'Private' : 'Public'
