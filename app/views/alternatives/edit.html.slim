@@ -4,6 +4,7 @@
 - content_for :left_frame do
 	= render 'sidepanel'
 
+= render 'shared/flash_messages'
 .widget
 	.widget-header
 		i.icon-list-ul
@@ -11,7 +12,7 @@
 	.well.well-widget-content
 		.widget-content-title Alternative
 		
-		= form_with model: @alternative, local: true do |alt_form|
+		= form_with model: @alternative do |alt_form|
 			== render partial: 'fields', locals: { form: alt_form }
 			
 			#toolbar.button-toolbar
@@ -24,7 +25,7 @@
 						alternative_path(@alternative), 
 						method: :delete,
 						class: "btn btn-danger pull-right always", 
-						confirm: "Deleting alternatives will also delete all related scores and evaluations. You and other participants (if any) will have to redo all ratings previously done.\n\nAre you sure to proceed?", 
-						title: @alternative.title	
+						data: {confirm: "Deleting alternatives will also delete all related scores and evaluations. You and other participants (if any) will have to redo all ratings previously done.\n\nAre you sure to proceed?"}
+
 
 

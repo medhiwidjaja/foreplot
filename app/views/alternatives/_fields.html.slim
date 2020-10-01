@@ -1,8 +1,3 @@
-- if @alternative.errors.any?
-  .alert.alert-error
-    a.close data-dismiss="alert" ×
-    | Please check the indicated #{inflectize(@article.errors.count, "field")} below.
-
 .control-group
 	= form.label :title, for: 'alternative_title', class: "control-label"
 	.controls
