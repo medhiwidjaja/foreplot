@@ -53,6 +53,9 @@ gem 'will_paginate'
 # Tree Data structure
 gem 'rubytree'
 
+# For handling remote form validation
+gem 'turbolinks_render'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
