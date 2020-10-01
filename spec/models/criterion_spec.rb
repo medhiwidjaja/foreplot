@@ -68,6 +68,12 @@ RSpec.describe Criterion, type: :model do
     end
   end
 
+  describe "destroy" do
+    it "should prevent deletion of root criterion" do
+      expect { root.destroy }.to_not change(Criterion, :count)
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:children).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:parent).macro).to eq(:belongs_to) }
