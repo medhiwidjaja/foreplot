@@ -39,7 +39,7 @@ RSpec.feature "Alternatives", type: :feature do
       visit new_article_alternative_path(article)
       fill_in 'alternative_title',       with: ''
       click_button 'Save'
-      expect(page).to have_content 'Please check the indicated fields below.'
+      expect(page).to have_content "can't be blank"
     end
 
     before { create :alternative, title: 'Good alternative', article: article }
