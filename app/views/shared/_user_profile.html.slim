@@ -1,0 +1,29 @@
+#sidepanel
+  .well.side-widget
+    .side-widget-header
+    .side-widget-title User
+    .side-widget-content
+      .user-info
+        .user-name
+          = user.name
+        .user-member-since
+          i.icon-time
+          span Member since
+          = user.created_at.nil? ? "the beginning" : user.created_at.strftime("%B %Y")
+
+    .side-widget-divider
+    .side-widget-title Articles
+    .side-widget-content
+      ul.nav.nav-list.alt-list
+        li.alternative.ui-state-default#article
+          = link_to "Articles", user_path(user)+"?fn=article", class:"pjax"
+        -if user.articles.private_articles.present?
+          li.alternative.ui-state-default#particle
+            = link_to "Private articles", user_path(user)+"?fn=particle", class:"pjax"
+        li.alternative.ui-state-default#participating
+          = link_to "Participating", user_path(user)+"?fn=participating"
+        li.alternative.ui-state-default#bookmarks
+          = link_to "Bookmarks", user_path(user)+"?fn=bookmarks"
+      = link_to new_article_path, class:'btn btn-primary btn-small' do
+        i.icon-plus
+        |  New article
