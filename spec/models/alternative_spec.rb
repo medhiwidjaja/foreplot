@@ -40,6 +40,14 @@ RSpec.describe Alternative, type: :model do
     end
   end
 
+  describe "validation" do
+    before {
+      create :alternative, article: article, title: "Same title"
+      alternative.title = "Same title"
+    }
+    it { is_expected.not_to be_valid }
+  end
+
   describe "changing position number" do
     let(:root) { article.criteria.root }
     before {
