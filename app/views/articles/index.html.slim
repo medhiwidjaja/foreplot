@@ -1,6 +1,8 @@
 - page_title "Articles"
 
 = article_menu
+- content_for :left_frame do
+ 	= render partial: 'shared/user_profile', locals: { user: current_user }
 
 #content-box
   .widget
