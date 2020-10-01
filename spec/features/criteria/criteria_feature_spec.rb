@@ -4,6 +4,7 @@ RSpec.feature "Criteria", type: :feature do
   context "Logged in user" do
     let!(:bingley) { create :bingley, :with_articles }
     let!(:article) { bingley.articles.first }
+    let(:root)      { article.criteria.root }
     let(:valid_attributes) {
       { title: 'Criterion 1', description: 'Criterion numero uno' }
     }
@@ -35,6 +36,13 @@ RSpec.feature "Criteria", type: :feature do
       visit article_criteria_path(article)
       page.find('#criteria-tree').find('div.jqtree-element', text: 'Important criterion').click
       expect(page).to have_css('h3', text: 'Important criterion')
+    end
+
+    scenario "User creates a new criterion and doesn't fill in the title field" do
+      visit new_criterion_path(root)
+      fill_in 'title',       with: ''
+      click_button 'Save'
+      expect(page).to have_content 'Please check the indicated field below.'
     end
   
   end

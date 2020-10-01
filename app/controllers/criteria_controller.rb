@@ -44,34 +44,24 @@ class CriteriaController < ApplicationController
   # POST /criteria/1.json
   def create
     @criterion = Criterion.new criterion_params
-    respond_to do |format|
-      if @criterion.save
-        @criterion.parent.destroy_related_appraisals
-        format.html { redirect_to @criterion, notice: 'Criterion was successfully created.' }
-        format.json { render :show, status: :created, location: @criterion }
-      else
-        format.html { 
-          @parent = Criterion.find(params[:id])
-          @criterion.parent = @parent
-          @presenter = CriterionPresenter.new @criterion, current_user
-          render :new
-        }
-        format.json { render json: @criterion.errors, status: :unprocessable_entity }
-      end
+    if @criterion.save
+      @criterion.parent.destroy_related_appraisals
+      redirect_to @criterion, notice: 'Criterion was successfully created.'
+    else
+      @parent = Criterion.find(params[:id])
+      @criterion.parent = @parent
+      @presenter = CriterionPresenter.new @criterion, current_user
+      render :new
     end
   end
 
   # PATCH/PUT /criteria/1
   # PATCH/PUT /criteria/1.json
   def update
-    respond_to do |format|
-      if @criterion.update(criterion_params)
-        format.html { redirect_to @criterion, notice: 'Criterion was successfully updated.' }
-        format.json { render :show, status: :ok, location: @criterion }
-      else
-        format.html { render :edit }
-        format.json { render json: @criterion.errors, status: :unprocessable_entity }
-      end
+    if @criterion.update(criterion_params)
+      redirect_to @criterion, notice: 'Criterion was successfully updated.'
+    else
+      render :edit, alert: @criterion.errors
     end
   end
 
@@ -79,11 +69,13 @@ class CriteriaController < ApplicationController
   # DELETE /criteria/1.json
   def destroy
     @parent = @criterion.parent
-    @criterion.destroy
-    @parent.destroy_related_appraisals
-    respond_to do |format|
-      format.html { redirect_to article_criteria_path(@parent.article), notice: 'Criterion was successfully destroyed.' }
-      format.json { head :no_content }
+    @article = @criterion.article
+    if @criterion.destroy
+      @parent.destroy_related_appraisals unless @parent.nil?
+      redirect_to article_criteria_path(@article), notice: 'Criterion was successfully destroyed.'
+    else
+      flash[:error] = @criterion.errors.full_messages.to_sentence
+      redirect_to article_criteria_path(@article)
     end
   end
 

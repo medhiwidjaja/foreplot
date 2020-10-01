@@ -2,7 +2,8 @@
 = article_menu @presenter.article
 - content_for :left_frame do
   = render partial: 'sidepanel', locals:{ p: @presenter }
-	
+
+= render 'shared/flash_messages'
 .widget
 	.widget-header
 		i.icon-sitemap
