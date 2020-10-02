@@ -33,8 +33,14 @@ RSpec.describe CriterionPresenter do
       {no: 2, rank: 1, title: dc2.title, score:0.6, score_n:0.6, value: 12 } ]
   }
   describe ".table" do
-    it "know how to build the result table" do
+    it "knows how to build the result table" do
       expect(presenter.table).to eq(expected_table) 
+    end
+  end
+
+  describe ".comparison_name" do
+    it "response with the comparison name for display" do
+      expect(presenter.comparison_name).to eq('Direct Comparison')
     end
   end
 end
