@@ -116,6 +116,25 @@ RSpec.describe Appraisal, type: :model do
     end
   end
 
+  describe "conversion of appraisal method" do
+    let!(:appraisal) { build :appraisal }
+
+    it {
+      appraisal.appraisal_method = 'AHPComparison'
+      expect(appraisal.comparison_name).to eq "AHP Comparison"
+    }
+
+    it {
+      appraisal.appraisal_method = 'MagiqComparison'
+      expect(appraisal.comparison_name).to eq "Magiq Comparison" 
+    }
+
+    it {
+      appraisal.appraisal_method = 'DirectComparison'
+      expect(appraisal.comparison_name).to eq "Direct Comparison" 
+    }
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:criterion).macro).to eq(:belongs_to) }
     it { expect(described_class.reflect_on_association(:direct_comparisons).macro).to eq(:has_many) }

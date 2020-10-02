@@ -52,6 +52,10 @@ class Appraisal < ApplicationRecord
     send appraisal_method.pluralize.underscore
   end
 
+  def comparison_name
+    appraisal_method.titlecase
+  end
+
   private
 
   def unintermittency
