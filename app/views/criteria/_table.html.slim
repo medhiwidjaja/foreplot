@@ -55,7 +55,7 @@
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"
 
-      = render partial: 'toolbar', locals: { presenter: presenter, read_only: false }
+      = render partial: 'criteria/toolbar', locals: { presenter: presenter, read_only: false }
 
 
 

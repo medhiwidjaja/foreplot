@@ -41,6 +41,9 @@ Rails.application.routes.draw do
   get '/articles/:article_id/sensitivity' => 'sensitivity#index',  as: :article_sensitivity
   get '/articles/:article_id/sensitivity_data' => 'sensitivity#data',  as: :article_sensitivity_data
 
+  # Appraisal
+  resources :appraisals, only: :destroy
+  
   resources :criteria, only: [:show, :edit, :update, :destroy] do
     member do
       get :tree

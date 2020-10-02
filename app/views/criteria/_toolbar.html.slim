@@ -11,4 +11,13 @@
           = link_to_comparison_method('DirectComparison', presenter)
         li
           = link_to_comparison_method('AHPComparison', presenter)
+      
+  - if presenter.appraisal
+    = link_to '<i class="icon-trash"></i> Delete'.html_safe,
+        appraisal_path(presenter.appraisal), 
+        method: :delete,
+        remote: true,
+        class: "btn btn-danger pull-right always", 
+        data: {confirm: "This will delete all comparisons related to this criterion.\n\nAre you sure to proceed?"}
+
         
