@@ -6,7 +6,8 @@
 
 #container-box
   = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
-
+  = render 'shared/flash_messages'
+  
   .alert.alert-info
     a.close data-dismiss="alert" ×
     = "Click one of the criteria at left to view ranking result with respect to respective criterion.".html_safe
