@@ -1934,6 +1934,12 @@ td.new-row {
     }
 }
 
+td {
+    .control-group {
+        margin-bottom: 0px;
+    }
+}
+
 
 /*--- jQuery UI autocomplete ----------*/
 
