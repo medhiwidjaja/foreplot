@@ -1,6 +1,6 @@
 class DirectComparisonsForm < ComparisonFormBase 
   attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method, :range_min, :range_max, :minimize
-  attr_reader :comparable_type
+  attr_reader :comparable_type, :comparisons
   
   delegate :direct_comparisons, to: :appraisal
 
@@ -14,7 +14,8 @@ class DirectComparisonsForm < ComparisonFormBase
     @member_id = @appraisal.member_id
     @criterion_id = @appraisal.criterion_id
     @models = [@appraisal]  # required for validate_models
-    @appraisal.find_or_initialize :direct_comparisons
+    @appraisal.find_or_initialize(:direct_comparisons)
+    @comparisons = @appraisal.direct_comparisons.sort_by {|c| c.position}
     @criterion = Criterion.find @criterion_id
     @comparable_type = comparable(@criterion)
   end
@@ -22,7 +23,10 @@ class DirectComparisonsForm < ComparisonFormBase
   def submit
     appraisal.direct_comparisons.clear unless persisted?
     appraisal.attributes = appraisal_params
-    return false if invalid?
+    if invalid?
+      @comparisons = @appraisal.direct_comparisons.sort_by {|c| c.position}
+      return false 
+    end
     appraisal.save
     true
   end
