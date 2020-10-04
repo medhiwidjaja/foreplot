@@ -34,6 +34,7 @@ RSpec.feature "Criteria", type: :feature do
 
     scenario "User clicks a criterion link from the sidepanel", js: true do
       visit article_criteria_path(article)
+      expect(page).to_not have_css('h3', text: 'Important criterion')
       page.find('#criteria-tree').find('div.jqtree-element', text: 'Important criterion').click
       expect(page).to have_css('h3', text: 'Important criterion')
     end
