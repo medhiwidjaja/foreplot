@@ -1,4 +1,5 @@
 = render 'shared/flash_messages'
+
 .widget
   .widget-header
     i.icon-file
@@ -8,7 +9,7 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline', local: true do |form|
+    = form_with model: @form, url: criterion_magiq_comparisons_path, method: @form.rest_method, class: 'form-inline' do |form|
       = form.hidden_field :rank_method, value: 'rank_order_centroid'
       .section
         .section-title 
@@ -61,4 +62,4 @@
 
       = render partial: 'settings', locals: {form: form}
 
-      = render 'toolbar'
+      = render partial: 'toolbar', locals: {form: form}
