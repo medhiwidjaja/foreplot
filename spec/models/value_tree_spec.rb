@@ -68,4 +68,13 @@ RSpec.describe ValueTree, type: :model do
       expect(@node4.content).to match(hash_including({:name => alt2.title, :score_g => 0.6*0.6, :criterion => c2.id}))
     end
   end
+
+  describe "incomplete evaluations" do
+    before {
+      appraisal3.destroy
+    }
+    it "makes the value invalid" do
+      expect(value_tree.invalid).to eq true
+    end
+  end
 end

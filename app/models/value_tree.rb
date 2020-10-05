@@ -1,12 +1,17 @@
 class ValueTree
 
-  attr_reader :tree, :tree_data, :score_data, :article_id, :member_id
+  attr_reader :tree, :tree_data, :score_data, :article_id, :member_id, :invalid
 
   def initialize(article_id, member_id)
     @article_id = article_id
     @member_id = member_id
-    @tree_data = tree_hash 
-    @score_data = score_hash
+    if valid?
+      @tree_data = tree_hash 
+      @score_data = score_hash
+    else
+      @invalid = true
+      return nil
+    end
   end
 
   def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
@@ -126,4 +131,12 @@ class ValueTree
   def make_array(str)
     str.slice(1..-2).split(',').map(&:to_i) if str
   end
+
+  def valid?
+    query = Criterion.with_children
+              .where(article_id: article_id)
+              .with_appraisals_by(member_id)
+    query.pluck(:is_complete).all? {|c| c == true}
+  end
+
 end
