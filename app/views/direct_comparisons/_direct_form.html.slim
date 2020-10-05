@@ -8,7 +8,7 @@
       .widget-content-title With respect to:
       h3 = @criterion.title
 
-    = form_with model: @form, url: criterion_direct_comparisons_path, method: @form.rest_method do |form|
+    = form_with model: @form, url: criterion_direct_comparisons_path, method: @form.rest_method, local: true do |form|
 
       .section
         .section-title 
@@ -51,7 +51,7 @@
       = render partial: 'settings', locals: {form: form}
 
       #toolbar.button-toolbar
-        button.btn Save
+        button.btn.btn-primary Save
         ' 
         = link_to :back, class: 'btn' do
           i.icon-remove

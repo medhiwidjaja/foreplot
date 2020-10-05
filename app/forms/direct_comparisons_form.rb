@@ -1,8 +1,8 @@
 class DirectComparisonsForm < ComparisonFormBase 
-  attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method, :range_min, :range_max, :minimize
+  attr_accessor :direct_comparisons_attributes, :criterion_id, :member_id, :appraisal_method
   attr_reader :comparable_type, :comparisons
   
-  delegate :direct_comparisons, to: :appraisal
+  delegate :direct_comparisons, :range_min, :range_max, :minimize, :range_min=, :range_max=, :minimize=, to: :appraisal
 
   validates :appraisal, :member_id, :appraisal_method, :criterion_id, presence: true
 
