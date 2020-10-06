@@ -40,7 +40,9 @@ class ResultsController < ApplicationController
 
   def set_rank_chart_presenter
     @value_tree = ValueTree.new @article.id, @member.id
-    @rank_chart_presenter = RankChartPresenter.new @value_tree, @criterion.id
+    unless @value_tree.invalid
+      @rank_chart_presenter = RankChartPresenter.new @value_tree, @criterion.id
+    end
   end
 
 end
