@@ -13,11 +13,10 @@
     .side-widget-title Criteria Tree
     #widget1.collapse.in
       .side-widget-content
-        /TODO: Vote ID
         = content_tag "div", id: "criteria-tree", data: {node: p.root.id, allow_click: p.allow_navigate, pid: p.member_id} do
           div style="width:90%;"
             = image_tag "ajax-loader.gif"
-      /-if can? :modify, @article
+
       .side-widget-toolbar
         = link_to url_for([p.article, :criteria]), class:"btn btn-mini edit-button"
           i.icon-align-justify
@@ -27,4 +26,3 @@
             ' Add sub-criterion
             i.icon-chevron-right
 
-/= render 'criteria/participants'

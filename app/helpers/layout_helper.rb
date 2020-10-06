@@ -26,8 +26,14 @@ module LayoutHelper
     end
   end
 
-  def article_menu(article)
+  def article_menu(article=nil)
     render partial: "shared/app_menu", locals: {article: article}
+  end
+
+  # For subnavbar menu
+  def link_status(link, options={ :disabled => false })
+    status = link.include?(controller_name) ? 'active' : ''
+    status += options[:disabled] ? ' disable' : ''
   end
 
 end

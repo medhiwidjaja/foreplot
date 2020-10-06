@@ -1,15 +1,11 @@
-class SankeyPresenter
+class SankeyPresenter < ValueTreePresenter
 
   attr_reader :nodes, :links
 
   def initialize(value_tree, root_id, score_key: :score_g)
-    value_tree.build_tree(root_id) {|n| 
+    super(value_tree, root_id, score_key: :score_g) {|n| 
       {:id => n.comparable_id, :idx => "#{n.comparable_type}-#{n.comparable_id}", :title => n.title, :score => n.score, :criterion => n.cid} 
     } 
-    value_tree.normalize! :score
-    value_tree.globalize! :score
-    @tree = value_tree.tree
-    @score_key = score_key
     @nodes = []
     @links = []
   end
@@ -33,7 +29,4 @@ class SankeyPresenter
     {nodes: nodes, links: links}.to_json
   end
 
-  private
-
-  attr_reader :tree, :score_key
 end

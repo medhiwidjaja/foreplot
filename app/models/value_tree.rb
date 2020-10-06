@@ -1,12 +1,17 @@
 class ValueTree
 
-  attr_reader :tree, :tree_data, :score_data, :article_id, :member_id
+  attr_reader :tree, :tree_data, :score_data, :article_id, :member_id, :invalid
 
   def initialize(article_id, member_id)
     @article_id = article_id
     @member_id = member_id
-    @tree_data = tree_hash 
-    @score_data = score_hash
+    if valid?
+      @tree_data = tree_hash 
+      @score_data = score_hash
+    else
+      @invalid = true
+      return nil
+    end
   end
 
   def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
@@ -47,6 +52,17 @@ class ValueTree
     end
   end
 
+  def get_tree_node(node_name)
+    match = nil
+    tree.each do |n| 
+      if n.name == node_name.to_s
+        match = n
+        break
+      end
+    end
+    match
+  end
+
   private
 
   def tree_query
@@ -57,8 +73,8 @@ class ValueTree
           cmp.comparable_type as type, 
           array_agg(cmp.comparable_id) OVER (PARTITION BY a.id) as children
         FROM criteria c 
-        INNER JOIN appraisals a ON a.criterion_id = c.id AND a.is_valid = true
-        INNER JOIN comparisons cmp ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
+        INNER JOIN appraisals a ON a.criterion_id = c.id
+        INNER JOIN comparisons cmp ON cmp.appraisal_id = a.id AND a.member_id = :member_id
         WHERE c.article_id = :article_id
       )
 
@@ -88,7 +104,7 @@ class ValueTree
         c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
         cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
       FROM comparisons cmp
-      LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
+      LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.member_id = :member_id
       LEFT OUTER JOIN criteria comparable ON comparable.id = cmp.comparable_id
       LEFT OUTER JOIN criteria c ON c.id = a.criterion_id
       WHERE c.article_id = :article_id AND cmp.comparable_type = 'Criterion'
@@ -99,7 +115,7 @@ class ValueTree
         c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
         cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
       FROM comparisons cmp
-      LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.is_valid = true AND a.member_id = :member_id
+      LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.member_id = :member_id
       LEFT OUTER JOIN alternatives comparable ON comparable.id = cmp.comparable_id
       LEFT OUTER JOIN criteria c ON c.id = a.criterion_id
       WHERE c.article_id = :article_id AND cmp.comparable_type = 'Alternative'
@@ -115,4 +131,12 @@ class ValueTree
   def make_array(str)
     str.slice(1..-2).split(',').map(&:to_i) if str
   end
+
+  def valid?
+    query = Criterion.with_children
+              .where(article_id: article_id)
+              .with_appraisals_by(member_id)
+    query.pluck(:is_complete).all? {|c| c == true}
+  end
+
 end

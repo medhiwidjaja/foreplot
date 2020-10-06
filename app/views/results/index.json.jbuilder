@@ -1,1 +1,1 @@
-json.array! @value_tree_presenter.score_table.values, partial: "results/score", as: :score
+json.array! @rank_chart_presenter.score_table.values, partial: "results/score", as: :score

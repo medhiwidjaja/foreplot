@@ -18,7 +18,7 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
         html = %(#{e}).html_safe
       else
         if instance.error_message.kind_of?(Array)
-          html = %(#{e}<div class="invalid-feedback">#{instance.error_message.uniq.join(', ')}</div>).html_safe
+          html = %(#{e}<div class="invalid-feedback">#{instance.error_message.first}</div>).html_safe
         else
           html = %(#{e}<div class="invalid-feedback">#{instance.error_message}</div>).html_safe
         end
@@ -27,3 +27,4 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
   html
 end
+

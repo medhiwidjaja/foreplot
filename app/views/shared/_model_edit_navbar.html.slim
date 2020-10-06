@@ -33,12 +33,12 @@
 			= link_to article_criteria_path(article)
 				i.icon-th-list
 				span  Criteria
-		li class=link_status('rate', disabled:false)
+		li class=link_status('ratings', disabled:false)
 			= link_to article_ratings_path(article)
 				i.icon-random
 				span  Rate
 
-		li class=link_status('results')
+		li class=link_status(['results','sensitivity','viz'])
 			a href=article_results_path(article)
 				i.icon-bar-chart
 				span  Results

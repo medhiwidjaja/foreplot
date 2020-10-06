@@ -3,12 +3,6 @@ module ApplicationHelper
   def logo
     image_tag("foreplot.png", alt: "FOREPLOT")
   end
-
-  # For subnavbar menu
-  def link_status(link, options={ :disabled => false })
-    status = session[:link] == link ? 'active' : ''
-    status += options[:disabled] ? ' disable' : ''
-  end
   
   # For layout
   def has_left_frame?

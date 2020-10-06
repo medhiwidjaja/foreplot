@@ -1,15 +1,6 @@
 #toolbar.button-toolbar
-  button.btn Save
+  = form.submit 'Save', class:"btn btn-primary", disabled: true
   ' 
-  = link_to :back, class: 'btn' do
+  = link_to @form.criterion, class: 'btn' do
     i.icon-remove
     |  Close
-  .pull-right
-    = link_to "#", data: {toggle:"collapse", target:"#notes-section"}, class: 'btn' do
-      i.icon-edit
-      '
-      |  Add notes
-    a.btn data-toggle="collapse" data-target="#settings-section" href="#settings-section"
-      i.icon-wrench
-      ' 
-      |  Settings

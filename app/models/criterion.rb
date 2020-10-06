@@ -8,11 +8,12 @@ class Criterion < ApplicationRecord
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
   has_many :appraisals, dependent: :destroy
   
-  validates :title, presence: true
-  validate :must_have_parent_if_not_root
+  validates :title, presence: true, uniqueness: {scope: [:article_id]}
+  validates :position, uniqueness: {scope: [:article_id, :parent_id]}
 
-  before_create :assign_position_number
-  after_save :sync_position_with_comparisons, if: :saved_change_to_position?
+  before_create  :assign_position_number
+  after_save     :sync_position_with_comparisons, if: :saved_change_to_position?
+  before_destroy :check_if_root
 
   scope :with_appraisals_by, ->(member_id) {
     joins(<<-SQL.squish
@@ -62,7 +63,7 @@ class Criterion < ApplicationRecord
   private
 
   def must_have_parent_if_not_root
-    if parent_id.blank? && Criterion.where(article_id:article_id).root.present?
+    if parent_id.blank? && article.criteria.root != self
       errors.add(:parent_id, "can't be blank")
     end
   end
@@ -79,6 +80,11 @@ class Criterion < ApplicationRecord
 
   def sync_position_with_comparisons
     comparisons.update_all position: position
+  end
+
+  def check_if_root
+    errors.add(:base, "Cannot delete top level criterion") if parent_id.nil?
+    throw(:abort) if errors.present?
   end
 
 end

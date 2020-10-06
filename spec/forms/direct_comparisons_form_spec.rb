@@ -59,6 +59,24 @@ RSpec.describe DirectComparisonsForm do
     end
   end
 
+  describe "creating new comparison to override existing one" do
+    let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
+      appraisal_method:'MagiqComparison', rank_method: 'rank_order_centroid', is_complete:true, comparable_type: 'Criterion' }
+    before(:each) do
+      persisted_appraisal.magiq_comparisons << [
+        build(:magiq_comparison, rank: 3, comparable_id:c1.id, comparable_type: 'Criterion',),
+        build(:magiq_comparison, rank: 2, comparable_id:c2.id, comparable_type: 'Criterion',),
+        build(:magiq_comparison, rank: 1, comparable_id:c3.id, comparable_type: 'Criterion',)
+      ]
+    end
+    
+    it "deletes comparisons of the persisted appraisal" do
+      form = described_class.new appraisal, params
+      expect { form.submit }.to change(MagiqComparison, :count).by(-3)
+      expect { persisted_appraisal.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'DirectComparison', is_complete:true, comparable_type: 'Criterion' }
     let(:dc1) { DirectComparison.new(value: 100, rank: 3, score: 1, comparable_id:c1.id, comparable_type: 'Criterion', "position"=>c1.position) }

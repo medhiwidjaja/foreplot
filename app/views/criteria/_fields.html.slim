@@ -1,7 +1,7 @@
--if criterion.errors.any?
+-if @criterion.errors.any?
 	.alert.alert-error
 		a.close data-dismiss="alert" ×
-		| Oops, we couldn't save your criterion! Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
+		| Error. Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
 .row-fluid
 	.span4
@@ -11,7 +11,7 @@
 				= form.text_field :title, id: 'title'
 	.span2
 		.control-group
-			= form.label 'Short title', class: "control-label"
+			= form.label :abbrev, 'Short title', class: "control-label"
 			.controls
 				= form.text_field :abbrev
 
@@ -26,17 +26,17 @@
 .control-group
 	= form.label "Comparison method to be used by all participants at this node:", class: 'control-label'
 	.controls.pop-over
-		= form.label :appraisal_method, class:'radio'
+		= form.label :appraisal_method_magiqcomparison, class:'radio'
 			= form.radio_button :appraisal_method, 'MagiqComparison'
 			span rel='popover' data-content='Assign weights by ranking using Multi-Attribute Global Inference of Quality method' data-original-title='MAGIC Method'
 				| MAGIQ method
 	.controls.pop-over
-		= form.label :appraisal_method, class:'radio'
+		= form.label :appraisal_method_directcomparison, class:'radio'
 			= form.radio_button :appraisal_method, 'DirectComparison'
 			span rel='popover' data-content='Directly assign weights to each sub-criteria using Simple Multi-Attribute Rating Technique' data-original-title='SMART method'
 				| SMART method
 	.controls.pop-over
-		= form.label :appraisal_method, class:'radio'
+		= form.label :appraisal_method_pairwisecomparison, class:'radio'
 			= form.radio_button :appraisal_method, 'PairwiseComparison'
 			span rel='popover' data-content='Assign weights by making pairwise comparisons using Analytic Hierarchy Process' data-original-title='AHP Pairwise method'
 				| AHP Pairwise method

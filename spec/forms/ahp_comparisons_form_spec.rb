@@ -84,6 +84,23 @@ RSpec.describe AHPComparisonsForm do
 
   end
 
+  describe "creating new comparison to override existing one" do
+    let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'DirectComparison', is_complete:true, comparable_type: 'Criterion' }
+    before(:each) do
+      persisted_appraisal.direct_comparisons << [
+        build(:direct_comparison, value: 100, comparable_id:c1.id, comparable_type: 'Criterion'),
+        build(:direct_comparison, value: 200, comparable_id:c2.id, comparable_type: 'Criterion'),
+        build(:direct_comparison, value: 400, comparable_id:c3.id, comparable_type: 'Criterion')
+      ]
+    end
+    
+    it "deletes comparisons of the persisted appraisal" do
+      form = described_class.new appraisal, params
+      expect { form.submit }.to change(DirectComparison, :count).by(-3)
+      expect { persisted_appraisal.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
   describe "editing comparisons" do
     let(:persisted_appraisal) { create :appraisal, member_id: member.id, criterion_id: criterion.id, 
                                 appraisal_method:'AHPComparison', is_complete:true, comparable_type: 'Criterion' }

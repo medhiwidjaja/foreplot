@@ -1,8 +1,3 @@
-- if @alternative.errors.any?
-  .alert.alert-error
-    a.close data-dismiss="alert" ×
-    | Please check the indicated #{inflectize(@article.errors.count, "field")} below.
-
 .control-group
 	= form.label :title, for: 'alternative_title', class: "control-label"
 	.controls
@@ -15,22 +10,5 @@
 	= form.label :description, class: "control-label"
 	.controls
 		= form.text_area :description, class: 'input-xxlarge tinymce', rows: 10
-
-/ .widget-divider
-/ .section style="padding-top:0px; border-top:none"
-/ 	.widget-content-title Properties
-/ 	table#properties.table-striped.table-condensed 
-/ 		tr
-/ 			th Property
-/ 			th Value
-/ 			th Unit
-/ 			th Action
-/ 		= form.fields_for :properties do |property_form|
-/ 			= render partial: 'alternatives/property', locals: { f: property_form }
-
-
-/ 	= add_child_link "Add new property", :properties, class:'btn btn-primary'
-
-/ = new_child_fields_template form, :properties
 
 = tinymce

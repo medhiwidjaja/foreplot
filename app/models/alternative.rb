@@ -7,7 +7,7 @@ class Alternative < ApplicationRecord
   has_many :ahp_comparisons, as: :comparable, dependent: :destroy
   has_many :magiq_comparisons, as: :comparable, dependent: :destroy
   
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: {scope: [:article_id]}
 
   before_create :assign_position_number
   after_save :sync_position_with_comparisons, if: :saved_change_to_position?

@@ -4,6 +4,7 @@
 	= render partial: 'sidepanel', locals:{ p: @presenter }
 
 #container-box
+	= render 'shared/flash_messages'
 	.widget
 		.widget-header
 			i.icon-sitemap
@@ -14,11 +15,6 @@
 				h3 = @presenter.parent.title unless @presenter.parent.nil?
 			.section
 				.section-title Criterion
-				
-				- if @criterion.errors.any?
-					.alert.alert-error
-						a.close data-dismiss="alert" ×
-						| Please check the indicated #{inflectize(@criterion.errors.count, "field")} below.
 
 				= form_with model: @criterion, url: create_sub_criterion_path(@presenter.parent) do |f|
 					== render partial: 'fields', locals: { form: f, criterion: @criterion, parent_id: @presenter.parent_id, cost: false }

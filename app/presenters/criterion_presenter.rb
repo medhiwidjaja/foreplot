@@ -54,6 +54,10 @@ class CriterionPresenter < BasePresenter
     appraisal&.appraisal_method
   end
 
+  def comparison_name
+    appraisal&.comparison_name
+  end
+
   def allow_navigate
     true
   end

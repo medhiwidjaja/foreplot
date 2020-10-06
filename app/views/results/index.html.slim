@@ -6,28 +6,7 @@
 
 #container-box
   = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
-
-  .alert.alert-info
-    a.close data-dismiss="alert" ×
-    = "Click one of the criteria at left to view ranking result with respect to respective criterion.".html_safe
-
-  .widget
-    .widget-header
-      i.icon-bar-chart
-      h3 = "Rank with respect to goal: #{@criterion.title}"
-    .well.well-widget-content
-      -if @criteria_presenter.appraisal&.is_complete?
-        .section
-        	.widget-content-title Chart
-        	#chart-box style="height: 300px; margin-bottom: 10px"
-        		= render partial: 'chart', locals: { presenter: @value_tree_presenter }
-        .section style="padding-top: 0px"
-        	.widget-content-title Detail Chart
-        	#chart-box style="height: 300px; margin-bottom: 10px"
-        		= render partial: 'detail_chart', locals: { presenter: @value_tree_presenter }
-        .section style="padding-top: 0px"
-          .widget-content-title Table
-          #table-box style="margin-top: 10px; padding:10px 0; position: relative"
-            = render partial: 'rank_table', locals: { presenter: @value_tree_presenter }
-      -else
-        = render 'incomplete_evaluation_messages'
+  = render 'shared/flash_messages'
+  
+  #content
+    = render 'content'

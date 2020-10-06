@@ -39,6 +39,7 @@ RSpec.describe "Articles", type: :request do
         Article.create! valid_attributes
         get articles_path
         expect(response).to be_successful
+        expect(response).to render_template('shared/_user_profile')
       end
     end
 
@@ -54,6 +55,7 @@ RSpec.describe "Articles", type: :request do
       it "returns a success response" do
         get new_article_path
         expect(response).to be_successful
+        expect(response).to render_template('shared/_user_profile')
       end
     end
 
@@ -62,6 +64,7 @@ RSpec.describe "Articles", type: :request do
         article = Article.create! valid_attributes
         get edit_article_path(article)
         expect(response).to be_successful
+        expect(response).to render_template('_sidepanel')
       end
     end
 
@@ -120,9 +123,13 @@ RSpec.describe "Articles", type: :request do
     describe "DELETE #destroy" do
       it "destroys the requested article" do
         article = Article.create! valid_attributes
+        create :alternative, title: "To be deleted", article: article
         expect {
           delete article_path(article.to_param)
         }.to change(Article, :count).by(-1)
+        .and change(Member, :count).by(-1)
+        .and change(Criterion, :count).by(-1)
+        .and change(Alternative, :count).by(-1)
       end
 
       it "redirects to the articles list" do

@@ -11,31 +11,11 @@
     .side-widget-divider
     .side-widget-title Author
     .side-widget-content
-      / .user-avatar-big
-      /   = gravatar_for @article.user
+
       .article-author
         = @article.user.name
     .clearfix
     .side-widget-divider
-    / .side-widget-title
-    /   | Participants ( #{@article.participations.all_active.count} )
-    / .side-widget-content
-    /   .avatars.user-avatar
-    /     -@article.participations.all_active.each do |participation|
-    /       ul
-    /         li
-    /           -if can? :author, @article
-    /             a.user-avatar-small href=article_participation_path(@article.slug, participation.id)
-    /               img src=participation.user.gravatar_url(size:20) rel="tooltip" data-original-title="#{participation.username}" 
-    /           -else
-    /             img src=participation.user.gravatar_url(size:20) rel="tooltip" data-original-title="#{participation.username}"
-
-    / .side-widget-toolbar
-    /     =' link_to "List", article_participations_path(@article.slug), class:"btn btn-mini pjax"
-    /     -if can? :create, Participation.new(article_id:@article.id)
-    /       =' link_to "Invite new participant", invite_article_participations_path(@article.slug), class:"btn btn-primary btn-mini pjax"
-    /     -elsif !@article.participation_by(current_user, false) && can?(:request, Participation.new(article_id:@article.id))
-    /       =' link_to "Request to join", new_request_article_participations_path(@article.slug), class:"btn btn-warning btn-mini pjax"
 
 .well.side-widget
   .side-widget-header
@@ -44,10 +24,6 @@
   .side-widget-title Article Stats
   #widget2.collapse.in
     .side-widget-content
-      / -unless @article.category.nil?
-      /   .article-prop
-      /     .ldef Category
-      /     .rdef = @article.category.title
       .article-prop 
         .ldef Created on 
         .rdef
@@ -62,47 +38,9 @@
     .side-widget-content
       table.stats
         tr
-          / td
-          /   .stat-label = "Participants" 
-          /   i.icon-user
-          /   span.stat-value = @article.participations.all_active.count
-          / td
-          /   .stat-label = "Bookmarks" 
-          /   i.icon-bookmark
-          /   span.stat-value#watch-count = @article.watch_count
           td
             .stat-label = "Appreciations" 
             i.icon-thumbs-up
             span.stat-value#like-count = @article.likes
 
     .side-widget-divider.clearfix
-    / .side-widget-title Article tags
-    / .side-widget-content
-    /   // FIXME
-    /   -unless @article.tags.blank?
-    /     .tag-group
-    /       - @article.tags.each do |tag|
-    /         span.badge =tag
-
-/ .well.side-widget
-/   .side-widget-header
-/   .side-widget-title Share article
-/   .side-widget-content
-/     // FIXME
-/     = image_tag('facebook_like.png')
-/     ' &nbsp;
-/     = image_tag('tweet.png')
-/     ' &nbsp;
-/     = image_tag('g_plus.png')
-
-/   .side-widget-divider
-/   .side-widget-title Article sponsor
-/   .side-widget-content
-/     .thumbnail style="background-color: #e8653a"
-/       div style="height:120px;" 
-/         br
-/         p style="color: white; font-family: 'Garamond'; font-size:50px"  
-/           | Sponsor
-
-
-      

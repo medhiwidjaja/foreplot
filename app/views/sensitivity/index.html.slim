@@ -1,0 +1,44 @@
+- page_title "Sensitivity Analysis for #{@article.title}"
+
+= article_menu @article
+- content_for :left_frame do
+  = render partial: 'sidepanel', locals:{ p: @criteria_presenter }
+
+  .alert.alert-warning
+    a.close data-dismiss="alert" ×
+    = "Showing sensitivity for criterion: <strong class='wrt'>#{@criterion.title}</strong>. <br>Click one of the criteria above to view sensitivity with respect to other criteria.".html_safe
+
+#container-box
+  = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
+  = render 'shared/flash_messages'
+
+  .widget
+    .widget-header.ellipsis
+      i.icon-bar-chart
+      h3 Sensitivity Analysis
+    .well.well-widget-content
+      - if @criterion.root?
+        .section
+          | Select a criterion under the goal
+      - else
+        .section
+          .widget-content-title Sensitivity with respect to
+          h3.wrt = @criterion.title
+          h4 
+            | Current weight value: 
+            span.weight-value
+          .alert.alert-info
+            a.close data-dismiss="alert" ×
+            | Hover over the sensitivity chart below to see ranking changes with respect to changes in the weight of the selected criterion.
+        .section style="padding-top: 0px; min-height:350px"
+          .span6
+            .widget-content-title Sensitivity Chart
+            #sensitivity-chart data-cid="#{@criterion.id}" data-url="#{article_sensitivity_data_path(@article, format:'json')}"
+              = image_tag "ajax-loader.gif"
+          .span6
+            .widget-content-title#point-info 
+              | Rank at weight of:  
+              span.weight-value
+            #rank-chart
+              = image_tag "ajax-loader.gif"
+      

@@ -11,10 +11,7 @@
         th.narrow 
           = radio_button_for_rank_method :rank_reciprocal, @appraisal.rank_method, form
         th.narrow 
-          /= radio_button_for_rank_method :rank_sum, @appraisal.rank_method, form
-          = form.label :rank_method_rank_sum, class:'radio'
-            = form.radio_button :rank_method, 'rank_sum', checked:@appraisal.rank_method=='rank_sum'
-            | Rank Sum
+          = radio_button_for_rank_method :rank_sum, @appraisal.rank_method, form
 
       tr.control-groups
         td.narrow

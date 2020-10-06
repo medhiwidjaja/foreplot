@@ -14,7 +14,7 @@
     #widget1.collapse.in
       .side-widget-content
         /TODO: Vote ID
-        = content_tag "div", id: "results-tree", data: {node: p.root.id, allow_click: p.allow_navigate, pid: p.member_id} do
+        = content_tag "div", id: "results-tree", data: {node: p.root.id, allow_click: p.allow_navigate, aid: p.article_id, pid: p.member_id} do
           div style="width:90%;"
             = image_tag "ajax-loader.gif"
 

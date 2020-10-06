@@ -11,9 +11,7 @@ tr.article
       .timestamp
         i.icon-time
         = "#{time_ago_in_words(article.updated_at)} ago"	
-    / .picture
-    / 	- url = pic_snippet(article.description)
-    / 	= image_tag url, size:'65x65' unless url.nil?
+
     .description.formatted-output
       = raw truncate_html(description_snippet(article.description),500)
     .info

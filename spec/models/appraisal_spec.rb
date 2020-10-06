@@ -10,7 +10,6 @@ RSpec.describe Appraisal, type: :model do
 
   context "when input is correct" do
     it { is_expected.to respond_to(:appraisal_method) } 
-    it { is_expected.to respond_to(:is_valid) } 
     it { is_expected.to be_valid }
   end
 
@@ -36,9 +35,7 @@ RSpec.describe Appraisal, type: :model do
   describe "overrides appraisal with new method" do
     it "inactivate other appraisals by same member using other method" do
       new_appraisal = create :appraisal, criterion: criterion, member: member, appraisal_method: 'AHPComparison', comparable_type: 'Criterion'
-      expect(new_appraisal).to be
-      expect(new_appraisal.is_valid).to eq(true)
-      expect(appraisal.reload.is_valid).to eq(false)
+      expect { appraisal.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 
@@ -117,6 +114,25 @@ RSpec.describe Appraisal, type: :model do
       appraisal.pairwise_comparisons.clear
       is_expected.to be_invalid
     end
+  end
+
+  describe "conversion of appraisal method" do
+    let!(:appraisal) { build :appraisal }
+
+    it {
+      appraisal.appraisal_method = 'AHPComparison'
+      expect(appraisal.comparison_name).to eq "AHP Comparison"
+    }
+
+    it {
+      appraisal.appraisal_method = 'MagiqComparison'
+      expect(appraisal.comparison_name).to eq "Magiq Comparison" 
+    }
+
+    it {
+      appraisal.appraisal_method = 'DirectComparison'
+      expect(appraisal.comparison_name).to eq "Direct Comparison" 
+    }
   end
 
   describe "associations" do

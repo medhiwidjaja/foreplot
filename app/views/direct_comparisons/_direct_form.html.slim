@@ -1,3 +1,4 @@
+= render 'shared/flash_messages'
 .widget
   .widget-header
     i.icon-file
@@ -33,7 +34,7 @@
               th.w20.number = @criterion.leaf? ? 'Rating' : 'Weight' 
 
           tbody#table-body
-            = form.fields_for :direct_comparisons do |dc_fields|
+            = form.fields_for :direct_comparisons, @form.comparisons do |dc_fields|
               = dc_fields.hidden_field :comparable_id
               = dc_fields.hidden_field :comparable_type
               = dc_fields.hidden_field :title
@@ -44,12 +45,13 @@
                 td.wide 
                   = dc_fields.object.title
                 td.number
-                  = dc_fields.text_field :value, class:'input-small weight sans-err-msg'
+                  .control-group
+                    = dc_fields.number_field :value, step:'any', class:'input-small weight sans-err-msg'
 
       = render partial: 'settings', locals: {form: form}
 
       #toolbar.button-toolbar
-        button.btn Save
+        button.btn.btn-primary Save
         ' 
         = link_to :back, class: 'btn' do
           i.icon-remove

@@ -5,18 +5,19 @@ class ResultsController < ApplicationController
   before_action :set_criterion
   before_action :set_member
   before_action :set_criterion_presenter, only: :index
-  before_action :set_value_tree_presenter, only: [:index, :chart]
+  before_action :set_rank_chart_presenter, only: [:index, :chart]
 
   def index
     respond_to do |format|
       format.html 
       format.json
+      format.js
     end
   end
 
   def chart 
     respond_to do |format|
-      format.json { @presenter = @value_tree_presenter }
+      format.json { @presenter = @rank_chart_presenter }
     end
   end
 
@@ -38,9 +39,11 @@ class ResultsController < ApplicationController
     @criteria_presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
   end
 
-  def set_value_tree_presenter
+  def set_rank_chart_presenter
     @value_tree = ValueTree.new @article.id, @member.id
-    @value_tree_presenter = ValueTreePresenter.new @value_tree, @criterion.id
+    unless @value_tree.invalid
+      @rank_chart_presenter = RankChartPresenter.new @value_tree, @criterion.id
+    end
   end
 
 end

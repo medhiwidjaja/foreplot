@@ -1,9 +1,4 @@
-- if @article.errors.any?
-  .alert.alert-error
-    a.close data-dismiss="alert" ×
-    | Please check the errors below
-
-= form_with model: @article, local: true do |f|
+= form_with model: @article, class:'form-inline' do |f|
   = f.hidden_field :user_id, value: current_user.id
   .control-group
     = f.label :title, class: "control-label"
@@ -36,8 +31,7 @@
       = link_to @article, 
           method: :delete,
           class: "btn btn-danger pull-right", 
-          confirm: "  This will delete the article and\nall related criteria and alternatives.\n\nAre you sure?", 
-          title: @article.title do
+          data: {confirm: "This will delete the article and\nall related criteria and alternatives.\n\nThis action cannot be undone. Are you sure?"}
         i.icon-trash
         |  Delete
 

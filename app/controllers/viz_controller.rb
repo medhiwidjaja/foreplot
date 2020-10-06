@@ -7,6 +7,7 @@ class VizController < ApplicationController
 
   def index
     @criteria_presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
+    @value_tree = ValueTree.new @article.id, @member.id
   end
 
   def sankey

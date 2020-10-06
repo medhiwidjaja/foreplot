@@ -1,0 +1,43 @@
+.subnav.subnav-fixed
+	ul.nav.nav-pills
+		li.divider-left
+		-if user_signed_in?
+			li.dropdown
+				a.dropdown-toggle href="/" data-toggle="dropdown" style="padding:10px 2px"
+					i.icon-file
+					b.caret
+				ul.dropdown-menu.my-articles
+					li
+						= link_to new_article_path do
+							i.icon-edit
+							|  Create new article
+					li.divider
+					li 
+						= link_to my_articles_path
+							strong My articles:
+					li 
+						ul#my-articles-list-menu
+							- my_articles.each do |article|
+								li = link_to article.title, article
+
+		li.disable
+			a 
+				i.icon-file
+				span  Article
+		li.disable
+			a
+				i.icon-move
+				span  Alternatives
+		li.disable
+			a
+				i.icon-th-list
+				span  Criteria
+		li.disable
+			a
+				i.icon-random
+				span  Rate
+		li.disable 
+			a
+				i.icon-bar-chart
+				span  Results
+		li.divider-right

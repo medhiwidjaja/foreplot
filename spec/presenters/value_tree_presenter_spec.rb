@@ -8,7 +8,9 @@ RSpec.describe ValueTreePresenter do
     ValueTree.new article.id, member.id 
   }
   let(:presenter) {
-    ValueTreePresenter.new value_tree, root.id
+    ValueTreePresenter.new(value_tree, root.id) {|n| 
+      {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} 
+    } 
   }
 
   subject { presenter }
@@ -46,19 +48,4 @@ RSpec.describe ValueTreePresenter do
     end
   end
 
-  it "gives chart data from the score table" do
-    expect(presenter.chart_data).to eq [0.4*0.6 + 0.6*0.6, 0.4*0.4 + 0.6*0.4]
-  end
-
-  it "gives detail chart data (breakdown by criteria scores) from the score table" do
-    expect(presenter.detail_chart_data).to eq [ [0.6*0.6, 0.6*0.4], [0.4*0.6, 0.4*0.4] ]
-  end
-
-  it "gives the criteria names" do
-    expect(presenter.criteria_labels).to eq [ c1.title, c2.title ]
-  end
-
-  it "gives the alternative names" do
-    expect(presenter.alternative_names).to eq [ alt2.title, alt1.title ]
-  end
 end
