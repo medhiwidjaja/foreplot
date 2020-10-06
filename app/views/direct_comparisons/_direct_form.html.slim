@@ -46,7 +46,7 @@
                   = dc_fields.object.title
                 td.number
                   .control-group
-                    = dc_fields.number_field :value, class:'input-small weight sans-err-msg'
+                    = dc_fields.number_field :value, step:'any', class:'input-small weight sans-err-msg'
 
       = render partial: 'settings', locals: {form: form}
 

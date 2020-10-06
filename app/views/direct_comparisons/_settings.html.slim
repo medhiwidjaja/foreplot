@@ -25,8 +25,8 @@
         .controls
           .input-prepend
             span.add-on.narrow Min
-            = form.number_field :range_min, class:"number input-small"
+            = form.number_field :range_min, step:'any', class:"number input-small"
               
           .input-prepend
             span.add-on.narrow Max
-            = form.number_field :range_max, class:"number input-small"
+            = form.number_field :range_max, step:'any', class:"number input-small"
