@@ -35,14 +35,15 @@ RSpec.describe "Sensitivity", type: :request do
       end
 
       it "returns correct values with provided parameter" do
-        get article_sensitivity_data_path(article, cid: c2.id, format: :json)
+        get article_sensitivity_data_path(article, criterion_id: c2.id, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
           sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]],         
           chart_data:  [0.6, 0.4],
           labels:      [alt1.title, alt2.title],
           weight:      0.6,
-          criterion_id: c2.id
+          criterion_id: c2.id,
+          title:       c2.title
         )
       end
     end

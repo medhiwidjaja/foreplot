@@ -42,23 +42,23 @@ RSpec.feature "Results", type: :feature do
         canvas = find('canvas.jqplot-event-canvas')
         canvas.click(x:100, y:100)
         within 'div.jqplot-highlighter-tooltip' do
-          expect(page).to have_css('em', text: c2.title)
-          expect(page).to have_css('strong', text: "0.36")
+          expect(page).to have_css('em', text: c1.title)
+          expect(page).to have_css('strong', text: "0.24")
         end
         canvas.click(x:100, y:250)
         within 'div.jqplot-highlighter-tooltip' do
-          expect(page).to have_css('em', text: c1.title)
-          expect(page).to have_css('strong', text: "0.24")
-        end
-        canvas.click(x:200, y:200)
-        within 'div.jqplot-highlighter-tooltip' do
           expect(page).to have_css('em', text: c2.title)
-          expect(page).to have_css('strong', text: "0.24")
+          expect(page).to have_css('strong', text: "0.36")
         end
-        canvas.click(x:200, y:250)
+        canvas.click(x:200, y:150)
         within 'div.jqplot-highlighter-tooltip' do
           expect(page).to have_css('em', text: c1.title)
           expect(page).to have_css('strong', text: "0.16")
+        end
+        canvas.click(x:200, y:250)
+        within 'div.jqplot-highlighter-tooltip' do
+          expect(page).to have_css('em', text: c2.title)
+          expect(page).to have_css('strong', text: "0.24")
         end
       end
     end

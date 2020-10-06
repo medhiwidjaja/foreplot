@@ -15,7 +15,7 @@ class RankChartPresenter < ValueTreePresenter
   end
 
   def criteria_labels
-    Criterion.where(id: score_table.first[1][:detail].keys).pluck :title
+    score_table.first[1][:labels].values
   end
 
   def alternative_names

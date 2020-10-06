@@ -55,7 +55,7 @@ RSpec.describe RankChartPresenter do
   end
 
   it "gives the criteria names" do
-    expect(presenter.criteria_labels).to eq [ c1.title, c2.title ]
+    expect(presenter.criteria_labels).to eq [ c2.title, c1.title ]
   end
 
   it "gives the alternative names" do
