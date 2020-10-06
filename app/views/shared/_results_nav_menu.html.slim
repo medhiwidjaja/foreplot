@@ -1,6 +1,6 @@
 - action = params[:action]
 
 ul.nav.nav-pills.results
-  = link_or_text('result', article_results_path(presenter.article, p: presenter.member_id),     'Ranking')
-  = link_or_text('viz', article_viz_path(presenter.article, p: presenter.member_id),         'Visualization')
+  = link_or_text('results', article_results_path(presenter.article, p: presenter.member_id), 'Ranking')
+  = link_or_text('viz', article_viz_path(presenter.article, p: presenter.member_id), 'Visualization')
   = link_or_text('sensitivity', article_sensitivity_path(presenter.article, p: presenter.member_id), 'Sensitivity Analysis')
