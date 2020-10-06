@@ -1,10 +1,11 @@
 class SensitivityPresenter < ValueTreePresenter
 
-  attr_reader :chart_data, :criterion_id
+  attr_reader :chart_data, :criterion_id, :title
 
   def initialize(value_tree, root_id, criterion_id, score_key: :score_g)
     @vt = value_tree
     @criterion_id = criterion_id.to_i
+    @title = Criterion.find(criterion_id).title
     super(value_tree, root_id, score_key: :score_g) {|n| 
       {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} 
     } 

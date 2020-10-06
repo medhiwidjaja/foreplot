@@ -6,7 +6,7 @@
 
   .alert.alert-warning
     a.close data-dismiss="alert" ×
-    = "Showing sensitivity for criterion: <strong>#{@criterion.title}</strong>. <br>Click one of the criteria above to view sensitivity with respect to other criteria.".html_safe
+    = "Showing sensitivity for criterion: <strong class='wrt'>#{@criterion.title}</strong>. <br>Click one of the criteria above to view sensitivity with respect to other criteria.".html_safe
 
 #container-box
   = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
@@ -23,7 +23,7 @@
       - else
         .section
           .widget-content-title Sensitivity with respect to
-          h3 = @criterion.title
+          h3.wrt = @criterion.title
           h4 
             | Current weight value: 
             span.weight-value
@@ -33,11 +33,11 @@
         .section style="padding-top: 0px; min-height:350px"
           .span6
             .widget-content-title Sensitivity Chart
-            #sensitivity-chart data-cid="#{@criterion.id}" data-article="#{@article.id}"
+            #sensitivity-chart data-cid="#{@criterion.id}" data-url="#{article_sensitivity_data_path(@article, format:'json')}"
               = image_tag "ajax-loader.gif"
           .span6
             .widget-content-title#point-info 
-              | Rank with weight of '#{@criterion.title}' at: 
+              | Rank at weight of:  
               span.weight-value
             #rank-chart
               = image_tag "ajax-loader.gif"

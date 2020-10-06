@@ -1,8 +1,60 @@
 $(document).on("ready turbolinks:load", function() {
 
-  var create_sensitivity_chart = function(element_id, article_id) {
+  var $tree = $('#sensitivity-tree');
+	var results_tree = (function() {
+    function build_tree(root_id) {
+      $.getJSON( '/criteria/'+root_id+"/tree.json?p="+$tree.data('pid'),
+      function(data) {
+        $tree.tree({
+          data: [data],
+          autoOpen: true,
+          dragAndDrop: false,
+          selectable: true,
+          onCanSelectNode: function(node) {
+            if (node.parent.parent) {
+              return true; 
+            } else {
+              return false;
+            }
+          },
+          onCreateLi: function(node, $li) {
+            if ( ! node.parent.parent ) {
+                $li.find('.jqtree-title').addClass('unselectable-node'); 
+            };
+            if (node.children.length == 0) {
+              $li.find('.title').before('<i class="icon-leaf"></i> ');
+            } else {
+              $li.find('.title').before('<i class="icon-th-list"></i> ');
+            }
+          }
+        });
+      });
+      if($tree.data('allowClick')) {
+        $tree.bind(
+          'tree.click',
+          function(event) {
+            var node = event.node;
+            if (node.parent.parent) {
+              var pid = $tree.data('pid');
+              var url = "/articles/"+$tree.data('aid')+"/sensitivity_data?format=json&member_id="+pid+'&criterion_id='+node.id;
+              $("#sensitivity-chart").html("");
+              create_sensitivity_chart("#sensitivity-chart", url);
+            }
+          }
+        );
+      };
+    };
+    return { build_tree };
+  })();
 
-    $.getJSON( '/articles/'+article_id+"/sensitivity_data.json?cid="+$(element_id).data('cid'), (function() {
+  if ($tree.length > 0) { 
+    results_tree.build_tree($('#sensitivity-tree').data('node'));
+  };
+
+  // Sensitivity
+  var create_sensitivity_chart = function(element_id, url) {
+
+    $.getJSON(url, (function() {
       var $chart = $(element_id);
       var width = $chart.prev("div.widget-content-title").css("width");
       var w = width.slice( 0, width.length-2 );
@@ -14,6 +66,7 @@ $(document).on("ready turbolinks:load", function() {
         var chartLabels = data.labels;
         var weight = data.weight;
 
+        $(".wrt").html(data.title);
         $(".weight-value").html(weight.toFixed(3));
         $chart.css("width", width).css("height", height);
         $("#rank-chart").css("width", width).css("height", height);
@@ -38,7 +91,7 @@ $(document).on("ready turbolinks:load", function() {
 
         $chart.on("jqplotMouseMove", function(ev, gridpos, datapos, neighbor) {
           var w = datapos.xaxis;
-          $('#point-info').html('Rank at weight: ' + w.toPrecision(3));
+          $(".weight-value").html(w.toFixed(3));
           ranks = chartData(sensitivityChartData, w);
           var seriesData = [];
           for (i=0; i < sensitivityChartData.length; ++i) {
@@ -50,7 +103,7 @@ $(document).on("ready turbolinks:load", function() {
 
         $chart.on("jqplotMouseLeave", function(ev, gridpos, datapos, neighbor) {
           var w = weight;
-          $('#point-info').html('Rank Chart at weight: ' + w.toPrecision(3));
+          $(".weight-value").html(w.toFixed(3));
           ranks = chartData(sensitivityChartData, w);
           var seriesData = [];
           for (i=0; i < sensitivityChartData.length; ++i) {
@@ -66,7 +119,7 @@ $(document).on("ready turbolinks:load", function() {
           },
           axes: {
             xaxis: { pad: 0 },
-            yaxis: { padMin: 0, min: 0.0, max: 1.0 }
+            yaxis: { padMin: 0, min: 0.0 }
           },
           cursor: {
             showVerticalLine: true
@@ -121,7 +174,8 @@ $(document).on("ready turbolinks:load", function() {
             },
             yaxis: {
               max: maxY,
-              min: 0.0
+              min: 0.0,
+              tickOptions: { formatString: "%#.2f" }
             }
           },
           grid: {
@@ -147,6 +201,6 @@ $(document).on("ready turbolinks:load", function() {
   };
 
   if ($("#sensitivity-chart").length > 0) { 
-    create_sensitivity_chart("#sensitivity-chart", $("#sensitivity-chart").data('article')) 
+    create_sensitivity_chart("#sensitivity-chart", $("#sensitivity-chart").data('url')) 
   };
 });
