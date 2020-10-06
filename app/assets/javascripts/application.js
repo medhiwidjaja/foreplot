@@ -20,7 +20,7 @@
 //= require alternative
 //= require criteria_tree
 //= require ratings_tree
-//= require results_tree
+//= require results
 //= require magiq_form
 //= require tree.jquery
 //= require jquery.jqplot/jquery.jqplot
@@ -32,7 +32,6 @@
 //= require jquery.jqplot/plugins/jqplot.highlighter
 //= require jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer
 //= require jquery.jqplot/plugins/jqplot.canvasTextRenderer
-//= require jqplot_chart
 //= require d3/d3.v3.min
 //= require d3/sankey
 //= require sankey_chart

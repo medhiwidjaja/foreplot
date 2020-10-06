@@ -8,28 +8,5 @@
   = render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
   = render 'shared/flash_messages'
   
-  -if @rank_chart_presenter.present?
-    .alert.alert-info
-      a.close data-dismiss="alert" ×
-      = "Click one of the criteria at left to view ranking result with respect to respective criterion.".html_safe
-
-    .widget
-      .widget-header
-        i.icon-bar-chart
-        h3 = "Rank with respect to goal: #{@criterion.title}"
-      .well.well-widget-content
-        
-          .section
-            .widget-content-title Chart
-            #chart-box style="height: 300px; margin-bottom: 10px"
-              = render partial: 'chart', locals: { presenter: @rank_chart_presenter }
-          .section style="padding-top: 0px"
-            .widget-content-title Detail Chart
-            #chart-box style="height: 300px; margin-bottom: 10px"
-              = render partial: 'detail_chart', locals: { presenter: @rank_chart_presenter }
-          .section style="padding-top: 0px"
-            .widget-content-title Table
-            #table-box style="margin-top: 10px; padding:10px 0; position: relative"
-              = render partial: 'rank_table', locals: { presenter: @rank_chart_presenter }
-  -else
-    = render 'incomplete_evaluation_messages'
+  #content
+    = render 'content'

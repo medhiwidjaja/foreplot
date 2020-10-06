@@ -63,6 +63,17 @@ RSpec.feature "Results", type: :feature do
       end
     end
 
+    scenario "User clicks a criterion link from the sidepanel", js: true do
+      visit article_results_path(article)
+      
+      page.find('#results-tree').find('div.jqtree-element', text: c1.title).click
+      within '#chart' do
+        expect(page).to have_css('div.jqplot-point-label', text: alt1.title)
+        expect(page).to have_css('div.jqplot-point-label', text: alt2.title)
+      end
+      expect(page).to_not have_css('#detail-chart')
+    end
+
     describe "When the evaluation is not yet complete" do
       before {
         appraisal1.destroy
