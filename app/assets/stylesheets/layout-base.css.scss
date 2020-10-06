@@ -2867,15 +2867,29 @@ span.red { color: $red; }
 }
 
 table.jqplot-table-legend, table.jqplot-cursor-legend {
-    // background-color: rgba(255,255,255,0.6);
-    // border: 1px solid #cccccc;
-    // position: absolute;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 div.jqplot-bubble-label {
     font-size: 10px;
 }
+
+table.jqplot-table-legend {
+    width: max-content;
+    max-width: 300px;
+}
+
+td.jqplot-table-legend {
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+td.jqplot-table-legend-swatch {
+    width: 16px;
+}
+
+
 /*---------------------------------------------------------------------------
     99. Miscellaneous
 ----------------------------------------------------------------------------*/
