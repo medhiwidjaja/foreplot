@@ -8,15 +8,17 @@
 	= render partial: 'shared/results_nav_menu', locals: { presenter: @criteria_presenter }
 	= render 'shared/flash_messages'
 
-	.alert.alert-info
-		a.close data-dismiss="alert" ×
-		| Hover over a line to see the weight score of the corresponding criterion. Move any node vertically to rearrange the diagram.
-		a.close data-dismiss="alert" ×
-		| Click on one of the nodes in the criteria tree on the left to zoom in to a particular criterion.
+	- if @value_tree.invalid
+		= render 'results/incomplete_evaluation_messages'
+	- else
+		.alert.alert-info
+			a.close data-dismiss="alert" ×
+			| Hover over a line to see the weight score of the corresponding criterion. Move any node vertically to rearrange the diagram.
+			| Click on one of the nodes in the criteria tree on the left to zoom in to a particular criterion.
 
-	.widget
-		.widget-header.ellipsis
-			i.icon-bar-chart
-			h3 Visualization
-		.well.well-widget-content
+		.widget
+			.widget-header.ellipsis
+				i.icon-bar-chart
+				h3 Visualization
+			.well.well-widget-content
 			#sankey data-url="#{article_sankey_path(@article, format:'json')}"

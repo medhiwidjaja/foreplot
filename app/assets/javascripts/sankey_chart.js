@@ -1,6 +1,49 @@
 $(document).on("ready turbolinks:load", function() {
+  var $tree = $('#viz-tree');
+	var results_tree = (function() {
+    function build_tree(root_id) {
+      $.getJSON( '/criteria/'+root_id+"/tree.json?p="+$tree.data('pid'),
+      function(data) {
+        $tree.tree({
+          data: [data],
+          autoOpen: true,
+          dragAndDrop: false,
+          selectable: true,
+          onCreateLi: function(node, $li) {
+            if (node.children.length == 0) {
+              $li.find('.title').before('<i class="icon-leaf"></i> ');
+            } else {
+              $li.find('.title').before('<i class="icon-th-list"></i> ');
+            }
+          }
+        });
+      });
+      if($tree.data('allowClick')) {
+        $tree.bind(
+          'tree.click',
+          function(event) {
+            var node = event.node;
+            var pid = $tree.data('pid');
+            var url = "/articles/"+$tree.data('aid')+"/sankey.json?&member_id="+pid+'&criterion_id='+node.id;
+            $("#sankey").html("");
+            create_sankey_chart("#sankey", url);
+            // $.getJSON(url, function() {
+            //   create_sankey_chart("#sankey", url);
+            // });
+          }
+        );
+      };
+    };
+    return { build_tree };
+  })();
 
-  var create_sankey_chart = function(element_id) {
+  if ($tree.length > 0) { 
+    results_tree.build_tree($('#viz-tree').data('node'));
+  };
+
+  // Sankey chart
+
+  var create_sankey_chart = function(element_id, url) {
     var $chart = $(element_id);
     var margin = {top: 10, right: 1, bottom: 6, left: 1},
       width = $chart.width() - margin.left - margin.right,
@@ -23,7 +66,7 @@ $(document).on("ready turbolinks:load", function() {
 
     var path = sankey.link();
 
-    d3.json($chart.data("url"), function(score) {
+    d3.json(url, function(score) {
 
       var nodeMap = {};
       score.nodes.forEach(function(x) { nodeMap[x.id] = x; });
@@ -98,6 +141,6 @@ $(document).on("ready turbolinks:load", function() {
 
   };
 
-  if ($("#sankey").length > 0) { create_sankey_chart("#sankey") };
+  if ($("#sankey").length > 0) { create_sankey_chart("#sankey", $("#sankey").data("url")) };
 
 });
