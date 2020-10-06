@@ -71,7 +71,7 @@ RSpec.feature "DirectComparison", type: :feature do
 
       within '.btn-toolbar' do
         find(class:'dropdown-toggle').click
-        click_link 'Free scale (1.0 - 9.0)'
+        click_link 'Free scale (1.0-9.0)'
       end
 
       find("#slider-0").find("span").send_keys(:left)
