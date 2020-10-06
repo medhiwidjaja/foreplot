@@ -156,12 +156,10 @@ $(document).on("ready turbolinks:load", function() {
     if ($("#chart").length > 0) { 
         $.jqplot.config.enablePlugins = true;
         create_chart($("#chart").data("chart"));
-        console.log("Chart");
     };
     if ($("#detail-chart").length > 0) { 
         $.jqplot.config.enablePlugins = true;
         create_stacked_chart($("#detail-chart").data("chart"));
-        console.log("Detail");
     };
   }
   draw_charts();

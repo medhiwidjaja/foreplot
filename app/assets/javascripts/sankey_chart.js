@@ -27,9 +27,6 @@ $(document).on("ready turbolinks:load", function() {
             var url = "/articles/"+$tree.data('aid')+"/sankey.json?&member_id="+pid+'&criterion_id='+node.id;
             $("#sankey").html("");
             create_sankey_chart("#sankey", url);
-            // $.getJSON(url, function() {
-            //   create_sankey_chart("#sankey", url);
-            // });
           }
         );
       };
