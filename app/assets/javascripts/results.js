@@ -117,7 +117,7 @@ $(document).on("ready turbolinks:load", function() {
                   tickOptions: { showGridline: false }
               },
               yaxis: {
-                  padMin: 0
+                  min: 0, padMin: 0
               }
           },
           highlighter: {
