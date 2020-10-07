@@ -14,7 +14,6 @@
         blockquote.formatted-output
           = raw(criterion.description)
 
-    /-if can? :modify, @article
     .section style="padding-top:0px; padding-bottom:0px"
       .btn-toolbar.button-toolbar.mid-section
         .btn-group
@@ -41,6 +40,8 @@
             thead
               tr
                 th.wide Title
+                -if presenter.comparison_type == 'DirectComparison'
+                  th.number Value
                 th.number Rank
                 th.number Priority
                 th Ratio
@@ -48,12 +49,14 @@
               - presenter.table.each do |row|
                 tr
                   td.wide = row[:title]
+                  -if presenter.comparison_type == 'DirectComparison'
+                    td.number = row[:value]
                   td.number = row[:rank]
                   td.number 
                     div = number_to_percentage((row[:score_n] || 0)*100, precision: 1) || '-'
                   td
                     .progress
-                      .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100, precision: 0)}"
+                      .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100/presenter.max_score_n, precision: 0)}"
 
       = render partial: 'criteria/toolbar', locals: { presenter: presenter, read_only: false }
 

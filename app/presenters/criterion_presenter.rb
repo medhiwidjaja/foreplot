@@ -50,6 +50,10 @@ class CriterionPresenter < BasePresenter
       &.map {|c| {no: c.position, title: c.title, rank:c.rank, value:c.value, score:c.score.to_f, score_n:c.score_n.to_f }}
   end
 
+  def max_score_n
+    @table.map {|x| x[:score_n]}.max
+  end
+
   def comparison_type
     appraisal&.appraisal_method
   end
