@@ -6,7 +6,7 @@ class SensitivityPresenter < ValueTreePresenter
     @vt = value_tree
     @criterion_id = criterion_id.to_i
     @title = Criterion.find(criterion_id).title
-    super(value_tree, root_id, score_key: :score_g) {|n| 
+    super(value_tree, root_id, score_key: score_key) {|n| 
       {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} 
     } 
     @chart_data = score_table.map {|_k, alt| alt[:score] }
