@@ -21,18 +21,45 @@ RSpec.describe AHPComparisonCalculator, type: :service do
       "2" => {"comparable1_id" => "12", "comparable2_id" => "13", "value" => "9"}
     }
   }
+  let(:unordered_comparisons) {
+    {
+      "0" => {"comparable1_id" => "12", "comparable2_id" => "13", "value" => "9"},
+      "1" => {"comparable1_id" => "11", "comparable2_id" => "12", "value" => "0.25"},
+      "2" => {"comparable1_id" => "11", "comparable2_id" => "13", "value" => "4"}
+    }
+  }
 
-  subject { AHPComparisonCalculator.new(pairwise_comparisons, choices) }
+  context "ordered pairs" do
+    
+    subject { AHPComparisonCalculator.new(pairwise_comparisons, choices) }
 
-  describe 'call' do
-    it 'returns modified hash' do
-      expect(subject.call).to eq expected_result
+    describe 'call' do
+      it 'returns modified hash' do
+        expect(subject.call).to eq expected_result
+      end
+    end
+
+    describe 'consistency ratio' do
+      it 'returns cr' do
+        expect(subject.cr).to eq expected_cr
+      end
     end
   end
 
-  describe 'consistency ratio' do
-    it 'returns cr' do
-      expect(subject.cr).to eq expected_cr
+  context "unordered pairs" do
+
+    subject { AHPComparisonCalculator.new(unordered_comparisons, choices) }
+
+    describe 'call' do
+      it 'returns modified hash' do
+        expect(subject.call).to eq expected_result
+      end
+    end
+
+    describe 'consistency ratio' do
+      it 'returns cr' do
+        expect(subject.cr).to eq expected_cr
+      end
     end
   end
 end

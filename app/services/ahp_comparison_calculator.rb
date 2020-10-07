@@ -4,7 +4,7 @@ class AHPComparisonCalculator < BaseCalculator
   def initialize(pairwise_comparisons, choices)
     @comparisons = pairwise_comparisons
     @choices = choices
-    @ahp = Foreplot::AHPRanking.new(choice_array(@choices), entries(@comparisons))
+    @ahp = Foreplot::AHPRanking.new(symbolize_keys(@choices), entries(@choices, @comparisons))
     @ahp.rank
   end
 
@@ -17,15 +17,18 @@ class AHPComparisonCalculator < BaseCalculator
   end
 
   private
-
-  def choice_array(choices)
-    choices.map &:symbolize_keys
-  end
   
-  def entries(comparisons)
-    comparisons
-      .sort_by {|k,v| [v["comparable1_id"], v["comparable2_id"]] }
-      .map {|k,v| v["value"].to_f }
+  # This method makes sure that the matrix parameter is correct regardless the order of the comparison pairs
+  def entries(choices, comparisons)
+    symbolize_keys(choices)
+      .map { |c| c[:comparable_id]}.combination(2).map{|a| a }     # combination pairs of choice id's 
+      .map { |p1, p2|                                              # get the corresponding pair from the comparisons
+        symbolize_keys(comparisons.values)
+          .select{|x| x[:comparable1_id].to_i == p1 && x[:comparable2_id].to_i == p2}
+          .flatten     
+      }
+      .flatten
+      .map {|v| v[:value].to_f }
   end
 
   def convert_to_attributes(result)
@@ -38,4 +41,7 @@ class AHPComparisonCalculator < BaseCalculator
     end
   end 
 
+  def symbolize_keys(ary)
+    ary.map &:symbolize_keys
+  end
 end
