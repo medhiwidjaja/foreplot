@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "DirectComparison", type: :feature do
+RSpec.feature "AHPComparison", type: :feature do
   include_context "criteria context for comparisons"
 
   context "Logged in user" do
@@ -9,7 +9,7 @@ RSpec.feature "DirectComparison", type: :feature do
       login_as bingley, scope: :user 
     }
 
-    scenario "User creates a new direct comparison", js: true do
+    scenario "User creates a new AHP comparison", js: true do
       visit criterion_path(root)
       find(class:'dropup').find_button.click
       click_link 'Pairwise compare', class:'btn-primary'
