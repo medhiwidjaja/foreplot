@@ -1,6 +1,5 @@
 class AlternativesController < ApplicationController
   include TurbolinksCacheControl
-
   before_action :set_alternative, only: [:show, :edit, :update, :destroy]
 
   # GET /article/1/alternatives

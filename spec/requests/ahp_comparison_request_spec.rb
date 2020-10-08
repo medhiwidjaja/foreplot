@@ -5,22 +5,22 @@ RSpec.describe "AHPComparisons", type: :request do
   include_context "criteria context for comparisons" 
 
   let(:appraisal) { build :appraisal, member_id: member.id, criterion_id: criterion.id, appraisal_method:'AHPComparison'}
-
-  context "comparing sub-criteria" do
-    let(:appraisal_attributes)    {
-      {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
-        :ahp_comparisons_attributes=>{
-          "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
-          "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
-          "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
-        },
-        :pairwise_comparisons_attributes=>{
-          "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
-          "1"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>4}, 
-          "2"=>{"comparable1_id"=>c2.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>9}
-        }
+  let(:appraisal_attributes)    {
+    {:criterion_id=>criterion.id, :member_id=>member.id, :appraisal_method=>"AHPComparison", 
+      :ahp_comparisons_attributes=>{
+        "0"=>{"comparable_id"=>c1.id, "comparable_type"=>"Criterion", "title"=>c1.title, "position"=>c1.position}, 
+        "1"=>{"comparable_id"=>c2.id, "comparable_type"=>"Criterion", "title"=>c2.title, "position"=>c2.position}, 
+        "2"=>{"comparable_id"=>c3.id, "comparable_type"=>"Criterion", "title"=>c3.title, "position"=>c3.position}
+      },
+      :pairwise_comparisons_attributes=>{
+        "0"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c2.id, "comparable2_type"=>"Criterion", "value"=>0.25}, 
+        "1"=>{"comparable1_id"=>c1.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>4}, 
+        "2"=>{"comparable1_id"=>c2.id, "comparable1_type"=>"Criterion", "comparable2_id"=>c3.id, "comparable2_type"=>"Criterion", "value"=>9}
       }
     }
+  }
+
+  context "comparing sub-criteria" do
     
     before(:each) {
       sign_in bingley
@@ -214,6 +214,32 @@ RSpec.describe "AHPComparisons", type: :request do
         expect(response.body).to include(alt2.title)
         expect(response.body).to include(alt3.title)
       end
+    end
+  end
+
+  context "without signed in user" do
+    it "#new redirects to login page" do
+      get criterion_new_ahp_comparisons_path(criterion)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#edit redirects to login page" do
+      get criterion_edit_ahp_comparisons_path(criterion)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "post redirects to login page" do
+      post criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "patch redirects to login page" do
+      patch criterion_ahp_comparisons_path(criterion), params: {ahp_comparisons_form: appraisal_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
     end
   end
 

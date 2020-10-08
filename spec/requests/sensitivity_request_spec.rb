@@ -50,4 +50,19 @@ RSpec.describe "Sensitivity", type: :request do
     
   end
 
+  context "without signed in user" do
+    
+    it "get #index redirects to login page" do
+      get article_sensitivity_path(article)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#chart redirects to login page" do
+      get article_sensitivity_data_path(article)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
+
 end

@@ -64,4 +64,19 @@ RSpec.describe "Results", type: :request do
     end
   end
 
+  context "without signed in user" do
+    
+    it "get #index redirects to login page" do
+      get article_results_path(article)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#chart redirects to login page" do
+      get article_chart_path(c1)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
+
 end

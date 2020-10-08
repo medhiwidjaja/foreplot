@@ -167,4 +167,48 @@ RSpec.describe "Criterion", type: :request do
     end
   end
 
+  context "without signed in user" do
+    
+    it "get #index redirects to login page" do
+      get article_criteria_path(bingleys_article)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#new redirects to login page" do
+      post create_sub_criterion_path(root), params: {criterion: valid_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#show redirects to login page" do
+      get criterion_path(root)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#edit redirects to login page" do
+      get edit_criterion_path(root)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "POST redirects to login page" do
+      post create_sub_criterion_path(root), params: {criterion: valid_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "PUT redirects to login page" do
+      put criterion_path(root), params: {criterion: valid_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "DELETE redirects to login page" do
+      delete criterion_path(root)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
 end

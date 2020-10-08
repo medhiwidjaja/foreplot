@@ -139,4 +139,46 @@ RSpec.describe "Alternative", type: :request do
 
   end
 
+  context "without signed in user" do
+    before {
+      @alternative = bingleys_article.alternatives.create! valid_attributes
+    }
+    
+    it "#new redirects to login page" do
+      get new_article_alternative_path(bingleys_article)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#show redirects to login page" do
+      get alternative_path(@alternative)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#edit redirects to login page" do
+      get edit_alternative_path(@alternative)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "POST redirects to login page" do
+      post article_alternatives_path(bingleys_article), params: {alternative: valid_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "PUT redirects to login page" do
+      put alternative_path(@alternative), params: {alternative: valid_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "DELETE redirects to login page" do
+      delete alternative_path(@alternative)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
+
 end
