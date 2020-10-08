@@ -7,7 +7,7 @@ RSpec.feature "user sign up", type: :feature do
     scenario "Users fill form with valid information" do
       visit signup_path
       fill_in_sign_up_form user_data
-      expect(page).to have_content('Bingley')
+      expect(page).to have_content('User was successfully created.')
     end
 
     scenario "Email is empty" do

@@ -4,6 +4,10 @@ RSpec.describe "Appraisal", type: :request do
 
   include_context "comparisons context for value tree" 
 
+  before(:each) {
+    sign_in bingley
+  }
+  
   subject { appraisal1 }
 
   describe "DELETE #destroy" do

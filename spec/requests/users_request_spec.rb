@@ -10,7 +10,7 @@ RSpec.describe "User sign up", :type => :request do
   }
 
   context "with valid params" do
-    it "creates a User and redirects to the User page" do
+    it "creates a User and redirects to the home page" do
       get signup_path
       expect(response).to render_template(:signup)
 
@@ -18,11 +18,10 @@ RSpec.describe "User sign up", :type => :request do
         post "/signup", :params => { :user => valid_attributes}
       }.to change(User, :count).by(1)
 
-      expect(response).to redirect_to(assigns(:user))
+      expect(response).to redirect_to(root_path)
       follow_redirect!
 
-      expect(response).to render_template(:show)
-      expect(response.body).to include("John Doe")
+      expect(response.body).to include("User was successfully created.")
     end
   end
 
