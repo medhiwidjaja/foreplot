@@ -5,7 +5,7 @@ class Ability
 		alias_action :new_request, :send_request, to: :request
 
 		@user = user || User.new
-		@user.role = 'guest' if @user.new_record?
+		@user.role = 'guest' if @user.role.blank?
 
 		send(@user.role.downcase)
 	end
