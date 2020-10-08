@@ -16,7 +16,11 @@ class Article < ApplicationRecord
   scope :public_articles, -> { where.not(private: true) }
 
   def visibility
-    private ? 'Private' : 'Public'
+    private ? 'private' : 'public'
+  end
+
+  def public?
+    !private? 
   end
 
   def delete_completely!

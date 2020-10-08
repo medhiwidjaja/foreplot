@@ -34,6 +34,32 @@ FactoryBot.define do
       email    { 'jane@longbourn.net' }
       account  { 'free' }
     end
+
+    factory :guest_user do
+      name     { "Guest user" }
+      account  { 'free' }
+      role     { 'guest' }
+    end
+
+    trait :with_free_account do
+      account  { 'free' }
+      role     { 'member' }
+    end
+
+    trait :with_basic_account do
+      account  { 'basic' }
+      role     { 'member' }
+    end
+
+    trait :with_academic_account do
+      account  { 'academic' }
+      role     { 'member' }
+    end
+
+    trait :with_pro_account do
+      account  { 'pro' }
+      role     { 'member' }
+    end
   end
 
 end
