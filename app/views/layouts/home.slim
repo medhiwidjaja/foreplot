@@ -1,10 +1,10 @@
 doctype html
 html
   head
-    title = page_title yield :title
+    title = yield :title
     = csrf_meta_tags
     = csp_meta_tag
-
+    = favicon_link_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet"
