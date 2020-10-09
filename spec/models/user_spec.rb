@@ -39,6 +39,16 @@ RSpec.describe User, type: :model do
     it { is_expected.not_to be_valid }
   end
 
+  describe "when role is not present" do
+    before { darcy.role = " " }
+    it { is_expected.not_to be_valid }
+  end
+
+  describe "when account is not present" do
+    before { darcy.account = " " }
+    it { is_expected.not_to be_valid }
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:articles).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:rankings).macro).to eq(:has_many) }

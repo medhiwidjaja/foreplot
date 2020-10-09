@@ -102,7 +102,7 @@ class ValueTree
     Comparison.find_by_sql([<<-SQL.squish, member_id: member_id, article_id: article_id])
       SELECT DISTINCT 
         c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
-        cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
+        cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score_n as score
       FROM comparisons cmp
       LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.member_id = :member_id
       LEFT OUTER JOIN criteria comparable ON comparable.id = cmp.comparable_id
@@ -113,7 +113,7 @@ class ValueTree
 
       SELECT DISTINCT 
         c.id || '-' || cmp.comparable_type || '-' || cmp.comparable_id as idx, 
-        cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score
+        cmp.id, a.criterion_id as cid, comparable.title, cmp.comparable_id, cmp.comparable_type, cmp.score_n as score
       FROM comparisons cmp
       LEFT OUTER JOIN appraisals a ON cmp.appraisal_id = a.id AND a.member_id = :member_id
       LEFT OUTER JOIN alternatives comparable ON comparable.id = cmp.comparable_id

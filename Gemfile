@@ -56,6 +56,9 @@ gem 'rubytree'
 # For handling remote form validation
 gem 'turbolinks_render'
 
+# Authorization
+gem 'cancancan'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

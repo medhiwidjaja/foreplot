@@ -155,4 +155,30 @@ RSpec.describe "MagiqComparisons", type: :request do
       end
     end
   end
+
+  context "without signed in user" do
+    it "get #new redirects to login page" do
+      get criterion_new_magiq_comparisons_path(criterion)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "#edit redirects to login page" do
+      get criterion_edit_magiq_comparisons_path(criterion)
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "POST redirects to login page" do
+      post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: appraisal_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it "PATCH redirects to login page" do
+      post criterion_magiq_comparisons_path(root), params: {magiq_comparisons_form: appraisal_attributes}
+      expect(response.status).to eql 302
+      expect(response).to redirect_to(new_user_session_url)
+    end
+  end
 end

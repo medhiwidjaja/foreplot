@@ -5,8 +5,15 @@ FactoryBot.define do
     likes { '1' }
     slug  { 'article-title' }
     active { true }
-    private { false }
     user  factory: :user
+
+    trait :public do
+      private { false }
+    end
+
+    trait :private do
+      private { true }
+    end
   end
 
 end

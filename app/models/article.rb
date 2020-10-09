@@ -13,9 +13,14 @@ class Article < ApplicationRecord
   scope :owned_by, -> (user) { where user: user }
   scope :with_criteria, -> { includes(:criteria) }
   scope :private_articles, -> { where(private: true) }
+  scope :public_articles, -> { where.not(private: true) }
 
   def visibility
-    private ? 'Private' : 'Public'
+    private ? 'private' : 'public'
+  end
+
+  def public?
+    !private? 
   end
 
   def delete_completely!

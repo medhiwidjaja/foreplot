@@ -1,7 +1,5 @@
 class SankeyPresenter < ValueTreePresenter
 
-  attr_reader :nodes, :links
-
   def initialize(value_tree, root_id, score_key: :score_g)
     super(value_tree, root_id, score_key: :score_g) {|n| 
       {:id => n.comparable_id, :idx => "#{n.comparable_type}-#{n.comparable_id}", :title => n.title, :score => n.score, :criterion => n.cid} 
@@ -14,7 +12,7 @@ class SankeyPresenter < ValueTreePresenter
     tree.breadth_each do |node| 
       @nodes << { id: node.content[:idx] || "Root-#{0}", name: node.content[:title] } 
     end
-    @nodes.uniq
+    @nodes.sort_by{|node| node[:id]}.uniq.reverse
   end
 
   def sankey_links
@@ -22,7 +20,7 @@ class SankeyPresenter < ValueTreePresenter
       next if node.parent.nil? 
       @links << { source: node.parent.content[:idx] || "Root-#{0}", target: node.content[:idx], value: node.content[score_key] } 
     end
-    @links
+    @links.sort_by{|node| [node[:value], node[:source] ] }
   end
 
   def sankey_data

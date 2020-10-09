@@ -1,14 +1,20 @@
 
+- page_title "Foreplot"
+
 .marketing-content
 	.hero-unit
-		h1.blue Share your wisdom. 
-		h1.green Watch it grow.
+		h1.blue Making decisions... 
+		h2.green Too many choices, too many considerations...
 		br
-		p.blue Life is all about making decisions. Big and small. While we all need help sometimes, you  may be the help someone needs out there.
-		p Sign up for free. Create unlimited articles. Invite your friends to participate.
+		p.blue Foreplot helps in your decision making process. It gives structure to your thinking process. It lets you visualize your decisions and play what-if analysis.
+		
 .widget
 	.widget-header
 		i.icon-star-empty
 		h3 Featured Articles
+	.well.well-widget-content
+		table
+			- @featured_articles.each do |article|
+				= render partial: 'article_widget', locals: { article: article }
 
 		

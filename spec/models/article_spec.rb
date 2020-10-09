@@ -40,6 +40,28 @@ RSpec.describe Article, type: :model do
     end
   end
 
+  context "visibility scopes private articles" do
+    before {
+      article.private = true
+      article.save
+    }
+    it "returns appropriate lists" do
+      expect(Article.private_articles.size).to eq 1
+      expect(Article.public_articles.size).to eq 0
+    end
+  end
+
+  context "public articles" do
+    before {
+      article.private = false
+      article.save
+    }
+    it "returns appropriate lists" do
+      expect(Article.private_articles.size).to eq 0
+      expect(Article.public_articles.size).to eq 1
+    end
+  end
+
   describe "associations" do
     it { expect(described_class.reflect_on_association(:alternatives).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:criteria).macro).to eq(:has_many) }

@@ -36,7 +36,7 @@ RSpec.describe ArticlesController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    { title: '', active: true }
+    { title: '', user_id: bingley.id, active: true }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -115,7 +115,8 @@ RSpec.describe ArticlesController, type: :controller do
       context "with invalid params" do
         it "returns a success response (i.e. to display the 'new' template)" do
           post :create, params: {article: invalid_attributes}, session: valid_session
-          expect(response).to be_successful
+          # expect(response).to be_successful
+          expect(response).to render_template(:new)
         end
       end
     end

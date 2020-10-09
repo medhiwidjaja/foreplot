@@ -9,7 +9,7 @@ RSpec.describe "Articles", type: :request do
     { title: 'Good article by Bingley', description: 'This is my first article', user_id: bingley.id, slug: 'my-article', private: false, active: true }
   }
   let(:invalid_attributes) {
-    { title: '', active: true }
+    { title: '', user_id: bingley.id, active: true }
   }
 
   context "without signed in user" do

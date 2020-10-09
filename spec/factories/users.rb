@@ -4,11 +4,14 @@ FactoryBot.define do
     sequence(:email) { |n| "guest_#{n}@meryton.net" }
     password { "pride&prejudice" }
     password_confirmation { "pride&prejudice" }
+    account  { 'basic' }
+    role     { 'member' }
     
     factory :darcy do
       name     { 'Mr Darcy' }
       email    { 'darcy@pemberly.com' }
       account  { 'pro' }
+      role     { 'member' }
       
       trait :with_articles do
         after :create do |user|
@@ -20,7 +23,8 @@ FactoryBot.define do
     factory :bingley do
       name     { 'Mr Bingley' }
       email    { 'bingley@netherfield.com' }
-      account  { 'basic' }
+      account  { 'pro' }
+      role     { 'member' }
 
       trait :with_articles do
         after :create do |user|
@@ -33,6 +37,32 @@ FactoryBot.define do
       name     { 'Jane' }
       email    { 'jane@longbourn.net' }
       account  { 'free' }
+    end
+
+    factory :guest_user do
+      name     { "Guest user" }
+      account  { 'free' }
+      role     { 'guest' }
+    end
+
+    trait :with_free_account do
+      account  { 'free' }
+      role     { 'member' }
+    end
+
+    trait :with_basic_account do
+      account  { 'basic' }
+      role     { 'member' }
+    end
+
+    trait :with_academic_account do
+      account  { 'academic' }
+      role     { 'member' }
+    end
+
+    trait :with_pro_account do
+      account  { 'pro' }
+      role     { 'member' }
     end
   end
 

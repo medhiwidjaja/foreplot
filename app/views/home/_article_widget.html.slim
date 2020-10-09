@@ -1,0 +1,11 @@
+.article-widget
+	.article-head
+		h3 = link_to article.title, article	
+		.article-info
+			i.icon-user
+			' &nbsp;Author:
+			= link_to article.user.name, user_path(article.user.id)
+			' &nbsp;
+		.description.dotdotted
+			= sanitize article.description
+

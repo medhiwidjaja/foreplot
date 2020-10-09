@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
 
   let(:valid_attributes) {
-    { name: "John Doe", email: "john.doe@gmail.com", password: '12345678',  password_confirmation: '12345678' }
+    { name: "John Doe", email: "john.doe@gmail.com", password: '12345678',  password_confirmation: '12345678', account: 'free', role: 'member' }
   }
   let(:jack) {
     { name: "Jack", email: "jack@gmail.com", password: '12345678',  password_confirmation: '12345678' }

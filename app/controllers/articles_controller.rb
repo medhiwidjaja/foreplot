@@ -2,7 +2,6 @@ class ArticlesController < ApplicationController
   include TurbolinksCacheControl
 
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:featured]
   
   # GET /articles
   # GET /articles.json
@@ -17,21 +16,25 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.json
   def show
+    authorize! :read, @article
   end
 
   # GET /articles/new
   def new
-    @article = Article.new
+    @article = Article.new user: current_user
+    authorize! :create, @article
   end
 
   # GET /articles/1/edit
   def edit
+    authorize! :update, @article
   end
 
   # POST /articles
   # POST /articles.json
   def create
     @article = Article.new(article_params)
+    authorize! :create, @article
     if @article.save
       redirect_to @article, notice: 'Article was successfully created.'
     else
@@ -42,6 +45,7 @@ class ArticlesController < ApplicationController
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
   def update
+    authorize! :update, @article
     if @article.update(article_params)
       redirect_to @article, notice: 'Article was successfully updated.' 
     else
@@ -52,6 +56,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
+    authorize! :destroy, @article
     @article.destroy
     respond_to do |format|
       format.html { redirect_to articles_url, notice: 'Article was successfully destroyed.' }
