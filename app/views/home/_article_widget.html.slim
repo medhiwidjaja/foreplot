@@ -1,11 +1,11 @@
 .article-widget
 	.article-head
-		h3 = link_to article.title.truncate(50), article	
+		h3 = link_to article.title, article	
 		.article-info
 			i.icon-user
 			' &nbsp;Author:
 			= link_to article.user.name, user_path(article.user.id)
 			' &nbsp;
 		.description.dotdotted
-			= raw truncate_html(description_snippet(article.description), 120)
+			= sanitize article.description
 

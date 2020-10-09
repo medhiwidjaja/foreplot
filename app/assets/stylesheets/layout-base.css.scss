@@ -658,13 +658,16 @@ footer {
             margin: 0;
         }
         .article-head {
-            margin-left: 70px;
+            margin-left: 8px;
 
             h3 {
+                display: block;
                 font-weight: normal;              
                 font-size: 14px;
                 line-height: 1.2;
                 margin: 0;
+                max-height: 32px;
+                overflow: auto;
                 a {
                     color: $orange;
                 }
@@ -672,10 +675,12 @@ footer {
             .description {
                 padding: 0 0 0 7px;
                 margin: 4px 0;
-                border-left: 5px solid #ced2cb;
+                border-left: 2px solid #ced2cb;
                 font-style: italic;
                 font-size: 12px;
                 color: $grayLight;
+                max-height: 120px;
+                overflow: scroll;
             }
         }
         .article-info {
