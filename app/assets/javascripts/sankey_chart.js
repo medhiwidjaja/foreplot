@@ -71,7 +71,7 @@ $(document).on("ready turbolinks:load", function() {
         return {
           source: nodeMap[x.source],
           target: nodeMap[x.target],
-          value: x.value
+          value: x.value == 0 ? 0.00000000000001 : x.value
         };
       });
 
@@ -90,7 +90,12 @@ $(document).on("ready turbolinks:load", function() {
         .call(d3.behavior.drag()
         .origin(function(d) { return d; })
         .on("dragstart", function() { this.parentNode.appendChild(this); })
-        .on("drag", dragmove));
+        .on("drag", dragmove))
+        .on("click",function(d) {
+          if (d3.event.defaultPrevented) return;
+          zoomIn(d.id);
+        });
+        
 
     node.append("rect")
         .attr("height", function(d) { return d.dy; })
@@ -133,8 +138,20 @@ $(document).on("ready turbolinks:load", function() {
       d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
       sankey.relayout();
       link.attr("d", path);
+    };
+
+    function zoomIn(node_id) {
+      var idx = node_id.search('-');
+      var id = node_id.slice(idx+1, node_id.length);
+      if (node_id.slice(0, idx) == 'Criterion') {
+        var url = "/articles/"+$tree.data('aid')+"/sankey.json?&member_id="+$tree.data('pid')+'&criterion_id='+id;
+        $("#sankey").html("");
+        create_sankey_chart("#sankey", url);
       }
+    };
+
     });
+
 
   };
 
