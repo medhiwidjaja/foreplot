@@ -4,6 +4,8 @@ FactoryBot.define do
     sequence(:email) { |n| "guest_#{n}@meryton.net" }
     password { "pride&prejudice" }
     password_confirmation { "pride&prejudice" }
+    account  { 'basic' }
+    role     { 'member' }
     
     factory :darcy do
       name     { 'Mr Darcy' }

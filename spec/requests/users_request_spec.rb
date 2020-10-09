@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "User sign up", :type => :request do
 
   let(:valid_attributes) {
-    { name: "John Doe", email: "john.doe@gmail.com", password: '12345678',  password_confirmation: '12345678' }
+    { name: "John Doe", email: "john.doe@gmail.com", password: '12345678', password_confirmation: '12345678', role: 'member', account: 'free' }
   }
   let(:invalid_attributes) {
     { name: "John Doe", email: " " }

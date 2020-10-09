@@ -5,6 +5,7 @@ module ComparisonConcern
     before_action :set_criterion
     before_action :set_presenter
     before_action :set_appraisal
+    before_action :authorize_actions!
   end
 
   private
@@ -22,5 +23,9 @@ module ComparisonConcern
     @appraisal = @criterion.appraisals
       .where(appraisal_method: appraisals_method)
       .find_or_initialize_by member: @presenter.member
+  end
+
+  def authorize_actions!
+    authorize! :manage, @appraisal
   end
 end 
