@@ -24,6 +24,7 @@
           = link_to "Participating", user_path(user)+"?fn=participating"
         li.alternative.ui-state-default#bookmarks
           = link_to "Bookmarks", user_path(user)+"?fn=bookmarks"
-      = link_to new_article_path, class:'btn btn-primary btn-small' do
-        i.icon-plus
-        |  New article
+      -if can? :create, Article
+        = link_to new_article_path, class:'btn btn-primary btn-small' do
+          i.icon-plus
+          |  New article

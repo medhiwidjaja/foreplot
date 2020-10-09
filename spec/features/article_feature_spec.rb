@@ -36,6 +36,19 @@ RSpec.feature "Article", type: :feature do
       expect(page).to have_content "can't be blank"
     end
 
+    scenario "User will see create edit button" do 
+      visit articles_path
+      expect(page).to have_link('Create new article')
+    end
   end
 
+  context "Guest user" do
+    let!(:guest) { create :guest_user }
+    before(:each) { login_as guest, scope: :user }
+
+    scenario "User won't see create edit button" do 
+      visit articles_path
+      expect(page).not_to have_link('Create new article')
+    end
+  end
 end

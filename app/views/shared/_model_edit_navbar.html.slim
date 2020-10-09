@@ -7,10 +7,11 @@
 					i.icon-file
 					b.caret
 				ul.dropdown-menu.my-articles
-					li
-						= link_to new_article_path do
-							i.icon-edit
-							|  Create new article
+					- if can? :create, Article
+						li
+							= link_to new_article_path do
+								i.icon-edit
+								|  Create new article
 					li.divider
 					li 
 						= link_to my_articles_path

@@ -36,11 +36,12 @@
                     = link_to my_articles_path do
                       i.icon-file
                       |  My articles
-                  li.divider
-                  li
-                    = link_to new_article_path do
-                      i.icon-plus
-                      |  Create new article
+                  -if can? :create, Article
+                    li.divider
+                    li
+                      = link_to new_article_path do
+                        i.icon-plus
+                        |  Create new article
 
             - if signed_in?
               li.dropdown

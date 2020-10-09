@@ -10,7 +10,6 @@
     .widget-header
       i.icon-file
       h3 Articles
-      = link_to 'Create new article', new_article_path, class:'btn btn-mini btn-warning'
     .well.well-widget-content
       - if current_user.articles.any?
         table.table.table-bordered.articles
