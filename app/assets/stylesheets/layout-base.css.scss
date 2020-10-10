@@ -2592,7 +2592,14 @@ li.rank-item {
 ----------------------------------------------------------------------------*/
 .login-container {
     width:362px; 
-    margin: 30px auto
+    margin: 30px auto;
+    
+    .well-widget-content {
+        padding-top: 10px;
+        input[type='text'], input[type='email'], input[type='password'] {
+            width: 309px;
+        }
+    }
 }
 
 

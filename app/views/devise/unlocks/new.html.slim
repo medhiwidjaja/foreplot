@@ -1,0 +1,17 @@
+- page_title "Resend unlock instructions"
+
+.login-container
+  .widget
+    .widget-header
+      i.icon-user
+      h3 Resend unlock instructions
+    .well.well-widget-content 
+      = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+        = render "devise/shared/error_messages", resource: resource
+        .control-group
+          = f.label :email
+          = f.email_field :email, autofocus: true, autocomplete: "email"
+        .button-toolbar
+          = f.submit "Resend unlock instructions", class: 'btn btn-primary'
+  
+  = render "devise/shared/links"

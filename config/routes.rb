@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
 
-  # Devise
-  devise_for :users
+
   root to: "home#index"
+
+  # Devise
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   
   # Users
   resources :users
-  get  '/signup' => 'users#signup'
-  post 'signup' => 'users#create'
-
+  
   # Articles
   resources :articles do
     collection do 
