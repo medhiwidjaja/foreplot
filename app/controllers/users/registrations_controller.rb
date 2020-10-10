@@ -12,7 +12,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     params[:user].merge!(role: 'member', account: 'free')
-    puts params.inspect
     super
   end
 
