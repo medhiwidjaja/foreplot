@@ -1,0 +1,15 @@
+- page_title "Resend confirmation instructions"
+
+.login-container
+  .widget
+    .widget-header
+      i.icon-user
+      h3 Resend confirmation instructions
+    .well.well-widget-content 
+    = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }, class:'form-inline') do |f|
+      .control-group
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+      .button-toolbar
+        = f.submit "Resend confirmation instructions", class: 'btn btn-primary'
+  = render "devise/shared/links"

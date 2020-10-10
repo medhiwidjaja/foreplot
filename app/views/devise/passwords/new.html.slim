@@ -1,0 +1,17 @@
+- page_title "Forgot your password?"
+
+.login-container
+  .widget
+    .widget-header
+      i.icon-user
+      h3 Forgot your password?
+    .well.well-widget-content 
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        .control-group
+          = f.label :email
+          .controls
+            = f.email_field :email, autofocus: true, autocomplete: "email"
+        .button-toolbar
+          = f.submit "Send me reset password instructions", class: 'btn btn-primary'
+  
+  = render "devise/shared/links"
