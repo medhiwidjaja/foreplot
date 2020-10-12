@@ -29,38 +29,22 @@ class ValueTree
     @tree = branch
   end
 
-  def normalize!(weight)
-    tree.each do |node|
-      unless node.is_root?
-        node.parent.content.update(sum: node.parent.children.sum {|child| child.content[weight] } )
-        node.content.update((weight.to_s+"_n").to_sym => node.content[weight].to_f / node.parent.content[:sum].to_f)
-      end
-    end
+  def normalize(decision_tree, weight=:score)
+    do_normalize(decision_tree, weight)
   end
 
-  def globalize!(weight)
-    w_n = (weight.to_s+"_n").to_sym
-    w_g = (weight.to_s+"_g").to_sym
-    
-    tree.each do |node|
-      if node.is_root?
-        global_weight = 1     # global weight of root is always 1
-      else
-        global_weight = (node.parent.content[w_g] || 0) * (node.content[w_n] || 0)
-      end
-      node.content.update(w_g => global_weight)
-    end
+  def normalize!(weight=:score)
+    do_normalize(tree, weight)
   end
 
-  def get_tree_node(node_name)
-    match = nil
-    tree.each do |n| 
-      if n.name == node_name.to_s
-        match = n
-        break
-      end
-    end
-    match
+  def globalize(decision_tree, weight=:score)
+    do_normalize(decision_tree, weight)
+    do_globalize(decision_tree, weight)
+  end
+
+  def globalize!(weight=:score)
+    do_normalize(tree, weight)
+    do_globalize(tree, weight)
   end
 
   private
@@ -139,4 +123,26 @@ class ValueTree
     query.pluck(:is_complete).all? {|c| c == true}
   end
 
+  def do_normalize(decision_tree, weight)
+    decision_tree.each do |node|
+      unless node.is_root?
+        node.parent.content.update(sum: node.parent.children.sum {|child| child.content[weight] } )
+        node.content.update((weight.to_s+"_n").to_sym => node.content[weight].to_f / node.parent.content[:sum].to_f)
+      end
+    end
+  end
+
+  def do_globalize(decision_tree, weight)
+    w_n = (weight.to_s+"_n").to_sym
+    w_g = (weight.to_s+"_g").to_sym
+    
+    decision_tree.each do |node|
+      if node.is_root?
+        global_weight = 1     # global weight of root is always 1
+      else
+        global_weight = (node.parent.content[w_g] || 0) * (node.content[w_n] || 0)
+      end
+      node.content.update(w_g => global_weight)
+    end
+  end
 end
