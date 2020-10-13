@@ -11,30 +11,27 @@ RSpec.describe "User sign up", :type => :request do
 
   context "with valid params" do
     it "creates a User and redirects to the home page" do
-      get signup_path
-      expect(response).to render_template(:signup)
+      get new_user_registration_path
 
       expect {
-        post "/signup", :params => { :user => valid_attributes}
+        post user_registration_path, :params => { :user => valid_attributes}
       }.to change(User, :count).by(1)
 
       expect(response).to redirect_to(root_path)
       follow_redirect!
 
-      expect(response.body).to include("User was successfully created.")
+      expect(response.body).to include("Welcome! You have signed up successfully.")
     end
   end
 
   context "with invalid params" do
     it "doesn't create a new User and render signup template" do
-      get signup_path
-      expect(response).to render_template(:signup)
+      get new_user_registration_path
 
       expect {
-        post "/signup", :params => { :user => invalid_attributes}
+        post user_registration_path, :params => { :user => invalid_attributes}
       }.not_to change(User, :count)
 
-      expect(response).to render_template(:signup)
     end
   end
 

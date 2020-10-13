@@ -1,32 +1,30 @@
+- page_title "Sign up"
+
 .login-container
   .widget
     .widget-header
       i.icon-user
       h3 Sign up
     .well.well-widget-content
-      br
-      = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-        /= render 'shared/error_messages', object: f.object
-
+      = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
         .control-group
-          = f.label :email, class: "control-label"
-          .controls
-            = f.email_field :email, placeholder:'Email'
-
-        .control-group
-          = f.label :name, class: "control-label"
-          .controls
-            = f.text_field :name, placeholder:'Name'
+          = f.label :name
+          = f.text_field :name, class: 'form-control'
         
-        .control-group
-          = f.label :password, class: "control-label"
-          .controls
-            = f.password_field :password, placeholder:'Password'
-
-        .control-group
-          = f.label :password_confirmation, class: "control-label"
-          .controls
-            = f.password_field :password_confirmation, placeholder:'Password confirmation'
-
-        #toolbar.button-toolbar 
-          = f.submit "Sign up", class:"btn btn-primary"
+        .control-group.col-md-12
+          = f.label :email
+          = f.text_field :email, class: 'form-control', autocomplete: "email"
+        
+        .control-group.col-md-12
+          = f.label :password
+          = f.password_field :password, class: 'form-control', autocomplete: "new-password"
+        
+        .control-group.col-md-12
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, class: 'form-control', autocomplete: "new-password"
+        
+        .button-toolbar
+          = f.submit "Sign Up", class: 'btn btn-primary'
+        
+  = render "devise/shared/links"
+  

@@ -1,18 +1,26 @@
 class ValueTreePresenter
-
-  attr_reader :tree
-
+  attr_reader :score_key, :value_tree, :tree
+  
   def initialize(value_tree, root_id, score_key: :score_g, &block)
-    value_tree.build_tree(root_id, &block) 
-    value_tree.normalize! :score
-    value_tree.globalize! :score
-    @tree = value_tree.tree
+    @value_tree = value_tree
+    @tree = value_tree.build_tree(root_id, &block) 
     @score_key = score_key
   end
 
   def score_table
+    score_table_from_tree(tree)
+  end
+
+  def score_table_from_tree(decision_tree)
+    create_score_table(decision_tree)
+  end
+
+  private
+
+  def create_score_table(decision_tree)
+    global_decision_tree = value_tree.globalize decision_tree
     scores =
-      tree.each_leaf.map { |node| 
+      global_decision_tree.each_leaf.map { |node| 
         node.content                                          # get the contents of each leaf node
           .merge(:score => {node.parent.name.to_i => node.content[score_key]})
           .merge(:label => {node.parent.name.to_i => node.parent.content[:title]})
@@ -33,10 +41,6 @@ class ValueTreePresenter
     }
     scores.to_h
   end
-
-  private
-
-  attr_reader :score_key
 
   def collect_scores(alt_array)
     { 
