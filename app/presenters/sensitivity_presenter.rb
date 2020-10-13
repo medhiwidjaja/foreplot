@@ -4,7 +4,11 @@ class SensitivityPresenter < ValueTreePresenter
 
   def initialize(value_tree, root_id, criterion_id, score_key: :score_g)
     @criterion_id = criterion_id.to_i
-    @title = Criterion.find(criterion_id).title
+    @criterion = Criterion.find(criterion_id)
+    
+    raise StandardError.new "Cannot do sensitivity analysis on single subcriterion" if @criterion.parent.children.size == 1
+
+    @title = @criterion.title
     super(value_tree, root_id, score_key: score_key) {|n| 
       {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} 
     } 

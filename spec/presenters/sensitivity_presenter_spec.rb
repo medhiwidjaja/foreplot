@@ -15,14 +15,20 @@ RSpec.describe SensitivityPresenter do
 
     subject { presenter }
 
+    it "has valid inputs" do
+      expect(appraisal1).to be_valid
+      expect(appraisal2).to be_valid
+      expect(appraisal3).to be_valid
+    end
+
     it "gives data for sensitivity chart" do
       expect(presenter.sensitivity_data).to eq( [
-        [[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]
+        [[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]
       ] )
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title] )
+      expect(presenter.chart_labels).to eq( [alt2.title, alt1.title] )
     end
 
     it "gives rank chart data" do
@@ -47,12 +53,12 @@ RSpec.describe SensitivityPresenter do
 
     it "gives data for sensitivity chart" do
       expect(presenter.sensitivity_data).to eq( [
-        [[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]
+        [[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]
       ] )
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title] )
+      expect(presenter.chart_labels).to eq( [alt2.title, alt1.title] )
     end
 
     it "gives rank chart data" do
@@ -61,6 +67,19 @@ RSpec.describe SensitivityPresenter do
 
     it "gives weight value for sensitivity chart" do
       expect(presenter.weight).to eq( 0.6 )
+    end
+  end
+
+  context "Single subcriterion" do
+    let(:presenter) {
+      SensitivityPresenter.new value_tree, root.id, c1.id
+    }
+    before {
+      c2.destroy
+    }
+
+    it "raises an error" do
+      expect{ presenter }.to raise_error(StandardError, /Cannot do sensitivity analysis on single subcriterion/)
     end
   end
 end
