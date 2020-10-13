@@ -197,7 +197,10 @@ $(document).on("ready turbolinks:load", function() {
           }
         });
       }
-    })());
+    })())
+    .fail(function(){
+      $(".well-widget-content").html("<br/><div class='alert alert-error'>Sensitivity Analysis on single subcriterion not supported</div>");
+    });
   };
 
   if ($("#sensitivity-chart").length > 0) { 
