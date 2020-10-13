@@ -11,9 +11,19 @@ class SensitivityController < ApplicationController
 
   def data
     value_tree = ValueTree.new @article.id, @member.id
-    @presenter = SensitivityPresenter.new value_tree, @root.id, @criterion.id
+    
     respond_to do |format|
-      format.json 
+      format.json do
+        begin
+          @presenter = SensitivityPresenter.new value_tree, @root.id, @criterion.id
+        rescue => e
+          payload = {
+            error: e.message,
+            status: 400
+          }
+          render :json => payload, :status => :bad_request
+        end
+      end
     end
   end
 

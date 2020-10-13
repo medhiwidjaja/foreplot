@@ -12,6 +12,12 @@ RSpec.describe ValueTreePresenter do
       {:id => n.comparable_id, :title => n.title, :score => n.score, :criterion => n.cid} 
     } 
   }
+  let(:expected_score_table) {
+    {
+      alt2.id=>{:id=>alt2.id, :title=>alt2.title, :score=>0.6, :detail=>{c2.id=>0.36, c1.id=>0.24}, :labels=>{c2.id=>c2.title, c1.id=>c1.title}, :rank=>1, :ratio=>1.0}, 
+      alt1.id=>{:id=>alt1.id, :title=>alt1.title, :score=>0.4, :detail=>{c2.id=>0.24, c1.id=>0.16000000000000003}, :labels=>{c2.id=>c2.title, c1.id=>c1.title}, :rank=>2, :ratio=>0.6666666666666667}
+    }
+  }
 
   subject { presenter }
 
@@ -19,6 +25,10 @@ RSpec.describe ValueTreePresenter do
     it "creates score table for all alternatives" do
       expect(presenter.score_table).to have_key(alt1.id) 
       expect(presenter.score_table).to have_key(alt2.id) 
+    end
+
+    it "calculates score table for each alternatives" do
+      expect(presenter.score_table).to eq(expected_score_table)
     end
 
     it "calculates global scores for each alternatives" do

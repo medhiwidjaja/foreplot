@@ -4,6 +4,7 @@ class SankeyPresenter < ValueTreePresenter
     super(value_tree, root_id, score_key: :score_g) {|n| 
       {:id => n.comparable_id, :idx => "#{n.comparable_type}-#{n.comparable_id}", :title => n.title, :score => n.score, :criterion => n.cid} 
     } 
+    value_tree.globalize value_tree.tree
     @nodes = []
     @links = []
   end

@@ -38,6 +38,16 @@ RSpec.feature "Sensitivity", type: :feature do
       expect(page).to have_content('Current weight value: 0.600')
       expect(page).to have_css('div.widget-content-title', text: 'RANK AT WEIGHT OF: 0.600')
     end
+
+    context "When there's only 1 subcriterion", js: true do
+      before {
+        c1.destroy
+      }
+      scenario "User sees an error message" do
+        visit article_sensitivity_path(article)
+        expect(page).to have_content("Sensitivity Analysis on single subcriterion not supported")
+      end
+    end
   end
 
 end

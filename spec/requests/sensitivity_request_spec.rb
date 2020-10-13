@@ -26,9 +26,9 @@ RSpec.describe "Sensitivity", type: :request do
         get article_sensitivity_data_path(article, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
-          sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]], 
+          sensitivity: [[[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]], 
           chart_data:  [0.6, 0.4],
-          labels:      [alt1.title, alt2.title],
+          labels:      [alt2.title, alt1.title],
           weight:      0.4,
           criterion_id: root.children.order(:position).first.id
         )
@@ -38,12 +38,27 @@ RSpec.describe "Sensitivity", type: :request do
         get article_sensitivity_data_path(article, criterion_id: c2.id, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
-          sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]],         
+          sensitivity: [[[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]],         
           chart_data:  [0.6, 0.4],
-          labels:      [alt1.title, alt2.title],
+          labels:      [alt2.title, alt1.title],
           weight:      0.6,
           criterion_id: c2.id,
           title:       c2.title
+        )
+      end
+    end
+
+    describe "error handling when there's only 1 subcriterion" do
+      before(:each) {
+        c1.destroy
+      }
+
+      it "returns sensitivity chart data in json format" do
+        get article_sensitivity_data_path(article, format: :json)
+        expect(response.content_type).to eq("application/json")   
+        expect(body_as_json).to include(
+          error: "Cannot do sensitivity analysis on single subcriterion",
+          status: 400
         )
       end
     end
