@@ -59,6 +59,9 @@ gem 'turbolinks_render'
 # Authorization
 gem 'cancancan'
 
+# User / article following
+gem 'acts_as_follower', github: 'brchristian/acts_as_follower', :branch => 'patch-1'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

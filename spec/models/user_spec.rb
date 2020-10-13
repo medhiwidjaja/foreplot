@@ -54,6 +54,26 @@ RSpec.describe User, type: :model do
     it { expect(described_class.reflect_on_association(:rankings).macro).to eq(:has_many) }
     it { expect(described_class.reflect_on_association(:memberships).macro).to eq(:has_many) }
   end
+
+  context "with friends" do
+    let(:bingley) { create :bingley }
+
+    describe "following" do
+      it "allows user to follow other user" do
+        expect(darcy.following? bingley).to eq false 
+        expect { darcy.follow bingley }.to change { darcy.follow_count }.by(1)
+        expect(darcy.following? bingley).to eq true 
+      end
+    end
+
+    describe "followers" do
+      it "allows user to be followed by other user" do
+        expect(darcy.followers).to  eq [] 
+        expect { bingley.follow darcy }.to change { bingley.follow_count }.by(1)
+        expect(darcy.followers).to include(bingley) 
+      end
+    end
+  end
 end
 
 
