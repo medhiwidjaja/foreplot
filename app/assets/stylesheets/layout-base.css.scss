@@ -1953,6 +1953,14 @@ td {
     }
 }
 
+button.icon-only { 
+    display: contents;
+    font-size: large;
+    i {
+        padding: 0 5px;
+    }
+}
+
 
 /*--- jQuery UI autocomplete ----------*/
 

@@ -51,6 +51,14 @@ RSpec.feature "UserProfile", type: :feature do
         expect(page).to have_content(@darcys_article.title)
       end
 
+      scenario "Removing bookmarks", js: true do
+        within '#sidepanel' do
+          click_link 'Bookmarks'
+        end
+        find('i.icon-trash').click
+        expect(page).to have_content("You have stopped following #{@darcys_article.title}")
+      end
+
       scenario "Following friends" do
         within '#sidepanel' do
           click_link 'Following'
