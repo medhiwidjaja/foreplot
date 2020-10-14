@@ -59,6 +59,35 @@ RSpec.feature "Article", type: :feature do
         expect(page).to_not have_link('Unfollow')
       end
     end
+
+    describe "Bookmarking an article", js: true do
+      before {
+        @darcy = create :darcy
+        @darcys_article = create :article, user: @darcy
+      }
+      scenario "User bookmarks an article" do
+        visit article_path(@darcys_article)
+        within '.btn-group' do
+          click_link "Add" 
+        end
+        expect(page).to have_content("You are now following #{@darcys_article.title}")
+      end
+    end
+
+    describe "Unbookmarking an article", js: true do 
+      before {
+        @darcy = create :darcy
+        @darcys_article = create :article, user: @darcy
+        bingley.follow @darcys_article
+      }
+      scenario "User remove a bookmark" do
+        visit article_path(@darcys_article)
+        within '.btn-group' do
+          find('i.icon-trash').click 
+        end
+        expect(page).to have_content("You have stopped following #{@darcys_article.title}")
+      end
+    end
   end
 
   context "Guest user" do

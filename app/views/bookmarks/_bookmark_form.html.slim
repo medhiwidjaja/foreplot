@@ -1,11 +1,10 @@
-div
+.btn-group
+  button.btn.btn-small.btn-inverse.disabled 
+    i.icon-bookmark
+    | Bookmark:    
   -if user.following_articles.include? article
-    = form_with(url: user_bookmark_path(current_user, id: article.id), method: :delete) do 
-      .actions
-        = button_tag type:'submit', name:'bookmark', class:'icon-only' do
-          i.icon-trash style='color: salmon'
+    = link_to user_bookmark_path(current_user, id: article.id), method: :delete, remote: true, class: 'btn'
+      i.icon-trash style="color: salmon"
   -else
-    = form_with(url: user_bookmarks_path(current_user, id: article.id), method: :post) do |f|
-      .actions
-        = button_tag type:'submit', name:'unbookmark', class:'icon-only' do
-          i.icon-bookmark
+    = link_to user_bookmarks_path(current_user, id: article.id), method: :post, remote: true, class: 'btn'
+      |  Add

@@ -1,1 +1,3 @@
 $("#container-box").prepend("<%=j render partial:'shared/flash_messages' %>");
+$("#bookmark-count").html("<%= @article.followers_count %>");
+$("#bookmark-form.bookmark-<%= @article.id %>").html("<%=j render partial:'bookmarks/bookmark_form', locals: {user: current_user, article: @article} %>");

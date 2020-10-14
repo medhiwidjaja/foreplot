@@ -55,7 +55,9 @@ RSpec.feature "UserProfile", type: :feature do
         within '#sidepanel' do
           click_link 'Bookmarks'
         end
-        find('i.icon-trash').click
+        within '.btn-group' do
+          find('i.icon-trash').click 
+        end
         expect(page).to have_content("You have stopped following #{@darcys_article.title}")
       end
 

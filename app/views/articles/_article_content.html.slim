@@ -1,27 +1,31 @@
 .widget
-	.widget-header
-		.ellipsis
-			h3
-				i.icon-file style="margin:0px"
-				' 
-				= @article.title
-	.well.well-widget-content
-		.widget-content-title 
-			= "#{@article.visibility} article"
-		h2 = @article.title
+  .widget-header
+    .ellipsis
+      h3
+        i.icon-file style="margin:0px"
+        ' 
+        = @article.title
+  .well.well-widget-content
+    .widget-content-title 
+      = "#{@article.visibility} article"
+    h2 = @article.title
 
-		.article-attr 
-			.t-label By:
-			= link_to @article.user.name, @article.user
-		-unless @article.description.blank?
-			.clearfix
-			br
-			.formatted-output
-				= raw(@article.description)
-		.clearfix
-		br
-		#toolbar.button-toolbar
-			a.btn href=edit_article_path(@article)
-				i.icon-edit
-				|  Edit
+    .article-attr 
+      .t-label By:
+      = link_to @article.user.name, @article.user
+    -unless @article.description.blank?
+      .clearfix
+      br
+      .formatted-output
+        = raw(@article.description)
+    .clearfix
+    br
+    #toolbar.button-toolbar
+      a.btn href=edit_article_path(@article)
+        i.icon-edit
+        |  Edit
+      -if current_user != @article.user
+        span.pull-right#bookmark-form class="bookmark-#{@article.id}"
+          = render partial: 'bookmarks/bookmark_form', locals: { user: current_user, article: @article }
+
 
