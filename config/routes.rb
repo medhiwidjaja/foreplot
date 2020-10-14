@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   
   # Users
-  resources :users
+  resources :users do
+    resources :follows, only: [:index, :create, :destroy]
+    resources :bookmarks, only: [:index, :create, :destroy]
+  end
   
   # Articles
   resources :articles do

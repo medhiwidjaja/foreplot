@@ -1,4 +1,4 @@
-tr.article
+tr.article id="bookmark-#{article.id}"
   td.article
     .title
       = link_to article.title.truncate(50), article
@@ -27,3 +27,6 @@ tr.article
         i.icon-star
         i.icon-star-empty
         i.icon-star-empty
+    -if @user == current_user
+			div.pull-right
+				= render partial: 'bookmarks/bookmark_form', locals: { user: current_user, article: article }

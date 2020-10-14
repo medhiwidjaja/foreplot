@@ -1,0 +1,2 @@
+$("#container-box").prepend("<%=j render partial:'shared/flash_messages' %>");
+$("#follow-form.ffbtn-<%= @friend.id %>").html("<%=j render partial:'follows/follow_form', locals: {user: @friend} %>");

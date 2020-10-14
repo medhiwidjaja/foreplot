@@ -1,4 +1,7 @@
 class Article < ApplicationRecord
+
+  acts_as_followable
+  
   validates :title, presence: true 
 
   belongs_to :user

@@ -26,7 +26,6 @@
     = link_to @article, class:'btn' do
       i.icon-remove
       |  Cancel
-
     -if request[:action] == 'edit'
       = link_to @article, 
           method: :delete,

@@ -1127,6 +1127,15 @@ footer {
     }
 }
 
+#sidepanel { .user-info {
+    label {
+        display: inline-block;
+        margin-bottom: 5px;
+        color: gray;
+        width: 100px;
+    }}
+}
+
 /* Sidepanel items */
 
 
@@ -1941,6 +1950,14 @@ td.new-row {
 td {
     .control-group {
         margin-bottom: 0px;
+    }
+}
+
+button.icon-only { 
+    display: contents;
+    font-size: large;
+    i {
+        padding: 0 5px;
     }
 }
 
