@@ -7,12 +7,30 @@ RSpec.feature "UserProfile", type: :feature do
 
     before(:each) { login_as bingley, scope: :user }
 
-    scenario "User clicks on Articles link" do
-      visit user_path(bingley)
-      within '.side-widget-content' do
-        click_link 'Articles'
+    context "User clicks on Articles link" do
+      before {
+        article.private = true
+        @public_article = create :article, title: "My public article", private: false, user: bingley
+        @private_article = create :article, title: "My private article", private: true, user: bingley
+
+        visit user_path(bingley)
+      }
+
+      scenario "private articles" do
+        within '#sidepanel' do
+          click_link 'Private articles'
+        end
+        expect(page).to have_content(@private_article.title)
+        expect(page).to_not have_content(@public_article.title)
       end
-      expect(page).to have_content(article.title)
+
+      scenario "public articles" do
+        within '#sidepanel' do
+          click_link 'Articles'
+        end
+        expect(page).to have_content(@public_article.title)
+        expect(page).to_not have_content(@private_article.title)
+      end
     end
 
     context "With friends" do
@@ -27,24 +45,32 @@ RSpec.feature "UserProfile", type: :feature do
       }
 
       scenario "Bookmarked article" do
-        within '.side-widget-content' do
+        within '#sidepanel' do
           click_link 'Bookmarks'
         end
         expect(page).to have_content(@darcys_article.title)
       end
 
-      scenario "Followed friends" do
-        within '.side-widget-content' do
+      scenario "Following friends" do
+        within '#sidepanel' do
           click_link 'Following'
         end
         expect(page).to have_content(@darcy.name)
       end
 
       scenario "Followed by friends" do
-        within '.side-widget-content' do
+        within '#sidepanel' do
           click_link 'Followers'
         end
         expect(page).to have_content(@darcy.name)
+      end
+
+      scenario "Unfollowing friends", js: true do
+        within '#sidepanel' do
+          click_link 'Following'
+        end
+        click_button 'Unfollow'
+        expect(page).to have_content("You have stopped following #{@darcy.name}")
       end
     end
 

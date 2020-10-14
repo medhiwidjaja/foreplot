@@ -1,14 +1,74 @@
-h1 User Profile
+- page_title "User Profile"
 
-p
-  strong Name:
-  = @user.name
-p
-  strong Email:
-  = @user.email
-p
-  strong Bio:
-  = @user.bio
+- content_for :left_frame do
+  = render 'users/profile_sidepanel'
 
-
-
+#container-box
+  .widget
+    .widget-header
+      i.icon-user
+      h3 = @user.name
+    .well.well-widget-content
+      -if params[:fn].blank?
+        .widget-content-title
+          = @action_title || 'Profile'
+        br
+        table.table
+          tr
+            td style="font-size:44px"
+              i.icon-file
+            td
+              p Articles
+              h3 = @user.articles.count
+            td
+              p Bookmarks
+              h3 = @user.following_articles_count
+          tr
+            td style="font-size:44px"
+              i.icon-user
+            td
+              p Following 
+              h3 = @user.following_users_count
+            td
+              p Followers 
+              h3 = @user.count_user_followers
+            td
+              p
+        br
+        br
+        br
+      -if params[:fn] == 'article'
+        .widget-content-title
+          | Public Articles
+        table.table.table-bordered.articles
+          - @user.articles.public_articles.each do |article|
+            = render partial: 'articles/article', locals: { article: article }
+        
+      -if params[:fn] == 'particle'
+        .widget-content-title
+          | Private Articles
+        table.table.table-bordered.articles
+          - @user.articles.private_articles.each do |article|
+            = render partial: 'articles/article', locals: { article: article }
+        
+      -if params[:fn] == 'bookmarks'
+        .widget-content-title
+          | Bookmarked Articles
+        table.table.table-bordered.articles
+          - @user.following_articles.each do |article|
+            = render partial: 'articles/article', locals: { article: article }
+        
+      -if params[:fn] == 'following'
+        .widget-content-title
+          | Following
+        table.table.table-bordered.articles
+          - @user.following_users.each do |user|
+            = render partial: 'users/user', locals: { user: user }
+        
+      -if params[:fn] == 'followers'
+        .widget-content-title
+          | Followers
+        table.table.table-bordered.articles
+          - @user.user_followers.each do |user|
+            = render partial: 'users/user', locals: { user: user }
+        

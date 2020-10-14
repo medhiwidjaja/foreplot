@@ -1127,6 +1127,15 @@ footer {
     }
 }
 
+#sidepanel { .user-info {
+    label {
+        display: inline-block;
+        margin-bottom: 5px;
+        color: gray;
+        width: 100px;
+    }}
+}
+
 /* Sidepanel items */
 
 
