@@ -9,15 +9,8 @@ Rails.application.routes.draw do
   # Users
   resources :users do
     resources :follows, only: [:index, :create, :destroy]
+    resources :bookmarks, only: [:index, :create, :destroy]
   end
-
-  # Following
-  post '/users/:id/follow/:friend_id' => 'users#follow', as: :follow_user
-  delete '/users/:id/follow/:friend_id' => 'users#unfollow', as: :unfollow_user
-
-  # Bookmarking
-  post '/users/:id/bookmark/:article_id' => 'articles#bookmark', as: :bookmark
-  delete '/users/:id/bookmark/:article_id' => 'articles#remove_bookmark', as: :remove_bookmark
   
   # Articles
   resources :articles do
