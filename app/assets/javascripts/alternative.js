@@ -19,4 +19,4 @@ $(document).on('turbolinks:load', function(){
 		$(".edit-button").show();
 		$(".handle").hide();
 	});
-})
+});
