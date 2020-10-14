@@ -11,9 +11,11 @@
     .side-widget-divider
     .side-widget-title Author
     .side-widget-content
-
       .article-author
         = @article.user.name
+      -if @article.user != current_user
+        div#follow-form class="ffbtn-#{@article.user_id} pull-right"
+				  = render partial: 'follows/follow_form', locals: { user: @article.user }
     .clearfix
     .side-widget-divider
 

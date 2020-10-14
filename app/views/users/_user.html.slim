@@ -3,4 +3,4 @@ tr id="ff-#{user.id}"
 		= link_to user.name, user
 		-if @user == current_user
 			div.pull-right
-				= render partial: 'users/follow_form', locals: { user: user }
+				= render partial: 'follows/follow_form', locals: { user: user }

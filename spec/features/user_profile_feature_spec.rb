@@ -77,7 +77,7 @@ RSpec.feature "UserProfile", type: :feature do
         within '#sidepanel' do
           click_link 'Following'
         end
-        click_button 'Unfollow'
+        click_link 'Unfollow'
         expect(page).to have_content("You have stopped following #{@darcy.name}")
       end
     end

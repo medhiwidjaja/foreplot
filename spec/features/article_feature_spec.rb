@@ -40,6 +40,25 @@ RSpec.feature "Article", type: :feature do
       visit articles_path
       expect(page).to have_link('Create new article')
     end
+
+    describe "Following / unfollowing the author", js: true do
+      before {
+        @darcy = create :darcy
+        @darcys_article = create :article, user: @darcy
+      }
+      scenario "User follows the author and then unfollows again" do
+        visit article_path(@darcys_article)
+        expect(page).to have_link('Follow')
+        click_link 'Follow' 
+        expect(page).to have_content("You are now following #{@darcy.name}")
+        expect(page).to_not have_link('Follow')
+        expect(page).to have_link('Unfollow')
+        click_link 'Unfollow'
+        expect(page).to have_content("You have stopped following #{@darcy.name}")
+        expect(page).to have_link('Follow')
+        expect(page).to_not have_link('Unfollow')
+      end
+    end
   end
 
   context "Guest user" do

@@ -19,7 +19,7 @@
           label Member since
           = @user.created_at.nil? ? "the beginning" : @user.created_at.strftime("%B %Y")
 
-      = render partial: 'users/follow_form', locals: { user: @user }
+      = render partial: 'follows/follow_form', locals: { user: @user }
 
   .well.side-widget
     .side-widget-header

@@ -1,0 +1,6 @@
+-unless current_user == user
+  div id="ff_#{user.id}"
+    -if current_user.following_users.include? user
+      = link_to 'Unfollow', user_follow_path(current_user, id: user.id), method: :delete, remote: true, class: 'btn btn-small btn-danger'
+    -else
+      = link_to 'Follow', user_follows_path(current_user, id: user.id), method: :post, remote: true, class: 'btn btn-small btn-info'
