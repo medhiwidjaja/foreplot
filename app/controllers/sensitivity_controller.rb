@@ -17,11 +17,7 @@ class SensitivityController < ApplicationController
         begin
           @presenter = SensitivityPresenter.new value_tree, @root.id, @criterion.id
         rescue => e
-          payload = {
-            error: e.message,
-            status: 400
-          }
-          render :json => payload, :status => :bad_request
+          render :json => {error: e.message, status: 400 }, :status => :bad_request
         end
       end
     end
