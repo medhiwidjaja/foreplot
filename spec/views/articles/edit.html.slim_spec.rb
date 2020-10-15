@@ -5,7 +5,7 @@ RSpec.describe "articles/edit", type: :view do
   let(:article) { bingley.articles.first }
   before(:each) do
     allow(view).to receive(:user_signed_in?) { true } 
-    allow(view).to receive(:current_user) { FactoryBot.build(:user) }
+    allow(view).to receive(:current_user) { FactoryBot.create(:user) }
     @article = article
   end
 
