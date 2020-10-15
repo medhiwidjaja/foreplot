@@ -1,4 +1,6 @@
 module RankComparisonHelper
+  include ApplicationHelper
+  
   def sortable_form_fields(form)
     form.fields_for :magiq_comparisons do |mc_fields|
       content_tag :li, class:'rank-item', id:mc_fields.object.id do
