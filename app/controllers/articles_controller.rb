@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles/new
   def new
-    @article = Article.new user: current_user
+    @article = Article.new user: current_user, private: false
     authorize! :create, @article
   end
 
