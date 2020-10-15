@@ -17,7 +17,7 @@ RSpec.feature "Article", type: :feature do
     end
 
     before {
-      @article = create :article, user: bingley
+      @article = create :article, :public, user: bingley
     }
     scenario "User edits an article" do 
       visit article_path(@article)

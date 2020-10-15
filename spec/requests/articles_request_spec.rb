@@ -9,7 +9,7 @@ RSpec.describe "Articles", type: :request do
     { title: 'Good article by Bingley', description: 'This is my first article', user_id: bingley.id, slug: 'my-article', private: false, active: true }
   }
   let(:invalid_attributes) {
-    { title: '', user_id: bingley.id, active: true }
+    { title: '', user_id: bingley.id, active: true, private: false }
   }
 
   context "without signed in user" do
@@ -151,10 +151,10 @@ RSpec.describe "Articles", type: :request do
   end
 
   describe "GET my articles" do
-    let (:darcys_article) {{ title: "An article by Darcy", user_id: darcy.id }}
+    let (:darcys_article) {{ title: "An article by Darcy", private: false, user_id: darcy.id }}
     it "shows a list of the articles I created" do
       Article.create! valid_attributes
-      #Article.create! darcys_article
+
       sign_in darcy
       expect {
         post articles_path, params: {article: darcys_article}

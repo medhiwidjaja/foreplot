@@ -36,7 +36,7 @@ RSpec.describe ArticlesController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    { title: '', user_id: bingley.id, active: true }
+    { title: '', user_id: bingley.id, active: true, private: false }
   }
 
   # This should return the minimal set of values that should be in the session

@@ -10,7 +10,7 @@ FactoryBot.define do
     factory :darcy do
       name     { 'Mr Darcy' }
       email    { 'darcy@pemberly.com' }
-      account  { 'pro' }
+      account  { 'free' }
       role     { 'member' }
       
       trait :with_articles do
@@ -23,7 +23,7 @@ FactoryBot.define do
     factory :bingley do
       name     { 'Mr Bingley' }
       email    { 'bingley@netherfield.com' }
-      account  { 'pro' }
+      account  { 'free' }
       role     { 'member' }
 
       trait :with_articles do

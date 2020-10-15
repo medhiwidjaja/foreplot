@@ -38,7 +38,10 @@ class Ability
 		can :manage, Article do |article|
 			(article.private == false && article.user_id == @user.id)
 		end
-
+		# Appraisal
+		can :manage, Appraisal do |appraisal|
+			appraisal.member.user_id == @user.id
+		end
 		# Participation
 		can :manage, Member, user_id: @user.id
 		# User
@@ -52,9 +55,6 @@ class Ability
 		end
 		can :manage, Article do |article|
 			(article.user_id == @user.id)
-		end
-		can :manage, Appraisal do |appraisal|
-			appraisal.member.user_id == @user.id
 		end
 	end
 
