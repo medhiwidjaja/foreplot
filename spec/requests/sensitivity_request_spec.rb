@@ -26,7 +26,7 @@ RSpec.describe "Sensitivity", type: :request do
         get article_sensitivity_data_path(article, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
-          sensitivity: [[[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]], 
+          sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]], 
           chart_data:  [0.6, 0.4],
           labels:      [alt2.title, alt1.title],
           weight:      0.4,
@@ -38,7 +38,7 @@ RSpec.describe "Sensitivity", type: :request do
         get article_sensitivity_data_path(article, criterion_id: c2.id, format: :json)
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
-          sensitivity: [[[0.0, 0.6], [1.0, 0.6]], [[0.0, 0.4], [1.0, 0.4]]],         
+          sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]],          
           chart_data:  [0.6, 0.4],
           labels:      [alt2.title, alt1.title],
           weight:      0.6,

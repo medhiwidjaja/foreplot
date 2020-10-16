@@ -1,3 +1,5 @@
+require Rails.root.join('lib/tree_ext/tree_node.rb')
+
 class SensitivityPresenter < ValueTreePresenter
 
   attr_reader :criterion_id, :title
@@ -40,7 +42,7 @@ class SensitivityPresenter < ValueTreePresenter
     criteria_tree = value_tree.tree.dup
     node = criteria_tree.search_node(id)
             .content.update(score: 0.0)
-    score_table_from_tree(criteria_tree)
+    score_table_from_tree(criteria_tree, ranked: false)
   end
 
   def scores_max(id)
@@ -49,27 +51,8 @@ class SensitivityPresenter < ValueTreePresenter
     siblings_max_scores = node.parent.children.collect{|c| c.content[:score]}.max 
     node.content.update(score: siblings_max_scores)
     node.siblings.each {|sibling| sibling.content.update score: 0.0 }
-    score_table_from_tree(criteria_tree)
+    score_table_from_tree(criteria_tree, ranked: false)
   end
 
 end
 
-module Tree
-  class TreeNode
-
-    # search for the whole tree and return the node matching the node_name
-    # if detached is true, a detached copy of the node is returned
-    # default to false
-    def search_node(node_name, detached=false)
-      match = nil
-      root.each do |n| 
-        if n.name == node_name.to_s
-          match = n
-          break
-        end
-      end
-      detached ? match.detached_copy : match
-    end
-
-  end
-end
