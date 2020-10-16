@@ -15,8 +15,8 @@ RSpec.describe ValueTreePresenter do
     }
     let(:expected_score_table) {
       {
-        alt2.id=>{:id=>alt2.id, :title=>alt2.title, :score=>0.6, :detail=>{c2.id=>0.36, c1.id=>0.24}, :labels=>{c2.id=>c2.title, c1.id=>c1.title}, :rank=>1, :ratio=>1.0}, 
-        alt1.id=>{:id=>alt1.id, :title=>alt1.title, :score=>0.4, :detail=>{c2.id=>0.24, c1.id=>0.16000000000000003}, :labels=>{c2.id=>c2.title, c1.id=>c1.title}, :rank=>2, :ratio=>0.6666666666666667}
+        alt2.id=>{:id=>alt2.id, :title=>alt2.title, :score=>0.6, :detail=>{c2.id=>{score:0.36, label:c2.title}, c1.id=>{score:0.24, label:c1.title}}, :rank=>1, :ratio=>1.0}, 
+        alt1.id=>{:id=>alt1.id, :title=>alt1.title, :score=>0.4, :detail=>{c2.id=>{score:0.24, label:c2.title}, c1.id=>{score:0.16000000000000003, label:c1.title}}, :rank=>2, :ratio=>0.6666666666666667}
        }
     }
 
@@ -53,10 +53,6 @@ RSpec.describe ValueTreePresenter do
         expect(presenter.score_table.values.last).to match(hash_including(rank: 2))
       end
 
-      it "knows the detail breakdown of the score by criteria" do
-        expect(presenter.score_table.values.first).to match(hash_including(detail: {c1.id => 0.4*0.6, c2.id => 0.6*0.6}))
-        expect(presenter.score_table.values.second).to match(hash_including(detail: {c1.id => 0.4*0.4, c2.id => 0.6*0.4}))
-      end
     end
   end
 

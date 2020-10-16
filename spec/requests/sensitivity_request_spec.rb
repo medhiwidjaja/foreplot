@@ -27,8 +27,8 @@ RSpec.describe "Sensitivity", type: :request do
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
           sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]], 
-          chart_data:  [0.6, 0.4],
-          labels:      [alt2.title, alt1.title],
+          chart_data:  [0.4, 0.6],
+          labels:      [alt1.title, alt2.title],
           weight:      0.4,
           criterion_id: root.children.order(:position).first.id
         )
@@ -39,8 +39,8 @@ RSpec.describe "Sensitivity", type: :request do
         expect(response.content_type).to eq("application/json")   
         expect(body_as_json).to include(
           sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]],          
-          chart_data:  [0.6, 0.4],
-          labels:      [alt2.title, alt1.title],
+          chart_data:  [0.4, 0.6],
+          labels:      [alt1.title, alt2.title],
           weight:      0.6,
           criterion_id: c2.id,
           title:       c2.title

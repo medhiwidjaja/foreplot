@@ -11,11 +11,11 @@ class RankChartPresenter < ValueTreePresenter
   end
 
   def detail_chart_data
-    score_table.map {|_, a| a[:detail].map {|_,v| v}}.transpose
+    score_table.map {|_, a| a[:detail].map {|_,v| v[:score]}}.transpose
   end
 
   def criteria_labels
-    score_table.first[1][:labels].values
+    score_table.first[1][:detail].map {|_,v| v[:label]}
   end
 
   def alternative_names

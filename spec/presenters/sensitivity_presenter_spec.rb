@@ -28,11 +28,11 @@ RSpec.describe SensitivityPresenter do
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt2.title, alt1.title] )
+      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title] )
     end
 
     it "gives rank chart data" do
-      expect(presenter.chart_data).to eq( [0.6, 0.4] )
+      expect(presenter.chart_data).to eq( [0.4, 0.6] )
     end
 
     it "gives weight value for sensitivity chart" do
@@ -71,11 +71,11 @@ RSpec.describe SensitivityPresenter do
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt2.title, alt1.title] )
+      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title] )
     end
 
     it "gives rank chart data" do
-      expect(presenter.chart_data).to eq( [0.6, 0.4] )
+      expect(presenter.chart_data).to eq( [0.4, 0.6] )
     end
 
     it "gives weight value for sensitivity chart" do
@@ -138,12 +138,12 @@ RSpec.describe SensitivityPresenter do
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt3.title, alt1.title, alt5.title, alt4.title, alt2.title] )
+      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title, alt3.title, alt4.title, alt5.title] )
     end
 
     it "gives rank chart data" do
       rounded_figures = presenter.chart_data.map {|p| p.round(4)}
-      expect(rounded_figures).to eq( [0.3479, 0.2449, 0.1946, 0.1459, 0.0667] )
+      expect(rounded_figures).to eq( [0.2449, 0.0667, 0.3479, 0.1459, 0.1946] )
     end
 
     it "gives weight value for sensitivity chart" do
@@ -176,7 +176,7 @@ RSpec.describe SensitivityPresenter do
     end
 
     it "gives labels for sensitivity chart" do
-      expect(presenter.chart_labels).to eq( [alt3.title, alt1.title, alt5.title, alt4.title, alt2.title] )
+      expect(presenter.chart_labels).to eq( [alt1.title, alt2.title, alt3.title, alt4.title, alt5.title] )
     end
   end
 end

@@ -23,11 +23,11 @@ class SensitivityPresenter < ValueTreePresenter
   end
 
   def chart_data
-    score_table.map {|_k, alt| alt[:score] }
+    score_table.sort_by {|_, alt| alt[:id]}.collect {|_, alt| alt[:score] }
   end
 
   def chart_labels
-    score_table.collect {|_, p| p[:title] } 
+    score_table.sort_by {|_, alt| alt[:id]}.collect {|_, alt| alt[:title] } 
   end
 
   def weight
