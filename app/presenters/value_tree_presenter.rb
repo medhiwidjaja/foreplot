@@ -1,3 +1,5 @@
+require Rails.root.join('lib/tree_ext/tree_node.rb')
+
 class ValueTreePresenter
   attr_reader :score_key, :value_tree, :tree
   
@@ -11,13 +13,13 @@ class ValueTreePresenter
     score_table_from_tree(tree)
   end
 
-  def score_table_from_tree(decision_tree)
-    create_score_table(decision_tree)
+  def score_table_from_tree(decision_tree, ranked: true)
+    create_score_table(decision_tree, ranked: ranked)
   end
 
   private
 
-  def create_score_table(decision_tree)
+  def create_score_table(decision_tree, ranked: true)
     global_decision_tree = value_tree.globalize decision_tree
     scores =
       global_decision_tree.each_leaf.map { |node| 
@@ -29,11 +31,18 @@ class ValueTreePresenter
       .reduce({}) { |hash, ary| 
         hash.merge(ary.first => collect_scores(ary.last))     # combine and sum the scores of each alternative
       }
-      .sort_by { |id, alt| alt[:score] }                      # sort by score
-      .reverse                                                # descending from high to low
-      .each.with_index(1) {|x, idx| 
-        x.last.update(rank: idx)                              # add rank number
-      }
+    
+    if ranked
+      scores = scores
+        .sort_by { |id, alt| alt[:score] }                      # sort by score
+        .reverse                                                # descending from high to low
+        .each.with_index(1) {|x, idx| 
+          x.last.update(rank: idx)                              # add rank number
+        }
+    else
+      scores = scores
+        .sort_by { |id, alt| alt[:id] } 
+    end
 
     max_score = scores.max{ |a, b| a.last[:score] <=> b.last[:score] }.last[:score]
     scores.each { |_k,v| 
