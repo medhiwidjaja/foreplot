@@ -8,6 +8,7 @@ class ValueTree
     if valid?
       @tree_data = tree_hash 
       @score_data = score_hash
+      @invalid = false
     else
       @invalid = true
       return nil
