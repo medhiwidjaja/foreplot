@@ -1,4 +1,3 @@
-# Extension to the Tree::TreeNode class
 module Tree
   class TreeNode
 
