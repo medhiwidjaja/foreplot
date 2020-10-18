@@ -31,7 +31,7 @@ class SensitivityPresenter < ValueTreePresenter
   end
 
   def weight
-    value_tree.score_data.values.select {|c| c.comparable_id == criterion_id.to_i}.first.score.to_f
+    value_tree.score_data.select{|k,_| k.match /Criterion-#{criterion_id.to_i}/}.values[0][:score].to_f
   end
 
   private
