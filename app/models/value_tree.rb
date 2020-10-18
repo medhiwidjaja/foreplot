@@ -16,11 +16,12 @@ class ValueTree
   end
 
   def build_tree(node_id, type='Criterion', criterion_id=nil, &block)
-    node = tree_data[ "#{node_id}-#{type}" ]
+    idx = "#{node_id}-#{type}"
+    node = tree_data[idx]
     record = score_data[ "#{criterion_id}-#{type}-#{node_id}" ]
     content = record ? block.call(record) : {id: node_id, title: node[:title]}
 
-    branch = Tree::TreeNode.new(node_id.to_s, content)
+    branch = Tree::TreeNode.new(idx, content)
     unless node[:subnodes].blank?
       node[:subnodes].each do |subnode| 
         new_branch = build_tree(subnode, node[:type], node_id, &block)

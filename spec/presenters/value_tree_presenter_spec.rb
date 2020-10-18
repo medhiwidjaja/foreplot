@@ -97,7 +97,7 @@ RSpec.describe ValueTreePresenter do
       before {
         vt = presenter.value_tree
         @new_tree = vt.tree.dup
-        node = @new_tree.search_node(c1.id).content.update(score: 0.0)
+        node = @new_tree.search_node("#{c1.id}-Criterion").content.update(score: 0.0)
         @score_table = presenter.score_table_from_tree @new_tree, ranked: false
       }
       let(:expected_scores) { [[alt1.id, 0.215], [alt2.id, 0.0692], [alt3.id, 0.4067], [alt4.id, 0.0775], [alt5.id, 0.2317]] }
@@ -112,7 +112,7 @@ RSpec.describe ValueTreePresenter do
       before {
         vt = presenter.value_tree
         @new_tree = vt.tree.dup
-        node = @new_tree.search_node(c1.id)
+        node = @new_tree.search_node("#{c1.id}-Criterion")
         siblings_max_scores = node.parent.children.collect{|c| c.content[:score]}.max 
         node.content.update(score: siblings_max_scores)
         node.siblings.each {|sibling| sibling.content.update score: 0.0 }

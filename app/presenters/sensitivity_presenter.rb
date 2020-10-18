@@ -40,14 +40,14 @@ class SensitivityPresenter < ValueTreePresenter
 
   def scores_min(id)
     criteria_tree = value_tree.tree.dup
-    node = criteria_tree.search_node(id)
+    node = criteria_tree.search_node("#{id}-Criterion")
             .content.update(score: 0.0)
     score_table_from_tree(criteria_tree, ranked: false)
   end
 
   def scores_max(id)
     criteria_tree = value_tree.tree.dup
-    node = criteria_tree.search_node(id)
+    node = criteria_tree.search_node("#{id}-Criterion")
     siblings_max_scores = node.parent.children.collect{|c| c.content[:score]}.max 
     node.content.update(score: siblings_max_scores)
     node.siblings.each {|sibling| sibling.content.update score: 0.0 }
