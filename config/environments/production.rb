@@ -95,5 +95,8 @@ Rails.application.configure do
   # Mailer setup:
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: Rails.application.credentials.production_host }
-  ActionMailer::Base.default :from => Rails.application.credentials.default_email_address
+  ActionMailer::Base.default_options = {
+    :from => Rails.application.credentials.default_email_address,
+    :reply_to => Rails.application.credentials.default_reply_to
+  }
 end
