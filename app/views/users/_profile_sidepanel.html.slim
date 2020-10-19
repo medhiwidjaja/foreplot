@@ -19,7 +19,9 @@
           label Member since
           = @user.created_at.nil? ? "the beginning" : @user.created_at.strftime("%B %Y")
 
-      = render partial: 'follows/follow_form', locals: { user: @user }
+      -if @user != current_user
+        div#follow-form class="ffbtn-#{@user.id}"
+				  = render partial: 'follows/follow_form', locals: { user: @user }
 
   .well.side-widget
     .side-widget-header
