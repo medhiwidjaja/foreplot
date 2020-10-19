@@ -20,7 +20,7 @@ RSpec.describe "User sign up", :type => :request do
       expect(response).to redirect_to(root_path)
       follow_redirect!
 
-      expect(response.body).to include("Welcome! You have signed up successfully.")
+      expect(response.body).to include("A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.")
     end
   end
 

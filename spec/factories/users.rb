@@ -7,6 +7,9 @@ FactoryBot.define do
     account  { 'basic' }
     role     { 'member' }
     
+    after(:build)   { |u| u.skip_confirmation_notification! }
+    after(:create)  { |u| u.confirm }
+    
     factory :darcy do
       name     { 'Mr Darcy' }
       email    { 'darcy@pemberly.com' }
