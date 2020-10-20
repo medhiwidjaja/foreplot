@@ -16,7 +16,7 @@
       = render partial: 'table'
     
     #toolbar.button-toolbar
-      = link_to "Add new alternative", new_article_alternative_path(@article), class: "btn btn-primary"
-
+      = conditional_link_to new_article_alternative_path(@article), can?(:update, @article), class: "btn btn-primary"
+        | Add new alternative
 
   

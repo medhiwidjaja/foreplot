@@ -6,6 +6,7 @@ class AlternativesController < ApplicationController
   # GET /article/1/alternatives.json
   def index
     @article = Article.find params[:article_id]
+    authorize! :read, @article
     @alternatives = @article.alternatives.order_by_position
   end
 
@@ -13,12 +14,14 @@ class AlternativesController < ApplicationController
   # GET /alternatives/1.json
   def show
     @article = @alternative.article
+    authorize! :read, @article
     @alternatives = @article.alternatives.order_by_position
   end
 
   # GET /articles/1/alternatives/new
   def new
     @article = Article.find(params[:article_id])
+    authorize! :update, @article
     @alternative = @article.alternatives.new
     @alternatives = @article.alternatives.order_by_position
   end
@@ -26,12 +29,14 @@ class AlternativesController < ApplicationController
   # GET /alternatives/1/edit
   def edit
     @article = @alternative.article
+    authorize! :update, @article
     @alternatives = @article.alternatives.order_by_position
   end
 
   # POST /article/1/alternatives
   def create
     @article = Article.find params[:article_id]
+    authorize! :update, @article
     @alternative = @article.alternatives.new(alternative_params)
 
     if @alternative.save
@@ -44,6 +49,7 @@ class AlternativesController < ApplicationController
   # PATCH/PUT /alternatives/1
   def update
     @article = @alternative.article
+    authorize! :update, @article
     if @alternative.update(alternative_params)
       redirect_to @alternative, notice: 'Alternative was successfully updated.'
     else
@@ -55,6 +61,7 @@ class AlternativesController < ApplicationController
   # DELETE /alternatives/1.json
   def destroy
     @article = @alternative.article
+    authorize! :update, @article
     @alternative.destroy
     respond_to do |format|
       format.html { redirect_to article_alternatives_url(@article), notice: 'Alternative was successfully destroyed.' }
@@ -64,6 +71,8 @@ class AlternativesController < ApplicationController
 
   # PATCH /articles/1/alternatives/update_all
   def update_all
+    @article = Article.find params[:article_id]
+    authorize! :update, @article
     @alternatives = Alternative.update alternatives_params.keys, alternatives_params.values
     respond_to do |format|
       format.js { flash.now[:notice] = "Updated succesfully." }
