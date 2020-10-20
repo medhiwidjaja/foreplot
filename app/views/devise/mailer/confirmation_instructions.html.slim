@@ -1,8 +1,67 @@
-p
-  | Welcome 
-  = @email
-  | !
-p
-  | You can confirm your account email through the link below:
-p
-  = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
+table.container
+  tr.container
+    td.container
+      table.email-table
+        tbody
+          tr
+            td.email-header
+              .email-container
+                table.content-section
+                  tbody
+                    tr
+                      td.content-cell.text-right.padded style="padding-top: 40px"
+                        = email_image_tag("foreplot.png", alt: 'Foreplot')
+                    tr
+                      td.content-cell.padded
+                        h1 Welcome to Foreplot!
+
+      table.email-table
+        tbody
+          tr
+            td.email-body
+              .email-container
+                table.content-section
+                  tbody
+                    tr
+                      td.content-cell.content-start
+                        table.column
+                          tbody
+                            tr
+                              td
+                                p.lead You are one click away from activating it. 
+                            tr
+                              td.column-cell.button-cell
+                                table.button
+                                  tbody
+                                    tr
+                                      td.button-primary
+                                        = link_to 'Complete registration', confirmation_url(@resource, confirmation_token: @token)
+                            tr
+                              td
+                                p If this wasn't you, please ignore this email.
+                            tr
+                              td
+                                p.small-print
+                                  | You are receiving this email because <strong>#{@user.email}</strong> is used to sign up at Foreplot.
+
+
+      table.email-table
+        tbody
+          tr
+            td.email-footer
+              .email-container
+                table.content-section
+                  tbody
+                    tr
+                      td.content-cell
+                        .email-row
+                          .col-6
+                            table.column
+                              tbody
+                                tr
+                                  td.column-cell.text-center.padded
+                                    p Copyright © 2012-2020 Foreplot. All rights reserved.
+
+
+
+
