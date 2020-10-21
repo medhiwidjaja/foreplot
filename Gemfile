@@ -77,6 +77,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   # Factory
   gem "factory_bot_rails"
+  # For setting environment variables 
+  gem 'figaro'
 end
 
 group :development do
