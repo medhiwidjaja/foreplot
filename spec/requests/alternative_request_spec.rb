@@ -150,12 +150,12 @@ RSpec.describe "Alternative", type: :request do
       @alternative = @public_alternative
     }
     
-    it "show index of alternative for public article on GET #index" do
+    it "shows index of alternative for public article on GET #index" do
       get article_alternatives_path(darcys_public_article)
       expect(response).to be_successful
     end
 
-    it "show alternative for public article on GET #index" do
+    it "shows alternative for public article on GET #index" do
       get alternative_path(@public_alternative)
       expect(response).to be_successful
     end
@@ -218,43 +218,61 @@ RSpec.describe "Alternative", type: :request do
 
   end
 
-  context "without signed in user" do
-    before {
-      @alternative = bingleys_article.alternatives.create! valid_attributes
-    }
+  context "without signed in user with public article" do
+    let(:public_article) { create :article, :public }
+    let(:alternative) { create :alternative, article: public_article }
     
-    it "#new redirects to login page" do
-      get new_article_alternative_path(bingleys_article)
+    it "GETs #index for public article" do
+      get article_alternatives_path(public_article)
+      expect(response).to be_successful
+    end
+
+    it "GETs #show for public article" do
+      get alternative_path(alternative)
+      expect(response).to be_successful
+    end
+
+    it "redirects on GET #edit for public article" do
+      get edit_alternative_path(alternative)
+      expect(response.status).to eql 302
+    end
+  end
+
+  context "without signed in user with private article" do
+    let(:private_article) { create :article, :private }
+    let(:alternative) { create :alternative, article: private_article }
+    
+    it "GETs #new redirects to login page" do
+      get new_article_alternative_path(private_article)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "#show redirects to login page" do
-      get alternative_path(@alternative)
+    it "redirects to login page on GET #show" do
+      get alternative_path(alternative)
+      expect(response.status).to eql 302
+    end
+
+    it "redirects to login page on GET #edit" do
+      get edit_alternative_path(alternative)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "#edit redirects to login page" do
-      get edit_alternative_path(@alternative)
+    it "redirects to login page on POST" do
+      post article_alternatives_path(private_article), params: {alternative: valid_attributes}
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "POST redirects to login page" do
-      post article_alternatives_path(bingleys_article), params: {alternative: valid_attributes}
+    it "redirects to login page on PUT" do
+      put alternative_path(alternative), params: {alternative: valid_attributes}
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "PUT redirects to login page" do
-      put alternative_path(@alternative), params: {alternative: valid_attributes}
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
-    end
-
-    it "DELETE redirects to login page" do
-      delete alternative_path(@alternative)
+    it "redirects to login page on DELETE" do
+      delete alternative_path(alternative)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end

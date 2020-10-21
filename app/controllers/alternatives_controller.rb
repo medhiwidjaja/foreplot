@@ -1,5 +1,6 @@
 class AlternativesController < ApplicationController
   include TurbolinksCacheControl
+  skip_before_action :authenticate_user!, :only => [:index, :show]
   before_action :set_alternative, only: [:show, :edit, :update, :destroy]
 
   # GET /article/1/alternatives
