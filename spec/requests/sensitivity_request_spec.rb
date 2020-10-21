@@ -65,19 +65,38 @@ RSpec.describe "Sensitivity", type: :request do
     
   end
 
-  context "without signed in user" do
-    
+  context "without signed in user with private article" do
+    before {
+      article.update private: true
+    } 
     it "get #index redirects to login page" do
       get article_sensitivity_path(article)
       expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
 
     it "#chart redirects to login page" do
       get article_sensitivity_data_path(article)
       expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
   end
 
+  context "without signed in user with public article" do
+    before {
+      article.update private: false
+    }
+    it "shows article sensitivity chart" do
+      get article_sensitivity_path(article)
+      expect(response).to be_successful
+    end
+
+    it "responds with json" do
+      get article_sensitivity_data_path(article, format: :json)
+      expect(response).to be_successful
+      expect(response.header['Content-Type']).to include 'application/json'
+    end
+  end
 end

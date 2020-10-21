@@ -28,4 +28,13 @@ module SharedHelper
     end
   end
 
+  def conditional_link_to(text=nil, path, cond, **opts, &block)
+    if cond
+      content_tag(:a, opts.merge(href: path)) { block_given? ? block.call : text }
+    else
+      opts.delete(:data)
+      content_tag(:a, opts.merge(disabled: "disabled")) { block_given? ? block.call : text }
+    end
+  end
+
 end

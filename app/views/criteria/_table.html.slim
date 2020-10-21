@@ -17,11 +17,11 @@
     .section style="padding-top:0px; padding-bottom:0px"
       .btn-toolbar.button-toolbar.mid-section
         .btn-group
-          = link_to edit_criterion_path(criterion.id), class:"btn btn-primary" 
+          = conditional_link_to edit_criterion_path(criterion.id), can?(:update, presenter.article), class:"btn btn-primary" 
             i.icon-edit
             | Edit
         .btn-group
-          = link_to new_criterion_path(criterion), 
+          = conditional_link_to new_criterion_path(criterion), can?(:update, presenter.article),
               class:"btn btn-primary", 
               data: presenter.confirm_destroy_related_appraisals
             i.icon-plus
@@ -58,7 +58,7 @@
                     .progress
                       .bar style="width: #{number_to_percentage((row[:score_n] || 0)*100/presenter.max_score_n, precision: 0)}"
 
-      = render partial: 'criteria/toolbar', locals: { presenter: presenter, read_only: false }
+      = render partial: 'criteria/toolbar', locals: { presenter: presenter }
 
 
 

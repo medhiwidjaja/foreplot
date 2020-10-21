@@ -28,11 +28,6 @@ RSpec.describe Criterion, type: :model do
       root.title = nil
       expect(root).to be_invalid
     end
-
-    it "rejects without parent_id" do
-      orphan = build(:criterion, article: article, parent_id: nil)
-      expect(orphan).to be_invalid
-    end
   end
 
   describe "creating new criterion assigns position" do

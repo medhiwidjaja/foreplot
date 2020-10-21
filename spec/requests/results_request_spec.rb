@@ -64,19 +64,39 @@ RSpec.describe "Results", type: :request do
     end
   end
 
-  context "without signed in user" do
-    
+  context "without signed in user with private article" do
+    before {
+      article.update private: true
+    }
     it "get #index redirects to login page" do
       get article_results_path(article)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
 
     it "#chart redirects to login page" do
-      get article_chart_path(c1)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      get article_chart_path(article, format: :json)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
   end
 
+  context "without signed in user with public article" do
+    before {
+      article.update private: false
+    }
+    it "shows article results" do
+      get article_results_path(article)
+      expect(response).to be_successful
+      expect(response).to render_template("results/_chart")
+    end
+
+    it "responds with json" do
+      get article_chart_path(article, format: :json)
+      expect(response).to be_successful
+      expect(response.header['Content-Type']).to include 'application/json'
+    end
+  end
 end

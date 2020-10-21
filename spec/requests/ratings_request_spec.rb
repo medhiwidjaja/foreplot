@@ -46,18 +46,37 @@ RSpec.describe "Ratings", type: :request do
     end
   end
 
-  context "without signed in user" do
-    
-    it "get #index redirects to login page" do
+  context "without signed in user with private article" do
+    before {
+      article.update private: true
+    }
+    it "get #index redirects to root page" do
       get article_ratings_path(article)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
 
-    it "#show redirects to login page" do
+    it "#show redirects to root page" do
       get criterion_ratings_path(c1)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+  end
+
+  context "without signed in user with public article" do
+    before {
+      article.update private: false
+    }
+    it "get #index" do
+      get article_ratings_path(article)
+      expect(response).to be_successful
+    end
+
+    it "get #show" do
+      get criterion_ratings_path(c1)
+      expect(response).to be_successful
     end
   end
 

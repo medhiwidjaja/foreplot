@@ -144,11 +144,11 @@ RSpec.describe "Criterion", type: :request do
     before(:each) {
       sign_in bingley
       @article = bingleys_article
-      @appraisal = create :appraisal, criterion: root, comparable_type: 'Criterion'
+      create :appraisal, criterion: root, comparable_type: 'Criterion'
     }
 
     describe "create a new subcriterion" do
-      it "destroys appraisals related to parent node" do
+      it "deletes appraisals related to parent node" do
         expect {
           post create_sub_criterion_path(root), params: {criterion: valid_attributes}
         }.to change(Appraisal, :count).by(-1)
@@ -157,9 +157,9 @@ RSpec.describe "Criterion", type: :request do
 
     describe "deleting a subcriterion" do
       before {
-        @subcriterion = create :criterion, parent: root
+        @subcriterion = create :criterion, parent: root, article: @article
       }
-      it "destroys appraisals related to parent node" do
+      it "also deletes appraisals related to parent node" do
         expect {
           delete criterion_path(@subcriterion)
         }.to change(root.appraisals, :count).by(-1)
@@ -168,21 +168,26 @@ RSpec.describe "Criterion", type: :request do
   end
 
   context "without signed in user" do
-    
-    it "get #index redirects to login page" do
+    before {
+      bingleys_article.update private: true
+    }
+
+    it "get #index redirects and shows and error message" do
       get article_criteria_path(bingleys_article)
       expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "#show redirects and shows and error message" do
+      get criterion_path(root)
+      expect(response.status).to eql 302
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
 
     it "#new redirects to login page" do
       post create_sub_criterion_path(root), params: {criterion: valid_attributes}
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
-    end
-
-    it "#show redirects to login page" do
-      get criterion_path(root)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
@@ -209,6 +214,41 @@ RSpec.describe "Criterion", type: :request do
       delete criterion_path(root)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
+    end
+  end
+
+  context "without signed in user with public article" do
+    let(:public_article) { create :article, :public, user: bingley }
+    let(:criterion) { public_article.criteria.first }
+    
+    it "GETs #index for public article" do
+      get article_criteria_path(public_article)
+      expect(response).to be_successful
+    end
+
+    it "GETs #show for public article" do
+      get criterion_path(criterion)
+      expect(response).to be_successful
+    end
+
+    it "GETs #tree for public article" do
+      get tree_criterion_path(criterion, format: :json)
+      expect(response).to be_successful
+    end
+
+    it "redirects on GET #edit for public article" do
+      get edit_criterion_path(criterion)
+      expect(response.status).to eql 302
+    end
+
+    it "redirects on GET #new for public article" do
+      get new_criterion_path(criterion)
+      expect(response.status).to eql 302
+    end
+
+    it "redirects on DELETE for public article" do
+      delete criterion_path(criterion)
+      expect(response.status).to eql 302
     end
   end
 end

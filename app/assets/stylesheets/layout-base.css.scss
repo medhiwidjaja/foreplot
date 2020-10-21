@@ -1961,6 +1961,11 @@ button.icon-only {
     }
 }
 
+.btn-group {
+    .btn-inverse {
+        border: 3px solid #171f2d;
+    }
+}
 
 /*--- jQuery UI autocomplete ----------*/
 

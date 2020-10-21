@@ -33,18 +33,19 @@
         -if current_user == @user
           li.alternative.ui-state-default#particle
             = link_to "Private articles", user_path(@user, fn: 'particle')
-        li.alternative.ui-state-default#bookmarks
-          = link_to "Bookmarks", user_path(@user, fn: 'bookmarks')
-      = link_to new_article_path, class:'btn btn-primary btn-small' do
-        i.icon-plus
-        |  New article
+          li.alternative.ui-state-default#bookmarks
+            = link_to "Bookmarks", user_path(@user, fn: 'bookmarks')
+          = link_to new_article_path, class:'btn btn-primary btn-small' do
+            i.icon-plus
+            |  New article
 
-    .side-widget-divider
-    .side-widget-title Users
-    .side-widget-content
-      ul.nav.nav-list.alt-list
-        li.alternative.ui-state-default#following
-          = link_to "Following", user_path(@user, fn: 'following')
-        li.alternative.ui-state-default#followers
-          = link_to "Followers", user_path(@user, fn: 'followers')
+    -if current_user == @user
+      .side-widget-divider
+      .side-widget-title Users
+      .side-widget-content
+        ul.nav.nav-list.alt-list
+          li.alternative.ui-state-default#following
+            = link_to "Following", user_path(@user, fn: 'following')
+          li.alternative.ui-state-default#followers
+            = link_to "Followers", user_path(@user, fn: 'followers')
 

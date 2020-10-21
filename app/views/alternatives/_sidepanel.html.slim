@@ -23,11 +23,12 @@
                         = truncate(alternative.title, length: 22)
                         i.icon-align-justify.pull-right.handle
       .side-widget-toolbar
-        -if @alternatives.present?
-          = link_to url_for([@article, :alternatives]), class:"btn btn-mini edit-button"
-            i.icon-align-justify
-          = submit_tag "Done", class: "btn btn-mini btn-primary done-button", style: "display: none"
+        -if can?(:update, @article)
+          -if @alternatives.present?
+            = link_to url_for([@article, :alternatives]), class:"btn btn-mini edit-button"
+              i.icon-align-justify
+            = submit_tag "Done", class: "btn btn-mini btn-primary done-button", style: "display: none"
         '
-        a.btn.btn-mini.btn-primary href="#{new_article_alternative_path(@article)}" 
+        = conditional_link_to new_article_alternative_path(@article), can?(:update, @article), class: "btn btn-mini btn-primary"
           ' Add new 
           i.icon-chevron-right   

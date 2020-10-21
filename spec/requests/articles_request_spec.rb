@@ -21,9 +21,9 @@ RSpec.describe "Articles", type: :request do
     end
 
     describe "GET #show" do
-      it "redirects to sign in page" do
-        article = Article.create! valid_attributes
-        get articles_path(article)
+      it "redirects to sign in page with a private article" do
+        private_article = create :article, :private
+        get articles_path(private_article)
         expect(response.body).to include('You need to sign in or sign up before continuing')
       end
     end
@@ -147,6 +147,28 @@ RSpec.describe "Articles", type: :request do
         expect(response).to render_template("articles/_article_content")
         expect(response).to render_template("shared/_model_edit_navbar")
       end
+    end
+  end
+
+  context "viewing other's article" do
+    let(:darcy) { create :darcy }
+    let(:darcys_public_article)  { create :article, :public, user: darcy }
+    let(:darcys_private_article) { create :article, :private, user: darcy }
+
+    before(:each) {
+      sign_in bingley
+    }
+    
+    it "shows public article" do
+      get article_path(darcys_public_article)
+      expect(response).to be_successful
+    end
+
+    it "show alternative for public article on GET #index" do
+      get article_path(darcys_private_article)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
   end
 

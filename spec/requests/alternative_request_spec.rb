@@ -136,46 +136,143 @@ RSpec.describe "Alternative", type: :request do
           .and change { @alt2.reload.position }.from(2).to(1)
       end
     end
+  end
+
+  context "viewing other's article" do
+    let(:darcy) { create :darcy }
+    let(:darcys_public_article)  { create :article, :public, user: darcy }
+    let(:darcys_private_article) { create :article, :private, user: darcy }
+
+    before(:each) {
+      sign_in bingley
+      @public_alternative = darcys_public_article.alternatives.create! valid_attributes
+      @private_alternative = darcys_private_article.alternatives.create! valid_attributes
+      @alternative = @public_alternative
+    }
+    
+    it "shows index of alternative for public article on GET #index" do
+      get article_alternatives_path(darcys_public_article)
+      expect(response).to be_successful
+    end
+
+    it "shows alternative for public article on GET #index" do
+      get alternative_path(@public_alternative)
+      expect(response).to be_successful
+    end
+    
+    it "redirects on GET #index for private article" do
+      get article_alternatives_path(darcys_private_article)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+    
+    it "redirects on GET #show for private" do
+      get alternative_path(@private_alternative)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on GET #new" do
+      get new_article_alternative_path(darcys_public_article)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on GET #edit" do
+      get edit_alternative_path(@alternative)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on GET #edit" do
+      get edit_alternative_path(@alternative)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on POST #create" do
+      post article_alternatives_path(darcys_public_article), params: {alternative: valid_attributes}
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on PATCH #update" do
+      patch alternative_path(@alternative), params: {alternative: valid_attributes}
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+
+    it "redirects on DELETE #destroy" do
+      delete alternative_path(@alternative)
+      expect(response).to redirect_to(root_path)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
 
   end
 
-  context "without signed in user" do
-    before {
-      @alternative = bingleys_article.alternatives.create! valid_attributes
-    }
+  context "without signed in user with public article" do
+    let(:public_article) { create :article, :public }
+    let(:alternative) { create :alternative, article: public_article }
     
-    it "#new redirects to login page" do
-      get new_article_alternative_path(bingleys_article)
+    it "GETs #index for public article" do
+      get article_alternatives_path(public_article)
+      expect(response).to be_successful
+    end
+
+    it "GETs #show for public article" do
+      get alternative_path(alternative)
+      expect(response).to be_successful
+    end
+
+    it "redirects on GET #edit for public article" do
+      get edit_alternative_path(alternative)
+      expect(response.status).to eql 302
+    end
+  end
+
+  context "without signed in user with private article" do
+    let(:private_article) { create :article, :private }
+    let(:alternative) { create :alternative, article: private_article }
+    
+    it "GETs #new redirects to login page" do
+      get new_article_alternative_path(private_article)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "#show redirects to login page" do
-      get alternative_path(@alternative)
+    it "redirects to login page on GET #show" do
+      get alternative_path(alternative)
+      expect(response.status).to eql 302
+    end
+
+    it "redirects to login page on GET #edit" do
+      get edit_alternative_path(alternative)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "#edit redirects to login page" do
-      get edit_alternative_path(@alternative)
+    it "redirects to login page on POST" do
+      post article_alternatives_path(private_article), params: {alternative: valid_attributes}
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "POST redirects to login page" do
-      post article_alternatives_path(bingleys_article), params: {alternative: valid_attributes}
+    it "redirects to login page on PUT" do
+      put alternative_path(alternative), params: {alternative: valid_attributes}
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end
 
-    it "PUT redirects to login page" do
-      put alternative_path(@alternative), params: {alternative: valid_attributes}
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
-    end
-
-    it "DELETE redirects to login page" do
-      delete alternative_path(@alternative)
+    it "redirects to login page on DELETE" do
+      delete alternative_path(alternative)
       expect(response.status).to eql 302
       expect(response).to redirect_to(new_user_session_url)
     end

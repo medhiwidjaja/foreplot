@@ -1,6 +1,7 @@
 class ResultsController < ApplicationController
   include TurbolinksCacheControl
-  
+  skip_before_action :authenticate_user!
+
   before_action :set_article
   before_action :set_criterion
   before_action :set_member
@@ -8,6 +9,7 @@ class ResultsController < ApplicationController
   before_action :set_rank_chart_presenter, only: [:index, :chart]
 
   def index
+    authorize! :read, @article
     respond_to do |format|
       format.html 
       format.json
@@ -15,7 +17,8 @@ class ResultsController < ApplicationController
     end
   end
 
-  def chart 
+  def chart
+    authorize! :read, @article
     respond_to do |format|
       format.json { @presenter = @rank_chart_presenter }
     end

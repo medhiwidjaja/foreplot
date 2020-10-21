@@ -2,45 +2,45 @@
 
 = article_menu @article
 - content_for :left_frame do
-	= render 'sidepanel'
+  = render 'sidepanel'
 
 = render 'shared/flash_messages'
 .widget
-	.widget-header
-		i.icon-list-ul
-		h3 Alternatives
-	.well.well-widget-content
-		.section
-			.widget-content-title Details
-			h3 = @alternative.title
-			-unless @alternative.description.blank?
-				blockquote.formatted-output
-					= raw(@alternative.description)
+  .widget-header
+    i.icon-list-ul
+    h3 Alternatives
+  .well.well-widget-content
+    .section
+      .widget-content-title Details
+      h3 = @alternative.title
+      -unless @alternative.description.blank?
+        blockquote.formatted-output
+          = raw(@alternative.description)
 
-		-unless @alternative.properties == []
-			.section
-				.section-title Properties
-				table.table.table-condensed.table-bordered.props-table
-					thead
-						tr
-							th Property
-							th Value
-					tbody
-						- @alternative.properties.each do |property|
-							tr
-								td 
-									div
-										= property.name
-								td 
-									div
-										= property.value
-								
-		#toolbar.button-toolbar
-			= link_to edit_alternative_path(@alternative), class:"btn btn-primary" do
-				i.icon-edit
-				|  Edit
-			= link_to new_article_alternative_path(@article), class:'btn btn-primary' do
-				i.icon-plus
-				|  Add new alternative
+    -unless @alternative.properties == []
+      .section
+        .section-title Properties
+        table.table.table-condensed.table-bordered.props-table
+          thead
+            tr
+              th Property
+              th Value
+          tbody
+            - @alternative.properties.each do |property|
+              tr
+                td 
+                  div
+                    = property.name
+                td 
+                  div
+                    = property.value
+                
+    #toolbar.button-toolbar
+      = conditional_link_to edit_alternative_path(@alternative), can?(:update, @article), class:"btn btn-primary" do
+        i.icon-edit
+        |  Edit
+      = conditional_link_to new_article_alternative_path(@article), can?(:update, @article), class:'btn btn-primary' do
+        i.icon-plus
+        |  Add new alternative
 
 

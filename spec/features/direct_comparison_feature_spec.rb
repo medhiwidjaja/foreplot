@@ -11,8 +11,10 @@ RSpec.feature "DirectComparison", type: :feature do
 
     scenario "User creates a new direct comparison" do
       visit criterion_path(root)
-      find(class:'dropup').find_button.click
-      click_link 'Direct compare'
+      within '.btn-group.dropup' do
+        find(class:'dropdown-toggle').click
+        click_link 'Direct method'
+      end
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_0_value', with: 1
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_1_value', with: 4
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_2_value', with: 5
@@ -26,7 +28,7 @@ RSpec.feature "DirectComparison", type: :feature do
           { 'Title' => c3.title, 'Rank' => 1, 'Priority' => '50.0%' },
         ])
 
-      find_link('Direct compare', class:'btn-primary').click
+      find_link('Direct method', class:'btn-primary').click
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_0_value', with: 2
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_1_value', with: 4
       fill_in 'direct_comparisons_form_direct_comparisons_attributes_2_value', with: 5

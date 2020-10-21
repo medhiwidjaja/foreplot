@@ -48,18 +48,36 @@ RSpec.describe "Viz", type: :request do
     end
   end
 
-  context "without signed in user" do
-    
-    it "get #index redirects to login page" do
+  context "without signed in user with private article" do
+    before {
+      article.update private: true
+    }
+    it "get #index redirects" do
       get article_viz_path(article)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
     end
 
-    it "#chart redirects to login page" do
+    it "#chart redirects" do
       get article_sankey_path(article)
-      expect(response.status).to eql 302
-      expect(response).to redirect_to(new_user_session_url)
+      follow_redirect!
+      expect(response.body).to include('You are not authorized')
+    end
+  end
+
+  context "without signed in user with public article" do
+    before {
+      article.update private: false
+    }
+    it "shows article visualization" do
+      get article_viz_path(article)
+      expect(response).to be_successful
+    end
+
+    it "responds with json" do
+      get article_sankey_path(article, format: :json)
+      expect(response).to be_successful
+      expect(response.header['Content-Type']).to include 'application/json'
     end
   end
 end

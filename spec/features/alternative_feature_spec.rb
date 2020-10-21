@@ -37,12 +37,12 @@ RSpec.feature "Alternatives", type: :feature do
 
     scenario "User doesn't fill in the title field" do
       visit new_article_alternative_path(article)
-      fill_in 'alternative_title',       with: ''
+      fill_in 'alternative_title', with: ''
       click_button 'Save'
       expect(page).to have_content "can't be blank"
     end
 
-    before { create :alternative, title: 'Good alternative', article: article }
+    let!(:alternative) { create :alternative, title: 'Good alternative', article: article }
 
     scenario "User clicks an alternative links from the sidepanel" do
       visit article_alternatives_path(article)
@@ -51,7 +51,43 @@ RSpec.feature "Alternatives", type: :feature do
       end
       expect(page).to have_content 'This is an alternative'
     end
-  
+
+    scenario "User views index of alternatives" do
+      visit article_alternatives_path(article)
+      expect(page).to have_link('Add new alternative')
+      expect(page).to have_link('Add new')
+    end
+
+    scenario "User views a single alternative" do
+      visit alternative_path(alternative)
+      expect(page).to have_link('Add new alternative')
+      expect(page).to have_link('Add new')
+      expect(page).to have_link('Edit')
+    end
+  end
+
+  context "with other user's article" do
+    let!(:bingley) { create :bingley }
+    let!(:article) { create :article, :public, user: bingley }
+    let!(:darcy) { create :darcy }
+    let(:alternative) { create :alternative, article: article }
+
+    before(:each) { 
+      login_as darcy, scope: :user 
+    }
+
+    scenario "User views index of alternatives" do
+      visit article_alternatives_path(article)
+      expect(page).to_not have_link('Add new alternative')
+      expect(page).to_not have_link('Add new')
+    end
+
+    scenario "User views a single alternative" do
+      visit alternative_path(alternative)
+      expect(page).to_not have_link('Add new alternative')
+      expect(page).to_not have_link('Add new')
+      expect(page).to_not have_link('Edit')
+    end
   end
 
 end
