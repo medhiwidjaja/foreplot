@@ -21,7 +21,7 @@
     .clearfix
     br
     #toolbar.button-toolbar
-      a.btn href=edit_article_path(@article)
+      = conditional_link_to edit_article_path(@article), can?(:update, @article), class:'btn btn-primary'
         i.icon-edit
         |  Edit
       -if current_user != @article.user

@@ -41,6 +41,11 @@ RSpec.feature "Article", type: :feature do
       expect(page).to have_link('Create new article')
     end
 
+    scenario "User views a single article" do
+      visit article_path(@article)
+      expect(page).to have_link('Edit')
+    end
+
     describe "Following / unfollowing the author", js: true do
       before {
         @darcy = create :darcy
@@ -87,6 +92,22 @@ RSpec.feature "Article", type: :feature do
         end
         expect(page).to have_content("You have stopped following #{@darcys_article.title}")
       end
+    end
+  end
+
+  context "with other user's article" do
+    let!(:bingley) { create :bingley }
+    let!(:article) { create :article, :public, title: "Bingley's public article", user: bingley }
+    let!(:darcy) { create :darcy }
+
+    before(:each) { 
+      login_as darcy, scope: :user 
+    }
+
+    scenario "Darcy views Bingley's public article" do
+      visit article_path(article)
+      expect(page).to have_content("Bingley's public article")
+      expect(page).to_not have_link('Edit')
     end
   end
 
