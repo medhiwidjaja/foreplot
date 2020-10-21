@@ -2,19 +2,21 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  username: desight
-  password: Desight101
   host: localhost
   port: 5432
 
 development:
   <<: *default
-  database: desight-dev
+  database: foreplot-dev
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
   timeout: 5000
 
 test:
   <<: *default
-  database: desight-test
+  database: foreplot-test
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
 
 production:
   url: <%= ENV['DATABASE_URL'] %>
