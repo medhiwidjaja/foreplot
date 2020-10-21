@@ -1,16 +1,19 @@
 class VizController < ApplicationController
   include TurbolinksCacheControl
-  
+  skip_before_action :authenticate_user!
+
   before_action :set_article
   before_action :set_criterion
   before_action :set_member
 
   def index
+    authorize! :read, @article
     @criteria_presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
     @value_tree = ValueTree.new @article.id, @member.id
   end
 
   def sankey
+    authorize! :read, @article
     @value_tree = ValueTree.new @article.id, @member.id
     @sankey_presenter = SankeyPresenter.new @value_tree, @criterion.id
     respond_to do |format|

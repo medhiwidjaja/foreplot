@@ -1,15 +1,18 @@
 class SensitivityController < ApplicationController
   include TurbolinksCacheControl
+  skip_before_action :authenticate_user!
   
   before_action :set_article
   before_action :set_criterion
   before_action :set_member
 
   def index
+    authorize! :read, @article
     @criteria_presenter = CriterionPresenter.new @root, current_user, {member_id: params[:member_id]}
   end
 
   def data
+    authorize! :read, @article
     value_tree = ValueTree.new @article.id, @member.id
     
     respond_to do |format|
