@@ -11,8 +11,10 @@ RSpec.feature "AHPComparison", type: :feature do
 
     scenario "User creates a new AHP comparison", js: true do
       visit criterion_path(root)
-      find(class:'dropup').find_button.click
-      click_link 'Pairwise compare', class:'btn-primary'
+      within '.btn-group.dropup' do
+        find(class:'dropdown-toggle').click
+        click_link 'Pairwise method', class:'btn-primary'
+      end
 
       find("#slider-0").find("span").send_keys([:left, :left, :left, :left])
       find("#slider-1").find("span").send_keys([:left, :left])

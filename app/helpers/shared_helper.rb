@@ -32,6 +32,7 @@ module SharedHelper
     if cond
       content_tag(:a, opts.merge(href: path)) { block_given? ? block.call : text }
     else
+      opts.delete(:data)
       content_tag(:a, opts.merge(disabled: "disabled")) { block_given? ? block.call : text }
     end
   end

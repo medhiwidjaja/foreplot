@@ -9,20 +9,20 @@ module ComparisonHelper
     if presenter.appraisal.present? && presenter.appraisal.persisted?
       case comparison_method
       when 'MagiqComparison'
-        link_to 'Rank compare', criterion_edit_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Rank method', criterion_edit_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'DirectComparison'
-        link_to 'Direct compare', criterion_edit_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Direct method', criterion_edit_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'AHPComparison'
-        link_to 'Pairwise compare', criterion_edit_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Pairwise method', criterion_edit_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
       end
     else
       case comparison_method
       when 'MagiqComparison'
-        link_to 'Rank compare', criterion_new_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Rank method', criterion_new_magiq_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'DirectComparison'
-        link_to 'Direct compare', criterion_new_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Direct method', criterion_new_direct_comparisons_path(criterion_id, member_id: member_id), class: class_option
       when 'AHPComparison'
-        link_to 'Pairwise compare', criterion_new_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
+        link_to 'Pairwise method', criterion_new_ahp_comparisons_path(criterion_id, member_id: member_id), class: class_option
       end
     end
   end

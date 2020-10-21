@@ -1,6 +1,8 @@
 #toolbar.button-toolbar
   .btn-group.dropup
-    - unless read_only
+    button.btn.btn-small.btn-inverse.disabled 
+      | Compare
+    - if can?(:update, presenter.article)
       = link_to_comparison_method(presenter.comparison_type || 'AHPComparison', presenter, {class:'btn btn-primary', 'data-skip'=>true })
       button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
         span.caret
@@ -13,11 +15,12 @@
           = link_to_comparison_method('AHPComparison', presenter)
       
   - if presenter.appraisal
-    = link_to '<i class="icon-trash"></i> Delete'.html_safe,
-        appraisal_path(presenter.appraisal), 
-        method: :delete,
-        remote: true,
-        class: "btn btn-danger pull-right always", 
-        data: {confirm: "This will delete all comparisons related to this criterion.\n\nAre you sure to proceed?"}
+    = conditional_link_to appraisal_path(presenter.appraisal), can?(:update, presenter.article),
+          method: :delete,
+          remote: true,
+          class: "btn btn-danger pull-right always", 
+          data: {confirm: "This will delete all comparisons related to this criterion.\n\nAre you sure to proceed?"} do
+      i.icon-trash
+      | Delete
 
         

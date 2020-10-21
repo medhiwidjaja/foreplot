@@ -50,6 +50,24 @@ RSpec.feature "Criteria", type: :feature do
       visit edit_criterion_path(root)
       expect(page).to_not have_content 'Delete'
     end
+
+    scenario "User views index of criteria" do
+      visit article_criteria_path(article)
+      expect(page).to have_link('New subcriterion')
+      expect(page).to have_link('Edit')
+    end
+
+    describe "viewing a single criterion with existing appraisal" do
+      before {
+        root.appraisals << build(:appraisal, appraisal_method: 'MagiqComparison') 
+      }
+      scenario "User views a single criterion" do
+        visit criterion_path(root)
+        expect(page).to have_link('New subcriterion')
+        expect(page).to have_link('Edit')
+        expect(page).to have_link('Rank method')
+      end
+    end
   
   end
 
@@ -74,13 +92,42 @@ RSpec.feature "Criteria", type: :feature do
     end
 
     scenario "When a user creates a new subcriterion, it will warn that related appraisal to parent node will be deleted", js: true do
-      @subcriterion = create :criterion, parent: root
+      @subcriterion = create :criterion, parent: root, article: article
       visit edit_criterion_path(@subcriterion)
       msg = accept_confirm do
         click_link "Delete"
       end
       expect(msg).to eq warning
     end
+  end
 
+  context "with other user's article" do
+    let!(:bingley) { create :bingley }
+    let!(:article) { create :article, :public, user: bingley }
+    let!(:darcy) { create :darcy }
+    let(:criterion) { article.criteria.first }
+
+    before(:each) { 
+      login_as darcy, scope: :user 
+    }
+
+    scenario "User views index of criteria" do
+      visit article_criteria_path(article)
+      expect(page).to_not have_link('New subcriterion')
+      expect(page).to_not have_link('Edit')
+    end
+
+    describe "viewing a single criterion with existing appraisal" do
+      before {
+        criterion.children << [build(:criterion), build(:criterion)]
+        criterion.appraisals << build(:appraisal, appraisal_method: 'MagiqComparison') 
+      }
+      scenario "User views a single criterion" do
+        visit criterion_path(criterion)
+        expect(page).to_not have_link('New subcriterion')
+        expect(page).to_not have_link('Edit')
+        expect(page).to_not have_link('Rank method')
+      end
+    end
   end
 end

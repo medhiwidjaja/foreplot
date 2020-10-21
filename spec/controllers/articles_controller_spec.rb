@@ -55,9 +55,9 @@ RSpec.describe ArticlesController, type: :controller do
 
     describe "GET #show" do
       it "redirects to sign in page" do
-        article = Article.create! valid_attributes
+        article = create :article, :private
         get :show, params: {id: article.to_param}, session: valid_session
-        expect(response).to redirect_to( new_user_session_path )
+        expect(response).to redirect_to( root_path )
       end
     end
   end
