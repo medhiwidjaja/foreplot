@@ -1,4 +1,32 @@
-h1 Editing User
+- page_title "User Profile"
 
-= render 'form', user: @user
+- content_for :left_frame do
+  = render 'users/profile_sidepanel'
+
+#container-box
+  .widget
+    .widget-header
+      i.icon-list-ul
+      h3 = @user.name
+    .well.well-widget-content
+      .widget-content-title Editing user profile
+      
+      = form_with model: @user do |form|
+        .control-group
+          = form.label :name, for: 'user_name', class: "control-label"
+          .controls
+            = form.text_field :name, class: 'input-xxlarge'
+
+        .control-group
+          = form.label :bio, class: "control-label"
+          .controls
+            = form.text_area :bio, class: 'input-xxlarge tinymce', rows: 10
+
+        = tinymce
+        
+        #toolbar.button-toolbar
+          = form.submit 'Save', class:"btn btn-primary"
+          = link_to user_path(@user), class:"btn" do
+            i.icon-remove
+            |  Cancel
 
