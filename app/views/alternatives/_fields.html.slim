@@ -1,14 +1,14 @@
 .control-group
-	= form.label :title, for: 'alternative_title', class: "control-label"
-	.controls
-		= form.text_field :title, class: 'input-xxlarge'
+  = form.label :title, for: 'alternative_title', class: "control-label"
+  .controls
+    = form.text_field :title, class: 'input-xxlarge'
 .control-group
-	= form.label 'Short name', for: 'alternative_abbrev', class: "control-label"
-	.controls
-		= form.text_field :abbrev, class: 'input-xxlarge'
+  = form.label 'Short name', for: 'alternative_abbrev', class: "control-label"
+  .controls
+    = form.text_field :abbrev, class: 'input-xxlarge'
 .control-group
-	= form.label :description, class: "control-label"
-	.controls
-		= form.text_area :description, class: 'input-xxlarge tinymce', rows: 10
+  = form.label :description, class: "control-label"
+  .controls
+    = form.text_area :description, class: 'input-xxlarge tinymce', rows: 10
 
 = tinymce

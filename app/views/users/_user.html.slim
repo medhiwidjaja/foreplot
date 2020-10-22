@@ -1,6 +1,6 @@
 tr id="ff-#{user.id}"
-	td
-		= link_to user.name, user
-		-if @user == current_user
-			div.pull-right
-				= render partial: 'follows/follow_form', locals: { user: user }
+  td
+    = link_to user.name, user
+    -if @user == current_user
+      div.pull-right
+        = render partial: 'follows/follow_form', locals: { user: user }

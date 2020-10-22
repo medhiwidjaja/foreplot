@@ -1,20 +1,19 @@
 
 - page_title "Foreplot"
 
-.marketing-content
-	.hero-unit
-		h1.blue Making decisions... 
-		h2.green Too many choices, too many considerations...
-		br
-		p.blue Foreplot helps in your decision making process. It gives structure to your thinking process. It lets you visualize your decisions and play what-if analysis.
-		
-.widget
-	.widget-header
-		i.icon-star-empty
-		h3 Featured Articles
-	.well.well-widget-content
-		table
-			- @featured_articles.each do |article|
-				= render partial: 'article_widget', locals: { article: article }
+-unless current_user
+  .marketing-content
+    .hero-unit
+      h1.blue Making decisions... 
+      h2.green Too many choices, too many considerations...
+      br
+      p.blue Foreplot helps in your decision making process. It gives structure to your thinking process. It lets you visualize your decisions and play what-if analysis.
 
-		
+.widget
+  .widget-header
+    i.icon-star-empty
+    h3 Featured Articles
+  .well.well-widget-content
+    table
+      - @featured_articles.each do |article|
+        = render partial: 'article_widget', locals: { article: article }

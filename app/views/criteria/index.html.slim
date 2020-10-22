@@ -5,8 +5,8 @@
   = render partial: 'sidepanel', locals:{ p: @presenter }
 
 #container-box
-	= render 'shared/flash_messages'
-	-unless @presenter.root.nil?
-		= render partial: 'table', locals: { criterion: @presenter.criterion, presenter: @presenter }
+  = render 'shared/flash_messages'
+  -unless @presenter.root.nil?
+    = render partial: 'table', locals: { criterion: @presenter.criterion, presenter: @presenter }
 
 

@@ -10,4 +10,4 @@
 #container-box
   = render 'shared/flash_messages'
   -unless @presenter.root.nil?
-		= render partial: 'ratings_table', locals: { alternatives: @alternatives, presenter: @presenter }
+    = render partial: 'ratings_table', locals: { alternatives: @alternatives, presenter: @presenter }

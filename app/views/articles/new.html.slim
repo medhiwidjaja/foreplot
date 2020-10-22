@@ -2,16 +2,15 @@
 
 = article_menu
 - content_for :left_frame do
- 	= render partial: 'shared/user_profile', locals: { user: current_user }
+   = render partial: 'shared/user_profile', locals: { user: current_user }
 
 #content-box
-	= render 'shared/flash_messages'
-	.widget
-		.widget-header
-			i.icon-file
-			h3 New article
-		.well.well-widget-content
-			.widget-content-title Create new article
+  = render 'shared/flash_messages'
+  .widget
+    .widget-header
+      i.icon-file
+      h3 New article
+    .well.well-widget-content
+      .widget-content-title Create new article
 
-			== render partial: 'form'
-				
+      == render partial: 'form'

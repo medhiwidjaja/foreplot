@@ -2,20 +2,20 @@
 
 = article_menu @article
 - content_for :left_frame do
-	= render 'sidepanel'
+  = render 'sidepanel'
 
 = render 'shared/flash_messages'
 .widget
-	.widget-header
-		i.icon-list-ul
-		h3 Add new
-	.well.well-widget-content
-		.widget-content-title New alternative
-		
-		= form_with model: [@article, @alternative] do |f|
-			== render partial: 'fields', locals: { form: f }
-			#toolbar.button-toolbar
-				= f.submit 'Save', class:"btn btn-primary"
-				= link_to '<i class="icon-remove"></i> Cancel'.html_safe,
-					article_alternatives_path(@article), 
-					class:"btn"
+  .widget-header
+    i.icon-list-ul
+    h3 Add new
+  .well.well-widget-content
+    .widget-content-title New alternative
+    
+    = form_with model: [@article, @alternative] do |f|
+      == render partial: 'fields', locals: { form: f }
+      #toolbar.button-toolbar
+        = f.submit 'Save', class:"btn btn-primary"
+        = link_to '<i class="icon-remove"></i> Cancel'.html_safe,
+          article_alternatives_path(@article), 
+          class:"btn"

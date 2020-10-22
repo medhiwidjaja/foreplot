@@ -5,20 +5,20 @@
 
 = render 'shared/flash_messages'
 .widget
-	.widget-header
-		i.icon-sitemap
-		h3 = @criterion.root? ? 'Editing goal' : 'Editing criterion'
-	.well.well-widget-content
-		.widget-content-title = @criterion.root? ? 'Goal' : 'Criterion'
-		= form_with model: @criterion do |f|
-			== render partial: 'fields', locals: { form: f, criterion: @criterion, parent_id: @presenter.parent_id, cost: false }
+  .widget-header
+    i.icon-sitemap
+    h3 = @criterion.root? ? 'Editing goal' : 'Editing criterion'
+  .well.well-widget-content
+    .widget-content-title = @criterion.root? ? 'Goal' : 'Criterion'
+    = form_with model: @criterion do |f|
+      == render partial: 'fields', locals: { form: f, criterion: @criterion, parent_id: @presenter.parent_id, cost: false }
 
-			#toolbar.button-toolbar
-				= f.submit 'Save', class:"btn btn-primary"
-				= link_to @criterion, class:"btn" do
-					i.icon-remove
-					|  Cancel
-				- unless @criterion.root?
-					= link_to @criterion, method: :delete, class: "btn btn-danger pull-right", data: @presenter.confirm_destroy_related_appraisals, title: @criterion.title do
-						i.icon-trash
-						|  Delete
+      #toolbar.button-toolbar
+        = f.submit 'Save', class:"btn btn-primary"
+        = link_to @criterion, class:"btn" do
+          i.icon-remove
+          |  Cancel
+        - unless @criterion.root?
+          = link_to @criterion, method: :delete, class: "btn btn-danger pull-right", data: @presenter.confirm_destroy_related_appraisals, title: @criterion.title do
+            i.icon-trash
+            |  Delete
