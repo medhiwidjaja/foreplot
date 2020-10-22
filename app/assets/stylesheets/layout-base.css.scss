@@ -76,6 +76,10 @@ $mobile_width: 480px;
 // Body
 // -----------------------------
 
+body {
+    font-size: 14px;
+}
+
 h1, h2, h3 {
     font-weight: 300;
 }
@@ -106,7 +110,7 @@ h1, h2, h3 {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$offWhite', endColorstr='$grayLighter');
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='$offWhite', endColorstr='$grayLighter')";
     
-    font-size: 10px;
+    font-size: 12px;
     color: #444;
     text-transform: uppercase;
 }
@@ -274,7 +278,7 @@ h1, h2, h3 {
         margin-right: 7px;
         color: $orange;
         cursor: default;
-        font-size: 11px;
+        font-size: 12px;
         text-transform: uppercase;
     }
 }
@@ -686,7 +690,7 @@ footer {
         .article-info {
             color: $grayLight;
             margin-top: 0px;
-            font-size: 11px;
+            font-size: 12px;
         }
         .article-stats-bar {
             background-color: #F0F0F0;
@@ -705,7 +709,7 @@ footer {
                     float: left;
                 }
                 .stat-label {
-                    font-size: 10px;
+                    font-size: 12px;
                 }
                 .stat-value {
                     margin-left: 20px;
@@ -782,7 +786,7 @@ footer {
         .product-info {
             color: $grayLight;
             margin-top: 0px;
-            font-size: 11px;
+            font-size: 12px;
         }
         .product-stats-bar {
             //background-color: #F0F0F0;
@@ -802,7 +806,7 @@ footer {
                     float: left;
                 }
                 .stat-label {
-                    font-size: 10px;
+                    font-size: 12px;
                 }
                 .stat-value {
                     margin-left: 20px;
@@ -815,7 +819,7 @@ footer {
                 }
                 .stat-official {
                     display: inline-block;
-                    font-size: 10px;
+                    font-size: 12px;
                 }
             }
             .stat-item:last-child {
@@ -944,7 +948,7 @@ footer {
     color: $orange;
     background-color: #E9E9E9;
     cursor: default;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     left: 19px;
     line-height: 16px;
@@ -987,7 +991,7 @@ footer {
         color: $orange;
         background-color: #E9E9E9;
         cursor: default;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: bold;
         line-height: 16px;
         padding: 0 7px 1px;
@@ -1030,7 +1034,7 @@ footer {
             }
             .stat-value {
                 display: inline-block;
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: bold;
                 float: right;
             }
@@ -1038,7 +1042,7 @@ footer {
     }
 
     .article-prop {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .sidepanel-toobar {
@@ -1161,7 +1165,7 @@ li#cp_new {
     float: left;
     min-height: 52px;
     width: 121px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -1220,7 +1224,7 @@ li#cp_new {
     }
 
     table.stats {
-        font-size: 12px;
+        font-size: 14px;
         width: 100%;
         text-align: center;
         margin: 5px 0 0;
@@ -1281,7 +1285,7 @@ li#cp_new {
     color: $orange;
     background-color: #E9E9E9;
     cursor: default;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     line-height: 16px;
     padding: 0 7px 1px;
@@ -1317,7 +1321,7 @@ li#cp_new {
 
     .article-title {
         font-weight: bold;
-        font-size:   14px;
+        font-size:   16px;
     }
     
     .article-author {
@@ -1325,7 +1329,7 @@ li#cp_new {
         float: left;
         min-height: 52px;
         width: 121px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
         margin-bottom: 10px;
     }
@@ -1345,7 +1349,7 @@ li#cp_new {
             }
             .stat-value {
                 display: inline-block;
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: bold;
                 float: right;
             }
@@ -1353,7 +1357,7 @@ li#cp_new {
     }
 
     .article-prop {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -1496,7 +1500,9 @@ ul.jqtree-tree div {
 
 ul.jqtree-tree .jqtree-title {
 	color: #3392B5;
-	vertical-align: middle;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 22px;
 }
 
 ul.jqtree-tree li.folder {
@@ -1851,7 +1857,7 @@ table {
     .lbl {
         display: inline-block; 
         padding: 4px 0px 4px; 
-        font-size:13px;
+        font-size:14px;
         line-height:18px;
         margin-right: 7px;
     }
@@ -2021,7 +2027,7 @@ button.icon-only {
             color: #DD5600;
             background-color: #E9E9E9;
             cursor: default;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             left: 19px;
             line-height: 16px;
@@ -2064,7 +2070,7 @@ button.icon-only {
 .extra-inner {
     padding: 20px 0;
     
-    font-size: 11px;
+    font-size: 12px;
     color: #BBB;
     
     background: #1A1A1A;
@@ -2119,7 +2125,7 @@ button.icon-only {
         .comment-controls {
             padding-right: 30px;
             position: relative;
-            font-size: 12px;
+            font-size: 14px;
             display: block;
         }
     }
@@ -2141,7 +2147,7 @@ button.icon-only {
                 .comment-text-container {
                     padding-right: 0px;
                     position: relative;
-                    font-size: 12px;
+                    font-size: 14px;
                     display: block;
                     margin-left: 48px;
                     .comment-user-name {
@@ -2154,7 +2160,7 @@ button.icon-only {
                         color: #B5B5B5;
                     }
                     .comment-text {
-                        font-size: 12px;
+                        font-size: 14px;
                         color: $grayLight;
                         line-height: 14px;
                         word-wrap: break-word;
@@ -2165,7 +2171,7 @@ button.icon-only {
                     margin-left: 48px;
                     display: block;
                     color: #B5B5B5;
-                    font-size: 11px;
+                    font-size: 12px;
                     a {
                         color: #B5B5B5;
                         text-decoration: none;
@@ -2269,7 +2275,7 @@ button.icon-only {
             margin: 0px;
             padding: 0px;
             label {
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: normal;
             }
         }
@@ -2569,7 +2575,7 @@ li.rank-item {
         line-height: 1em;
 
         .small {
-            font-size: 13px;
+            font-size: 14px;
         }
     }
     .user-website, .user-location, .user-member-since {
@@ -2598,13 +2604,13 @@ li.rank-item {
 ----------------------------------------------------------------------------*/
 .notification-subject-menu {
     border-top:  dotted $grayLighter 1px;
-    font-size:   13px;
+    font-size:   14px;
     font-weight: bold;
 
 }
 
 .notification-body-menu {
-    font-size:     10px;
+    font-size:     12px;
     margin-bottom: 4px;
 }
 
@@ -2652,7 +2658,7 @@ li.rank-item {
         line-height: 1em;
 
         .small {
-            font-size: 13px;
+            font-size: 14px;
         }
     }
     .product-info {
@@ -2878,12 +2884,12 @@ span.red { color: $red; }
     98. jQPlot
 ----------------------------------------------------------------------------*/
 .jqplot-target {
-    font-family: Asap, "Helvetica Neue", Arial, sans-serif;
-    font-size: 11px;
+    font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
 }
 
 .jqplot-axis {
-    font-size: 11px; 
+    font-size: 12px; 
 }
 
 .jqplot-xaxis-label {
@@ -2904,7 +2910,7 @@ table.jqplot-table-legend, table.jqplot-cursor-legend {
 }
 
 div.jqplot-bubble-label {
-    font-size: 10px;
+    font-size: 12px;
 }
 
 table.jqplot-table-legend {
@@ -2914,8 +2920,7 @@ table.jqplot-table-legend {
 
 td.jqplot-table-legend {
     vertical-align: middle;
-    padding-left: 5px;
-    padding-right: 10px;
+    padding: 5px 10px;
 }
 
 td.jqplot-table-legend-swatch {
@@ -2948,7 +2953,7 @@ td.jqplot-table-legend-swatch {
 div.section {
     .criterion-label {
         padding: 4px 4px 4px 6px;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: bold;
         line-height: 13px;
         color: $offWhite;
@@ -2988,7 +2993,7 @@ blockquote.notes {
 .tag-group {
     .badge {
         margin-right: 4px;
-        font-size: 11px;
+        font-size: 12px;
     }
 }
 

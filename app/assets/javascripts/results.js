@@ -78,11 +78,11 @@ $(document).on("ready turbolinks:load", function() {
           highlighter: {
               show: true,
               sizeAdjust: 7.5,
-              tooltipLocation: 'ne',
+              tooltipLocation: 'se',
               tooltipContentEditor: function(str, seriesIndex, pointIndex) {
                   var objLabel = names[pointIndex];
                   var val = chartData[pointIndex];
-                  return "<span style='font-weight:bold; font-size:12pt; color:#333'>"+val.toPrecision(2)+"</span>";
+                  return "<span style='font-weight:bold; font-size:14pt; color:#333'>"+val.toPrecision(2)+"</span>";
               }
           },
           cursor: {
