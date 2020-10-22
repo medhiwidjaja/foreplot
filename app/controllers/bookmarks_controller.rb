@@ -12,6 +12,7 @@ class BookmarksController < ApplicationController
   # POST /users/1/follows.json
   def create
     @article = Article.find params[:id]
+    authorize! :read, @article
     @user.follow @article
     respond_to do |format|
       format.js { flash[:notice] = "You are now following #{@article.title}" }

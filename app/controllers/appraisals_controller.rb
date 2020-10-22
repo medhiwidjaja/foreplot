@@ -6,6 +6,7 @@ class AppraisalsController < ApplicationController
     appraisal = Appraisal.find params[:id]
     comparison_name = appraisal.comparison_name
     @criterion = appraisal.criterion
+    authorize! :manage, @criterion.article
     @presenter = CriterionPresenter.new @criterion, current_user, {member_id: appraisal.member_id, article_id: @criterion.article_id}
     appraisal.destroy
     

@@ -8,10 +8,12 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def index
     @articles = current_user.articles.paginate(page: params[:page])
+    authorize! :read, @articles.first
   end
 
   def my
     @articles = current_user.articles.paginate(page: params[:page])
+    authorize! :read, @articles.first
   end
 
   # GET /articles/1
