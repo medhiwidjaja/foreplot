@@ -16,11 +16,11 @@
                   -if alternative.persisted?
                     li.ui-state-default.alternative id="#{alternative.id}"
                       = f.hidden_field :position, class:'position'
-                      = link_to alternative_path(alternative)
+                      = link_to alternative_path(alternative), class: 'ellipsis'
                         span.badge
                           = i
-                        ' &nbsp;
-                        = truncate(alternative.title, length: 22)
+                        | &nbsp;
+                        = alternative.title
                         i.icon-align-justify.pull-right.handle
       .side-widget-toolbar
         -if can?(:update, @article)
