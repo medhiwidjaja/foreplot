@@ -34,10 +34,7 @@ class Ability
 
   def free
     # Article
-    cannot :manage, Article, private: true
-    can :manage, Article do |article|
-      (article.private == false && article.user_id == @user.id)
-    end
+    can :manage, Article, user_id: @user.id
     # Appraisal
     can :manage, Appraisal do |appraisal|
       appraisal.member.user_id == @user.id
@@ -52,9 +49,6 @@ class Ability
     free
     can :participate_in, Article do |article|
       article.members.include? @user
-    end
-    can :manage, Article do |article|
-      (article.user_id == @user.id)
     end
   end
 
