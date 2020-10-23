@@ -1983,12 +1983,6 @@ button.icon-only {
     }
 }
 
-.btn-group {
-    .btn-inverse {
-        border: 3px solid #171f2d;
-    }
-}
-
 /*--- jQuery UI autocomplete ----------*/
 
 .ui-autocomplete-loading { 
@@ -3019,6 +3013,16 @@ blockquote.notes {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+/* Empty contents */
+
+.no-content {
+    height: 200px;
+    color: lightgray;
+    font-size: xx-large;
+    padding: 100px;
+    line-height: 1.5em;
 }
 
 /* Flash notices and alerts */

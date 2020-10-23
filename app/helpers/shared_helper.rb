@@ -37,4 +37,10 @@ module SharedHelper
     end
   end
 
+  def id_for_bookmark(article, marked)
+    if marked
+      "bookmark-#{article.id}"
+    end
+  end
+
 end

@@ -25,7 +25,7 @@
         i.icon-edit
         |  Edit
       -if current_user != @article.user
-        span.pull-right#bookmark-form class="bookmark-#{@article.id}"
+        span.pull-right
           = render partial: 'bookmarks/bookmark_form', locals: { user: current_user, article: @article }
 
 

@@ -40,35 +40,54 @@
       -if params[:fn] == 'article'
         .widget-content-title
           | Public Articles
-        table.table.table-bordered.articles
-          - @user.articles.public_articles.each do |article|
-            = render partial: 'articles/article', locals: { article: article }
-        
+        - if @user.articles.public_articles.count > 0
+          table.table.table-bordered.articles
+            - @user.articles.public_articles.each do |article|
+              = render partial: 'articles/article', locals: { article: article }
+        - else
+          .no-content
+            | You have no public articles. 
       -if params[:fn] == 'particle'
         .widget-content-title
           | Private Articles
-        table.table.table-bordered.articles
-          - @user.articles.private_articles.each do |article|
-            = render partial: 'articles/article', locals: { article: article }
-        
+        - if @user.articles.private_articles.count > 0
+          table.table.table-bordered.articles
+            - @user.articles.private_articles.each do |article|
+              = render partial: 'articles/article', locals: { article: article }
+        - else
+          .no-content
+            | You have no private articles. 
       -if params[:fn] == 'bookmarks'
         .widget-content-title
           | Bookmarked Articles
-        table.table.table-bordered.articles
-          - @user.following_articles.each do |article|
-            = render partial: 'articles/article', locals: { article: article }
+        - if @user.following_articles_count > 0
+          table.table.table-bordered.articles
+            - @user.following_articles.each do |article|
+              = render partial: 'articles/article', locals: { article: article, user: @user }
+        - else
+          .no-content
+            | You have no bookmarked articles. 
+            br
+            | You can bookmark your own articles or other users' articles.
         
       -if params[:fn] == 'following'
         .widget-content-title
           | Following
-        table.table.table-bordered.articles
-          - @user.following_users.each do |user|
-            = render partial: 'users/user', locals: { user: user }
+        - if @user.following_users.size > 0
+          table.table.table-bordered.articles
+            - @user.following_users.each do |user|
+              = render partial: 'users/user', locals: { user: user }
+        - else
+          .no-content
+            | You are not following any users. 
         
       -if params[:fn] == 'followers'
         .widget-content-title
           | Followers
-        table.table.table-bordered.articles
-          - @user.user_followers.each do |user|
-            = render partial: 'users/user', locals: { user: user }
-        
+        - if @user.user_followers.size > 0
+          table.table.table-bordered.articles
+            - @user.user_followers.each do |user|
+              = render partial: 'users/user', locals: { user: user }
+        - else
+          .no-content
+            | You have no followers. 

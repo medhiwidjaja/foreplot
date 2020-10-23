@@ -1,11 +1,13 @@
 - if current_user
-  .btn-group
-    button.btn.btn-small.btn-inverse.disabled 
-      i.icon-bookmark
-      | Bookmark:    
-    -if user.following_articles.include? article
-      = link_to user_bookmark_path(current_user, id: article.id), method: :delete, remote: true, class: 'btn'
-        i.icon-trash style="color: salmon"
-    -else
-      = link_to user_bookmarks_path(current_user, id: article.id), method: :post, remote: true, class: 'btn'
-        |  Add
+  #bookmark-form class="bookmark-#{article.id}"
+    .btn-group
+      button.btn.btn-small.btn-inverse.disabled 
+        i.icon-bookmark
+        | &nbsp;&nbsp;
+        | Bookmark:
+      -if user.following_articles.include? article
+        = link_to user_bookmark_path(current_user, id: article.id), method: :delete, remote: true, class: 'btn btn-small'
+          i.icon-trash style="color: salmon"
+      -else
+        = link_to user_bookmarks_path(current_user, id: article.id), method: :post, remote: true, class: 'btn btn-small'
+          |  Add

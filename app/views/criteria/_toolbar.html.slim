@@ -1,6 +1,6 @@
 #toolbar.button-toolbar
   .btn-group.dropup
-    button.btn.btn-small.btn-inverse.disabled 
+    button.btn.btn-inverse.disabled 
       | Compare
     - if can?(:update, presenter.article)
       = link_to_comparison_method(presenter.comparison_type || 'AHPComparison', presenter, {class:'btn btn-primary', 'data-skip'=>true })
