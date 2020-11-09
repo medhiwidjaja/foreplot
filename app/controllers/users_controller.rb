@@ -2,6 +2,14 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:signup, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  # GET /users.json
+  def index
+    authorize! :read, User
+    @users = User.match params[:match]
+    respond_to do |format|
+      format.json
+    end
+  end
 
   # GET /users/1
   # GET /users/1.json
