@@ -19,4 +19,11 @@ class User < ApplicationRecord
 
   acts_as_followable
   acts_as_follower
+
+  scope :name_begins_with, -> (match) { where('UPPER(name) like ?', "#{match.upcase}%") }
+  scope :email_begins_with, -> (match) { where('UPPER(email) like ?', "#{match.upcase}%") }
+
+  def self.match(str)
+    User.name_begins_with(str).or(User.email_begins_with(str))
+  end
 end

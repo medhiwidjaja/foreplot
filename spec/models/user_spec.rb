@@ -74,6 +74,18 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "match for autocompletion" do
+    before {
+      @user1 = create :user, name: 'Fitzgerald', email:'fg@email.net'
+      @user2 = create :user, name: 'Collins', email:'collins@email.net'
+      @user3 = create :user, name: "Darcy", email:'fitzwilliam@pemberley.com'
+    }
+    it "returns partial match against user's name or email" do
+      expect(User.match 'fitz').to include(@user1, @user3)
+      expect(User.match 'fitz').to_not include(@user2)
+    end
+  end
 end
 
 
