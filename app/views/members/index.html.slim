@@ -1,0 +1,56 @@
+- page_title 'Members'
+
+= article_menu @article
+
+- content_for :left_frame do
+  = render partial: 'articles/sidepanel'
+
+.widget
+  .widget-header
+    i.icon-user
+    h3 Members
+  .well.well-widget-content
+    .widget-content-title List of participants
+    div style="overflow: auto"
+      table.table.table-condensed.table-bordered.table-striped.props-table
+        thead
+          tr
+            th Name
+            th Role
+            th Active?
+            th Actions
+        tbody
+          - @members.each.with_index(1) do |member, i|
+            tr
+              td
+                = member.user&.name
+              td
+                span.badge = member.role
+              td 
+                -if member.active?
+                  i.icon-ok
+                -else
+                  i.icon-remove
+              td
+                -if can?(:update, @article)
+                  = link_to edit_member_path(member), class:'btn btn-small' do
+                    i.icon-edit
+                    |  Edit
+                = link_to member_path(member), class:'btn btn-small' do
+                  i.icon-eye-open
+                  |  View
+    br
+    #toolbar.button-toolbar
+      -if can? :update, @article
+        = link_to "Invite new participants", new_article_member_path(@article), class: "btn btn-primary"
+      -else
+        = link_to "Close", @article, class: "btn"
+      .pull-right
+        = link_to article_members_path(@article), class:'btn btn-icon' do
+          i.icon-refresh
+      span.pull-right style="margin:4px 9px 0 0"
+        = check_box_tag "toggle-hide", 0
+        |  Hide inactive
+
+
+  

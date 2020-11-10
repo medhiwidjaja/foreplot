@@ -1,0 +1,25 @@
+- page_title 'Request to join'
+
+= article_menu @article
+
+- content_for :left_frame do
+  = render partial: 'articles/sidepanel'
+
+.widget
+  .widget-header
+    i.icon-file
+    h3 Request to join
+  = form_with model: @member do |form|
+    .well.well-widget-content
+      br
+      = form.label 'Message to send to the article owner'
+      .controls
+        = form.hidden_field :user_id, value: current_user.id
+        = form.hidden_field :requesting, value: true
+        = fields_for @notification do |f|
+          = f.text_area :body, class: 'span5', rows: 5
+      br
+      #toolbar.button-toolbar
+        = form.submit "Send request", class: "btn btn-primary"
+        '
+        = link_to "Cancel", article_members_path(@article), class: "btn"

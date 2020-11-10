@@ -30,6 +30,16 @@ Rails.application.routes.draw do
 
     # Ratings
     resources :ratings, only: [:index]
+
+    # Members
+    resources :members, shallow: true do
+      collection do
+        get :new_request
+      end
+      member do
+        get :approval
+      end
+    end
   end
 
   # Results

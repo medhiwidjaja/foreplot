@@ -1,0 +1,37 @@
+- page_title 'Member Profile'
+
+= article_menu @article
+
+- content_for :left_frame do
+  = render partial: 'articles/sidepanel'
+
+.widget
+  .widget-header
+    i.icon-file
+    h3 Member Profile for #{@member.user&.name}
+  .well.well-widget-content
+    .widget-content-title Membership properties
+    form.form-horizontal
+      .control-group
+        label.control-label Name
+        .controls
+          span.input-xlarge.uneditable-input = @member.user&.name			
+      .control-group
+        label.control-label Role
+        .controls
+          span.input-x-large.uneditable-input = @member.role&.capitalize
+      .control-group
+        label.control-label Weight
+        .controls
+          span.input-small.uneditable-input = @member.weight
+      .control-group
+        label.control-label Active
+        .controls style="padding-top: 6px"
+          -if @member.active?
+            i.icon-ok
+          -else
+            i.icon-remove
+    .button-toolbar style="height:28px"
+      = link_to article_members_path(@article), class:"btn pull-right" do
+          i.icon-remove
+          |  Close
