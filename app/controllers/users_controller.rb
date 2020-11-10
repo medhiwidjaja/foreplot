@@ -5,16 +5,18 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     authorize! :read, User
-    @users = User.match params[:match]
-    respond_to do |format|
-      format.json
-    end
+    @users = User.match params[:match] if params[:match]
+    render json: @users
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
     authorize! :read, @user
+    respond_to do |format|
+      format.html
+      format.json { render json: @user, status: 200 }
+    end
   end
 
   # GET /users/1/edit
