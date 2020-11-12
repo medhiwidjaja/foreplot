@@ -4,16 +4,16 @@ class BasePresenter
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
 
-  class << self
-    def new(*args)
-      return NilPresenter.new if args[0].nil?
-      super *args
-    end
+  # class << self
+  #   def new(*args)
+  #     return NilPresenter.new if args[0].nil?
+  #     super *args
+  #   end
 
-    def as_collection(collection, method=:as_json, *args)
-      collection.map{|object| self.new(object, *args).send(method) }
-    end
-  end
+  #   def as_collection(collection, method=:as_json, *args)
+  #     collection.map{|object| self.new(object, *args).send(method) }
+  #   end
+  # end
 
   def initialize(presentable, curr_user=nil)
     @presentable = presentable
