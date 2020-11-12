@@ -6,7 +6,7 @@ class DirectComparisonCalculator < BaseCalculator
   end
 
   def call
-    @result = convert_to_attributes Foreplot::DirectRanking.new(params(comparisons), @options).rank
+    @result = convert_to_attributes Foreplot::DirectRanking.new(params(comparisons), **@options).rank
   end
 
   private 
