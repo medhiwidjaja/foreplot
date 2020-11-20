@@ -24,7 +24,7 @@ RSpec.describe "Sensitivity", type: :request do
     describe "GET #sensitivity chart json data" do
       it "returns sensitivity chart data in json format" do
         get article_sensitivity_data_path(article, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]], 
           chart_data:  [0.4, 0.6],
@@ -36,7 +36,7 @@ RSpec.describe "Sensitivity", type: :request do
 
       it "returns correct values with provided parameter" do
         get article_sensitivity_data_path(article, criterion_id: c2.id, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           sensitivity: [[[0.0, 0.4], [1.0, 0.4]], [[0.0, 0.6], [1.0, 0.6]]],          
           chart_data:  [0.4, 0.6],
@@ -55,7 +55,7 @@ RSpec.describe "Sensitivity", type: :request do
 
       it "returns sensitivity chart data in json format" do
         get article_sensitivity_data_path(article, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           error: "Cannot do sensitivity analysis on single subcriterion",
           status: 400
@@ -96,7 +96,7 @@ RSpec.describe "Sensitivity", type: :request do
     it "responds with json" do
       get article_sensitivity_data_path(article, format: :json)
       expect(response).to be_successful
-      expect(response.header['Content-Type']).to include 'application/json'
+      expect(response.header['Content-Type']).to include 'application/json; charset=utf-8'
     end
   end
 end

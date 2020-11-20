@@ -41,7 +41,7 @@ RSpec.describe "Results", type: :request do
     describe "GET #index json format" do
       it "returns valid json" do
         get article_results_path(article, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           id:    alt2.id, 
           title: alt2.title, 
@@ -55,7 +55,7 @@ RSpec.describe "Results", type: :request do
     describe "GET #chart json format" do
       it "returns chart data in json format" do
         get article_chart_path(article, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           chart_data: [0.6, 0.4],
           names:      [alt2.title, alt1.title]
@@ -96,7 +96,7 @@ RSpec.describe "Results", type: :request do
     it "responds with json" do
       get article_chart_path(article, format: :json)
       expect(response).to be_successful
-      expect(response.header['Content-Type']).to include 'application/json'
+      expect(response.header['Content-Type']).to include 'application/json; charset=utf-8'
     end
   end
 end

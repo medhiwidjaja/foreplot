@@ -15,7 +15,7 @@ module ComparisonConcern
   end
 
   def set_presenter
-    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
+    @presenter = CriterionPresenter.new @criterion, current_user, member_id: params[:member_id]
   end
 
   def set_appraisal
