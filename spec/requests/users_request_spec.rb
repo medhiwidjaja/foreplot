@@ -46,7 +46,7 @@ RSpec.describe "Users", :type => :request do
 
     it "responds with json based on partial match" do
       get users_path(match:'fitz', format: :json)
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq("application/json; charset=utf-8")
       expect(body_as_json).to include(
         {id: @user1.id, name: @user1.name, email: @user1.email},
         {id: @user3.id, name: @user3.name, email: @user3.email}

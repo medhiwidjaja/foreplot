@@ -10,7 +10,7 @@ module Foreplot
     end
 
     def rank 
-      scores = Foreplot::Direct::SmartScore.score( choices.map{|c| c[:value] }, options )
+      scores = Foreplot::Direct::SmartScore.score( choices.map{|c| c[:value] }, **options )
       total = scores.sum
       @results = choices
         .map.with_index { |c, i| 

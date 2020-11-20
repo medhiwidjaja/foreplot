@@ -5,7 +5,7 @@ RSpec.describe CriterionPresenter do
   include_context "comparisons context for value tree" 
 
   let(:presenter) {
-    CriterionPresenter.new root, bingley, {article_id: article.id, member_id: member.id}
+    CriterionPresenter.new root, bingley, article_id: article.id, member_id: member.id
   }
 
   subject { presenter }

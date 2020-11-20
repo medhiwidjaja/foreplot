@@ -26,7 +26,7 @@ RSpec.describe "Viz", type: :request do
     describe "GET #sankey chart json data" do
       it "returns sankey chart data in json format" do
         get article_sankey_path(article, format: :json)
-        expect(response.content_type).to eq("application/json")   
+        expect(response.content_type).to eq("application/json; charset=utf-8")   
         expect(body_as_json).to include(
           nodes: [
             {id: "Root-0", name: root.title},
@@ -77,7 +77,7 @@ RSpec.describe "Viz", type: :request do
     it "responds with json" do
       get article_sankey_path(article, format: :json)
       expect(response).to be_successful
-      expect(response.header['Content-Type']).to include 'application/json'
+      expect(response.header['Content-Type']).to include 'application/json; charset=utf-8'
     end
   end
 end

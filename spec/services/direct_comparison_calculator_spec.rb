@@ -28,7 +28,7 @@ RSpec.describe DirectComparisonCalculator, type: :service do
     end
 
     it 'returns result with range options' do
-      calculator = DirectComparisonCalculator.new(direct_comparisons, options_for_range)
+      calculator = DirectComparisonCalculator.new(direct_comparisons, **options_for_range)
       expect(calculator.call).to eq(
         {"2"=>{"value"=>"5.0", "rank"=>"1", "score"=>"0.8333333333333334", "score_n"=>"0.5"},
          "0"=>{"value"=>"4.0", "rank"=>"2", "score"=>"0.6666666666666666", "score_n"=>"0.39999999999999997"},
@@ -37,7 +37,7 @@ RSpec.describe DirectComparisonCalculator, type: :service do
     end
 
     it 'returns result with minimize options' do
-      calculator = DirectComparisonCalculator.new(direct_comparisons, options_for_minimize)
+      calculator = DirectComparisonCalculator.new(direct_comparisons, **options_for_minimize)
       expect(calculator.call).to eq(
         {"1"=>{"value"=>"1.0", "rank"=>"1", "score"=>"0.8333333333333334", "score_n"=>"0.6250000000000001"},
          "0"=>{"value"=>"4.0", "rank"=>"2", "score"=>"0.3333333333333333", "score_n"=>"0.25"},

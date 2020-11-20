@@ -2,7 +2,7 @@ class CriteriaController < ApplicationController
   include TurbolinksCacheControl
   skip_before_action :authenticate_user!, :only => [:index, :show, :tree]
   before_action :set_criterion, except: [:index, :new, :create, :tree]
-  before_action :set_presenter, except: [:index, :new, :tree, :destroy]
+  before_action :set_presenter, except: [:index, :new, :tree, :create, :destroy]
 
   # GET /article/1/criteria
   # GET /article/1/criteria.json
@@ -97,7 +97,7 @@ class CriteriaController < ApplicationController
   end
 
   def set_presenter
-    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id], article_id: params[:article_id]}
+    @presenter = CriterionPresenter.new @criterion, current_user, member_id: params[:member_id], article_id: params[:article_id]
   end
 
   # Only allow a list of trusted parameters through.
