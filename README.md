@@ -1,14 +1,14 @@
-<img src="https://mir-cdn.behance.net/v1/rendition/project_modules/max_1200/c5689870089735.5f904e31486b2.png" width=300px>
+di<img src="https://mir-cdn.behance.net/v1/rendition/project_modules/max_1200/c5689870089735.5f904e31486b2.png" width=300px>
 
 #
 
-Foreplot is the 100% open source decision making platform using multi-criteria decision analysis (MCDA) methods. Foreplot can help you in ranking, prioritizing or choosing from among alternatives. It will help you structure multiple criteria or attributes into a hierarchy of decision criteria. 
+tForeplot is a 100% open source decision making platform using multi-criteria decision analysis (MCDA) methods. Foreplot can help you in ranking, prioritizing or choosing from among alternatives. It will help you structure multiple criteria or attributes into a hierarchy of decision criteria. 
 
 Foreplot currently implements 3 comparison methods:
 
 - Analytic Hierachy Process (AHP) <a href="https://en.wikipedia.org/wiki/Analytic_hierarchy_process">Wikipedia article on AHP</a>
 - Multi-attribute global inference of quality (MAGIQ) <a href="https://en.wikipedia.org/wiki/Multi-attribute_global_inference_of_quality">Wikipedia article on MAGIQ</a>
-- Direct / SMART method
+- Direct / Simple Multi-Attribute Rating Technique (SMART) method 
 
 
 ## Demo site
@@ -62,7 +62,7 @@ Currently, this project only does not implement group decision, only single deci
 
 _Note to old Foreplot.com users:_
 
-If you have old archives of articles, there is no feature to import it since the underlying database and formats are entirely different. You should be able to key in the input data as long as the only for 1 decision maker user, and only using the supported comparison methods.
+If you have old archives of articles, there is no feature to import it since the underlying database and formats are entirely different. You should be able to key in the input data (only 1 decision maker is supported), and only using the supported comparison methods.
 
 
 ## Development
