@@ -1,7 +1,7 @@
 class CriterionPresenter < BasePresenter
   attr_reader :article, :member, :member_id
   
-  def initialize(presentable, curr_user=nil, **params)
+  def initialize(presentable, curr_user, **params)
     super(presentable, curr_user)
     @article   = params[:article_id] ? Article.with_criteria.find(params[:article_id]) : presentable.article
     @member = params[:member_id] ? Member.find(params[:member_id]) : relevant_member(@article, curr_user)
