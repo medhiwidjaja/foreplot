@@ -36,7 +36,7 @@ RSpec.describe Foreplot::DirectRanking do
   context "with options" do
     describe "range" do
       it "calculates the results taking considerating of the provided range" do
-        direct_ranking = Foreplot::DirectRanking.new choices, options_for_range
+        direct_ranking = Foreplot::DirectRanking.new choices, **options_for_range
         direct_ranking.rank
         expect(direct_ranking.rank).to eq([
           {:id=>3, :rank=>1, :score=>0.8333333333333334, :score_n=>0.5, :value=>5.0},
@@ -48,7 +48,7 @@ RSpec.describe Foreplot::DirectRanking do
 
     describe "minimize" do
       it "calculates the result, smaller is better" do
-        direct_ranking = Foreplot::DirectRanking.new choices, options_for_minimize
+        direct_ranking = Foreplot::DirectRanking.new choices, **options_for_minimize
         direct_ranking.rank
         expect(direct_ranking.rank).to eq([
           {:id=>1, :rank=>1, :score=>0.8333333333333334, :score_n=>0.6250000000000001, :value=>1.0},
