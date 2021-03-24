@@ -53,7 +53,7 @@ class DirectComparisonsForm < ComparisonFormBase
       range_max: range_max.blank? ? nil : range_max.to_f, 
       minimize:  minimize 
     } 
-    DirectComparisonCalculator.new(attributes, options).call
+    DirectComparisonCalculator.new(attributes, **options).call
   end
 
   def persisted?
