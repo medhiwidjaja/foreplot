@@ -6,6 +6,7 @@ RSpec.describe "articles/edit", type: :view do
   before(:each) do
     allow(view).to receive(:user_signed_in?) { true } 
     allow(view).to receive(:current_user) { FactoryBot.create(:user) }
+    controller.stub(:controller_name).and_return('articles')
     @article = article
   end
 
