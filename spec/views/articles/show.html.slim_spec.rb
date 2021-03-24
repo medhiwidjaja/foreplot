@@ -4,6 +4,7 @@ RSpec.describe "articles/show", type: :view do
   let(:user) { create :bingley }
   before(:each) do
     allow(view).to receive(:current_user) { FactoryBot.create(:user) }
+    controller.stub(:controller_name).and_return('articles')
     @article = assign(:article, Article.create!(
       :title => "Title",
       :description => "Description",

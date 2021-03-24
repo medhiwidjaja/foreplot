@@ -7,7 +7,7 @@ class AppraisalsController < ApplicationController
     comparison_name = appraisal.comparison_name
     @criterion = appraisal.criterion
     authorize! :manage, @criterion.article
-    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: appraisal.member_id, article_id: @criterion.article_id}
+    @presenter = CriterionPresenter.new @criterion, current_user, member_id: appraisal.member_id, article_id: @criterion.article_id
     appraisal.destroy
     
     respond_to do |format|

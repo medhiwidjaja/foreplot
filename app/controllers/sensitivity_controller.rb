@@ -8,7 +8,7 @@ class SensitivityController < ApplicationController
 
   def index
     authorize! :read, @article
-    @criteria_presenter = CriterionPresenter.new @root, current_user, {member_id: params[:member_id]}
+    @criteria_presenter = CriterionPresenter.new @root, current_user, member_id: params[:member_id]
   end
 
   def data

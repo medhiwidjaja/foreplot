@@ -9,7 +9,7 @@ class CriteriaController < ApplicationController
   def index
     @article = Article.with_criteria.find params[:article_id]
     authorize! :read, @article
-    @presenter = CriterionPresenter.new @article.criteria.root, current_user, {member_id: params[:member_id]}
+    @presenter = CriterionPresenter.new @article.criteria.root, current_user, member_id: params[:member_id]
   end
 
   # GET /criteria/1
@@ -27,7 +27,7 @@ class CriteriaController < ApplicationController
     @parent = Criterion.find(params[:id])
     authorize! :update, @parent.article
     @criterion = Criterion.new parent: @parent, article: @parent.article
-    @presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
+    @presenter = CriterionPresenter.new @criterion, current_user, member_id: params[:member_id]
   end
 
   def tree

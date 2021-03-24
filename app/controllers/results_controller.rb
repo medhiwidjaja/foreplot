@@ -39,7 +39,7 @@ class ResultsController < ApplicationController
   end
 
   def set_criterion_presenter
-    @criteria_presenter = CriterionPresenter.new @criterion, current_user, {member_id: params[:member_id]}
+    @criteria_presenter = CriterionPresenter.new @criterion, current_user, member_id: params[:member_id]
   end
 
   def set_rank_chart_presenter

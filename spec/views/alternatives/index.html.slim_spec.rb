@@ -12,6 +12,7 @@ RSpec.describe "alternatives/index", type: :view do
         FactoryBot.create(:alternative, title: 'Alternative no. 2'),
         FactoryBot.create(:alternative, title: 'Alternative no. 3')
       ])
+      controller.stub(:controller_name).and_return('alternatives')
     end
 
     it "displays all 3 alternatives" do

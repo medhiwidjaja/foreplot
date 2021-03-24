@@ -6,6 +6,7 @@ RSpec.describe "alternatives/show", type: :view do
   before(:each) do
     allow(view).to receive(:user_signed_in?) { true } 
     allow(view).to receive(:current_user) { FactoryBot.build(:user) }
+    controller.stub(:controller_name).and_return('alternatives')
     @article = article
     @alternative = alternative
   end
