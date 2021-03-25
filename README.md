@@ -1,8 +1,8 @@
-di<img src="https://mir-cdn.behance.net/v1/rendition/project_modules/max_1200/c5689870089735.5f904e31486b2.png" width=300px>
+<img src="https://mir-cdn.behance.net/v1/rendition/project_modules/max_1200/c5689870089735.5f904e31486b2.png" width=300px>
 
 #
 
-tForeplot is a 100% open source decision making platform using multi-criteria decision analysis (MCDA) methods. Foreplot can help you in ranking, prioritizing or choosing from among alternatives. It will help you structure multiple criteria or attributes into a hierarchy of decision criteria. 
+Foreplot is a 100% open source decision making platform using multi-criteria decision analysis (MCDA) methods. Foreplot can help you in ranking, prioritizing or choosing from among alternatives. It will help you structure multiple criteria or attributes into a hierarchy of decision criteria. 
 
 Foreplot currently implements 3 comparison methods:
 
