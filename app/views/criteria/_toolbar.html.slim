@@ -3,7 +3,7 @@
     button.btn.btn-inverse.disabled 
       | Compare
     - if can?(:update, presenter.article)
-      = link_to_comparison_method(presenter.comparison_type || 'AHPComparison', presenter, {class:'btn btn-primary', 'data-skip'=>true })
+      = link_to_comparison_method(presenter.comparison_type || 'AHPComparison', presenter, {class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700", 'data-skip'=>true })
       button.btn.btn-primary.dropdown-toggle data-toggle='dropdown'
         span.caret
       ul.dropdown-menu

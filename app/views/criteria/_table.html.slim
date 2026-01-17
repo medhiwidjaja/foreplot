@@ -17,12 +17,12 @@
     .section style="padding-top:0px; padding-bottom:0px"
       .btn-toolbar.button-toolbar.mid-section
         .btn-group
-          = conditional_link_to edit_criterion_path(criterion.id), can?(:update, presenter.article), class:"btn btn-primary" 
+          = conditional_link_to edit_criterion_path(criterion.id), can?(:update, presenter.article), class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" 
             i.icon-edit
             | Edit
         .btn-group
           = conditional_link_to new_criterion_path(criterion), can?(:update, presenter.article),
-              class:"btn btn-primary", 
+              class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700", 
               data: presenter.confirm_destroy_related_appraisals
             i.icon-plus
             | New subcriterion
