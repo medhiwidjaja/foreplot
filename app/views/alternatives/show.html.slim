@@ -36,10 +36,10 @@
                     = property.value
                 
     #toolbar.button-toolbar
-      = conditional_link_to edit_alternative_path(@alternative), can?(:update, @article), class:"btn btn-primary" do
+      = conditional_link_to edit_alternative_path(@alternative), can?(:update, @article), class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" do
         i.icon-edit
         |  Edit
-      = conditional_link_to new_article_alternative_path(@article), can?(:update, @article), class:'btn btn-primary' do
+      = conditional_link_to new_article_alternative_path(@article), can?(:update, @article), class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" do
         i.icon-plus
         |  Add new alternative
 

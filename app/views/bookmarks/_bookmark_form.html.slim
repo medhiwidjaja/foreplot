@@ -6,8 +6,8 @@
         | &nbsp;&nbsp;
         | Bookmark:
       -if user.following_articles.include? article
-        = link_to user_bookmark_path(current_user, id: article.id), method: :delete, remote: true, class: 'btn btn-small'
+        = link_to user_bookmark_path(current_user, id: article.id), method: :delete, remote: true, class: "px-3 py-1 bg-blue-500 text-white rounded text-sm"
           i.icon-trash style="color: salmon"
       -else
-        = link_to user_bookmarks_path(current_user, id: article.id), method: :post, remote: true, class: 'btn btn-small'
+        = link_to user_bookmarks_path(current_user, id: article.id), method: :post, remote: true, class: "px-3 py-1 bg-blue-500 text-white rounded text-sm"
           |  Add

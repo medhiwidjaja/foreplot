@@ -1,64 +1,65 @@
-.navbar.navbar-fixed-top
-  .navbar-inner
-    .container-fluid 
-      header
-        a.btn.btn-navbar data-toggle="collapse" data-target=".nav-collapse"
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        = link_to logo, root_path, class: "brand"
+nav class="bg-gray-800 sticky top-0 z-50"
+  .container.mx-auto.px-4.py-2
+    .flex.items-center.justify-between
+      header.flex.items-center
+        button.btn.btn-navbar.md:hidden.text-white.mr-2 data-toggle="collapse" data-target=".nav-collapse"
+          .w-6.h-5.flex.flex-col.justify-between
+            span.block.w-6.h-0.5.bg-white
+            span.block.w-6.h-0.5.bg-white
+            span.block.w-6.h-0.5.bg-white
+        = link_to logo, root_path, class: "text-xl font-bold text-white"
 
-        nav.nav-collapse
-          ul.nav.pull-right
+      nav.nav-collapse.hidden.md:block
+        .flex.items-center
+          .search-form.mr-4
+            = form_tag articles_path, method: :get, class:"form-inline" do |form|
+              = text_field_tag :q, "", class:"px-3 py-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-48", placeholder:"Search articles..."
+
+          ul.flex.space-x-4.items-center
             li
-              .search-form
-                = form_tag articles_path, method: :get, class:"form-horizontal" do |form|
-                  = text_field_tag :q, "", class:"input-medium span3", placeholder:"Search articles..."
+              = link_to :root, class: "text-white hover:text-gray-300 flex items-center" do
+                i.icon-home.mr-1
+                span.hidden.md:inline Home
 
-            li.divider-vertical
-            li rel="tooltip" data-original-title="Home"
-              = link_to :root do
-                i.icon-home
-  
-            li.divider-vertical
-            li.dropdown rel="tooltip" data-original-title="Articles"
-              a.dropdown-toggle href="/articles" data-toggle="dropdown"
-                | Articles
-                b.caret
-              ul.dropdown-menu
-                li
-                  a href="/"
-                    i.icon-star-empty
-                    |  Featured
-                -if signed_in?
-                  li.divider
-                  li 
-                    = link_to my_articles_path do
-                      i.icon-file
-                      |  My articles
-                  -if can? :create, Article
-                    li.divider
-                    li
-                      = link_to new_article_path do
-                        i.icon-plus
-                        |  Create new article
+            li
+              .relative
+                a.dropdown-toggle.text-white.hover:text-gray-300 href="/articles" data-toggle="dropdown"
+                  | Articles
+                  b.caret.ml-1.hidden.md:inline
+                .dropdown-menu.absolute.left-0.mt-2.py-2.bg-white.rounded.shadow-lg.hidden.opacity-0.transition-opacity.duration-300
+                  .py-1
+                    a.text-gray-800.hover:bg-gray-100.px-4.py-2.block href="/"
+                      i.icon-star-empty.mr-2
+                      | Featured
+                    -if signed_in?
+                      .border-t.border-gray-200.my-1
+                      li 
+                        = link_to my_articles_path, class: "text-gray-800.hover:bg-gray-100.px-4.py-2.block flex items-center" do
+                          i.icon-file.mr-2
+                          | My articles
+                      -if can? :create, Article
+                        .border-t.border-gray-200.my-1
+                        li
+                          = link_to new_article_path, class: "text-gray-800.hover:bg-gray-100.px-4.py-2.block flex items-center" do
+                            i.icon-plus.mr-2
+                            | Create new article
 
             - if signed_in?
-              li.dropdown
-                a.dropdown-toggle.user-name.user-avatar href="/users" data-toggle="dropdown"
-                  i.icon-user
+              li.relative.ml-4
+                a.dropdown-toggle.user-name.user-avatar.text-white.hover:text-gray-300.flex.items-center href="/users" data-toggle="dropdown"
+                  i.icon-user.mr-2
                   strong
                     = current_user.name
-                  b.caret
-                ul.dropdown-menu
-                  li = link_to "User Profile", current_user
-                  li = link_to "Manage Account", edit_user_path(current_user)+"?fn=a1"
-                  li.divider
-                  li = link_to "Logout", destroy_user_session_path, method: :delete
+                  b.caret.ml-1.hidden.md:inline
+                .dropdown-menu.absolute.right-0.mt-2.py-2.bg-white.rounded.shadow-lg.hidden.opacity-0.transition-opacity.duration-300
+                  .py-1
+                    = link_to "User Profile", current_user, class: "block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    = link_to "Manage Account", edit_user_path(current_user)+"?fn=a1", class: "block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    .border-t.border-gray-200.my-1
+                    = link_to "Logout", destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-gray-800 hover:bg-gray-100"
             - else
-              li
-                = link_to "Login", new_user_session_path, 'data-skip' => true
-              li
-                = link_to "Sign up", new_user_registration_path
-                    
-
+              .flex.space-x-4
+                li
+                  = link_to "Login", new_user_session_path, 'data-skip' => true, class: "text-white hover:text-gray-300"
+                li
+                  = link_to "Sign up", new_user_registration_path, class: "text-white hover:text-gray-300"

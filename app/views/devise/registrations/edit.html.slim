@@ -37,7 +37,7 @@
             | (we need your current password to confirm your changes)
           = f.password_field :current_password, autocomplete: "current-password"
         .button-toolbar
-          = f.submit "Update", class: 'btn btn-primary'
+          = f.submit "Update", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
 
   = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
   = link_to "Back", :back

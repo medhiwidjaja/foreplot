@@ -9,6 +9,8 @@ gem 'pg'
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+# Use Tailwind CSS for styling
+gem 'tailwindcss-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -28,8 +30,7 @@ gem 'bcrypt', '~> 3.1.7'
 # User slim for views
 gem 'slim-rails'
 
-# Use Bootstrap for CSS framework
-gem 'twitter-bootstrap-rails', '~> 2.2.8'
+
 
 # Wysiwig editor
 gem 'tinymce-rails'

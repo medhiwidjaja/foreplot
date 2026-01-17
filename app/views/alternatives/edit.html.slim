@@ -16,7 +16,7 @@
       == render partial: 'fields', locals: { form: alt_form }
       
       #toolbar.button-toolbar
-        = alt_form.submit 'Save', class:"btn btn-primary"
+        = alt_form.submit 'Save', class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
 
         = link_to '<i class="icon-remove"></i> Cancel'.html_safe,
             alternative_path(@alternative),

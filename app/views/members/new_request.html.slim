@@ -20,6 +20,6 @@
           = f.text_area :body, class: 'span5', rows: 5
       br
       #toolbar.button-toolbar
-        = form.submit "Send request", class: "btn btn-primary"
+        = form.submit "Send request", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         '
-        = link_to "Cancel", article_members_path(@article), class: "btn"
+        = link_to "Cancel", article_members_path(@article), class: "px-4 py-2 bg-blue-500 text-white rounded"
